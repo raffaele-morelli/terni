@@ -9,6 +9,9 @@
   
   # urban atlas 2018
   terni_all <- st_read("/home/rmorelli/R/porti/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
+  terni_sez <- st_read("/home/rmorelli/R/porti/data/Terni_sez.shp")
+  terni_indicatori_sez <- read_csv("data/R10_indicatori_2021_sezioni_terni.csv")
+  
   # com <- st_read("/home/rmorelli/R/porti/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
   
   pt_misura <- st_read("/home/rmorelli/R/porti/data/punti_misura.shp")
@@ -121,4 +124,32 @@ map(c("area"), function(v) {
   do.call(rbind, dfs) %>% write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_{v}.csv"))
 })
 
+# building height ####
+bh <- rast("/home/rmorelli/R/porti/data/building_heights_utm32.tif")
 
+# as.data.frame(bh, xy = TRUE) %>%
+#   ggplot() +
+#   geom_raster(aes(x = x, y = y, fill = building_heights_utm32)) +
+#   scale_fill_viridis_c() + theme_void() + coord_fixed()
+
+getBufferRast <- function(dist, code) {
+  name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
+  # print( paste(dist, code, name, sep = "--"))
+  
+  v1 <- buffer(v, dist, quadsegs = 17)
+  
+  extract(bh, v1, xy = TRUE) %>%
+    group_by(ID) %>%
+    summarise(m = mean(building_heights_utm32, na.rm = TRUE), .groups = 'drop') %>%
+    cbind(v1$Site) %>% 
+    write_csv(file = glue::glue("out/bh/rast_{name}.csv"))
+}
+
+# i impermeabilizzazione all'interno dei buffer
+walk(dists, ~ getBufferRast(.x, .y) , .y = .x)
+
+
+# sezioni di censimento ####
+terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), by = join_by(SEZ2021 == SEZ2011))
+
+ggplot(terni_sez_pop) + geom_sf() + geom_sf_label(aes(label = P1), size = 2) 
