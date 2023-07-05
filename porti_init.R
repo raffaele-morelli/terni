@@ -9,7 +9,7 @@ library(terra)
 terni_all <- st_read("/home/rmorelli/R/porti/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
 # com <- st_read("/home/rmorelli/R/porti/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
 
-pt_misura <- st_read("punti_misura.shp")
+pt_misura <- st_read("data/punti_misura.shp")
 
 # le variabil di interesse
 terni_fltr <- filter(terni_all, code_2018 %in% c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220))
@@ -20,7 +20,6 @@ imperm <- rast("/home/rmorelli/R/porti/data/impermeabilizzazione_utm32.tif")
 imper_rst <- as.data.frame(imperm, xy = TRUE)
 
 dir.create("~/R/porti/out/imp", recursive = TRUE, showWarnings = FALSE)
-dir.create("~/R/porti/data", showWarnings = FALSE)
 
 # 11100: Continuous Urban fabric (S.L. > 80%)
 # 11210: Discontinuous Dense Urban Fabric (S.L.: 50% - 80%)
