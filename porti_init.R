@@ -6,8 +6,8 @@ library(plotly)
 library(terra)
 
 # urban atlas 2018
-terni_all <- st_read("~/R/porti/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
-# com <- st_read("~/R/porti/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
+terni_all <- st_read("/home/rmorelli/R/porti/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
+# com <- st_read("/home/rmorelli/R/porti/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
 
 pt_misura <- st_read("punti_misura.shp")
 
@@ -18,6 +18,9 @@ terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
 
 imperm <- rast("/home/rmorelli/R/porti/data/impermeabilizzazione_utm32.tif")
 imper_rst <- as.data.frame(imperm, xy = TRUE)
+
+dir.create("~/R/porti/out/imp", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/porti/data", showWarnings = FALSE)
 
 # 11100: Continuous Urban fabric (S.L. > 80%)
 # 11210: Discontinuous Dense Urban Fabric (S.L.: 50% - 80%)
