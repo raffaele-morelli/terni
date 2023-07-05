@@ -87,7 +87,7 @@ getBufferRast <- function(dist, code) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
   # print( paste(dist, code, name, sep = "--"))
   
-  v1 <- buffer(v, dist)
+  v1 <- buffer(v, dist, quadsegs = 17)
   
   extract(imperm, v1, xy = TRUE) %>%
     group_by(ID) %>%
