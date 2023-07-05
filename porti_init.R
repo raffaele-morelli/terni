@@ -1,24 +1,28 @@
-library(sf)
-library(dplyr)
-library(tidyverse)
-library(ggplot2)
-library(plotly)
-library(terra)
+# init e dati ####
+{
+  library(sf)
+  library(dplyr)
+  library(tidyverse)
+  library(ggplot2)
+  library(plotly)
+  library(terra)
+  
+  # urban atlas 2018
+  terni_all <- st_read("/home/rmorelli/R/porti/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
+  # com <- st_read("/home/rmorelli/R/porti/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
+  
+  pt_misura <- st_read("data/punti_misura.shp")
+  
+  # le variabil di interesse
+  terni_fltr <- filter(terni_all, code_2018 %in% c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220))
+  
+  terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
+  
+  imperm <- rast("/home/rmorelli/R/porti/data/impermeabilizzazione_utm32.tif")
+  imper_rst <- as.data.frame(imperm, xy = TRUE)
+}
 
-# urban atlas 2018
-terni_all <- st_read("/home/rmorelli/R/porti/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
-# com <- st_read("/home/rmorelli/R/porti/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
-
-pt_misura <- st_read("data/punti_misura.shp")
-
-# le variabil di interesse
-terni_fltr <- filter(terni_all, code_2018 %in% c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220))
-
-terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
-
-imperm <- rast("/home/rmorelli/R/porti/data/impermeabilizzazione_utm32.tif")
-imper_rst <- as.data.frame(imperm, xy = TRUE)
-
+# creo le directory per gli output
 dir.create("~/R/porti/out/imp", recursive = TRUE, showWarnings = FALSE)
 
 # 11100: Continuous Urban fabric (S.L. > 80%)
@@ -30,8 +34,10 @@ dir.create("~/R/porti/out/imp", recursive = TRUE, showWarnings = FALSE)
 # 12210: Fast transit roads and associated land
 # 12220: Other roads and associated land
 
-codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
 dists <- c(025, 050, 075, 100, 200) # i buffer da considerare
+
+# variabili area/m² ####
+codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
 
 getBufferInt <- function(dist, code) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
@@ -63,7 +69,8 @@ map(codes_2018, function(c) {
                    df <- read_csv(x) 
                    right_join(df, pt_misura %>% st_drop_geometry() %>% select(Site)) %>% 
                      select(area) 
-                 }) 
+                 })
+  
   do.call(cbind, dfs) %>% 
     cbind(pt_misura$Site) %>% 
     setNames(c(dists, "site")) %>%
