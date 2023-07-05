@@ -11,7 +11,7 @@ terni_all <- st_read("/home/rmorelli/R/porti/data/IT515L2_TERNI_UA2018_v013/Data
 
 pt_misura <- st_read("punti_misura.shp")
 
-# le variabil di iinteresse
+# le variabil di interesse
 terni_fltr <- filter(terni_all, code_2018 %in% c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220))
 
 terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
