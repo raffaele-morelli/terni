@@ -10,4 +10,3 @@
 #   geom_sf(data = i_12220, fill = "violet") +
 #   coord_sf(xlim = c(794643.0, 801954.6), ylim = c(4717144.4, 4720794.3)) +
 #   theme_void()
-
