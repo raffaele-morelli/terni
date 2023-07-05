@@ -148,8 +148,15 @@ getBufferRast <- function(dist, code) {
 # i impermeabilizzazione all'interno dei buffer
 walk(dists, ~ getBufferRast(.x, .y) , .y = .x)
 
+list.files(path = "/home/rmorelli/R/porti/out/bh", pattern = glue::glue("^rast.*"), full.names = TRUE, recursive = TRUE)
+lapply(fls, function(x) {
+  read_csv(x)
+}) -> dfs
+
+do.call(rbind, dfs) %>% write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_building_heights.csv"))
 
 # sezioni di censimento ####
-terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), by = join_by(SEZ2021 == SEZ2011))
+terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), 
+                            by = join_by(SEZ2021 == SEZ2011))
 
 ggplot(terni_sez_pop) + geom_sf() + geom_sf_label(aes(label = P1), size = 2) 
