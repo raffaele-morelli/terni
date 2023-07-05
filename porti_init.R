@@ -93,27 +93,26 @@ getBufferRast <- function(dist, code) {
     group_by(ID) %>%
     summarise(m = mean(impermeabilizzazione_utm32), .groups = 'drop') %>%
     cbind(v1$Site) %>% 
-    write_csv(file = glue::glue("out/imp/rast_{name}_{code}.csv"))
+    write_csv(file = glue::glue("out/imp/rast_{name}.csv"))
 }
 
 # i impermeabilizzazione all'interno dei buffer
-walk(codes_2018,  ~ walk(dists, ~ getBufferRast(.x, .y) , .y = .x))
+walk(dists, ~ getBufferRast(.x, .y) , .y = .x)
 
 # unisco i dataframe
-map(codes_2018, function(c) {
-  fls <- list.files(path = "out/imp", pattern = glue::glue("^rast_.*_{c}\\.csv$"), full.names = TRUE )
+
+fls <- list.files(path = "out/imp", pattern = glue::glue("^rast.*\\.csv$"), full.names = TRUE )
   
-  dfs <-  lapply(fls, function(x) { read_csv(x, col_types = cols(ID = col_skip(), `v1$Site` = col_skip()))})
+dfs <-  lapply(fls, function(x) { read_csv(x, col_types = cols(ID = col_skip(), `v1$Site` = col_skip()))})
   
-  do.call(cbind, dfs) %>%
-    cbind(pt_misura$Site) %>%
-    setNames(c(dists, "site")) %>%
-    mutate(var = as.character(c)) %>% 
-    write_csv(file = glue::glue("out/imp/all_imper_{c}.csv"))
-})
+do.call(cbind, dfs) %>%
+  cbind(pt_misura$Site) %>%
+  setNames(c(dists, "site")) %>%
+  write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_imper.csv"))
+  
 
 # aggrego i due dataframe 
-map(c("imper", "area"), function(v) {
+map(c("area"), function(v) {
   fls <- list.files(path = "out", pattern = glue::glue("^all_({v}).*\\.csv$"), full.names = TRUE, recursive = TRUE)
   lapply(fls, function(x) {
     read_csv(x)
