@@ -1,4 +1,10 @@
-## esempio di plot 
+## esempi di plot 
+
+# ggplot(data = imper_rst) + 
+#   geom_raster(aes(x = x, y = y, fill = impermeabilizzazione_utm32)) +
+#   scale_fill_viridis_c() + theme_void() + coord_fixed()
+
+
 # ggplot() + 
 #   # geom_sf(data = com) +
 #   # geom_sf(data = filter(terni_utm32, code_2018 == 12210)) +

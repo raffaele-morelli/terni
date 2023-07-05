@@ -19,10 +19,6 @@ terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
 imperm <- rast("/home/rmorelli/R/porti/data/impermeabilizzazione_utm32.tif")
 imper_rst <- as.data.frame(imperm, xy = TRUE)
 
-# ggplot(data = imper_rst) + 
-#   geom_raster(aes(x = x, y = y, fill = impermeabilizzazione_utm32)) +
-#   scale_fill_viridis_c() + theme_void() + coord_fixed()
-
 # 11100: Continuous Urban fabric (S.L. > 80%)
 # 11210: Discontinuous Dense Urban Fabric (S.L.: 50% - 80%)
 # 11220: Discontinuous Medium Density Urban Fabric (S.L.: 30% - 50%)
