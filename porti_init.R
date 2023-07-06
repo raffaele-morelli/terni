@@ -20,7 +20,7 @@
   
   terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
   
-  imperm <- rast("/home/rmorelli/R/porti/data/rst_impermeabilizzazione_utm32.tif")
+  imperm <- rast("/home/rmorelli/R/porti/data/tiff/rst_impermeabilizzazione_utm32.tif")
   imper_rst <- as.data.frame(imperm, xy = TRUE)
 }
 
@@ -124,7 +124,7 @@ map(c("area"), function(v) {
 })
 
 # building heights ####
-bh <- rast("/home/rmorelli/R/porti/data/rst_building_heights_utm32.tif")
+bh <- rast("/home/rmorelli/R/porti/data/tiff/rst_building_heights_utm32.tif")
 
 # calcola l'altezza media per gli edifici che sono nel buffer
 # scrive un csv 
