@@ -6,7 +6,9 @@
   library(ggplot2)
   library(plotly)
   library(terra)
-  
+} 
+
+{
   terni_all <- st_read("/home/rmorelli/R/terni/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
   terni_sez <- st_read("/home/rmorelli/R/terni/data/shp/Terni_sez.shp")
   terni_indicatori_sez <- read_csv("data/R10_indicatori_2021_sezioni_terni.csv")
@@ -164,3 +166,55 @@ terni_sez_pop %>%
   select(c(PRO_COM, SEZ, P1, SHAPE_Area)) %>% 
   write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_popolazione.csv"))
 
+getBufferInt <- function(dist) {
+  name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
+  print( paste(dist, name, sep = "--"))
+  
+  pt_buffer <- st_buffer(pt_misura, dist, singleSide = FALSE, nQuadSegs = 17)
+  # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
+  
+  st_intersection(terni_sez_pop, pt_buffer) %>% 
+    st_drop_geometry() %>% 
+    group_by(Site) %>% 
+    summarise(m = sum(P1)) %>% 
+    setNames(c("site", dist)) %>%
+    write_csv(file = glue::glue("out/popolazione/pop_{name}.csv"))
+}
+
+# i buffer per tutte le variabili
+walk(dists, ~ getBufferInt(.x))
+
+fls <- list.files(path = "/home/rmorelli/R/terni/out/popolazione", pattern = glue::glue("^pop.*"), full.names = TRUE, recursive = TRUE)
+
+lapply(fls, function(x) {
+  read_csv(x, col_types = cols(site = col_skip()))
+}) -> dfs
+
+do.call(cbind, dfs) %>%
+  cbind(pt_misura$Site) %>% 
+  setNames(c(dists, "site")) %>%
+  write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_popolazione_residente.csv"))
+
+# meteo #####
+library(readxl)
+TERNI_PM_METEO <- read_excel("data/meteo/TERNI PM METEO.xlsx", 
+                             col_types = c("date", "numeric", "numeric", 
+                                           "numeric", "numeric", "numeric", 
+                                           "numeric", "numeric", "numeric", 
+                                           "numeric", "numeric", "text"))
+names(TERNI_PM_METEO)[1] <- "date_time"
+
+TERNI_PM_METEO %>% 
+  mutate(
+    anno = year(date_time), 
+    mese = month(date_time), 
+    giorno = day(date_time),
+    ora = hour(date_time)
+  ) %>% select(-note, -date_time) %>% 
+  group_by(anno, mese, giorno, ora) %>%
+  summarise(across(everything(), ~mean(.x, na.rm = TRUE))) %>% 
+  mutate(data = make_date(anno,mese,giorno)) %>%  
+  group_by(data) %>% select(-c(anno, mese, giorno, ora)) %>% 
+  summarise(across(everything(), ~mean(.x, na.rm = TRUE))) -> terni_meteo_mensili
+
+write_csv(terni_meteo_mensili, file = "data/df_terni_meteo_mensili.csv")
