@@ -7,21 +7,20 @@
   library(plotly)
   library(terra)
   
-  # urban atlas 2018
   terni_all <- st_read("/home/rmorelli/R/porti/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
-  terni_sez <- st_read("/home/rmorelli/R/porti/data/Terni_sez.shp")
+  terni_sez <- st_read("/home/rmorelli/R/porti/data/shp/Terni_sez.shp")
   terni_indicatori_sez <- read_csv("data/R10_indicatori_2021_sezioni_terni.csv")
   
   # com <- st_read("/home/rmorelli/R/porti/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
   
-  pt_misura <- st_read("/home/rmorelli/R/porti/data/punti_misura.shp")
+  pt_misura <- st_read("/home/rmorelli/R/porti/data/shp/punti_misura.shp")
   
-  # le variabil di interesse
+  # variabili di interesse
   terni_fltr <- filter(terni_all, code_2018 %in% c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220))
   
   terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
   
-  imperm <- rast("/home/rmorelli/R/porti/data/impermeabilizzazione_utm32.tif")
+  imperm <- rast("/home/rmorelli/R/porti/data/rst_impermeabilizzazione_utm32.tif")
   imper_rst <- as.data.frame(imperm, xy = TRUE)
 }
 
@@ -44,7 +43,7 @@ codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
 
 getBufferInt <- function(dist, code) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
-  # print( paste(dist, code, name, sep = "--"))
+  print( paste(dist, code, name, sep = "--"))
   
   pt_buffer <- st_buffer(pt_misura, dist, singleSide = FALSE, nQuadSegs = 17)
   # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
@@ -86,21 +85,21 @@ map(codes_2018, function(c) {
 
 v <- vect(pt_misura) # converto in SpatVector
 
-getBufferRast <- function(dist, code) {
+getBufferRast <- function(dist) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
-  # print( paste(dist, code, name, sep = "--"))
+  print( paste(dist, name, sep = "--"))
   
   v1 <- buffer(v, dist, quadsegs = 17)
   
   extract(imperm, v1, xy = TRUE) %>%
     group_by(ID) %>%
-    summarise(m = mean(impermeabilizzazione_utm32), .groups = 'drop') %>%
+    summarise(m = mean(rst_impermeabilizzazione_utm32), .groups = 'drop') %>%
     cbind(v1$Site) %>% 
     write_csv(file = glue::glue("out/imp/rast_{name}.csv"))
 }
 
 # i impermeabilizzazione all'interno dei buffer
-walk(dists, ~ getBufferRast(.x, .y) , .y = .x)
+walk(dists, ~ getBufferRast(.x))
 
 # unisco i dataframe
 
@@ -114,7 +113,7 @@ do.call(cbind, dfs) %>%
   write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_imper.csv"))
   
 
-# aggrego i due dataframe 
+# aggrego i dataframe 
 map(c("area"), function(v) {
   fls <- list.files(path = "out", pattern = glue::glue("^all_({v}).*\\.csv$"), full.names = TRUE, recursive = TRUE)
   lapply(fls, function(x) {
@@ -124,39 +123,44 @@ map(c("area"), function(v) {
   do.call(rbind, dfs) %>% write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_{v}.csv"))
 })
 
-# building height ####
-bh <- rast("/home/rmorelli/R/porti/data/building_heights_utm32.tif")
+# building heights ####
+bh <- rast("/home/rmorelli/R/porti/data/rst_building_heights_utm32.tif")
 
-# as.data.frame(bh, xy = TRUE) %>%
-#   ggplot() +
-#   geom_raster(aes(x = x, y = y, fill = building_heights_utm32)) +
-#   scale_fill_viridis_c() + theme_void() + coord_fixed()
-
-getBufferRast <- function(dist, code) {
+# calcola l'altezza media per gli edifici che sono nel buffer
+# scrive un csv 
+getBufferRast <- function(dist) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
-  # print( paste(dist, code, name, sep = "--"))
+  print( paste(dist, name, sep = "--"))
   
   v1 <- buffer(v, dist, quadsegs = 17)
   
   extract(bh, v1, xy = TRUE) %>%
     group_by(ID) %>%
-    summarise(m = mean(building_heights_utm32, na.rm = TRUE), .groups = 'drop') %>%
+    summarise(m = mean(rst_building_heights_utm32, na.rm = TRUE), .groups = 'drop') %>%
     cbind(v1$Site) %>% 
     write_csv(file = glue::glue("out/bh/rast_{name}.csv"))
 }
 
-# i impermeabilizzazione all'interno dei buffer
-walk(dists, ~ getBufferRast(.x, .y) , .y = .x)
+# impermeabilizzazione all'interno dei buffer
+walk(dists, ~ getBufferRast(.x))
 
-list.files(path = "/home/rmorelli/R/porti/out/bh", pattern = glue::glue("^rast.*"), full.names = TRUE, recursive = TRUE)
+fls <- list.files(path = "/home/rmorelli/R/porti/out/bh", pattern = glue::glue("^rast.*"), full.names = TRUE, recursive = TRUE)
 lapply(fls, function(x) {
-  read_csv(x)
+  read_csv(x, col_types = cols(ID = col_skip(), `v1$Site` = col_skip()))
 }) -> dfs
 
-do.call(rbind, dfs) %>% write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_building_heights.csv"))
+do.call(cbind, dfs) %>%
+  cbind(pt_misura$Site) %>%
+  setNames(c(dists, "site")) %>% 
+  write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_building_heights.csv"))
 
 # sezioni di censimento ####
 terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), 
                             by = join_by(SEZ2021 == SEZ2011))
 
-ggplot(terni_sez_pop) + geom_sf() + geom_sf_label(aes(label = P1), size = 2) 
+terni_sez_pop %>% 
+  st_drop_geometry() %>% 
+  select(c(PRO_COM, SEZ, P1, SHAPE_Area)) %>% 
+  write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_popolazione.csv"))
+
+# ggplot(terni_sez_pop) + geom_sf() + geom_sf_label(aes(label = P1), size = 2) 

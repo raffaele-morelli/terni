@@ -1,10 +1,11 @@
 ## esempi di plot 
 
+# impermeabilizzazione
 # ggplot(data = imper_rst) + 
 #   geom_raster(aes(x = x, y = y, fill = impermeabilizzazione_utm32)) +
 #   scale_fill_viridis_c() + theme_void() + coord_fixed()
 
-
+# tutto ####
 # ggplot() + 
 #   # geom_sf(data = com) +
 #   # geom_sf(data = filter(terni_utm32, code_2018 == 12210)) +
@@ -16,3 +17,9 @@
 #   geom_sf(data = i_12220, fill = "violet") +
 #   coord_sf(xlim = c(794643.0, 801954.6), ylim = c(4717144.4, 4720794.3)) +
 #   theme_void()
+
+# building ####
+# as.data.frame(bh, xy = TRUE) %>%
+#   ggplot() +
+#   geom_raster(aes(x = x, y = y, fill = building_heights_utm32)) +
+#   scale_fill_viridis_c() + theme_void() + coord_fixed()
