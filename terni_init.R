@@ -7,27 +7,27 @@
   library(plotly)
   library(terra)
   
-  terni_all <- st_read("/home/rmorelli/R/porti/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
-  terni_sez <- st_read("/home/rmorelli/R/porti/data/shp/Terni_sez.shp")
+  terni_all <- st_read("/home/rmorelli/R/terni/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
+  terni_sez <- st_read("/home/rmorelli/R/terni/data/shp/Terni_sez.shp")
   terni_indicatori_sez <- read_csv("data/R10_indicatori_2021_sezioni_terni.csv")
   
-  # com <- st_read("/home/rmorelli/R/porti/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
+  # com <- st_read("/home/rmorelli/R/terni/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
   
-  pt_misura <- st_read("/home/rmorelli/R/porti/data/shp/punti_misura.shp")
+  pt_misura <- st_read("/home/rmorelli/R/terni/data/shp/punti_misura.shp")
   
   # variabili di interesse
   terni_fltr <- filter(terni_all, code_2018 %in% c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220))
   
   terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
   
-  imperm <- rast("/home/rmorelli/R/porti/data/tiff/rst_impermeabilizzazione_utm32.tif")
+  imperm <- rast("/home/rmorelli/R/terni/data/tiff/rst_impermeabilizzazione_utm32.tif")
   imper_rst <- as.data.frame(imperm, xy = TRUE)
 }
 
 # creo le directory per gli output
-dir.create("~/R/porti/out/building_heights", recursive = TRUE, showWarnings = FALSE)
-dir.create("~/R/porti/out/imperviousness", recursive = TRUE, showWarnings = FALSE)
-dir.create("~/R/porti/out/urban_atlas", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/terni/out/building_heights", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/terni/out/imperviousness", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/terni/out/urban_atlas", recursive = TRUE, showWarnings = FALSE)
 
 # 11100: Continuous Urban fabric (S.L. > 80%)
 # 11210: Discontinuous Dense Urban Fabric (S.L.: 50% - 80%)
@@ -89,7 +89,7 @@ lapply(fls, function(x) {
 }) -> dfs
 
 do.call(rbind, dfs) %>%
-  write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_urban_atlas.csv"))
+  write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_urban_atlas.csv"))
 
 
 # impermeabilizzazione ####
@@ -121,11 +121,11 @@ dfs <-  lapply(fls, function(x) { read_csv(x, col_types = cols(ID = col_skip(), 
 do.call(cbind, dfs) %>%
   cbind(pt_misura$Site) %>%
   setNames(c(dists, "site")) %>%
-  write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_imperviousness.csv"))
+  write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_imperviousness.csv"))
   
 
 # building heights ####
-bh <- rast("/home/rmorelli/R/porti/data/tiff/rst_building_heights_utm32.tif")
+bh <- rast("/home/rmorelli/R/terni/data/tiff/rst_building_heights_utm32.tif")
 
 # calcola l'altezza media per gli edifici che sono nel buffer
 # scrive un csv 
@@ -145,7 +145,7 @@ getBufferRast <- function(dist) {
 # impermeabilizzazione all'interno dei buffer
 walk(dists, ~ getBufferRast(.x))
 
-fls <- list.files(path = "/home/rmorelli/R/porti/out/building_heights", pattern = glue::glue("^rast.*"), full.names = TRUE, recursive = TRUE)
+fls <- list.files(path = "/home/rmorelli/R/terni/out/building_heights", pattern = glue::glue("^rast.*"), full.names = TRUE, recursive = TRUE)
 lapply(fls, function(x) {
   read_csv(x, col_types = cols(ID = col_skip(), `v1$Site` = col_skip()))
 }) -> dfs
@@ -153,7 +153,7 @@ lapply(fls, function(x) {
 do.call(cbind, dfs) %>%
   cbind(pt_misura$Site) %>%
   setNames(c(dists, "site")) %>% 
-  write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_building_heights.csv"))
+  write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_building_heights.csv"))
 
 # sezioni di censimento ####
 terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), 
@@ -162,5 +162,5 @@ terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1)
 terni_sez_pop %>% 
   st_drop_geometry() %>% 
   select(c(PRO_COM, SEZ, P1, SHAPE_Area)) %>% 
-  write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_popolazione.csv"))
+  write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_popolazione.csv"))
 
