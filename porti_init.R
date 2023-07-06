@@ -164,4 +164,3 @@ terni_sez_pop %>%
   select(c(PRO_COM, SEZ, P1, SHAPE_Area)) %>% 
   write_csv(file = glue::glue("/home/rmorelli/R/porti/data/df_popolazione.csv"))
 
-# ggplot(terni_sez_pop) + geom_sf() + geom_sf_label(aes(label = P1), size = 2) 
