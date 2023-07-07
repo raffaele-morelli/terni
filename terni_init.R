@@ -218,3 +218,8 @@ TERNI_PM_METEO %>%
   summarise(across(everything(), ~mean(.x, na.rm = TRUE))) -> terni_meteo_mensili
 
 write_csv(terni_meteo_mensili, file = "data/df_terni_meteo_mensili.csv")
+
+# OSM ####
+strade <- st_read("~/R/terni/data/osm/strade_OSM.shp")
+strade_utm32 <- st_transform(strade, 32632) # WGS84/UTM 32
+
