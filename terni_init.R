@@ -129,7 +129,9 @@ do.call(cbind, dfs) %>%
   
 
 # building heights ####
-bh <- rast("/home/rmorelli/R/terni/data/tiff/rst_building_heights_utm32.tif")
+# bh <- rast("/home/rmorelli/R/terni/data/tiff/rst_building_heights_utm32.tif")
+bh <- rast("/home/rmorelli/R/terni/data/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
+bh_utm32 <- project(bh, crs("epsg:32632"))
 
 # calcola l'altezza media per gli edifici che sono nel buffer
 # scrive un csv 
@@ -141,10 +143,11 @@ getBufferRast <- function(dist) {
   
   extract(bh, v1, xy = TRUE) %>%
     group_by(ID) %>%
-    summarise(m = mean(rst_building_heights_utm32, na.rm = TRUE), .groups = 'drop') %>%
+    summarise(m = mean(IT515_TERNI_UA2012_DHM_V010, na.rm = TRUE), .groups = 'drop') %>%
     cbind(v1$Site) %>% 
     write_csv(file = glue::glue("out/building_heights/rast_{name}.csv"))
 }
+
 
 # impermeabilizzazione all'interno dei buffer
 walk(dists, ~ getBufferRast(.x))
