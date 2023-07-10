@@ -176,16 +176,20 @@ getBufferInt <- function(dist) {
   # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
   
   st_intersection(terni_sez_pop, pt_buffer) %>% 
+    mutate(area_int = as.numeric( st_area(geometry)) ) %>% 
+    mutate(PP1 = as.integer( (area_int / SHAPE_Area) * P1)) %>% 
+    select(Site, SHAPE_Area, area_int, P1, PP1) %>% 
     st_drop_geometry() %>% 
     group_by(Site) %>% 
     arrange(Site) %>% 
-    summarise(m = sum(P1)) %>% 
+    summarise(m = sum(PP1)) %>% 
     setNames(c("site", dist)) %>%
     write_csv(file = glue::glue("out/popolazione/pop_{name}.csv"))
 }
 
 # i buffer per tutte le variabili
 walk(dists, ~ getBufferInt(.x))
+
 
 fls <- list.files(path = "/home/rmorelli/R/terni/out/popolazione", pattern = glue::glue("^pop.*"), full.names = TRUE, recursive = TRUE)
 
