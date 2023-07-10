@@ -24,6 +24,11 @@
   
   imperm <- rast("/home/rmorelli/R/terni/data/tiff/rst_impermeabilizzazione_utm32.tif")
   imper_rst <- as.data.frame(imperm, xy = TRUE)
+  
+  dists <- c(025, 050, 075, 100, 200) # i buffer da considerare
+  
+  # variabili area/m² ####
+  codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
 }
 
 # creo le directory per gli output
@@ -40,10 +45,7 @@ dir.create("~/R/terni/out/urban_atlas", recursive = TRUE, showWarnings = FALSE)
 # 12210: Fast transit roads and associated land
 # 12220: Other roads and associated land
 
-dists <- c(025, 050, 075, 100, 200) # i buffer da considerare
 
-# variabili area/m² ####
-codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
 
 getBufferInt <- function(dist, code) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
@@ -176,6 +178,7 @@ getBufferInt <- function(dist) {
   st_intersection(terni_sez_pop, pt_buffer) %>% 
     st_drop_geometry() %>% 
     group_by(Site) %>% 
+    arrange(Site) %>% 
     summarise(m = sum(P1)) %>% 
     setNames(c("site", dist)) %>%
     write_csv(file = glue::glue("out/popolazione/pop_{name}.csv"))
@@ -188,10 +191,12 @@ fls <- list.files(path = "/home/rmorelli/R/terni/out/popolazione", pattern = glu
 
 lapply(fls, function(x) {
   read_csv(x, col_types = cols(site = col_skip()))
+  # read_csv(x)
 }) -> dfs
 
+
 do.call(cbind, dfs) %>%
-  cbind(pt_misura$Site) %>% 
+  cbind(sort(pt_misura$Site)) %>%
   setNames(c(dists, "site")) %>%
   write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_popolazione_residente.csv"))
 
