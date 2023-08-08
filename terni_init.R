@@ -268,7 +268,6 @@ getBufferIntStrade <- function(dist) {
     group_by(Site) %>% 
     summarise(m = sum(st_length(geometry))) %>% st_drop_geometry() %>% 
     write_csv(glue("/home/rmorelli/R/terni/data/osm/df_strade_ml_{name}.csv"))
-    
 }
 
 walk(dists, ~ getBufferIntStrade(.x))
@@ -294,9 +293,18 @@ do.call(cbind, dfs) %>%
 
 
 # distanza minima punto linea ####
-filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
+strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
 
-st_distance(pt_misura, strade_utm32) %>% View()
+st_intersection(pt_buffer, strade_utm32_filtered) %>% 
+  group_by(Site) %>% 
+  arrange(Site) %>% 
+  summarise(m = sum(st_length(geometry))) %>% 
+  st_cast() -> tmp_inters
+
+st_distance(pt_misura, tmp_inters) -> df
+apply(df, 1, FUN = min) %>% cbind(sort(pt_misura$Site)) %>% 
+  as.data.frame() %>% setNames(c("dist", "Site")) %>% 
+  write_csv("/home/rmorelli/R/terni/data/df_strade_mim_dist.csv")
 
 
 unique(strade_utm32$highway) %>% unlist()
