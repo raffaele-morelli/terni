@@ -31,7 +31,7 @@
   imperm <- rast("/home/rmorelli/R/terni/data/tiff/rst_impermeabilizzazione_utm32.tif")
   imper_rst <- as.data.frame(imperm, xy = TRUE)
   
-  dists <- c(025, 050, 075, 100, 200) # i buffer da considerare
+  dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
   # variabili area/m² ####
   codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
@@ -41,6 +41,7 @@
 dir.create("~/R/terni/out/building_heights", recursive = TRUE, showWarnings = FALSE)
 dir.create("~/R/terni/out/imperviousness", recursive = TRUE, showWarnings = FALSE)
 dir.create("~/R/terni/out/urban_atlas", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/terni/out/ndvi", recursive = TRUE, showWarnings = FALSE)
 
 # 11100: Continuous Urban fabric (S.L. > 80%)
 # 11210: Discontinuous Dense Urban Fabric (S.L.: 50% - 80%)
@@ -323,5 +324,5 @@ for(d in dists) {
   do.call(cbind, dfs) %>%
     setNames(mesi) %>% 
     cbind(pt_misura$Site) %>% 
-    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/ndvi/csv/df_ndvi_{d}.csv"))
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/out/ndvi/df_ndvi_{d}.csv"))
 }
