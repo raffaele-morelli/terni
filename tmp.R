@@ -18,9 +18,25 @@ as.data.frame(bh, xy = TRUE) %>%
 # ggplot(terni_sez_pop) + geom_sf() + geom_sf_label(aes(label = P1), size = 2) 
 
 # osm ####
-# ggplot() + geom_sf(data = strade_utm32) + 
-#   geom_sf(data = pt_buffer, color = "red", fill = "orange" )+
-#   coord_sf(datum = st_crs(32632), xlim = c(794643.0, 801954.6), ylim = c(4716044.4, 4720994.3))
+{
+  pt_buffer <- st_buffer(pt_misura, 200, singleSide = FALSE, nQuadSegs = 17)
+  # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
+  st_intersection(pt_buffer, strade_utm32) -> tmp_inters
+  
+  tmp_inters %>% 
+    group_by(Site) %>% 
+    summarise(m = sum(st_length(geometry))) %>% 
+    st_cast() %>% 
+    mapview(zcol = "Site")
+  
+  tmp_inters %>% group_by(Site) %>% summarise(l = st_length(geometry))
+  
+  ggplot() + geom_sf(data = tmp_inters) + geom_sf(data = pt_misura, color = "red")
+}
+
+# ggplot() + geom_sf(data = strade_utm32) 
+  # geom_sf(data = pt_buffer, color = "red", fill = "orange" )+
+  # coord_sf(datum = st_crs(32632), xlim = c(794643.0, 801954.6), ylim = c(4716044.4, 4720994.3))
 
 
 # tutto ####

@@ -11,6 +11,9 @@
   library(rgdal) # package for geospatial analysis
   library(chron)
   library(readxl)
+  library(glue)
+  # library(geosphere)
+  library(mapview)
   
   # library(lattice)
   # library(RColorBrewer)
@@ -252,9 +255,51 @@ TERNI_PM_METEO %>%
 write_csv(terni_meteo_mensili, file = "data/df_terni_meteo_mensili.csv")
 
 # OSM ####
-strade <- st_read("~/R/terni/data/osm/strade_OSM.shp")
-strade_utm32 <- st_transform(strade, 32632) # WGS84/UTM 32
+strade_utm32 <- st_read("data/osm/strade_interesse.shp")
+# somma dei metri lineari delle strade nel buffer
 
+getBufferIntStrade <- function(dist) {
+  name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
+  print( paste(dist, name, sep = "--"))
+  
+  pt_buffer <- st_buffer(pt_misura, dist, singleSide = FALSE, nQuadSegs = 17)
+  # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
+  st_intersection(strade_utm32, pt_buffer) %>% 
+    group_by(Site) %>% 
+    summarise(m = sum(st_length(geometry))) %>% st_drop_geometry() %>% 
+    write_csv(glue("/home/rmorelli/R/terni/data/osm/df_strade_ml_{name}.csv"))
+    
+}
+
+walk(dists, ~ getBufferIntStrade(.x))
+
+fls <- list.files(path = "/home/rmorelli/R/terni/data/osm", pattern = glue::glue("^df_strade_ml.*"), full.names = TRUE, recursive = TRUE)
+
+lapply(fls, function(x) {
+  # df <- read_csv(x, col_types = cols(Site = col_skip()))
+  df <- read_csv(x)
+  
+  right_join(
+    df, 
+    pt_misura %>% st_drop_geometry() %>% dplyr::select(Site), by = join_by(Site)
+  ) %>% 
+    arrange(Site) %>% select(-Site)
+  
+}) -> dfs
+
+do.call(cbind, dfs) %>%
+  cbind(sort(pt_misura$Site)) %>%
+  setNames(c(dists, "site")) %>%
+  write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_strade_ml.csv"))
+
+
+# distanza minima punto linea ####
+filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
+
+st_distance(pt_misura, strade_utm32) %>% View()
+
+
+unique(strade_utm32$highway) %>% unlist()
 # Ndvi ####
 
 # list.files(path = "/home/rmorelli/R/terni/data/ndvi", full.names = TRUE) 
