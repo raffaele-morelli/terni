@@ -10,6 +10,8 @@
   library(raster) # package for raster manipulation
   library(rgdal) # package for geospatial analysis
   library(chron)
+  library(readxl)
+  
   # library(lattice)
   # library(RColorBrewer)
 } 
@@ -33,8 +35,7 @@
   
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
-  # variabili area/m² ####
-  codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
+
 }
 
 # creo le directory per gli output
@@ -42,6 +43,11 @@ dir.create("~/R/terni/out/building_heights", recursive = TRUE, showWarnings = FA
 dir.create("~/R/terni/out/imperviousness", recursive = TRUE, showWarnings = FALSE)
 dir.create("~/R/terni/out/urban_atlas", recursive = TRUE, showWarnings = FALSE)
 dir.create("~/R/terni/out/ndvi", recursive = TRUE, showWarnings = FALSE)
+
+# urban atlas ####
+
+# variabili 
+codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
 
 # 11100: Continuous Urban fabric (S.L. > 80%)
 # 11210: Discontinuous Dense Urban Fabric (S.L.: 50% - 80%)
@@ -53,8 +59,7 @@ dir.create("~/R/terni/out/ndvi", recursive = TRUE, showWarnings = FALSE)
 # 12220: Other roads and associated land
 
 
-
-getBufferInt <- function(dist, code) {
+getBufferUA <- function(dist, code) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
   print( paste(dist, code, name, sep = "--"))
   
@@ -63,17 +68,17 @@ getBufferInt <- function(dist, code) {
   
   var <- filter(terni_utm32, code_2018 == code)
 
-  st_intersection(var, pt_buffer) %>%
-    mutate(area = st_area(geom)) %>%
-    select(Site, area) %>%
+  st_intersection(var, pt_buffer) %>% 
+    mutate(area = st_area(geom)) %>% 
     st_drop_geometry %>%
+    # select(Site, area) 
     group_by(Site) %>%   # TODO: verificare necessità
     summarise(area = sum(area)) %>%
     write_csv(file = glue::glue("out/urban_atlas/area_{name}_{code}.csv"))
 }
 
 # i buffer per tutte le variabili
-walk(codes_2018,  ~ walk(dists, ~ getBufferInt(.x, .y) , .y = .x))
+walk(codes_2018,  ~ walk(dists, ~ getBufferUA(.x, .y) , .y = .x))
 
 # unisco i dataframe
 map(codes_2018, function(c) {
@@ -82,8 +87,12 @@ map(codes_2018, function(c) {
   dfs <-  lapply(fls, 
                  function(x){ 
                    df <- read_csv(x) 
-                   right_join(df, pt_misura %>% st_drop_geometry() %>% select(Site)) %>% 
-                     select(area) 
+                   right_join(
+                     df, 
+                     pt_misura %>% st_drop_geometry() %>% dplyr::select(Site), by = join_by(Site)
+                     ) %>% 
+                     arrange(Site) %>% # se non ordino ottengo dataframe disallineate sulle righe
+                     dplyr::select(area)
                  })
   
   do.call(cbind, dfs) %>% 
@@ -99,12 +108,10 @@ lapply(fls, function(x) {
   read_csv(x)
 }) -> dfs
 
-do.call(rbind, dfs) %>%
-  write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_urban_atlas.csv"))
+do.call(rbind, dfs) %>% write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_urban_atlas.csv"))
 
 
 # impermeabilizzazione ####
-
 v <- vect(pt_misura) # converto in SpatVector
 
 getBufferRastImp <- function(dist) {
@@ -117,6 +124,7 @@ getBufferRastImp <- function(dist) {
     group_by(ID) %>%
     summarise(m = mean(rst_impermeabilizzazione_utm32), .groups = 'drop') %>%
     cbind(v1$Site) %>% 
+    setNames(c("ID", "m", "Site")) %>%
     write_csv(file = glue::glue("out/imperviousness/rast_{name}.csv"))
 }
 
@@ -127,7 +135,10 @@ walk(dists, ~ getBufferRastImp(.x))
 
 fls <- list.files(path = "out/imperviousness", pattern = glue::glue("^rast.*\\.csv$"), full.names = TRUE )
   
-dfs <-  lapply(fls, function(x) { read_csv(x, col_types = cols(ID = col_skip(), `v1$Site` = col_skip()))})
+dfs <-  lapply(fls, function(x) { 
+  print(fls)
+  read_csv(x, col_types = cols(ID = col_skip(), Site = col_skip() ) )
+})
   
 do.call(cbind, dfs) %>%
   cbind(pt_misura$Site) %>%
@@ -136,9 +147,12 @@ do.call(cbind, dfs) %>%
   
 
 # building heights ####
-# bh <- rast("/home/rmorelli/R/terni/data/tiff/rst_building_heights_utm32.tif")
-bh <- rast("/home/rmorelli/R/terni/data/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
-bh_utm32 <- project(bh, crs("epsg:32632"))
+bh <- rast("/home/rmorelli/R/terni/data/bh/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
+# crs(bh, proj = TRUE)
+
+pt_misura3035 <-  st_transform(pt_misura, 3035) # meglio trasformare il vettore piuttosto che il raster
+v <- vect(pt_misura3035)
+
 
 # calcola l'altezza media per gli edifici che sono nel buffer
 # scrive un csv 
@@ -215,7 +229,6 @@ do.call(cbind, dfs) %>%
   write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_popolazione_residente.csv"))
 
 # meteo #####
-library(readxl)
 TERNI_PM_METEO <- read_excel("data/meteo/TERNI PM METEO.xlsx", 
                              col_types = c("date", "numeric", "numeric", 
                                            "numeric", "numeric", "numeric", 
@@ -244,8 +257,7 @@ strade_utm32 <- st_transform(strade, 32632) # WGS84/UTM 32
 
 # Ndvi ####
 
-list.files(path = "/home/rmorelli/R/terni/data/ndvi", full.names = TRUE) 
-
+# list.files(path = "/home/rmorelli/R/terni/data/ndvi", full.names = TRUE) 
 nc_data <- nc_open("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
 
 
@@ -291,7 +303,7 @@ getBufferRastNDVI <- function(dist, rst, var) {
   extract(rst, v1, xy = TRUE) %>%
     group_by(ID) %>%
     mutate(ifelse(get(var) < 0, 0, get(var) )) %>% 
-    summarise(m = mean(get(var)), .groups = 'drop') %>%
+    summarise(m = mean(get(var), na.rm = TRUE), .groups = 'drop') %>%
     cbind(v1$Site) %>%
     setNames(c("ID", "media", "site")) %>% 
     write_csv(file = glue::glue("/home/rmorelli/R/terni/data/ndvi/out/rast_{var}_{name}.csv"))
@@ -324,5 +336,5 @@ for(d in dists) {
   do.call(cbind, dfs) %>%
     setNames(mesi) %>% 
     cbind(pt_misura$Site) %>% 
-    write_csv(file = glue::glue("/home/rmorelli/R/terni/out/ndvi/df_ndvi_{d}.csv"))
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_ndvi_{d}.csv"))
 }

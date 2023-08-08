@@ -7,10 +7,12 @@ ggplot() +
 
 
 # building ####
-# as.data.frame(bh, xy = TRUE) %>%
-#   ggplot() +
-#   geom_raster(aes(x = x, y = y, fill = building_heights_utm32)) +
-#   scale_fill_viridis_c() + theme_void() + coord_fixed()
+library(tidyterra)
+as.data.frame(bh, xy = TRUE) %>%
+  ggplot() +
+  geom_raster(aes(x = x, y = y, fill = IT515_TERNI_UA2012_DHM_V010)) +
+  geom_spatvector(data = v, color = "red") +
+  scale_fill_viridis_c() + theme_void()
 
 # sezioni ####
 # ggplot(terni_sez_pop) + geom_sf() + geom_sf_label(aes(label = P1), size = 2) 
