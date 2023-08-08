@@ -6,6 +6,12 @@
   library(ggplot2)
   library(plotly)
   library(terra)
+  library(ncdf4) # package for netcdf manipulation
+  library(raster) # package for raster manipulation
+  library(rgdal) # package for geospatial analysis
+  library(chron)
+  # library(lattice)
+  # library(RColorBrewer)
 } 
 
 {
@@ -100,7 +106,7 @@ do.call(rbind, dfs) %>%
 
 v <- vect(pt_misura) # converto in SpatVector
 
-getBufferRast <- function(dist) {
+getBufferRastImp <- function(dist) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
   print( paste(dist, name, sep = "--"))
   
@@ -114,7 +120,7 @@ getBufferRast <- function(dist) {
 }
 
 # i impermeabilizzazione all'interno dei buffer
-walk(dists, ~ getBufferRast(.x))
+walk(dists, ~ getBufferRastImp(.x))
 
 # unisco i dataframe
 
@@ -135,7 +141,7 @@ bh_utm32 <- project(bh, crs("epsg:32632"))
 
 # calcola l'altezza media per gli edifici che sono nel buffer
 # scrive un csv 
-getBufferRast <- function(dist) {
+getBufferRastBH <- function(dist) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
   print( paste(dist, name, sep = "--"))
   
@@ -150,7 +156,7 @@ getBufferRast <- function(dist) {
 
 
 # impermeabilizzazione all'interno dei buffer
-walk(dists, ~ getBufferRast(.x))
+walk(dists, ~ getBufferRastBH(.x))
 
 fls <- list.files(path = "/home/rmorelli/R/terni/out/building_heights", pattern = glue::glue("^rast.*"), full.names = TRUE, recursive = TRUE)
 lapply(fls, function(x) {
@@ -171,7 +177,7 @@ terni_sez_pop %>%
   select(c(PRO_COM, SEZ, P1, SHAPE_Area)) %>% 
   write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_popolazione.csv"))
 
-getBufferInt <- function(dist) {
+getBufferIntSEZ <- function(dist) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
   print( paste(dist, name, sep = "--"))
   
@@ -191,7 +197,7 @@ getBufferInt <- function(dist) {
 }
 
 # i buffer per tutte le variabili
-walk(dists, ~ getBufferInt(.x))
+walk(dists, ~ getBufferIntSEZ(.x))
 
 
 fls <- list.files(path = "/home/rmorelli/R/terni/out/popolazione", pattern = glue::glue("^pop.*"), full.names = TRUE, recursive = TRUE)
@@ -235,3 +241,87 @@ write_csv(terni_meteo_mensili, file = "data/df_terni_meteo_mensili.csv")
 strade <- st_read("~/R/terni/data/osm/strade_OSM.shp")
 strade_utm32 <- st_transform(strade, 32632) # WGS84/UTM 32
 
+# Ndvi ####
+
+list.files(path = "/home/rmorelli/R/terni/data/ndvi", full.names = TRUE) 
+
+nc_data <- nc_open("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
+
+
+# Save the print(nc) dump to a text file
+{
+  sink('/home/rmorelli/R/terni/data/ndvi/metadata.txt')
+  nc_data$var
+  nc_data$nvars
+  
+  print(nc_data)
+  sink()
+}
+
+lon <- ncvar_get(nc_data, "x")
+nlon <- dim(lon)
+
+lat <- ncvar_get(nc_data, "y", verbose = F)
+nlat <- dim(lat)
+
+print(c(nlon,nlat))
+
+time <- ncvar_get(nc_data, "time")
+tunits <- ncatt_get(nc_data, "time", "units")
+nt <- dim(time)
+
+
+pol_st <- stack("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
+# plot(pol_st)
+brick(pol_st) -> ndvi_rasterone
+nlayers(ndvi_rasterone)
+names(ndvi_rasterone)
+
+v_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
+v <- vect(v_utm33) # converto in SpatVector
+
+getBufferRastNDVI <- function(dist, rst, var) {
+  name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
+  print( paste(dist, name, sep = "--"))
+  
+  v1 <- buffer(v, dist, quadsegs = 17)
+  
+  # extract(rst, v1, xy = TRUE) 
+  extract(rst, v1, xy = TRUE) %>%
+    group_by(ID) %>%
+    mutate(ifelse(get(var) < 0, 0, get(var) )) %>% 
+    summarise(m = mean(get(var)), .groups = 'drop') %>%
+    cbind(v1$Site) %>%
+    setNames(c("ID", "media", "site")) %>% 
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/ndvi/out/rast_{var}_{name}.csv"))
+}
+
+for (i in names(pol_st)) {
+  print(i)
+  outfile <- glue::glue("/home/rmorelli/R/terni/data/ndvi/{i}.tiff")
+  # writeRaster(ndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
+  
+  rst <- rast(outfile)
+  
+  # getBufferRastNDVI(50, rst, i)
+  walk(dists, ~ getBufferRastNDVI(.x, rst, i))
+}
+
+# unisco i dataframe
+mesi <- names(ndvi_rasterone)
+dists
+
+for(d in dists) {
+  name <- str_pad(d, 3, pad = "0")
+  print(name)
+  flsNDVI <- list.files(path = "/home/rmorelli/R/terni/data/ndvi/out", pattern = glue::glue("^rast.*_{name}\\.csv$"), full.names = TRUE )
+  
+  dfs <-  lapply(flsNDVI, function(x) { 
+    read_csv(x, col_types = cols(ID = col_skip(), site = col_skip()))
+  })
+  
+  do.call(cbind, dfs) %>%
+    setNames(mesi) %>% 
+    cbind(pt_misura$Site) %>% 
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/ndvi/csv/df_ndvi_{d}.csv"))
+}
