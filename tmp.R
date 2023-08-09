@@ -7,7 +7,7 @@ ggplot() +
 
 
 # building ####
-library(tidyterra)
+# library(tidyterra)
 as.data.frame(bh, xy = TRUE) %>%
   ggplot() +
   geom_raster(aes(x = x, y = y, fill = IT515_TERNI_UA2012_DHM_V010)) +

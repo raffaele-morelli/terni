@@ -245,12 +245,14 @@ TERNI_PM_METEO %>%
     mese = month(date_time), 
     giorno = day(date_time),
     ora = hour(date_time)
-  ) %>% select(-note, -date_time) %>% 
+  ) %>% dplyr::select(-note, -date_time) %>% 
   group_by(anno, mese, giorno, ora) %>%
-  summarise(across(everything(), ~mean(.x, na.rm = TRUE))) %>% 
-  mutate(data = make_date(anno,mese,giorno)) %>%  
-  group_by(data) %>% select(-c(anno, mese, giorno, ora)) %>% 
-  summarise(across(everything(), ~mean(.x, na.rm = TRUE))) -> terni_meteo_mensili
+  summarise(across(everything(), ~mean(.x, na.rm = TRUE)), .groups = "drop" ) %>% 
+  mutate(data = make_date(anno, mese)) %>%
+  # group_by(data) %>% 
+  dplyr::select(-c(anno, mese, giorno, ora)) %>% 
+  group_by(data) %>% 
+  summarise(across(everything(), ~mean(.x, na.rm = TRUE)), .groups = "drop") -> terni_meteo_mensili
 
 write_csv(terni_meteo_mensili, file = "data/df_terni_meteo_mensili.csv")
 
@@ -291,6 +293,9 @@ do.call(cbind, dfs) %>%
   setNames(c(dists, "site")) %>%
   write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_strade_ml.csv"))
 
+# acciaieria ####
+acciaieria <- st_read("/home/rmorelli/R/terni/data/acciaieria/acciaieria.shp")
+acciaieria %>% as.data.frame() %>% write_csv("/home/rmorelli/R/terni/data/df_acciaieria.csv")
 
 # distanza minima punto linea ####
 strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
@@ -315,7 +320,6 @@ apply(df, 1, FUN = min) %>%
 # list.files(path = "/home/rmorelli/R/terni/data/ndvi", full.names = TRUE) 
 nc_data <- nc_open("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
 
-
 # Save the print(nc) dump to a text file
 {
   sink('/home/rmorelli/R/terni/data/ndvi/metadata.txt')
@@ -325,19 +329,6 @@ nc_data <- nc_open("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B
   print(nc_data)
   sink()
 }
-
-lon <- ncvar_get(nc_data, "x")
-nlon <- dim(lon)
-
-lat <- ncvar_get(nc_data, "y", verbose = F)
-nlat <- dim(lat)
-
-print(c(nlon,nlat))
-
-time <- ncvar_get(nc_data, "time")
-tunits <- ncatt_get(nc_data, "time", "units")
-nt <- dim(time)
-
 
 pol_st <- stack("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
 # plot(pol_st)
@@ -391,8 +382,154 @@ for(d in dists) {
   do.call(cbind, dfs) %>%
     setNames(mesi) %>% 
     cbind(pt_misura$Site) %>% 
-    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_ndvi_{d}.csv"))
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_ndvi_{name}.csv"))
 }
 
-# acciaieria ####
-acciaieria <- st_read("/home/rmorelli/R/terni/data/acciaieria/acciaieria.shp")
+
+
+# Kndvi ####
+
+# list.files(path = "/home/rmorelli/R/terni/data/ndvi", full.names = TRUE) 
+nc_data <- nc_open("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
+
+# Save the print(nc) dump to a text file
+{
+  sink('/home/rmorelli/R/terni/data/ndvi/metadata.txt')
+  nc_data$var
+  nc_data$nvars
+  
+  print(nc_data)
+  sink()
+}
+
+pol_st <- stack("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
+# plot(pol_st)
+brick(pol_st) -> kndvi_rasterone
+nlayers(kndvi_rasterone)
+names(kndvi_rasterone)
+
+plot(kndvi_rasterone[[1]])
+
+v_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
+v <- vect(v_utm33) # converto in SpatVector
+
+getBufferRastKNDVI <- function(dist, rst, var) {
+  name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
+  print( paste(dist, name, sep = "--"))
+  
+  v1 <- buffer(v, dist, quadsegs = 17)
+  
+  # extract(rst, v1, xy = TRUE) 
+  extract(rst, v1, xy = TRUE) %>%
+    group_by(ID) %>%
+    mutate(ifelse(get(var) < 0, 0, get(var) )) %>% 
+    summarise(m = mean(get(var), na.rm = TRUE), .groups = 'drop') %>%
+    cbind(v1$Site) %>%
+    setNames(c("ID", "media", "site")) %>% 
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/kndvi/out/rast_{var}_{name}.csv"))
+}
+
+for (i in names(pol_st)) {
+  print(i)
+  outfile <- glue::glue("/home/rmorelli/R/terni/data/kndvi/{i}.tiff")
+  # writeRaster(ndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
+  
+  rst <- rast(outfile)
+  
+  # getBufferRastNDVI(50, rst, i)
+  walk(dists, ~ getBufferRastKNDVI(.x, rst, i))
+}
+
+# unisco i dataframe
+mesi <- names(kndvi_rasterone)
+dists
+
+for(d in dists) {
+  name <- str_pad(d, 3, pad = "0")
+  print(name)
+  flsKNDVI <- list.files(path = "/home/rmorelli/R/terni/data/kndvi/out", pattern = glue::glue("^rast.*_{name}\\.csv$"), full.names = TRUE )
+  
+  dfs <-  lapply(flsKNDVI, function(x) { 
+    read_csv(x, col_types = cols(ID = col_skip(), site = col_skip()))
+  })
+  
+  do.call(cbind, dfs) %>%
+    setNames(mesi) %>% 
+    cbind(pt_misura$Site) %>% 
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_kndvi_{name}.csv"))
+}
+
+
+# LAI ####
+
+# list.files(path = "/home/rmorelli/R/terni/data/ndvi", full.names = TRUE) 
+nc_data <- nc_open("/home/rmorelli/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
+
+# Save the print(nc) dump to a text file
+{
+  sink('/home/rmorelli/R/terni/data/ndvi/metadata.txt')
+  nc_data$var
+  nc_data$nvars
+  
+  print(nc_data)
+  sink()
+}
+
+pol_st <- stack("/home/rmorelli/R/terni/data/lai/T33TUH_201611_201801_S2_L3B_20m_LAI_monthly_Terni.nc")
+# plot(pol_st)
+brick(pol_st) -> lai_rasterone
+nlayers(lai_rasterone)
+names(lai_rasterone)
+
+plot(lai_rasterone[[1]])
+
+v_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
+v <- vect(v_utm33) # converto in SpatVector
+
+getBufferRastLAI <- function(dist, rst, var) {
+  name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
+  print( paste(dist, name, sep = "--"))
+  
+  v1 <- buffer(v, dist, quadsegs = 17)
+  
+  # extract(rst, v1, xy = TRUE) 
+  extract(rst, v1, xy = TRUE) %>%
+    group_by(ID) %>%
+    mutate(ifelse(get(var) < 0, 0, get(var) )) %>% 
+    summarise(m = mean(get(var), na.rm = TRUE), .groups = 'drop') %>%
+    cbind(v1$Site) %>%
+    setNames(c("ID", "media", "site")) %>% 
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/lai/out/rast_{var}_{name}.csv"))
+}
+
+for (i in names(pol_st)) {
+  print(i)
+  outfile <- glue::glue("/home/rmorelli/R/terni/data/lai/{i}.tiff")
+  writeRaster(lai_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
+  
+  rst <- rast(outfile)
+  
+  # getBufferRastNDVI(50, rst, i)
+  walk(dists, ~ getBufferRastKNDVI(.x, rst, i))
+}
+
+# unisco i dataframe
+mesi <- names(lai_rasterone)
+dists
+
+for(d in dists) {
+  name <- str_pad(d, 3, pad = "0")
+  print(name)
+  flsLAI <- list.files(path = "/home/rmorelli/R/terni/data/lai/out", pattern = glue::glue("^rast.*_{name}\\.csv$"), full.names = TRUE )
+  
+  dfs <-  lapply(flsKNDVI, function(x) { 
+    read_csv(x, col_types = cols(ID = col_skip(), site = col_skip()))
+  })
+  
+  do.call(cbind, dfs) %>%
+    setNames(mesi) %>% 
+    cbind(pt_misura$Site) %>% 
+    write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_lai_{name}.csv"))
+}
+
+
