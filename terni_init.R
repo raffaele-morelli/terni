@@ -254,7 +254,7 @@ TERNI_PM_METEO %>%
 
 write_csv(terni_meteo_mensili, file = "data/df_terni_meteo_mensili.csv")
 
-# OSM ####
+# Strade OSM ####
 strade_utm32 <- st_read("data/osm/strade_interesse.shp")
 # somma dei metri lineari delle strade nel buffer
 
@@ -302,12 +302,14 @@ st_intersection(pt_buffer, strade_utm32_filtered) %>%
   st_cast() -> tmp_inters
 
 st_distance(pt_misura, tmp_inters) -> df
-apply(df, 1, FUN = min) %>% cbind(sort(pt_misura$Site)) %>% 
-  as.data.frame() %>% setNames(c("dist", "Site")) %>% 
+
+apply(df, 1, FUN = min) %>% 
+  cbind(sort(pt_misura$Site)) %>% 
+  as.data.frame() %>%
+  setNames(c("dist", "Site")) %>% 
   write_csv("/home/rmorelli/R/terni/data/df_strade_mim_dist.csv")
 
 
-unique(strade_utm32$highway) %>% unlist()
 # Ndvi ####
 
 # list.files(path = "/home/rmorelli/R/terni/data/ndvi", full.names = TRUE) 
@@ -391,3 +393,6 @@ for(d in dists) {
     cbind(pt_misura$Site) %>% 
     write_csv(file = glue::glue("/home/rmorelli/R/terni/data/df_ndvi_{d}.csv"))
 }
+
+# acciaieria ####
+acciaieria <- st_read("/home/rmorelli/R/terni/data/acciaieria/acciaieria.shp")

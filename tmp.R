@@ -27,7 +27,7 @@ as.data.frame(bh, xy = TRUE) %>%
     group_by(Site) %>% 
     summarise(m = sum(st_length(geometry))) %>% 
     st_cast() %>% 
-    mapview(zcol = "Site")
+    mapview()
   
   tmp_inters %>% group_by(Site) %>% summarise(l = st_length(geometry))
   
