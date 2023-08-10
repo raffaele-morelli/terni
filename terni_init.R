@@ -270,6 +270,10 @@ dati_meteo %>%
   dplyr::select(-c(anno, mese, giorno, station_code, station_eu_code, coordx, coordy, altitude, altitudedem, date)) %>% 
   write_csv(file = glue("{outdir}/df_terni_meteo_mensili.csv"))
 
+dati_meteo %>% 
+  filter(station_eu_code == "IT1011A") %>% 
+  filter(between(date, as.Date('2016-11-19'), as.Date('2018-02-19'))) %>% 
+  write_csv(file = glue("{outdir}/df_terni_meteo_giornalieri.csv"))
 
 # Strade OSM ####
 strade_utm32 <- st_read("data/osm/strade_interesse.shp")
