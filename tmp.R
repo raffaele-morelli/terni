@@ -51,3 +51,9 @@ as.data.frame(bh, xy = TRUE) %>%
 #   # geom_sf(data = pt_misura, color = "red", size = 0.5) +
 #   coord_sf(datum = st_crs(32632), xlim = c(794643.0, 801954.6), ylim = c(4716044.4, 4720994.3)) +
 #   theme_void()
+
+library(mapview)
+# mapview(stack(imperm)[[1]]) +
+  # mapview(strade_utm32, legend = FALSE, zcol = "highway") +
+  mapview(pt_misura, legend = FALSE, alpha.regions = 1, zcol = "Site")
+# mapview(cities, legend = FALSE, cex = "pop")
