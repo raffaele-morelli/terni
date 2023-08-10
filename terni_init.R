@@ -231,29 +231,47 @@ do.call(cbind, dfs) %>%
   write_csv(file = glue("{outdir}/df_popolazione_residente.csv"))
 
 # meteo #####
-TERNI_PM_METEO <- read_excel("data/meteo/TERNI PM METEO.xlsx", 
-                             col_types = c("date", "numeric", "numeric", 
-                                           "numeric", "numeric", "numeric", 
-                                           "numeric", "numeric", "numeric", 
-                                           "numeric", "numeric", "text"))
-names(TERNI_PM_METEO)[1] <- "date_time"
+# TERNI_PM_METEO <- read_excel("data/meteo/TERNI PM METEO.xlsx", 
+#                              col_types = c("date", "numeric", "numeric", 
+#                                            "numeric", "numeric", "numeric", 
+#                                            "numeric", "numeric", "numeric", 
+#                                            "numeric", "numeric", "text"))
+# names(TERNI_PM_METEO)[1] <- "date_time"
+# 
+# TERNI_PM_METEO %>% 
+#   mutate(
+#     anno = year(date_time), 
+#     mese = month(date_time), 
+#     giorno = day(date_time),
+#     ora = hour(date_time)
+#   ) %>% dplyr::select(-note, -date_time) %>% 
+#   group_by(anno, mese, giorno, ora) %>%
+#   summarise(across(everything(), ~mean(.x, na.rm = TRUE)), .groups = "drop" ) %>% 
+#   mutate(data = make_date(anno, mese)) %>%
+#   # group_by(data) %>% 
+#   dplyr::select(-c(anno, mese, giorno, ora)) %>% 
+#   group_by(data) %>% 
+#   summarise(across(everything(), ~mean(.x, na.rm = TRUE)), .groups = "drop") -> terni_meteo_mensili
+# 
+# write_csv(terni_meteo_mensili, file = glue("{outdir}/df_terni_meteo_mensili.csv"))
 
-TERNI_PM_METEO %>% 
-  mutate(
-    anno = year(date_time), 
-    mese = month(date_time), 
-    giorno = day(date_time),
-    ora = hour(date_time)
-  ) %>% dplyr::select(-note, -date_time) %>% 
-  group_by(anno, mese, giorno, ora) %>%
-  summarise(across(everything(), ~mean(.x, na.rm = TRUE)), .groups = "drop" ) %>% 
-  mutate(data = make_date(anno, mese)) %>%
-  # group_by(data) %>% 
-  dplyr::select(-c(anno, mese, giorno, ora)) %>% 
-  group_by(data) %>% 
-  summarise(across(everything(), ~mean(.x, na.rm = TRUE)), .groups = "drop") -> terni_meteo_mensili
+library(datiMeteo)
+library(datiInquinanti)
+stazioniAria %>% filter(comune == "Terni") %>% dplyr::select(station_eu_code) -> codici_staz
 
-write_csv(terni_meteo_mensili, file = glue("{outdir}/df_terni_meteo_mensili.csv"))
+dati_meteo %>% 
+  filter(station_eu_code == "IT1011A") %>% 
+  filter(between(date, as.Date('2016-11-19'), as.Date('2018-02-19'))) %>% 
+    mutate(
+      anno = year(date),
+      mese = month(date),
+      giorno = day(date)
+    ) %>% group_by(anno, mese) %>%
+  summarise(across(everything(), ~mean(.x, na.rm = TRUE)), .groups = "drop" ) %>%
+  mutate(data = make_date(anno, mese)) %>% 
+  dplyr::select(-c(anno, mese, giorno, station_code, station_eu_code, coordx, coordy, altitude, altitudedem, date)) %>% 
+  write_csv(file = glue("{outdir}/df_terni_meteo_mensili.csv"))
+
 
 # Strade OSM ####
 strade_utm32 <- st_read("data/osm/strade_interesse.shp")
