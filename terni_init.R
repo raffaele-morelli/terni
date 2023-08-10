@@ -339,32 +339,15 @@ do.call(cbind, dfs) %>%
 acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")
 acciaieria %>% as.data.frame() %>% write_csv(glue("{outdir}/df_acciaieria.csv"))
 
-
-
+# punti utm33 ####
+v_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
+v <- vect(v_utm33) # converto in SpatVector
 
 # Ndvi ####
 
-# list.files(path = "~/R/terni/data/ndvi", full.names = TRUE) 
-nc_data <- nc_open("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
-
-# Save the print(nc) dump to a text file
-{
-  sink('~/R/terni/data/ndvi/metadata.txt')
-  nc_data$var
-  nc_data$nvars
-  
-  print(nc_data)
-  sink()
-}
-
+# nc_data <- nc_open("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
 pol_st <- stack("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
-# plot(pol_st)
 brick(pol_st) -> ndvi_rasterone
-nlayers(ndvi_rasterone)
-names(ndvi_rasterone)
-
-v_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
-v <- vect(v_utm33) # converto in SpatVector
 
 getBufferRastNDVI <- function(dist, rst, var) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
@@ -385,17 +368,14 @@ getBufferRastNDVI <- function(dist, rst, var) {
 for (i in names(pol_st)) {
   print(i)
   outfile <- glue("~/R/terni/data/ndvi/{i}.tiff")
-  # writeRaster(ndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
+  writeRaster(ndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
   
   rst <- rast(outfile)
-  
-  # getBufferRastNDVI(50, rst, i)
   walk(dists, ~ getBufferRastNDVI(.x, rst, i))
 }
 
 # unisco i dataframe
 mesi <- names(ndvi_rasterone)
-dists
 
 for(d in dists) {
   name <- str_pad(d, 3, pad = "0")
@@ -413,32 +393,11 @@ for(d in dists) {
 }
 
 
-
 # Kndvi ####
 
-# list.files(path = "~/R/terni/data/ndvi", full.names = TRUE) 
-nc_data <- nc_open("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
-
-# Save the print(nc) dump to a text file
-{
-  sink('~/R/terni/data/ndvi/metadata.txt')
-  nc_data$var
-  nc_data$nvars
-  
-  print(nc_data)
-  sink()
-}
-
-pol_st <- stack("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
-# plot(pol_st)
+# nc_data <- nc_open("~/R/terni/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
+pol_st <- stack("~/R/terni/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
 brick(pol_st) -> kndvi_rasterone
-nlayers(kndvi_rasterone)
-names(kndvi_rasterone)
-
-plot(kndvi_rasterone[[1]])
-
-v_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
-v <- vect(v_utm33) # converto in SpatVector
 
 getBufferRastKNDVI <- function(dist, rst, var) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
@@ -446,7 +405,6 @@ getBufferRastKNDVI <- function(dist, rst, var) {
   
   v1 <- buffer(v, dist, quadsegs = 17)
   
-  # extract(rst, v1, xy = TRUE) 
   extract(rst, v1, xy = TRUE) %>%
     group_by(ID) %>%
     mutate(ifelse(get(var) < 0, 0, get(var) )) %>% 
@@ -459,17 +417,15 @@ getBufferRastKNDVI <- function(dist, rst, var) {
 for (i in names(pol_st)) {
   print(i)
   outfile <- glue("~/R/terni/data/kndvi/{i}.tiff")
-  # writeRaster(ndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
+  writeRaster(kdvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
   
   rst <- rast(outfile)
   
-  # getBufferRastNDVI(50, rst, i)
   walk(dists, ~ getBufferRastKNDVI(.x, rst, i))
 }
 
 # unisco i dataframe
 mesi <- names(kndvi_rasterone)
-dists
 
 for(d in dists) {
   name <- str_pad(d, 3, pad = "0")
@@ -489,29 +445,9 @@ for(d in dists) {
 
 # LAI ####
 
-# list.files(path = "~/R/terni/data/ndvi", full.names = TRUE) 
-nc_data <- nc_open("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
-
-# Save the print(nc) dump to a text file
-{
-  sink('~/R/terni/data/ndvi/metadata.txt')
-  nc_data$var
-  nc_data$nvars
-  
-  print(nc_data)
-  sink()
-}
-
+# nc_data <- nc_open("~/R/terni/data/lai/T33TUH_201611_201801_S2_L3B_20m_LAI_monthly_Terni.nc")
 pol_st <- stack("~/R/terni/data/lai/T33TUH_201611_201801_S2_L3B_20m_LAI_monthly_Terni.nc")
-# plot(pol_st)
 brick(pol_st) -> lai_rasterone
-nlayers(lai_rasterone)
-names(lai_rasterone)
-
-plot(lai_rasterone[[1]])
-
-v_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
-v <- vect(v_utm33) # converto in SpatVector
 
 getBufferRastLAI <- function(dist, rst, var) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
@@ -535,14 +471,10 @@ for (i in names(pol_st)) {
   writeRaster(lai_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
   
   rst <- rast(outfile)
-  
-  # getBufferRastNDVI(50, rst, i)
   walk(dists, ~ getBufferRastKNDVI(.x, rst, i))
 }
 
 # unisco i dataframe
-mesi <- names(lai_rasterone)
-dists
 
 for(d in dists) {
   name <- str_pad(d, 3, pad = "0")
@@ -561,5 +493,4 @@ for(d in dists) {
 
 
 # variabili risposta ####
-
-TERNI_PM_Elements_Data_rev <- read_excel("data/TERNI PM Elements Data_rev.xlsx")
+TERNI_PM_Elements <- read_excel("data/TERNI PM Elements Data_rev.xlsx")
