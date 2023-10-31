@@ -2,7 +2,7 @@
 {
   library(sf)
   library(dplyr)
-  library(tidyverse)
+  # library(tidyverse)
   library(ggplot2)
   library(plotly)
   library(terra)
@@ -12,7 +12,8 @@
   library(chron)
   library(readxl)
   library(glue)
-  # library(geosphere)
+  library(lubridate)
+  library(readr)
   library(mapview)
   
   outdir <- "~/R/terni/data/dataframes"
@@ -260,6 +261,7 @@ stazioniAria %>% filter(comune == "Terni") %>% dplyr::select(station_eu_code) ->
 dati_meteo %>% 
   filter(station_eu_code == "IT1011A") %>% 
   filter(between(date, as.Date('2016-11-19'), as.Date('2018-02-19'))) %>% 
+  dplyr::select(-station_eu_code, u10m, v10m) %>% 
     mutate(
       anno = year(date),
       mese = month(date),
@@ -267,13 +269,73 @@ dati_meteo %>%
     ) %>% group_by(anno, mese) %>%
   summarise(across(everything(), ~mean(.x, na.rm = TRUE)), .groups = "drop" ) %>%
   mutate(data = make_date(anno, mese)) %>% 
-  dplyr::select(-c(anno, mese, giorno, station_code, station_eu_code, coordx, coordy, altitude, altitudedem, date)) %>% 
-  write_csv(file = glue("{outdir}/df_terni_meteo_mensili.csv"))
+  dplyr::select(-c(anno, mese, giorno, station_code, coordx, coordy, altitude, altitudedem, date)) -> blocco_media
 
 dati_meteo %>% 
   filter(station_eu_code == "IT1011A") %>% 
   filter(between(date, as.Date('2016-11-19'), as.Date('2018-02-19'))) %>% 
+  dplyr::select(date, wspeed, pblmax, wspeed_max) %>%
+  mutate(
+    anno = year(date),
+    mese = month(date),
+    giorno = day(date),
+    disp = wspeed*pblmax, 
+    disp_max = wspeed*pblmax
+  ) %>% group_by(anno, mese) %>%
+  summarise(across(everything(), ~median(.x, na.rm = TRUE)), .groups = "drop" ) %>%
+  mutate(data = make_date(anno, mese)) %>% 
+  dplyr::select(-c(date, anno, mese, giorno, wspeed, pblmax, wspeed_max)) -> blocco_mediana
+
+inner_join(blocco_media, blocco_mediana, by = "data") %>% 
+  write_csv(file = glue("{outdir}/df_terni_meteo_mensili.csv"))
+
+dati_meteo %>% 
+  filter(station_eu_code == "IT1011A", between(date, as.Date('2016-11-19'), as.Date('2018-02-19'))) %>% 
   write_csv(file = glue("{outdir}/df_terni_meteo_giornalieri.csv"))
+
+# modifica m.a ####
+period_mese <- read_delim(
+  "~/R/terni_asi/data/period_mese.csv",
+  delim = ";",
+  escape_double = FALSE,
+  col_types = cols(
+    data_inizio = col_date(format = "%d/%m/%Y"),
+    data_fine = col_date(format = "%d/%m/%Y")
+  ),
+  trim_ws = TRUE
+)
+
+datiMeteo::dati_meteo %>% 
+  filter(station_eu_code == "IT1011A", between(date, as.Date('2016-11-19'), as.Date('2018-02-19'))) %>% 
+  full_join(period_mese, by = join_by(between(date,
+                                              data_inizio,
+                                              data_fine))) %>% filter(!is.na(month_y)) %>%
+  
+  dplyr::select(
+    -c(
+      data_inizio,
+      data_fine,
+      station_code,
+      station_eu_code,
+      coordx,
+      coordy,
+      altitude,
+      altitudedem,
+      date
+    )
+  )  %>% group_by(month_y, Season, associazione_ispra) %>%
+  summarise(across(everything(),
+                   list(
+                     min = min,
+                     max = max,
+                     mean = mean,
+                     median = median,
+                     IQR = IQR
+                   )
+  ), .groups = "drop") 
+# write_csv(file = glue("{outdir}/df_terni_meteo_mensili_periodo.csv"))
+
+
 
 # Strade OSM ####
 strade_utm32 <- st_read("data/osm/strade_interesse.shp")
@@ -368,6 +430,7 @@ v <- vect(v_utm33) # converto in SpatVector
 # nc_data <- nc_open("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
 pol_st <- stack("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
 brick(pol_st) -> ndvi_rasterone
+plot(pol_st)
 
 getBufferRastNDVI <- function(dist, rst, var) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
