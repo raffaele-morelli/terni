@@ -21,13 +21,13 @@
   # library(lattice)
   # library(RColorBrewer)
   
-  pt_misura <- st_read("~/R/terni/data/shp/punti_misura.shp")
+  pt_misura <- st_read("~/R/terni_asi/data/shp/punti_misura.shp")
   
   sites <- pt_misura$Site
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare  
 } 
 
-fls <- list.files(path = "~/R/terni/data/dataframes", pattern = "^df_", full.names = TRUE)
+fls <- list.files(path = "~/R/terni_asi/data/dataframes", pattern = "^df_", full.names = TRUE)
 bdata <- lapply(fls, function(x) {
   read_csv(x)
 })
@@ -55,7 +55,7 @@ names(bdata) <- basename(fls) %>% str_remove_all(pattern = "df_") %>% str_remove
 # }
 
 # approccio 2 ####
-outdir <- "~/R/terni/data/dataframes"
+outdir <- "~/R/terni_asi/data/dataframes"
 # test <- list()
 
 estrai <- function(var, site) {
