@@ -56,7 +56,7 @@ names(bdata) <- basename(fls) %>% str_remove_all(pattern = "df_") %>% str_remove
 
 # approccio 2 ####
 outdir <- "~/R/terni_asi/data/dataframes"
-# test <- list()
+test <- list()
 
 estrai <- function(var, site) {
   print(var)
@@ -89,6 +89,19 @@ for (i in c("kndvi","ndvi", "lai") ) {
 do.call(cbind, appoggio) -> df_indici
 
 # meteo ####
-df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili.csv") %>% head(n = -1)
+df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili.csv") %>% 
+  head(n = -1)
 
-cbind(df_indici, df_terni_meteo_mensili) %>% dplyr::select(-data) %>% as.matrix() %>% cor() %>% corrplot::corrplot()
+# cbind(df_indici, df_terni_meteo_mensili) %>% 
+#   dplyr::select(-data) %>% 
+#   as.matrix() %>% 
+#   cor() %>% 
+#   corrplot::corrplot()
+
+# imperviousness ####
+df_imperviousness <- read_csv("data/dataframes/df_imperviousness.csv")
+names(df_imperviousness) <- paste("im", colnames(df_imperviousness), sep = "_")
+
+# building_heights ####
+df_building_heights <- read_csv("data/dataframes/df_building_heights.csv")
+names(df_building_heights) <- paste("bh", colnames(df_building_heights), sep = "_")

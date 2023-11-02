@@ -576,3 +576,11 @@ for(d in dists) {
 
 # variabili risposta ####
 TERNI_PM_Elements <- read_excel("data/TERNI PM Elements Data_rev.xlsx")
+
+# plots ####
+g <- ggplot() + geom_sf(data = terni_sez) + geom_sf(data = v_utm33)
+
+g + geom_sf_label(data = v_utm33, aes(label = Site)) 
+
+g + geom_sf(data = acciaieria, color = "red") +
+  coord_sf(crs = 4326, xlim = c(12.58, 12.70), ylim = c(42.54, 42.59))
