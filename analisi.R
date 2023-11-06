@@ -33,27 +33,6 @@ bdata <- lapply(fls, function(x) {
 })
 names(bdata) <- basename(fls) %>% str_remove_all(pattern = "df_") %>% str_remove_all(".csv")
 
-# keep_by_name <- function(l, keep_names) l[keep_names]
-
-# do.call( cbind, bdata[c(grep("^lai", names(bdata)), grep("^ndvi", names(bdata)), grep("^kndvi", names(bdata)) ) ] ) -> tmp
-# indxs <- grep("Site", names(tmp))
-# 
-# big_df <- tmp %>% 
-#   select(-c(indxs)) %>% 
-#   cbind(sites)
-# 
-# library(corrplot)
-# library(reshape2)
-# 
-# filter(big_df, sites == "RI") %>% melt(id.vars = "sites") -> m_tmp
-# 
-# listone <- list()
-# for (i in c("ndvi", "kndvi", "lai")) {
-#   for (j in dists) {
-#     listone[[i]] <- m_tmp %>% filter(!grepl(glue::glue("^{i}"), variable))
-#   }
-# }
-
 # approccio 2 ####
 outdir <- "~/R/terni_asi/data/dataframes"
 test <- list()
@@ -92,16 +71,20 @@ do.call(cbind, appoggio) -> df_indici
 df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili.csv") %>% 
   head(n = -1)
 
-# cbind(df_indici, df_terni_meteo_mensili) %>% 
-#   dplyr::select(-data) %>% 
-#   as.matrix() %>% 
-#   cor() %>% 
-#   corrplot::corrplot()
+cbind(df_indici, df_terni_meteo_mensili) %>%
+  dplyr::select(-data) %>%
+  as.matrix() %>%
+  cor() %>%
+  corrplot::corrplot()
 
 # imperviousness ####
 df_imperviousness <- read_csv("data/dataframes/df_imperviousness.csv")
-names(df_imperviousness) <- paste("im", colnames(df_imperviousness), sep = "_")
+names(df_imperviousness) <- paste("imp", colnames(df_imperviousness), sep = "_")
 
 # building_heights ####
 df_building_heights <- read_csv("data/dataframes/df_building_heights.csv")
 names(df_building_heights) <- paste("bh", colnames(df_building_heights), sep = "_")
+
+# popolazione_residente ####
+df_popolazione_residente <- read_csv("data/dataframes/df_popolazione_residente.csv")
+names(df_popolazione_residente) <- paste("pop", colnames(df_popolazione_residente), sep = "_")

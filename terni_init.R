@@ -387,7 +387,6 @@ getBufferStradeMinDist <- function(dist) {
     arrange(Site) %>% 
     st_cast() -> tmp_inters
   
-  
   tmplist <- list()
   for (s in pt_misura$Site) {
     st_distance(filter(pt_misura, Site == s), filter(tmp_inters, Site == s)) -> df
