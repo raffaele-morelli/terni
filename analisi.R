@@ -67,9 +67,15 @@ for (i in c("kndvi","ndvi", "lai") ) {
 # indici di vegetazione e area fogliare ####
 do.call(cbind, appoggio) -> df_indici
 
+new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% as.data.frame() %>% setNames(c("data"))
+
+df_indici <- cbind(new_ass, df_indici)
+
 # meteo ####
-df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili.csv") %>% 
-  head(n = -1)
+
+df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili_periodo.csv") %>% arrange(data)
+
+inner_join(df_indici, df_terni_meteo_mensili) 
 
 cbind(df_indici, df_terni_meteo_mensili) %>%
   dplyr::select(-data) %>%

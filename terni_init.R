@@ -15,6 +15,8 @@
   library(lubridate)
   library(readr)
   library(mapview)
+  library(purrr)
+  library(stringr)
   
   outdir <- "~/R/terni_asi/data/dataframes"
 } 
@@ -303,7 +305,7 @@ period_mese <- read_delim(
     data_fine = col_date(format = "%d/%m/%Y")
   ),
   trim_ws = TRUE
-)
+) 
 
 datiMeteo::dati_meteo %>% 
   filter(station_eu_code == "IT1011A", between(date, as.Date('2016-11-19'), as.Date('2018-02-19'))) %>% 
@@ -321,7 +323,7 @@ datiMeteo::dati_meteo %>%
       altitudedem,
       date
     )
-  )  %>% group_by(month_y, Season, associazione_ispra) %>%
+  )  %>% group_by(month_y, Season, data, associazione_ispra) %>%
   summarise(across(everything(),
                    list(
                      min = min,
@@ -330,7 +332,8 @@ datiMeteo::dati_meteo %>%
                      median = median,
                      IQR = IQR
                    )
-  ), .groups = "drop") %>% write_csv(file = glue("{outdir}/df_terni_meteo_mensili_periodo.csv"))
+  ), .groups = "drop") %>% 
+  write_csv(file = glue("{outdir}/df_terni_meteo_mensili_periodo.csv"))
 
 
 
@@ -372,8 +375,10 @@ do.call(cbind, dfs) %>%
   write_csv(file = glue("{outdir}/df_strade_ml.csv"))
 
 # distanza minima punto linea ####
-strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
+strade_utm32_filtered <- filter(strade_utm32, 
+                                highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
 
+# plot(strade_utm32_filtered)
 getBufferStradeMinDist <- function(dist) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
   print( paste(dist, name, sep = "--"))
@@ -381,26 +386,32 @@ getBufferStradeMinDist <- function(dist) {
   pt_buffer <- st_buffer(pt_misura, dist, singleSide = FALSE, nQuadSegs = 17)
   # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
   
-  st_intersection(pt_buffer, strade_utm32_filtered) %>%
-    group_by(Site) %>% 
-    summarise(m = sum(st_length(geometry))) %>% 
-    arrange(Site) %>% 
-    st_cast() -> tmp_inters
+  # st_intersection(pt_buffer, strade_utm32_filtered) %>%
+  #   group_by(Site) %>% 
+  #   summarise(m = sum(st_length(geometry))) %>% 
+  #   arrange(Site) %>% 
+  #   st_cast() -> tmp_inters
   
   tmplist <- list()
   for (s in pt_misura$Site) {
-    st_distance(filter(pt_misura, Site == s), filter(tmp_inters, Site == s)) -> df
+    st_distance(
+      # filter(pt_misura, Site == s), filter(tmp_inters, Site == s)
+      filter(pt_misura, Site == s), strade_utm32_filtered
+      ) -> df
 
     tmplist[[s]] <- apply(df, 1, FUN = min)
-  }  
+  }
+  
   do.call(rbind, tmplist) %>% 
     as.data.frame() %>%
     setNames(dist) %>% 
   write_csv(glue("~/R/terni_asi/data/osm/df_strade_mim_dist_{name}.csv"))
   
 }
+
 walk(dists, ~ getBufferStradeMinDist(.x)) 
-fls <- list.files(path = "~/R/terni_asi/data/osm", pattern = glue("^df_strade_mim"), full.names = TRUE, recursive = TRUE)
+fls <- list.files(path = "~/R/terni_asi/data/osm", pattern = glue("^df_strade_mim"), 
+                  full.names = TRUE, recursive = TRUE)
 
 lapply(fls, function(x) {
   df <- read_csv(x)
@@ -409,13 +420,49 @@ lapply(fls, function(x) {
 do.call(cbind, dfs) %>%
   cbind(sort(pt_misura$Site)) %>%
   setNames(c(dists, "site")) %>%
+  dplyr::select(c('200', "site")) %>% 
   write_csv(file = glue("{outdir}/df_strade_min_dist.csv"))
-
-
 
 # acciaieria ####
 acciaieria <- st_read("~/R/terni_asi/data/acciaieria/acciaieria.shp")
-acciaieria %>% as.data.frame() %>% write_csv(glue("{outdir}/df_acciaieria.csv"))
+
+getBufferAccMinDist <- function(dist) {
+  name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
+  print( paste(dist, name, sep = "--"))
+  
+  pt_buffer <- st_buffer(pt_misura, dist, singleSide = FALSE, nQuadSegs = 17)
+  # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
+  
+  tmplist <- list()
+  for (s in pt_misura$Site) {
+    st_distance(
+      filter(pt_misura, Site == s), acciaieria
+    ) -> df
+    
+    tmplist[[s]] <- df
+    print(df)
+  }
+  
+  do.call(rbind, tmplist) %>%
+    as.data.frame() %>%
+    setNames(acciaieria$field_1) %>% 
+    write_csv(glue("~/R/terni_asi/data/acciaieria/df_acc_mim_dist_{name}.csv"))
+  
+}
+walk(dists, ~ getBufferAccMinDist(.x)) 
+
+fls <- list.files(path = "~/R/terni_asi/data/acciaieria", pattern = glue("^df_acc"), 
+                  full.names = TRUE, recursive = TRUE)
+
+lapply(fls, function(x) {
+  df <- read_csv(x)
+}) -> dfs
+
+cbind(dfs[[1]], sort(pt_misura$Site)) %>%
+  setNames(c("cold_area",  "hot_area", "scrapyard", "site")) %>%
+  write_csv(file = glue("{outdir}/df_acc_dist.csv"))
+
+# acciaieria %>% as.data.frame() %>% write_csv(glue("{outdir}/df_acciaieria.csv"))
 
 # punti utm33 ####
 v_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
@@ -517,8 +564,8 @@ for(d in dists) {
   })
   
   do.call(cbind, dfs) %>%
-    setNames(mesi) %>% 
-    cbind(pt_misura$Site) %>% 
+    setNames(mesi) %>%
+    cbind(pt_misura$Site) %>%
     write_csv(file = glue("{outdir}/df_kndvi_{name}.csv"))
 }
 
