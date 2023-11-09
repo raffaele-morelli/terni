@@ -94,3 +94,7 @@ names(df_building_heights) <- paste("bh", colnames(df_building_heights), sep = "
 # popolazione_residente ####
 df_popolazione_residente <- read_csv("data/dataframes/df_popolazione_residente.csv")
 names(df_popolazione_residente) <- paste("pop", colnames(df_popolazione_residente), sep = "_")
+
+# variabili meteo ####
+variabili <- readxl::read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
+variabili$`Variabili scelte`
