@@ -192,7 +192,7 @@ do.call(cbind, pippo) %>%
 
 inner_join(df_acc, df_sup, by = "site") -> df_finale
 
-outdir <- "~/R/terni/data/dataframes"
+outdir <- "~/R/terni_asi/data/dataframes"
 
 write_csv(df_finale, file = glue::glue("{outdir}/df_finale.csv") )
 
