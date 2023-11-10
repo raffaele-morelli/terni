@@ -6,6 +6,7 @@
   library(readr)
   library(stringr)
   library(stringi)
+  library(readxl)
   # library(ggplot2)
   # library(plotly)
   # library(terra)
@@ -21,32 +22,31 @@
   # library(lattice)
   # library(RColorBrewer)
   
-  pt_misura <- st_read("~/R/terni_asi/data/shp/punti_misura.shp")
+  pt_misura <- st_read("~/R/terni/data/shp/punti_misura.shp")
   
   sites <- pt_misura$Site
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare  
 } 
 
-fls <- list.files(path = "~/R/terni_asi/data/dataframes", pattern = "^df_", full.names = TRUE)
-bdata <- lapply(fls, function(x) {
-  read_csv(x)
-})
-names(bdata) <- basename(fls) %>% str_remove_all(pattern = "df_") %>% str_remove_all(".csv")
+# fls <- list.files(path = "~/R/terni/data/dataframes", pattern = "^df_", full.names = TRUE)
+# bdata <- lapply(fls, function(x) {
+#   read_csv(x)
+# })
+# names(bdata) <- basename(fls) %>% str_remove_all(pattern = "df_") %>% str_remove_all(".csv")
 
-# approccio 2 ####
-outdir <- "~/R/terni_asi/data/dataframes"
+outdir <- "~/R/terni/data/dataframes"
 test <- list()
 
 estrai <- function(var, site) {
   print(var)
-
+  
   fls <- list.files(outdir, pattern = glue("^df_{var}"), full.names = TRUE)
   
   app <- list()
   lapply(fls, function(f) {
     read_csv(f, show_col_types = FALSE) %>% 
       melt(id.vars = 'pt_misura$Site') %>% 
-      filter(`pt_misura$Site` == site) %>% 
+      filter(`pt_misura$Site` == site) %>%
       dplyr::select(value) %>% setNames(c("value"))
   }) -> app
   
@@ -57,44 +57,143 @@ estrai <- function(var, site) {
   test[["var"]] <- df
 }
 # estrai("kndvi", "PI") %>% as.matrix() %>% cor() %>% corrplot()
-# estrai("ndvi", "PI") %>% as.matrix() %>% cor() %>% corrplot()
-# estrai("lai", "PI") %>% as.matrix() %>% cor() %>% corrplot()
+
+
+siti <- pt_misura$Site
 
 appoggio <<- list()
-for (i in c("kndvi","ndvi", "lai") ) {
-  appoggio[[i]] <-  estrai(i, "RI") 
+for (s in siti) {
+  appoggio[[s]] <-  estrai("kndvi", s)
 } 
+
+
 # indici di vegetazione e area fogliare ####
 do.call(cbind, appoggio) -> df_indici
 
+indx <- grepl( "200", names(df_indici))
+df_indici <- df_indici[, c(indx)]
+
 new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% as.data.frame() %>% setNames(c("data"))
+
+# rep(seq(as.Date("2016-11-01"), by = "month", length.out = 15), length(siti)) %>% as.data.frame() %>% setNames(c("data"))
 
 df_indici <- cbind(new_ass, df_indici)
 
+
+melt(df_indici, id.vars = "data") -> df_indici_m
+
+# associazione inquinanti ####
+library(readr)
+period_mese <- read_delim("data/period_mese.csv", 
+                          delim = ";", escape_double = FALSE, 
+                          col_types = cols(data_inizio = col_date(format = "%d/%m/%Y"), 
+                                           data_fine = col_date(format = "%d/%m/%Y")), 
+                          trim_ws = TRUE)
+
+terni_pltnt <- read_excel("data/TERNI PM Elements Data_rev2.xlsx")
+terni_pltnt$data_inizio <- as.Date( terni_pltnt$data_inizio )
+terni_pltnt$data_fine <- as.Date( terni_pltnt$data_fine )
+
+names(terni_pltnt)[3] <- "site"
+
+
+df_pltnt <- inner_join(period_mese, terni_pltnt, by = c("data_inizio", "data_fine") ) 
+
+df_indici_m$variable <- gsub(".200", "", df_indici_m$variable)
+names(df_indici_m)[2] <- "site"
+names(df_indici_m)[3] <- "kndvi"
+
+
+left_join( 
+  dplyr::select(df_pltnt, c(seq(1,10), "Cr_i" )), 
+  df_indici_m, by = c("data", "site")
+) -> df
+
 # meteo ####
+# variabili meteo ####
+variabili <- readxl::read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
+v_variabili <- variabili$`Variabili scelte`
 
 df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili_periodo.csv") %>% arrange(data)
+v_meteo <- names(df_terni_meteo_mensili)[5:94] 
 
-inner_join(df_indici, df_terni_meteo_mensili) 
+v_meteo %in% v_variabili -> indx
+indx_n <- !indx
 
-cbind(df_indici, df_terni_meteo_mensili) %>%
-  dplyr::select(-data) %>%
-  as.matrix() %>%
-  cor() %>%
-  corrplot::corrplot()
+v_meteo[indx_n] -> vt
+
+dplyr::select(df_terni_meteo_mensili, c(1:5, vt) ) -> df_terni_meteo_mensili
+
+
+dplyr::inner_join(df, df_terni_meteo_mensili) -> df
+
+# cbind(df_indici, df_terni_meteo_mensili) %>% dplyr::select(-data) %>% as.matrix() %>% cor() %>% corrplot::corrplot()
+
+# df_indici %>% as.matrix() %>% cor() %>% corrplot::corrplot()
 
 # imperviousness ####
 df_imperviousness <- read_csv("data/dataframes/df_imperviousness.csv")
-names(df_imperviousness) <- paste("imp", colnames(df_imperviousness), sep = "_")
+names(df_imperviousness)[1:5] <- paste("imp", colnames(df_imperviousness)[1:5], sep = "_")
+
+df_imp <- inner_join(df, df_imperviousness, by = "site")
+
 
 # building_heights ####
 df_building_heights <- read_csv("data/dataframes/df_building_heights.csv")
-names(df_building_heights) <- paste("bh", colnames(df_building_heights), sep = "_")
+names(df_building_heights)[1:5] <- paste("bh", colnames(df_building_heights)[1:5], sep = "_")
+
+df_bh <- inner_join(df_imp, df_building_heights, by = "site")
 
 # popolazione_residente ####
 df_popolazione_residente <- read_csv("data/dataframes/df_popolazione_residente.csv")
-names(df_popolazione_residente) <- paste("pop", colnames(df_popolazione_residente), sep = "_")
+names(df_popolazione_residente)[1:5] <- paste("pop", colnames(df_popolazione_residente)[1:5], sep = "_")
 
-# variabili meteo ####
-variabili <- readxl::read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
-variabili$`Variabili scelte`
+df_pop <- inner_join(df_bh, df_popolazione_residente, by = "site")
+
+# strade ####
+df_strade_min_dist <- read_csv("data/dataframes/df_strade_min_dist.csv")
+names(df_strade_min_dist)[1] <- "min_d"
+
+df_min_d <- inner_join(df_pop, df_strade_min_dist, by = "site")
+
+# lunghezza strade ####
+df_strade_ml <- read_csv("data/dataframes/df_strade_ml.csv")
+df_strade_ml[is.na(df_strade_ml)] <- 0
+
+names(df_strade_ml)[1:5] <- paste("ml", colnames(df_strade_ml)[1:5], sep = "_")
+
+df_ml <- inner_join(df_min_d, df_strade_ml, by = "site")
+
+# acciaieria ####
+df_acc_dist <- read_csv("data/dataframes/df_acc_dist.csv")
+df_acc <- inner_join(df_ml, df_acc_dist, by = "site")
+
+# urban atlas ###
+codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
+cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
+
+df_urban_atlas <- read_csv("data/dataframes/df_urban_atlas.csv")
+df_urban_atlas[is.na(df_urban_atlas)] <- 0
+names(df_urban_atlas)[1:5] <- paste("sup", colnames(df_urban_atlas)[1:5], sep = "_")
+
+lapply(codes_2018, function(x) {
+  inx <- grepl(x, codes_2018)
+  filter(df_urban_atlas, var == x) -> df_tmp
+  
+  names(df_tmp)[1:5] <- paste(cod_str[inx], colnames(df_tmp)[1:5], sep = "_")
+  
+  return( dplyr::select(df_tmp, -c(var, site)) )
+}) -> pippo
+
+do.call(cbind, pippo) %>% 
+  cbind(
+    df_urban_atlas$site %>% unique() %>% as.data.frame() %>% setNames("site") 
+  ) -> df_sup
+
+inner_join(df_acc, df_sup, by = "site") -> df_finale
+
+outdir <- "~/R/terni/data/dataframes"
+
+write_csv(df_finale, file = glue::glue("{outdir}/df_finale.csv") )
+
+
