@@ -25,7 +25,9 @@
   pt_misura <- st_read("~/R/terni/data/shp/punti_misura.shp")
   
   sites <- pt_misura$Site
-  dists <- c(25, 50, 75, 100, 200) # i buffer da considerare  
+  dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
+  
+  pltnt <- "Cr_i"
 } 
 
 # fls <- list.files(path = "~/R/terni/data/dataframes", pattern = "^df_", full.names = TRUE)
@@ -105,7 +107,7 @@ names(df_indici_m)[3] <- "kndvi"
 
 
 left_join( 
-  dplyr::select(df_pltnt, c(seq(1,10), "Cr_i" )), 
+  dplyr::select(df_pltnt, c(seq(1,10), pltnt )), 
   df_indici_m, by = c("data", "site")
 ) -> df
 
@@ -122,7 +124,7 @@ indx_n <- !indx
 
 v_meteo[indx_n] -> vt
 
-dplyr::select(df_terni_meteo_mensili, c(1:5, vt) ) -> df_terni_meteo_mensili
+dplyr::select(df_terni_meteo_mensili, -c(vt) ) -> df_terni_meteo_mensili
 
 
 dplyr::inner_join(df, df_terni_meteo_mensili) -> df
@@ -192,8 +194,8 @@ do.call(cbind, pippo) %>%
 
 inner_join(df_acc, df_sup, by = "site") -> df_finale
 
-outdir <- "~/R/terni_asi/data/dataframes"
+outdir <- "~/R/terni/data/dataframes"
 
-write_csv(df_finale, file = glue::glue("{outdir}/df_finale.csv") )
+write_csv(df_finale, file = glue::glue("{outdir}/df_finale_{pltnt}.csv") )
 
 
