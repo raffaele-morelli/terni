@@ -11,7 +11,7 @@
   library(datiInquinanti)
   library(datiMeteo)
   
-  setwd("~/R/pulvirus_reloaded")
+  setwd("~/R/terni")
 }
 
 ## function: buildMods ####
@@ -249,12 +249,9 @@ sceltaVar <- function(cappa) {
 ## Test A -> Z #####
 
 
-eu_code <- "IT1011A"
-pltnt <- "pm10"
+pltnt <- "PM10"
 
-# dati sull'inquinante ####
-TERNI_PM_Elements <- read_excel("data/TERNI PM Elements Data_rev.xlsx")
-
+df_finale <- read_csv("data/dataframes/df_finale.csv")
 
 # variabili di ambiente ####
 assign("v_variabili", v_variabili, envir = .GlobalEnv)
