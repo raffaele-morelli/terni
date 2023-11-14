@@ -18,34 +18,34 @@
   library(purrr)
   library(stringr)
   
-  outdir <- "~/R/terni_asi/data/dataframes"
+  outdir <- "~/R/terni/data/dataframes"
 } 
 
 {
-  terni_all <- st_read("~/R/terni_asi/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
-  terni_sez <- st_read("~/R/terni_asi/data/shp/Terni_sez.shp")
+  terni_all <- st_read("~/R/terni_old/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
+  terni_sez <- st_read("~/R/terni_old/data/shp/Terni_sez.shp")
   terni_indicatori_sez <- read_csv("data/R10_indicatori_2021_sezioni_terni.csv")
   
   # com <- st_read("~/R/terni_asi/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
   
-  pt_misura <- st_read("~/R/terni_asi/data/shp/punti_misura.shp")
+  pt_misura <- st_read("~/R/terni_old/data/shp/punti_misura.shp")
 
   # variabili di interesse
   terni_fltr <- filter(terni_all, code_2018 %in% c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220))
   
   terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
   
-  imperm <- rast("~/R/terni_asi/data/tiff/rst_impermeabilizzazione_utm32.tif")
+  imperm <- rast("~/R/terni_old/data/tiff/rst_impermeabilizzazione_utm32.tif")
   imper_rst <- as.data.frame(imperm, xy = TRUE)
   
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
 }
 
 # creo le directory per gli output
-dir.create("~/R/terni_asi/out/building_heights", recursive = TRUE, showWarnings = FALSE)
-dir.create("~/R/terni_asi/out/imperviousness", recursive = TRUE, showWarnings = FALSE)
-dir.create("~/R/terni_asi/out/urban_atlas", recursive = TRUE, showWarnings = FALSE)
-dir.create("~/R/terni_asi/out/ndvi", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/terni/out/building_heights", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/terni/out/imperviousness", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/terni/out/urban_atlas", recursive = TRUE, showWarnings = FALSE)
+dir.create("~/R/terni/out/ndvi", recursive = TRUE, showWarnings = FALSE)
 
 # urban atlas ####
 
@@ -88,22 +88,25 @@ map(codes_2018, function(c) {
   fls <- list.files(path = "out/urban_atlas", pattern = glue("^area_.*_{c}\\.csv$"), full.names = TRUE )
   
   dfs <-  lapply(fls, 
-                 function(x){ 
-                   df <- read_csv(x) 
+                 function(x) {
+                   df <- read_csv(x)
                    right_join(
                      df, 
                      pt_misura %>% st_drop_geometry() %>% dplyr::select(Site), by = join_by(Site)
-                     ) %>% 
+                   ) %>% 
                      arrange(Site) %>% # se non ordino ottengo dataframe disallineate sulle righe
-                     dplyr::select(area)
+                     dplyr::select(area, Site)
                  })
   
-  do.call(cbind, dfs) %>% 
-    cbind(pt_misura$Site) %>% 
-    setNames(c(dists, "site")) %>%
+  do.call(cbind, dfs) -> tmp
+  colnames(tmp)[c(1, 3, 5, 7, 9)] <- paste(dists, colnames(tmp)[c(1, 3, 5, 7, 9)], sep = "_")
+  
+  tmp %>% select(c(1, 3, 5, 7, 9, 10)) %>% 
     mutate(var = as.character(c)) %>% 
     write_csv(file = glue("out/urban_atlas/all_area_{c}.csv"))
 })
+
+
 
 fls <- list.files(path = "out/urban_atlas", pattern = glue("^all_(area).*\\.csv$"), full.names = TRUE, recursive = TRUE)
 

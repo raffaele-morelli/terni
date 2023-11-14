@@ -176,6 +176,8 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 
 df_urban_atlas <- read_csv("data/dataframes/df_urban_atlas.csv")
 df_urban_atlas[is.na(df_urban_atlas)] <- 0
+
+names(df_urban_atlas)[1:5] <- gsub("_area", "", names(df_urban_atlas)[1:5])
 names(df_urban_atlas)[1:5] <- paste("sup", colnames(df_urban_atlas)[1:5], sep = "_")
 
 lapply(codes_2018, function(x) {
@@ -184,12 +186,12 @@ lapply(codes_2018, function(x) {
   
   names(df_tmp)[1:5] <- paste(cod_str[inx], colnames(df_tmp)[1:5], sep = "_")
   
-  return( dplyr::select(df_tmp, -c(var, site)) )
+  return( dplyr::select(df_tmp, -c(var, Site)) )
 }) -> pippo
 
 do.call(cbind, pippo) %>% 
   cbind(
-    df_urban_atlas$site %>% unique() %>% as.data.frame() %>% setNames("site") 
+    df_urban_atlas$Site %>% unique() %>% as.data.frame() %>% setNames("site") 
   ) -> df_sup
 
 inner_join(df_acc, df_sup, by = "site") -> df_finale
