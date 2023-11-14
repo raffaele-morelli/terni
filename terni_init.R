@@ -101,12 +101,10 @@ map(codes_2018, function(c) {
   do.call(cbind, dfs) -> tmp
   colnames(tmp)[c(1, 3, 5, 7, 9)] <- paste(dists, colnames(tmp)[c(1, 3, 5, 7, 9)], sep = "_")
   
-  tmp %>% select(c(1, 3, 5, 7, 9, 10)) %>% 
+  tmp %>% dplyr::select(c(1, 3, 5, 7, 9, 10)) %>% 
     mutate(var = as.character(c)) %>% 
     write_csv(file = glue("out/urban_atlas/all_area_{c}.csv"))
 })
-
-
 
 fls <- list.files(path = "out/urban_atlas", pattern = glue("^all_(area).*\\.csv$"), full.names = TRUE, recursive = TRUE)
 
@@ -114,7 +112,8 @@ lapply(fls, function(x) {
   read_csv(x)
 }) -> dfs
 
-do.call(rbind, dfs) %>% write_csv(file = glue("{outdir}/df_urban_atlas.csv"))
+do.call(rbind, dfs) %>% 
+  write_csv(file = glue("{outdir}/df_urban_atlas.csv"))
 
 
 # impermeabilizzazione ####
@@ -153,7 +152,7 @@ do.call(cbind, dfs) %>%
   
 
 # building heights ####
-bh <- rast("~/R/terni_asi/data/bh/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
+bh <- rast("~/R/terni_old/data/bh/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
 # crs(bh, proj = TRUE)
 
 pt_misura3035 <-  st_transform(pt_misura, 3035) # meglio trasformare il vettore piuttosto che il raster

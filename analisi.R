@@ -135,6 +135,7 @@ dplyr::inner_join(df, df_terni_meteo_mensili) -> df
 
 # imperviousness ####
 df_imperviousness <- read_csv("data/dataframes/df_imperviousness.csv")
+
 names(df_imperviousness)[1:5] <- paste("imp", colnames(df_imperviousness)[1:5], sep = "_")
 
 df_imp <- inner_join(df, df_imperviousness, by = "site")
@@ -142,6 +143,8 @@ df_imp <- inner_join(df, df_imperviousness, by = "site")
 
 # building_heights ####
 df_building_heights <- read_csv("data/dataframes/df_building_heights.csv")
+df_building_heights[is.na(df_building_heights)] <- 0
+
 names(df_building_heights)[1:5] <- paste("bh", colnames(df_building_heights)[1:5], sep = "_")
 
 df_bh <- inner_join(df_imp, df_building_heights, by = "site")
@@ -160,6 +163,7 @@ df_min_d <- inner_join(df_pop, df_strade_min_dist, by = "site")
 
 # lunghezza strade ####
 df_strade_ml <- read_csv("data/dataframes/df_strade_ml.csv")
+
 df_strade_ml[is.na(df_strade_ml)] <- 0
 
 names(df_strade_ml)[1:5] <- paste("ml", colnames(df_strade_ml)[1:5], sep = "_")
