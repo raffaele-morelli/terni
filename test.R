@@ -4,17 +4,17 @@
   library(dplyr)
   # library(tidyverse)
   library(ggplot2)
-  library(plotly)
-  library(terra)
-  library(ncdf4) # package for netcdf manipulation
-  library(raster) # package for raster manipulation
-  library(rgdal) # package for geospatial analysis
+  # library(plotly)
+  # library(terra)
+  # library(ncdf4) # package for netcdf manipulation
+  # library(raster) # package for raster manipulation
+  # library(rgdal) # package for geospatial analysis
   library(chron)
   library(readxl)
   library(glue)
   library(lubridate)
   library(readr)
-  library(mapview)
+  # library(mapview)
   library(purrr)
   library(stringr)
   library(mgcv)
@@ -71,3 +71,63 @@ m3 <- eval(parse(text = ms3))
 summary(m3)
 appraise(m3)
 draw(m3)
+
+# quarto test ####
+
+v_variabili4 <- c(
+  "t2m_mean",
+  "tp_mean",
+  "ptp_mean",
+  "rh_mean",
+  "wspeed_mean",
+  "pwspeed_mean",
+  "sp_mean",
+  "pbl00_mean",
+  "pbl12_mean",
+  "kndvi",
+  "imp_200",
+  "bh_200",
+  "cold_area",
+  "hot_area",
+  "scrapyard"
+)
+
+mod4 <- lapply(v_variabili4, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
+
+ms4 <- paste("gam(value ~ ", mod4, ", gamma=1.4, family=gaussian(link=identity), data = df)")
+
+m4 <- eval(parse(text = ms4))
+
+summary(m4)
+appraise(m4)
+draw(m4)
+
+summary(m4)$s.table %>% 
+  as.data.frame() %>% 
+  filter(`p-value` < 0.05) %>% 
+  rownames() -> v_sign
+
+lapply(v_sign, function(x) paste0(x) ) %>% paste(collapse = " + ") -> ms5
+
+ms5 <- paste("gam(value ~ ", ms5, ", gamma=1.4, family=gaussian(link=identity), data = df)")
+
+m5 <- eval(parse(text = ms5))
+
+summary(m5)
+appraise(m5)
+draw(m5)
+
+summary(m5)$s.table %>% 
+  as.data.frame() %>% 
+  filter(`p-value` < 0.05) %>% 
+  rownames() -> v_sign5
+
+lapply(v_sign5, function(x) paste0(x) ) %>% paste(collapse = " + ") -> ms6
+
+ms6 <- paste("gam(value ~ ", ms6, ", gamma=1.4, family=gaussian(link=identity), data = df)")
+
+m6 <- eval(parse(text = ms6))
+
+summary(m6)
+appraise(m6)
+draw(m6)
