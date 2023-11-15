@@ -83,50 +83,45 @@ terni_pltnt$data_fine <- as.Date( terni_pltnt$data_fine )
 
 names(terni_pltnt)[3] <- "site"
 
-
 df_pltnt <- inner_join(period_mese, terni_pltnt, by = c("data_inizio", "data_fine") ) 
 
 df_indici_m$variable <- gsub(".200", "", df_indici_m$variable)
 names(df_indici_m)[2] <- "site"
 names(df_indici_m)[3] <- "kndvi"
 
-
-left_join( 
+left_join(
   dplyr::select(df_pltnt, c(seq(1,10), pltnt )), 
   df_indici_m, by = c("data", "site")
 ) -> df
 
-# meteo ####
 # variabili meteo ####
+
+df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili_periodo.csv", show_col_types = FALSE) %>% arrange(data)
+v_meteo <- names(df_terni_meteo_mensili)[5:94]
+
 variabili <- readxl::read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
 v_variabili <- variabili$`Variabili scelte`
 
-df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili_periodo.csv") %>% arrange(data)
-v_meteo <- names(df_terni_meteo_mensili)[5:94] 
-
 v_meteo %in% v_variabili -> indx
 indx_n <- !indx
-
 v_meteo[indx_n] -> vt
 
-dplyr::select(df_terni_meteo_mensili, -c(vt) ) -> df_terni_meteo_mensili
+dplyr::select(df_terni_meteo_mensili, -c(vt) ) -> df_terni_meteo_mensili_A
+# dplyr::select(df_terni_meteo_mensili, any_of(vt) ) -> df_terni_meteo_mensili_B
+# identical(df_terni_meteo_mensili_A, df_terni_meteo_mensili_B)
 
-dplyr::inner_join(df, df_terni_meteo_mensili) -> df
-
-# cbind(df_indici, df_terni_meteo_mensili) %>% dplyr::select(-data) %>% as.matrix() %>% cor() %>% corrplot::corrplot()
-
-# df_indici %>% as.matrix() %>% cor() %>% corrplot::corrplot()
+dplyr::inner_join(df, df_terni_meteo_mensili_A) -> df_meteo
 
 # imperviousness ####
-df_imperviousness <- read_csv("data/dataframes/df_imperviousness.csv")
+df_imperviousness <- read_csv("data/dataframes/df_imperviousness.csv", show_col_types = FALSE)
 
 names(df_imperviousness)[1:5] <- paste("imp", colnames(df_imperviousness)[1:5], sep = "_")
 
-df_imp <- inner_join(df, df_imperviousness, by = "site")
+df_imp <- inner_join(df_meteo, df_imperviousness, by = "site")
 
 
 # building_heights ####
-df_building_heights <- read_csv("data/dataframes/df_building_heights.csv")
+df_building_heights <- read_csv("data/dataframes/df_building_heights.csv", show_col_types = FALSE)
 df_building_heights[is.na(df_building_heights)] <- 0
 
 names(df_building_heights)[1:5] <- paste("bh", colnames(df_building_heights)[1:5], sep = "_")
@@ -134,19 +129,19 @@ names(df_building_heights)[1:5] <- paste("bh", colnames(df_building_heights)[1:5
 df_bh <- inner_join(df_imp, df_building_heights, by = "site")
 
 # popolazione_residente ####
-df_popolazione_residente <- read_csv("data/dataframes/df_popolazione_residente.csv")
+df_popolazione_residente <- read_csv("data/dataframes/df_popolazione_residente.csv", show_col_types = FALSE)
 names(df_popolazione_residente)[1:5] <- paste("pop", colnames(df_popolazione_residente)[1:5], sep = "_")
 
 df_pop <- inner_join(df_bh, df_popolazione_residente, by = "site")
 
 # strade ####
-df_strade_min_dist <- read_csv("data/dataframes/df_strade_min_dist.csv")
+df_strade_min_dist <- read_csv("data/dataframes/df_strade_min_dist.csv", show_col_types = FALSE)
 names(df_strade_min_dist)[1] <- "min_d"
 
 df_min_d <- inner_join(df_pop, df_strade_min_dist, by = "site")
 
 # lunghezza strade ####
-df_strade_ml <- read_csv("data/dataframes/df_strade_ml.csv")
+df_strade_ml <- read_csv("data/dataframes/df_strade_ml.csv", show_col_types = FALSE)
 
 df_strade_ml[is.na(df_strade_ml)] <- 0
 
@@ -155,14 +150,14 @@ names(df_strade_ml)[1:5] <- paste("ml", colnames(df_strade_ml)[1:5], sep = "_")
 df_ml <- inner_join(df_min_d, df_strade_ml, by = "site")
 
 # acciaieria ####
-df_acc_dist <- read_csv("data/dataframes/df_acc_dist.csv")
+df_acc_dist <- read_csv("data/dataframes/df_acc_dist.csv", show_col_types = FALSE)
 df_acc <- inner_join(df_ml, df_acc_dist, by = "site")
 
 # urban atlas ###
 codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
 cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 
-df_urban_atlas <- read_csv("data/dataframes/df_urban_atlas.csv")
+df_urban_atlas <- read_csv("data/dataframes/df_urban_atlas.csv", show_col_types = FALSE)
 df_urban_atlas[is.na(df_urban_atlas)] <- 0
 
 names(df_urban_atlas)[1:5] <- gsub("_area", "", names(df_urban_atlas)[1:5])
@@ -174,12 +169,12 @@ lapply(codes_2018, function(x) {
   
   names(df_tmp)[1:5] <- paste(cod_str[inx], colnames(df_tmp)[1:5], sep = "_")
   
-  return( dplyr::select(df_tmp, -c(var, Site)) )
+  return( dplyr::select(df_tmp, -c(var, site)) )
 }) -> pippo
 
 do.call(cbind, pippo) %>% 
   cbind(
-    df_urban_atlas$Site %>% unique() %>% as.data.frame() %>% setNames("site") 
+    df_urban_atlas$site %>% unique() %>% as.data.frame() %>% setNames("site") 
   ) -> df_sup
 
 inner_join(df_acc, df_sup, by = "site") -> df_finale
