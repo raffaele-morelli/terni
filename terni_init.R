@@ -403,7 +403,7 @@ getBufferStradeMinDist <- function(dist) {
   do.call(rbind, tmplist) %>% 
     as.data.frame() %>%
     setNames(dist) %>% 
-  write_csv(glue("~/R/terni/data/osm/df_strade_mim_dist_{name}.csv"))
+  write_csv(glue("~/R/terni/data/osm/df_strade_min_dist_{name}.csv"))
 }
 
 walk(dists, ~ getBufferStradeMinDist(.x)) 
