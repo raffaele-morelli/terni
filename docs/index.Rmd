@@ -35,7 +35,7 @@ names(df)[11] <- "value"
 names(df)
 ```
 
-## Including Plots
+# primo test
 
 ```{r, echo=TRUE}
 vars_1 <- c("t2m_median", "wspeed_mean", "pbl12_mean", "tp_mean", "cold_area", "hot_area", "scrapyard", "min_d", "ml_200", "imp_200", "bh_200", "kndvi")
@@ -57,7 +57,7 @@ summary(mod_1)$s.table %>%
 
 ```
 
-# secondo test ####
+# secondo test
 
 ```{r}
 vars_2 <- c("pbl00_IQR", "cold_area",  "scrapyard", "ml_200", "imp_200", "bh_200", "wspeed_max_max", "tmin2m_IQR", "pbl00_max")
@@ -73,7 +73,8 @@ appraise(mod_2)
 draw(mod_2)
 
 ```
-# terzo test ####
+
+# terzo test
 
 ```{r}
 
@@ -91,7 +92,7 @@ draw(mod_3)
 
 ```
 
-# quarto test ####
+# quarto test
 
 ```{r}
 
