@@ -20,7 +20,7 @@ buildMods <- function(backward = FALSE) {
   # v_fixed <- get("v_fixed", envir = .GlobalEnv)
   AICS <- get("AICS", envir = .GlobalEnv)
   
-  v_cappa <- get("v_cappa", envir = .GlobalEnv)
+  # v_cappa <- get("v_cappa", envir = .GlobalEnv)
   v_variabili <- get("v_variabili", envir = .GlobalEnv)
   v_dead <- get("v_dead", envir = .GlobalEnv)
   
@@ -76,31 +76,46 @@ buildMods <- function(backward = FALSE) {
   
   # w conterrà le stringhe dei modelli
   w <- lapply(z[,  ncol(z)], function(x) 
-    paste0("gam(log(value) ~ weekday + lock + s(mese, bs='cc', k=12) + s(jd, k=", v_cappa, ") + ", x, ", data = df)"))
+    paste0("gam(log(value) ~  ", x, ", data = df)"))
   
   # log_print(w %>% unlist())
   return(w)
 }
 
+# buildMods()
 
 # function: bestMod ####
-bestMod <- function(mod.res) {
-  aics <- map(mod.res, function(m) AIC({m}) )
-  aics %>% which.min() %>% as.numeric() -> min.aic
+bestMod <- function(mod.res, bic = TRUE) {
+  log_print( sprintf("modelli tra cui scegliere: %s", length(mod.res) ), hide_notes = TRUE)
+  
+  if(bic == TRUE) {
+    ics <- map(mod.res, \(m) BIC({m}) )
+    
+  }else{
+    ics <- map(mod.res, \(m) AIC({m}) )
+  }
+  
+  ics %>% which.min() %>% as.numeric() -> min.ics
   
   log_print("Modello migliore: ", hide_notes = TRUE)
-  log_print(mod.res[[min.aic]][["formula"]], hide_notes = TRUE)
-  log_print(paste("Indice: ", min.aic), hide_notes = TRUE)
+  log_print(mod.res[[min.ics]][["formula"]], hide_notes = TRUE)
+  log_print(paste("Indice: ", min.ics), hide_notes = TRUE)
   
-  mod.res[[min.aic]][["var.summary"]] %>% names() -> v.min
+  mod.res[[min.ics]][["var.summary"]] %>% names() -> v.min
   
-  return( list( AIC(mod.res[[min.aic]]), v.min[-c(1:4)], aics) )
+  if(bic == TRUE) {
+    return(list( BIC(mod.res[[min.ics]]), v.min, ics))
+  }else{
+    return(list( AIC(mod.res[[min.ics]]), v.min, ics))
+  }
 }
+
+# bestMod(models) -> tmp
 
 
 ## function: sceltaVar ####
 
-sceltaVar <- function(cappa) {
+sceltaVar <- function() {
   AICS <- get("AICS", envir = .GlobalEnv)
   v_variabili <- get("v_variabili", envir = .GlobalEnv)
   v_dead <- get("v_dead", envir = .GlobalEnv)
@@ -167,7 +182,7 @@ sceltaVar <- function(cappa) {
       
       backwardVars <- c(n_1, last(aicBack[[2]]))
       
-      q <- cor(df %>% select(all_of(backwardVars)), use = "pairwise.complete.obs") %>% 
+      q <- cor(df %>% dplyr::select(all_of(backwardVars)), use = "pairwise.complete.obs") %>% 
         data.frame()
       
       # check di correlazione sulle variabili del backward
@@ -199,10 +214,10 @@ sceltaVar <- function(cappa) {
     log_print(sprintf("Modell N: %s", paste(names(AICS), collapse = " - " ) ), hide_notes = TRUE)
     
     # sono qui perché il modello backward non migliora quindi controllo la correlazione del modello N
-    q <- cor(df %>% select(names(AICS)), use = "pairwise.complete.obs") %>% data.frame()
+    q <- cor(df %>% dplyr::select(names(AICS)), use = "pairwise.complete.obs") %>% data.frame()
     
     ## INFO metodo alternativo per la correlazione ####
-    # df %>% select( names(AICS) ) %>% correlation(redundant = FALSE) 
+    # df %>% dplyr::select( names(AICS) ) %>% correlation(redundant = FALSE) 
     
     if( all(abs(q[last(names(AICS)), 1:(ncol(q)-1)]) < 0.7) ) {
       log_print("Scelgo il modello N", hide_notes = TRUE)
@@ -251,11 +266,24 @@ sceltaVar <- function(cappa) {
 
 pltnt <- "PM10"
 
-df_finale <- read_csv("data/dataframes/df_finale.csv")
+df <- read_csv("data/dataframes/df_finale_Cr_i.csv")
+
+df_std <- df[,12:108] %>%
+  scale() %>%
+  as.data.frame()
+
+df <- cbind(df[,1:11], df_std)
+
+df[is.na(df)] <- 0
+names(df)[11] <- "value"
+
+
+v_variabili <- names(df)[45:68]
+
+
 
 # variabili di ambiente ####
 assign("v_variabili", v_variabili, envir = .GlobalEnv)
-assign("v_cappa", length(unique(df$reporting_year)))
 
 assign("AICS", list(), envir = .GlobalEnv)
 assign("v_dead", c(), envir = .GlobalEnv)

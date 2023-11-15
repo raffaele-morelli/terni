@@ -2,26 +2,13 @@
 {
   library(sf)
   library(dplyr)
-  # library(tidyverse)
   library(readr)
   library(stringr)
   library(stringi)
   library(readxl)
-  # library(ggplot2)
-  # library(plotly)
-  # library(terra)
-  # library(ncdf4) # package for netcdf manipulation
-  # library(raster) # package for raster manipulation
-  # library(rgdal) # package for geospatial analysis
-  # library(chron)
-  # library(readxl)
   library(glue)
   library(reshape2)
-  # library(mapview)
-  
-  # library(lattice)
-  # library(RColorBrewer)
-  
+
   pt_misura <- st_read("~/R/terni/data/shp/punti_misura.shp")
   
   sites <- pt_misura$Site
@@ -72,20 +59,18 @@ for (s in siti) {
 # indici di vegetazione e area fogliare ####
 do.call(cbind, appoggio) -> df_indici
 
-indx <- grepl( "200", names(df_indici))
+indx <- grepl("200", names(df_indici)) # prendiamo solo i buffer a 200m
 df_indici <- df_indici[, c(indx)]
 
-new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% as.data.frame() %>% setNames(c("data"))
-
-# rep(seq(as.Date("2016-11-01"), by = "month", length.out = 15), length(siti)) %>% as.data.frame() %>% setNames(c("data"))
+new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% 
+  as.data.frame() %>% 
+  setNames(c("data"))
 
 df_indici <- cbind(new_ass, df_indici)
-
 
 melt(df_indici, id.vars = "data") -> df_indici_m
 
 # associazione inquinanti ####
-library(readr)
 period_mese <- read_delim("data/period_mese.csv", 
                           delim = ";", escape_double = FALSE, 
                           col_types = cols(data_inizio = col_date(format = "%d/%m/%Y"), 
@@ -125,7 +110,6 @@ indx_n <- !indx
 v_meteo[indx_n] -> vt
 
 dplyr::select(df_terni_meteo_mensili, -c(vt) ) -> df_terni_meteo_mensili
-
 
 dplyr::inner_join(df, df_terni_meteo_mensili) -> df
 
