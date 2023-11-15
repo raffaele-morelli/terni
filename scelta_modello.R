@@ -133,7 +133,7 @@ sceltaVar <- function() {
   aicVar <- bestMod(models) # AIC del modello migliore
   
   log_print(unlist(w), hide_notes = TRUE)
-  log_print(unlist(aicVar[[3]]) , hide_notes = TRUE)
+  log_print(unlist(aicVar[[3]]), hide_notes = TRUE)
   
   # una lista di appoggio da concatenare in AICS
   tmp <- list()
@@ -203,7 +203,7 @@ sceltaVar <- function() {
         
         assign("v_dead", c(v_dead, last(aicBack[[2]] )), envir = .GlobalEnv)
         assign("v_variabili", v_variabili[!v_variabili %in% c(names(AICS), v_dead) ], envir = .GlobalEnv)
-        ## WARNING: qui dovremmo verificare se in AICS le variabili sono ancora correlate ####
+        ## WARNING: qui dovremmo verificare se in AICS le variabili sono ancora correlate 
         
         sceltaVar()
       }
@@ -251,6 +251,7 @@ sceltaVar <- function() {
     assign("AICS", AICS, envir = .GlobalEnv)
     assign("v_variabili", v_variabili[!v_variabili %in% c(names(AICS), v_dead)], envir = .GlobalEnv)
     stop("=>>> the end")
+    return(NA)
   }
   
   
@@ -262,25 +263,30 @@ sceltaVar <- function() {
 }
 
 ## Test A -> Z #####
+{
+  pltnt <- "PM10"
+  df <- read_csv(glue::glue("data/dataframes/df_finale_{pltnt}.csv"), show_col_types = FALSE)
+  
+  # standardizzazione ####
+  df_std <- df[,11:166] %>% scale() %>% as.data.frame()
+  
+  df <- cbind(df[, 1:10], df_std)
+  
+  df[is.na(df)] <- 0
+  names(df)[11] <- "value"
+  
+  df$value %>% hist(breaks = 20)
+  log(df$value) %>% hist(breaks = 20)
+}
+
+grep("mean", names(df), value = FALSE) -> vm # le variabili meteo (media)
+grep("200", names(df), value = FALSE)[1:4] -> buf200 # buffer 200
 
 
-pltnt <- "PM10"
-
-df <- read_csv("data/dataframes/df_finale_Cr_i.csv")
-
-df_std <- df[,12:108] %>%
-  scale() %>%
-  as.data.frame()
-
-df <- cbind(df[,1:11], df_std)
-
-df[is.na(df)] <- 0
-names(df)[11] <- "value"
-
-
-v_variabili <- names(df)[45:68]
-
-
+v_variabili <- names(df)[c(vm, 12, 103:112)] # meteo mean e spaziali
+# v_variabili <- names(df)[c(vm)] # solo le meteo
+# v_variabili <- names(df)[c(103:166)] # 
+# v_variabili <- names(df)[c(103:112)] # solo le spaziali
 
 # variabili di ambiente ####
 assign("v_variabili", v_variabili, envir = .GlobalEnv)

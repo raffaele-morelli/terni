@@ -14,7 +14,7 @@
   sites <- pt_misura$Site
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
-  pltnt <- "Cr_i"
+  pltnt <- "PM10"
 } 
 
 # fls <- list.files(path = "~/R/terni/data/dataframes", pattern = "^df_", full.names = TRUE)
@@ -99,15 +99,15 @@ left_join(
 df_terni_meteo_mensili <- read_csv("data/dataframes/df_terni_meteo_mensili_periodo.csv", show_col_types = FALSE) %>% arrange(data)
 v_meteo <- names(df_terni_meteo_mensili)[5:94]
 
-variabili <- readxl::read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
-v_variabili <- variabili$`Variabili scelte`
+# variabili <- readxl::read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
+# v_variabili <- variabili$`Variabili scelte`
+# 
+# v_meteo %in% v_variabili -> indx
+# indx_n <- !indx
+# v_meteo[indx_n] -> vt
 
-v_meteo %in% v_variabili -> indx
-indx_n <- !indx
-v_meteo[indx_n] -> vt
-
-dplyr::select(df_terni_meteo_mensili, -c(vt) ) -> df_terni_meteo_mensili_A
-# dplyr::select(df_terni_meteo_mensili, any_of(vt) ) -> df_terni_meteo_mensili_B
+# dplyr::select(df_terni_meteo_mensili, -c(vt) ) -> df_terni_meteo_mensili_A
+df_terni_meteo_mensili_A <- df_terni_meteo_mensili
 # identical(df_terni_meteo_mensili_A, df_terni_meteo_mensili_B)
 
 dplyr::inner_join(df, df_terni_meteo_mensili_A) -> df_meteo

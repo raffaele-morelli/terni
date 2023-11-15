@@ -407,11 +407,11 @@ getBufferStradeMinDist <- function(dist) {
 }
 
 walk(dists, ~ getBufferStradeMinDist(.x)) 
-fls <- list.files(path = "~/R/terni/data/osm", pattern = glue("^df_strade_mim"), 
+fls <- list.files(path = "~/R/terni/data/osm", pattern = glue("^df_strade_min"), 
                   full.names = TRUE, recursive = TRUE)
 
 lapply(fls, function(x) {
-  df <- read_csv(x)
+  df <- read_csv(x, show_col_types = FALSE)
 }) -> dfs_strade
 
 do.call(cbind, dfs_strade) %>%
@@ -435,7 +435,7 @@ for (s in pt_misura$Site) {
 do.call(rbind, tmplist) %>%
   as.data.frame() %>%
   cbind(names(tmplist)) %>% 
-  setNames(c("cold area", "hot area", "scrapyard", "site")) %>% 
+  setNames(c("cold_area", "hot_area", "scrapyard", "site")) %>% 
   write_csv(file = glue("{outdir}/df_acc_dist.csv"))
 
 # punti utm33 ####
@@ -595,6 +595,14 @@ for(d in dists) {
 
 
 # plots ####
+library(ggrepel)
+library(ggthemes)
+cbind(pt_misura, st_coordinates(pt_misura)) -> pt_misura
+
 g <- ggplot(terni_sez) + geom_sf() 
-g + geom_sf_label(data = pt_misura, aes(label = Site)) 
-g + geom_sf(data = acciaieria, color = "red") + coord_sf(crs = 4326, xlim = c(12.58, 12.70), ylim = c(42.54, 42.59))
+g <- g + geom_sf(data = pt_misura) + geom_sf(data = acciaieria, color = "red") 
+g <- g + geom_label_repel(data = pt_misura, 
+                          aes(x = X, y = Y, label = Site), 
+                          min.segment.length = 0, max.overlaps = Inf)
+g + theme_map()
+# g + coord_sf(crs = 4326, xlim = c(12.55, 12.70), ylim = c(42.54, 42.60))
