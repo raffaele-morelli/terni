@@ -14,8 +14,8 @@
   sites <- pt_misura$Site
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
-  # pltnt <- "Cr_i"
-  pltnt <- "PM10"
+  pltnt <- "Cr_i"
+  # pltnt <- "PM10"
 } 
 
 # fls <- list.files(path = "~/R/terni/data/dataframes", pattern = "^df_", full.names = TRUE)
@@ -182,12 +182,10 @@ inner_join(df_acc, df_sup, by = "site") -> df_finale
 
 outdir <- "~/R/terni/data/dataframes"
 
-
-
 # standardizzazione ####
-df_std <- df_finale[,11:166] %>% scale() %>% as.data.frame()
+df_std <- df_finale[,12:166] %>% scale() %>% as.data.frame()
 
-df <- cbind(df[, 1:10], df_std)
+df <- cbind(df[, 1:11], df_std)
 
 df[is.na(df)] <- 0
 names(df)[11] <- "value"

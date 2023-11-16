@@ -76,7 +76,7 @@ buildMods <- function(backward = FALSE) {
   
   # w conterrà le stringhe dei modelli
   w <- lapply(z[,  ncol(z)], function(x) 
-    paste0("gam((value) ~  ", x, ", data = df)"))
+    paste0("gam(value ~  ", x, ", gamma=1.4, family=gaussian(link=identity), data = df)"))
   
   # log_print(w %>% unlist())
   return(w)
@@ -283,9 +283,8 @@ v_scelte <- df_terni_mensili_correlazione$`Variabili scelte`
 v_variabili <- v_scelte
 # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR" )
 # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR" )
-v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200 )
-v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", 
-                 v_buf200, v_acciaieria)
+# v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200 )
+v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200, v_acciaieria)
 
 
 # df[v_variabili] %>% View()

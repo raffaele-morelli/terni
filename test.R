@@ -128,3 +128,16 @@ m6 <- eval(parse(text = ms6))
 summary(m6)
 appraise(m6)
 draw(m6)
+
+
+vars <- names(AICS)
+
+mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
+
+ms <- paste("gam(value ~ ", mod, ", gamma=1.4, family=gaussian(link=identity), data = df)")
+
+m <- eval(parse(text = ms)) 
+
+summary(m)
+appraise(m)
+draw(m)

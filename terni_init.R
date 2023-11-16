@@ -26,6 +26,9 @@
   terni_indicatori_sez <- read_csv("~/R/terni/data/R10_indicatori_2021_sezioni_terni.csv")
   
   # com <- st_read("~/R/terni_asi/Limiti01012021/Com01012021/Com01012021_WGS84.shp") %>% filter(PRO_COM == 55032) # limiti comunali
+
+  # acciaieria ####
+  acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")
   
   pt_misura <- st_read("~/R/terni/data/shp/punti_misura.shp")
   v <- vect(pt_misura) # converto in SpatVector
@@ -419,9 +422,6 @@ do.call(cbind, dfs_strade) %>%
   setNames(c(dists, "site")) %>%
   dplyr::select(c('200', "site")) %>% 
   write_csv(file = glue("{outdir}/df_strade_min_dist.csv"))
-
-# acciaieria ####
-acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")
 
 tmplist <- list()
 for (s in pt_misura$Site) {
