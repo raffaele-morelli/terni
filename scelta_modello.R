@@ -263,13 +263,13 @@ sceltaVar <- function() {
 
 ## Test A -> Z #####
 {
-  pltnt <- "PM10"
+  pltnt <- "Cr_i"
   df <- read_csv(glue::glue("data/dataframes/df_finale_{pltnt}.csv"), show_col_types = FALSE)
 }
 
 v_meteo <- grep("mean", names(df), value = FALSE) # le variabili meteo (media)
 v_buf200 <- grep("200", names(df), value = TRUE)[1:4] # solo i buffer 200
-v_urban_atlas <- grep("sup", names(df), value = TRUE)
+v_urban_atlas <- grep("s8_sup", names(df), value = TRUE)
 v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
 
 # v_variabili <- names(df)[c(vm, 12, 103:112)] # meteo mean e spaziali
@@ -280,7 +280,7 @@ df_terni_mensili_correlazione <- read_excel("data/df_terni_mensili_correlazione.
                                             sheet = " Variabili scelte")
 v_scelte <- df_terni_mensili_correlazione$`Variabili scelte`
 
-v_variabili <- v_scelte
+# v_variabili <- v_scelte
 # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR" )
 # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR" )
 # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200 )

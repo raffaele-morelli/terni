@@ -136,8 +136,9 @@ mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + 
 
 ms <- paste("gam(value ~ ", mod, ", gamma=1.4, family=gaussian(link=identity), data = df)")
 
+
 m <- eval(parse(text = ms)) 
 
 summary(m)
 appraise(m)
-draw(m)
+gratia::draw(m)
