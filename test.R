@@ -2,47 +2,44 @@
 {
   library(sf)
   library(dplyr)
-  # library(tidyverse)
   library(ggplot2)
-  # library(plotly)
-  # library(terra)
-  # library(ncdf4) # package for netcdf manipulation
-  # library(raster) # package for raster manipulation
-  # library(rgdal) # package for geospatial analysis
   library(chron)
   library(readxl)
   library(glue)
   library(lubridate)
   library(readr)
-  # library(mapview)
   library(purrr)
   library(stringr)
   library(mgcv)
   library(gratia)
   
   outdir <- "~/R/terni/data/dataframes"
+  pltnt <- "Cr_i"
 } 
 
-df_finale <- read_csv("data/dataframes/df_finale.csv")
+df_finale <- read_csv(glue("data/dataframes/df_finale_{pltnt}.csv"), show_col_types = FALSE)
 names(df_finale)
 # attach(df_finale)
 
-vars <- c("t2m_median", "wspeed_mean", "pbl12_mean", "tp_mean", "cold_area", "hot_area", "scrapyard", "min_d", "ml_200", "imp_200", "bh_200", "kndvi")
-
-mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
-
-ms <- paste("gam(Cr_i ~ ", mod, ", gamma=1.4, family=gaussian(link=identity), data = df_finale)")
-
-m <- eval(parse(text = ms)) # gam(Cr_i ~  s(t2m_median) + s(wspeed_mean) + s(pbl12_mean) + s(tp_mean) + s(cold_area) + s(hot_area) + s(scrapyard) + s(min_d) + s(ml_200) + s(imp_200) + s(bh_200) + s(kndvi) , gamma=1.4, family=gaussian(link=identity), data = df_finale)
-
-summary(m)
-appraise(m)
-draw(m)
-
-summary(m)$s.table %>% 
-  as.data.frame() %>% 
-  filter(`p-value` < 0.01) %>% 
-  rownames() 
+# primo ####
+{
+  vars <- c("t2m_median", "wspeed_mean", "pbl12_mean", "tp_mean", "cold_area", "hot_area", "scrapyard", "min_d", "ml_200", "imp_200", "bh_200", "kndvi")
+  
+  mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
+  
+  ms <- paste("gam(Cr_i ~ ", mod, ", gamma=1.4, family=gaussian(link=identity), data = df_finale)")
+  
+  m <- eval(parse(text = ms)) # gam(Cr_i ~  s(t2m_median) + s(wspeed_mean) + s(pbl12_mean) + s(tp_mean) + s(cold_area) + s(hot_area) + s(scrapyard) + s(min_d) + s(ml_200) + s(imp_200) + s(bh_200) + s(kndvi) , gamma=1.4, family=gaussian(link=identity), data = df_finale)
+  
+  summary(m)
+  appraise(m)
+  draw(m)
+  
+  summary(m)$s.table %>% 
+    as.data.frame() %>% 
+    filter(`p-value` < 0.01) %>% 
+    rownames() 
+}
 
 # secondo test ####
 

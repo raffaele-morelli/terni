@@ -81,7 +81,6 @@ buildMods <- function(backward = FALSE) {
   # log_print(w %>% unlist())
   return(w)
 }
-
 # buildMods()
 
 # function: bestMod ####
@@ -109,7 +108,6 @@ bestMod <- function(mod.res, bic = TRUE) {
     return(list( AIC(mod.res[[min.ics]]), v.min, ics))
   }
 }
-
 # bestMod(models) -> tmp
 
 
@@ -262,49 +260,27 @@ sceltaVar <- function() {
   stop("====")
 }
 
+
 ## Test A -> Z #####
 {
   pltnt <- "PM10"
   df <- read_csv(glue::glue("data/dataframes/df_finale_{pltnt}.csv"), show_col_types = FALSE)
-  
-  # standardizzazione ####
-  df_std <- df[,11:166] %>% scale() %>% as.data.frame()
-  
-  df <- cbind(df[, 1:10], df_std)
-  
-  df[is.na(df)] <- 0
-  names(df)[11] <- "value"
-  
-  # df$value %>% hist(breaks = 20)
-  # log(df$value) %>% hist(breaks = 20)
 }
 
-grep("mean", names(df), value = FALSE) -> vm # le variabili meteo (media)
-grep("200", names(df), value = FALSE)[1:4] -> buf200 # buffer 200
-
+v_meteo <- grep("mean", names(df), value = FALSE) # le variabili meteo (media)
+v_buf200 <- grep("200", names(df), value = FALSE)[1:4] # buffer 200
 
 # v_variabili <- names(df)[c(vm, 12, 103:112)] # meteo mean e spaziali
 # v_variabili <- names(df)[c(vm)] # solo le meteo
 # v_variabili <- names(df)[c(103:166)] # 
 # v_variabili <- names(df)[c(103:112)] # solo le spaziali
-v_variabili <- c(
-  "t2m_mean",
-  "tp_mean",
-  "ptp_mean",
-  "rh_mean",
-  "wspeed_mean",
-  "pwspeed_mean",
-  "sp_mean",
-  "pbl00_mean",
-  "pbl12_mean",
-  "imp_200",
-  "bh_200"
-)
+
+v_variabili <- c("t2m_mean", "tp_mean", "ptp_mean", "rh_mean", "wspeed_mean", 
+                 "pwspeed_mean", "sp_mean", "pbl00_mean", "pbl12_mean", "imp_200", "bh_200")
 
 
 # variabili di ambiente ####
 assign("v_variabili", v_variabili, envir = .GlobalEnv)
-
 assign("AICS", list(), envir = .GlobalEnv)
 assign("v_dead", c(), envir = .GlobalEnv)
 assign("N", 0, envir = .GlobalEnv)
