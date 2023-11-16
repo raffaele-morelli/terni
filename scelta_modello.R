@@ -268,16 +268,29 @@ sceltaVar <- function() {
 }
 
 v_meteo <- grep("mean", names(df), value = FALSE) # le variabili meteo (media)
-v_buf200 <- grep("200", names(df), value = FALSE)[1:4] # buffer 200
+v_buf200 <- grep("200", names(df), value = TRUE)[1:4] # solo i buffer 200
+v_urban_atlas <- grep("sup", names(df), value = TRUE)
+v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
 
 # v_variabili <- names(df)[c(vm, 12, 103:112)] # meteo mean e spaziali
 # v_variabili <- names(df)[c(vm)] # solo le meteo
 # v_variabili <- names(df)[c(103:166)] # 
 # v_variabili <- names(df)[c(103:112)] # solo le spaziali
+df_terni_mensili_correlazione <- read_excel("data/df_terni_mensili_correlazione.xlsx", 
+                                            sheet = " Variabili scelte")
+v_scelte <- df_terni_mensili_correlazione$`Variabili scelte`
 
-v_variabili <- c("t2m_mean", "tp_mean", "ptp_mean", "rh_mean", "wspeed_mean", 
-                 "pwspeed_mean", "sp_mean", "pbl00_mean", "pbl12_mean", "imp_200", "bh_200")
+v_variabili <- v_scelte
+# v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR" )
+# v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR" )
+v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200 )
+v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", 
+                 v_buf200, v_acciaieria)
 
+
+# df[v_variabili] %>% View()
+# is.na(df[v_variabili])
+# df[v_variabili] %>% as.matrix() %>% cor() %>% corrplot::corrplot()
 
 # variabili di ambiente ####
 assign("v_variabili", v_variabili, envir = .GlobalEnv)
