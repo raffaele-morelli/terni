@@ -14,7 +14,8 @@
   sites <- pt_misura$Site
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
-  pltnt <- "Cr_i"
+  # pltnt <- "Cr_i"
+  pltnt <- "PM10"
 } 
 
 # fls <- list.files(path = "~/R/terni/data/dataframes", pattern = "^df_", full.names = TRUE)
@@ -181,6 +182,17 @@ inner_join(df_acc, df_sup, by = "site") -> df_finale
 
 outdir <- "~/R/terni/data/dataframes"
 
-write_csv(df_finale, file = glue::glue("{outdir}/df_finale_{pltnt}.csv") )
+
+
+# standardizzazione ####
+df_std <- df_finale[,11:166] %>% scale() %>% as.data.frame()
+
+df <- cbind(df[, 1:10], df_std)
+
+df[is.na(df)] <- 0
+names(df)[11] <- "value"
+
+
+write_csv(df, file = glue::glue("{outdir}/df_finale_{pltnt}.csv") )
 
 
