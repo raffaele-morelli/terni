@@ -132,7 +132,7 @@ draw(m6)
 
 vars <- names(AICS)
 
-mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
+mod <- lapply(vars, function(x) paste0("s(", x, ", k=3)") ) %>% paste(collapse = " + ") 
 
 ms <- paste("gam(value ~ ", mod, ", gamma=1.4, family=gaussian(link=identity), data = df)")
 
@@ -142,3 +142,6 @@ m <- eval(parse(text = ms))
 summary(m)
 appraise(m)
 gratia::draw(m)
+
+m <- gam(log(value) ~  s(cold_area, k=3) + s(ml_200, k=3) + s(imp_200, k=3) + s(u10m_max, k=3) + s(hot_area) + s(pbl00_IQR), 
+    gamma=1.4, family=gaussian(link=identity), data = df)
