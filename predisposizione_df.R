@@ -14,8 +14,8 @@
   sites <- pt_misura$Site
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
-  # pltnt <- "Cr_i"
-  pltnt <- "PM10"
+  pltnt <- "Cr_i"
+  # pltnt <- "PM10"
 } 
 
 # fls <- list.files(path = "~/R/terni/data/dataframes", pattern = "^df_", full.names = TRUE)
@@ -184,9 +184,7 @@ inner_join(df_acc, df_sup, by = "site") -> df_acc
 # ferrovia ####
 df_ferrovia_min_dist <- read_csv("data/dataframes/df_ferrovia_min_dist.csv", show_col_types = FALSE)
 names(df_ferrovia_min_dist)[1] <- "m_dis_ferr"
-inner_join(df_ferrovia_min_dist, df_acc, by = "site") -> df_finale
-
-# df_finale %>% View()
+inner_join(df_acc, df_ferrovia_min_dist, by = "site") -> df_finale
 
 outdir <- "~/R/terni/data/dataframes"
 
