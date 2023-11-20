@@ -67,7 +67,7 @@ getModel <- function(vars) {
 
 ```
 
-# Cromo
+# Cromo (straight)
 
 ```{r}
 
@@ -113,7 +113,7 @@ draw(mod)
 
 ```
 
-# PM10
+# PM10 (straight)
 
 ```{r}
 df <- read_csv("~/R/terni/data/dataframes/df_finale_PM10.csv", show_col_types = FALSE)
