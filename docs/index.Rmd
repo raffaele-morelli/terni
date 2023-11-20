@@ -43,11 +43,14 @@ getModel <- function(vars) {
           x == "v10m_median" ~ paste0("s(", x, ", k=9)"),
           x == "wspeed_min" ~ paste0("s(", x, ", k=8)"),
           x == "pblmin_median" ~ paste0("s(", x, ", k=3)"),
+          x == "pbl00_median" ~ paste0("s(", x, ", k=6)"),
           x == "pblmin_IQR" ~ paste0("s(", x, ", k=9)"),
           x == "pbl00_min" ~ paste0("s(", x, ", k=1)"),
           x == "s7_sup_200" ~ paste0("s(", x, ", k=3)"),
           x == "s5_sup_200" ~ paste0("s(", x, ", k=9)"),
           x == "s1_sup_200" ~ paste0("s(", x, ", k=7)"),
+          x == "u10m_median" ~ paste0("s(", x, ", k=9)"),
+          x == "pwspeed_min" ~ paste0("s(", x, ", k=7)"),
         .default = paste0("s(", x, ")")
       )
     }) %>% paste(collapse = " + ") 
@@ -80,7 +83,7 @@ draw(mod)
 ```
 
 
-## Cromo (medie variabili meteo)
+# Cromo (con medie variabili meteo)
 
 ```{r}
 
@@ -88,6 +91,21 @@ df <- read_csv("~/R/terni/data/dataframes/df_finale_Cr_i.csv", show_col_types = 
 names(df)[11] <- "value"
 
 mod <- getModel(c("cold_area" , "pbl12_mean", "s6_sup_200", "tp_mean" ,   "kndvi" ,     "s2_sup_200", "s3_sup_200"))
+
+summary(mod)
+appraise(mod)
+draw(mod)
+
+```
+
+# Cromo (tutte le variabili)
+
+```{r}
+
+df <- read_csv("~/R/terni/data/dataframes/df_finale_Cr_i.csv", show_col_types = FALSE)
+names(df)[11] <- "value"
+
+mod <- getModel(c("cold_area",  "wdir_IQR",    "s6_sup_200",  "u10m_median", "s1_sup_200"))
 
 summary(mod)
 appraise(mod)
@@ -107,7 +125,7 @@ appraise(mod)
 draw(mod)
 ```
 
-# PM10 (medie variabili meteo)
+# PM10 (con medie variabili meteo)
 
 ```{r}
 df <- read_csv("~/R/terni/data/dataframes/df_finale_PM10.csv", show_col_types = FALSE)
@@ -119,3 +137,14 @@ appraise(mod)
 draw(mod)
 ```
 
+# PM10 (tutte le variabili)
+
+```{r}
+df <- read_csv("~/R/terni/data/dataframes/df_finale_PM10.csv", show_col_types = FALSE)
+names(df)[11] <- "value"
+mod <- getModel(c("v10m_min", "pwspeed_IQR", "v10m_median", "pop_200" ))
+
+summary(mod)
+appraise(mod)
+draw(mod)
+```

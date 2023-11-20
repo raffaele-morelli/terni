@@ -22,11 +22,14 @@ buildMods <- function(backward = FALSE) {
           x == "v10m_median" ~ paste0("s(", x, ", k=9)"),
           x == "wspeed_min" ~ paste0("s(", x, ", k=8)"),
           x == "pblmin_median" ~ paste0("s(", x, ", k=3)"),
+          x == "pbl00_median" ~ paste0("s(", x, ", k=6)"),
           x == "pblmin_IQR" ~ paste0("s(", x, ", k=9)"),
           x == "pbl00_min" ~ paste0("s(", x, ", k=1)"),
           x == "s7_sup_200" ~ paste0("s(", x, ", k=3)"),
           x == "s5_sup_200" ~ paste0("s(", x, ", k=9)"),
           x == "s1_sup_200" ~ paste0("s(", x, ", k=7)"),
+          x == "u10m_median" ~ paste0("s(", x, ", k=9)"),
+          x == "pwspeed_min" ~ paste0("s(", x, ", k=7)"),
           .default = paste0("s(", x, ")")
           )
       })
