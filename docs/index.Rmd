@@ -68,9 +68,9 @@ names(df)[11] <- "value"
 
 ```
 
-# cappa mirati
+# cappa mirati per le spline
 
-## log
+## log 
 
 ```{r}
 
@@ -83,76 +83,4 @@ draw(mod)
 ```
 
 
-
-# no cappas
-
-## log
-
-```{r}
-vars <- c("cold_area", "u10m_IQR",  "bh_200", "imp_200")
-
-mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
-
-ms <- paste("gam(log(value) ~ ", mod, ", gamma=1.4, family=gaussian(link=log), data = df)")
-
-mod <- eval(parse(text = ms))
-
-summary(mod)
-appraise(mod)
-draw(mod)
-```
-
-## non log
-
-
-```{r}
-vars <- c("cold_area", "t2m_mean",  "bh_200",    "rh_IQR")
-
-mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
-
-ms <- paste("gam(log(value) ~ ", mod, ", gamma=1.4, family=gaussian(link=log), data = df)")
-
-mod <- eval(parse(text = ms))
-
-summary(mod)
-appraise(mod)
-draw(mod)
-```
-
-
-# cappas
-
-## non log 
-
-```{r, echo=TRUE}
-vars_1 <- c("pop_200",  "t2m_mean", "rh_IQR")
-
-mod_1 <- lapply(vars_1, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
-
-ms_1 <- paste("gam(log(value) ~ ", mod_1, ", gamma=1.4, family=gaussian(link=log), data = df)")
-
-mod_1 <- eval(parse(text = ms_1)) 
-
-summary(mod_1)
-appraise(mod_1)
-draw(mod_1)
-
-```
-
-## log
-
-```{r}
-vars_2 <- c("pop_200", "rh_IQR", "scrapyard", "t2m_mean", "tmin2m_IQR", "tp_max", "bh_200")
-
-mod_2 <- lapply(vars_2, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
-
-ms_2 <- paste("gam(log(value) ~ ", mod_2, ", gamma=1.4, family=gaussian(link=log), data = df)")
-
-mod_2 <- eval(parse(text = ms_2))
-
-summary(mod_2)
-appraise(mod_2)
-draw(mod_2)
-
-```
 
