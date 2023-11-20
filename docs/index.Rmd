@@ -24,25 +24,112 @@ knitr::opts_chunk$set(echo = TRUE)
   library(gratia)
 } 
 
+getSign <- function(mod) {
+  summary(mod)$s.table %>% 
+  as.data.frame() %>% 
+  filter(`p-value` < 0.05) %>% 
+  rownames() -> v_sign
+  return(v_sign)
+}
+
+
+getModel <- function(vars) {
+  ms <- 
+    lapply(vars, function(x) {
+      case_when(
+        x == "tp_median" ~ paste0("s(", x, ", k=3)"),
+        x == "u10m_min" ~ paste0("s(", x, ", k=5)"),
+        x == "u10m_max" ~ paste0("s(", x, ", k=8)"),
+        x == "v10m_median" ~ paste0("s(", x, ", k=9)"),
+        x == "wspeed_min" ~ paste0("s(", x, ", k=8)"),
+        x == "pblmin_median" ~ paste0("s(", x, ", k=3)"),
+        x == "pblmin_IQR" ~ paste0("s(", x, ", k=9)"),
+        x == "pbl00_min" ~ paste0("s(", x, ", k=1)"),
+        x == "s7_sup_200" ~ paste0("s(", x, ", k=3)"),
+        .default = paste0("s(", x, ")")
+      )
+    }) %>% paste(collapse = " + ") 
+  
+  ms <- paste("gam(log(value) ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
+  
+  print(ms)
+  mod <- eval(parse(text = ms))
+  
+  return(mod)
+
+}
+
+
+
+  
 df <- read_csv("~/R/terni/data/dataframes/df_finale_Cr_i.csv", show_col_types = FALSE)
 
 names(df)[11] <- "value"
 
 ```
 
+# cappa mirati
+
+## log
 
 ```{r}
-names(df)
+
+mod <- getModel(c("cold_area",  "u10m_IQR",   "bh_200",     "imp_200",    "wspeed_min"))
+
+summary(mod)
+appraise(mod)
+draw(mod)
+
 ```
 
-# primo test
+
+
+# no cappas
+
+## log
+
+```{r}
+vars <- c("cold_area", "u10m_IQR",  "bh_200", "imp_200")
+
+mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
+
+ms <- paste("gam(log(value) ~ ", mod, ", gamma=1.4, family=gaussian(link=log), data = df)")
+
+mod <- eval(parse(text = ms))
+
+summary(mod)
+appraise(mod)
+draw(mod)
+```
+
+## non log
+
+
+```{r}
+vars <- c("cold_area", "t2m_mean",  "bh_200",    "rh_IQR")
+
+mod <- lapply(vars, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
+
+ms <- paste("gam(log(value) ~ ", mod, ", gamma=1.4, family=gaussian(link=log), data = df)")
+
+mod <- eval(parse(text = ms))
+
+summary(mod)
+appraise(mod)
+draw(mod)
+```
+
+
+# cappas
+
+## non log 
 
 ```{r, echo=TRUE}
-vars_1 <- c("t2m_median", "wspeed_mean", "pbl12_mean", "tp_mean", "cold_area", "hot_area", "scrapyard", "min_d", "ml_200", "imp_200", "bh_200", "kndvi")
+vars_1 <- c("pop_200",  "t2m_mean", "rh_IQR")
 
 mod_1 <- lapply(vars_1, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
 
-ms_1 <- paste("gam(value ~ ", mod_1, ", gamma=1.4, family=gaussian(link=identity), data = df)")
+ms_1 <- paste("gam(log(value) ~ ", mod_1, ", gamma=1.4, family=gaussian(link=log), data = df)")
 
 mod_1 <- eval(parse(text = ms_1)) 
 
@@ -50,21 +137,16 @@ summary(mod_1)
 appraise(mod_1)
 draw(mod_1)
 
-summary(mod_1)$s.table %>% 
-  as.data.frame() %>% 
-  filter(`p-value` < 0.01) %>% 
-  rownames() 
-
 ```
 
-# secondo test
+## log
 
 ```{r}
-vars_2 <- c("pbl00_IQR", "cold_area",  "scrapyard", "ml_200", "imp_200", "bh_200", "wspeed_max_max", "tmin2m_IQR", "pbl00_max")
+vars_2 <- c("pop_200", "rh_IQR", "scrapyard", "t2m_mean", "tmin2m_IQR", "tp_max", "bh_200")
 
 mod_2 <- lapply(vars_2, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
 
-ms_2 <- paste("gam(value ~ ", mod_2, ", gamma=1.4, family=gaussian(link=identity), data = df)")
+ms_2 <- paste("gam(log(value) ~ ", mod_2, ", gamma=1.4, family=gaussian(link=log), data = df)")
 
 mod_2 <- eval(parse(text = ms_2))
 
@@ -72,86 +154,5 @@ summary(mod_2)
 appraise(mod_2)
 draw(mod_2)
 
-```
-
-# terzo test
-
-```{r}
-
-vars_3 <- c("pbl00_IQR", "cold_area", "ml_200", "imp_200", "bh_200", "wspeed_max_max", "tmin2m_IQR", "pbl00_max", "nirradiance_IQR")
-
-ms_3 <- lapply(vars_3, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
-
-ms_3 <- paste("gam(value ~ ", ms_3, ", gamma=1.4, family=gaussian(link=identity), data = df)")
-
-mod_3 <- eval(parse(text = ms_3))
-
-summary(mod_3)
-appraise(mod_3)
-draw(mod_3)
-
-```
-
-# quarto test
-
-```{r}
-
-v_variabili4 <- c(
-  "t2m_mean",
-  "tp_mean",
-  "ptp_mean",
-  "rh_mean",
-  "wspeed_mean",
-  "pwspeed_mean",
-  "sp_mean",
-  "pbl00_mean",
-  "pbl12_mean",
-  "kndvi",
-  "imp_200",
-  "bh_200",
-  "cold_area",
-  "hot_area",
-  "scrapyard"
-)
-
-ms_4 <- lapply(v_variabili4, function(x) paste0("s(", x, ")") ) %>% paste(collapse = " + ") 
-
-ms_4 <- paste("gam(value ~ ", ms_4, ", gamma=1.4, family=gaussian(link=identity), data = df)")
-
-mod_4 <- eval(parse(text = ms_4))
-
-summary(mod_4)
-appraise(mod_4)
-draw(mod_4)
-
-summary(mod_4)$s.table %>% 
-  as.data.frame() %>% 
-  filter(`p-value` < 0.05) %>% 
-  rownames() -> v_sign
-
-lapply(v_sign, function(x) paste0(x) ) %>% paste(collapse = " + ") -> ms_5
-
-ms_5 <- paste("gam(value ~ ", ms_5, ", gamma=1.4, family=gaussian(link=identity), data = df)")
-
-mod_5 <- eval(parse(text = ms_5))
-
-summary(mod_5)
-appraise(mod_5)
-draw(mod_5)
-
-summary(mod_5)$s.table %>% 
-  as.data.frame() %>% 
-  filter(`p-value` < 0.05) %>% 
-  rownames() -> v_sign5
-
-lapply(v_sign5, function(x) paste0(x) ) %>% paste(collapse = " + ") -> ms_6
-
-ms_6 <- paste("gam(value ~ ", ms_6, ", gamma=1.4, family=gaussian(link=identity), data = df)")
-
-mod_6 <- eval(parse(text = ms_6))
-
-summary(mod_6)
-appraise(mod_6)
-draw(mod_6)
 ```
 

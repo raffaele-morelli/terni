@@ -38,11 +38,11 @@
   idxs <- c(23)
   v_scelte <- v_scelte[!v_scelte %in% v_scelte[idxs]]
   # idxs <- grep("pbl00_min|tp_median|pblmin_median", names(cappas))
-  cappas <- cappas[-idxs]
+  # cappas <- cappas[-idxs]
   
   v_meteo <- grep("mean", names(df), value = FALSE) # le variabili meteo (media)
   v_buf200 <- grep("200", names(df), value = TRUE)[1:4] # solo i buffer 200
-  v_urban_atlas <- grep("s8_sup", names(df), value = TRUE)
+  v_urban_atlas <- grep("s8_sup_200|s7_sup_200", names(df), value = TRUE)
   v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   
   v_variabili <- v_scelte
@@ -50,7 +50,10 @@
   # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "t2m_median" )
   # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR" )
   # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200 )
-  v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200, v_acciaieria)
+  # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200, v_acciaieria)
+  # v_variabili <- c(v_scelte)
+  v_variabili <- c(v_scelte, v_buf200, v_acciaieria, v_urban_atlas)
+  
 }
 
 # Variabili "ambiente" ####
