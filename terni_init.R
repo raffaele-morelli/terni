@@ -518,7 +518,7 @@ getBufferRastKNDVI <- function(dist, rst, var) {
 for (i in names(pol_st)) {
   print(i)
   outfile <- glue("~/R/terni/data/kndvi/{i}.tiff")
-  # writeRaster(kndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
+  writeRaster(kndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
   
   rst <- rast(outfile)
   

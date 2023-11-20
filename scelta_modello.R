@@ -42,7 +42,7 @@
   
   v_meteo <- grep("mean", names(df), value = FALSE) # le variabili meteo (media)
   v_buf200 <- grep("200", names(df), value = TRUE)[1:4] # solo i buffer 200
-  v_urban_atlas <- grep("s8_sup_200|s7_sup_200", names(df), value = TRUE)
+  v_urban_atlas <- grep("s8_sup_200|s7_sup_200|s6_sup_200|s5_sup_200|s4_sup_200|s3_sup_200|s2_sup_200|s1_sup_200", names(df), value = TRUE)
   v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   
   v_variabili <- v_scelte
@@ -52,7 +52,8 @@
   # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200 )
   # v_variabili <- c("t2m_mean", "t2m_IQR", "tmin2m_IQR", "tmax2m_IQR", "tp_max", "rh_IQR", "u10m_IQR", v_buf200, v_acciaieria)
   # v_variabili <- c(v_scelte)
-  v_variabili <- c(v_scelte, v_buf200, v_acciaieria, v_urban_atlas)
+  # v_variabili <- c(v_urban_atlas)
+  v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas)
   
 }
 
