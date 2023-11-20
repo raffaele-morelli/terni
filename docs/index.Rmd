@@ -60,19 +60,16 @@ getModel <- function(vars) {
 }
 
 
-
-  
-df <- read_csv("~/R/terni/data/dataframes/df_finale_Cr_i.csv", show_col_types = FALSE)
-
-names(df)[11] <- "value"
-
 ```
 
 # cappa mirati per le spline
 
-## log 
+## Cromo
 
 ```{r}
+
+df <- read_csv("~/R/terni/data/dataframes/df_finale_Cr_i.csv", show_col_types = FALSE)
+names(df)[11] <- "value"
 
 mod <- getModel(c("cold_area",  "u10m_IQR",   "bh_200",     "imp_200",    "wspeed_min"))
 
@@ -82,5 +79,15 @@ draw(mod)
 
 ```
 
+# PM10
 
+```{r}
+df <- read_csv("~/R/terni/data/dataframes/df_finale_PM10.csv", show_col_types = FALSE)
+names(df)[11] <- "value"
+mod <- getModel(c("v10m_min", "pop_200"))
+
+summary(mod)
+appraise(mod)
+draw(mod)
+```
 

@@ -19,7 +19,7 @@
   source('f_bestMod.R')
   source('f_sceltaVar.R')
   
-  pltnt <- "Cr_i" #### SET inquinante ####
+  pltnt <- "PM10" #### SET inquinante ####
   df <- read_csv(glue::glue("data/dataframes/df_finale_{pltnt}.csv"), show_col_types = FALSE)
   
   findCappa <- function(var) {
