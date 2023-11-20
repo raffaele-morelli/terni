@@ -29,14 +29,18 @@
 
   # acciaieria ####
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")
+
   
   pt_misura <- st_read("~/R/terni/data/shp/punti_misura.shp")
   v <- vect(pt_misura) # converto in SpatVector
   
+  pt_misura_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
+  v_utm33 <- vect(pt_misura_utm33) # converto in SpatVector
+  
   terni_all <- st_read("~/R/terni/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
   
   # prendiamo i codici di interesse
-  codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
+  codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220, 12230)
   
   terni_fltr <- filter(terni_all, code_2018 %in% codes_2018)
   terni_utm32 <- st_transform(terni_fltr, 32632) # WGS84/UTM 32
@@ -64,6 +68,7 @@
 # 12100: Industrial, commercial, public, military and private units
 # 12210: Fast transit roads and associated land
 # 12220: Other roads and associated land
+# 12230: Railways and associated land
 
 
 getBufferUA <- function(dist, code) {
@@ -423,6 +428,28 @@ do.call(cbind, dfs_strade) %>%
   dplyr::select(c('200', "site")) %>% 
   write_csv(file = glue("{outdir}/df_strade_min_dist.csv"))
 
+# distanza minima punto ferrovia ####
+
+ferrovia <- st_read("~/R/terni/data/osm/ferrovie.shp")
+
+tmplist <- list()
+for (s in pt_misura$Site) {
+  st_distance(
+    filter(pt_misura, Site == s), ferrovia
+  ) -> df
+  
+  tmplist[[s]] <- apply(df, 1, FUN = min)
+  
+  # tmplist[[s]] <- df
+}
+
+do.call(rbind, tmplist) %>%
+  as.data.frame() %>%
+  cbind(names(tmplist)) %>% 
+  setNames(c("m_dis", "site")) %>% 
+  write_csv(file = glue("{outdir}/df_ferrovia_min_dist.csv"))
+
+# distanza acciaieria ####
 tmplist <- list()
 for (s in pt_misura$Site) {
   st_distance(
@@ -432,15 +459,14 @@ for (s in pt_misura$Site) {
   tmplist[[s]] <- df
 }
 
+
 do.call(rbind, tmplist) %>%
   as.data.frame() %>%
   cbind(names(tmplist)) %>% 
   setNames(c("cold_area", "hot_area", "scrapyard", "site")) %>% 
   write_csv(file = glue("{outdir}/df_acc_dist.csv"))
 
-# punti utm33 ####
-pt_misura_utm33 <- st_transform(pt_misura, 32633) # WGS84/UTM 32
-v_utm33 <- vect(pt_misura_utm33) # converto in SpatVector
+
 
 # Ndvi ####
 
