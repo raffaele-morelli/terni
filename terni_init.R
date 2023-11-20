@@ -439,8 +439,6 @@ for (s in pt_misura$Site) {
   ) -> df
   
   tmplist[[s]] <- apply(df, 1, FUN = min)
-  
-  # tmplist[[s]] <- df
 }
 
 do.call(rbind, tmplist) %>%
