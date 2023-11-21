@@ -1,3 +1,10 @@
+args <- commandArgs(trailingOnly = TRUE)
+cat(args, sep = "\n")
+
+pltnt <- args[1] #### SET inquinante ####
+
+cat("############# ", pltnt, "\n")
+
 ## init ####
 {
   library(readr)
@@ -8,40 +15,42 @@
   library(stringr)
   library(correlation)
   library(readxl)
+  library(glue)
   
   library(datiInquinanti)
   library(datiMeteo)
   
   setwd("~/R/terni")
-  rm(list = ls())
-  
+
   source('f_buildMods.R')
   source('f_bestMod.R')
   source('f_sceltaVar.R')
   
-  # pltnt <- "PM10" #### SET inquinante ####
-  pltnt <- "Cr_i" #### SET inquinante ####
-  df <- read_csv(glue::glue("data/dataframes/df_finale_{pltnt}.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale.csv"), show_col_types = FALSE)
+  names(df)
+  index <- grep(pltnt, names(df))
   
-  findCappa <- function(var) {
-    df[[var]] %>% unique() %>% length()
-  }
-  
-  map(names(df), findCappa) -> cappas
-  names(cappas) <- names(df)  
+  names(df)[index] <- "value"
+  # findCappa <- function(var) {
+  #   df[[var]] %>% unique() %>% length()
+  # }
+  # 
+  # map(names(df), findCappa) -> cappas
+  # names(cappas) <- names(df)  
 }
+# stop("ciaone")
 
 ## Variabili #####
 {
   df_terni_mensili_correlazione <- read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
   v_scelte <- df_terni_mensili_correlazione$`Variabili scelte`
   
-  idxs <- c(23)
-  v_scelte <- v_scelte[!v_scelte %in% v_scelte[idxs]]
+  # idxs <- c(23)
+  # v_scelte <- v_scelte[!v_scelte %in% v_scelte[idxs]]
   # idxs <- grep("pbl00_min|tp_median|pblmin_median", names(cappas))
   # cappas <- cappas[-idxs]
   
-  v_meteo <- names(df)[13:102]
+  v_meteo <- names(df)[93:182]
   
   v_meteo <- v_meteo[!(v_meteo %in% c("tp_min", "ptp_min", "ptp_median", "pbl00_min", "pblmin_min"))]
   
@@ -56,10 +65,8 @@
   # v_variabili <- c(v_scelte)
   # v_variabili <- c(v_urban_atlas)
   # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas)
-  # v_variabili <- c("kndvi", v_meteo, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  
-  
+  v_variabili <- c("kndvi", v_meteo, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
 }
 
 # Variabili "ambiente" ####
@@ -67,12 +74,14 @@ assign("v_variabili", v_variabili, envir = .GlobalEnv)
 assign("AICS", list(), envir = .GlobalEnv)
 assign("v_dead", c(), envir = .GlobalEnv)
 assign("N", 0, envir = .GlobalEnv)
-assign("cappas", cappas, envir = .GlobalEnv)
+assign("pltnt", pltnt, envir = .GlobalEnv)
+# assign("cappas", cappas, envir = .GlobalEnv)
 
-fn <- file.path("stazione.log")
+fn <- file.path(glue("terni_{pltnt}.log"))
 lf <- log_open(fn)
 
 # funzione ricorsiva ####
 sceltaVar()
 
 log_close()
+

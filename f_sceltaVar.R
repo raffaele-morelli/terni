@@ -13,9 +13,7 @@ sceltaVar <- function() {
   log_print(sprintf("---------- START: %s", N), hide_notes = TRUE)
   
   # conterrà gli oggetti GAM calcolati sulle stazioni
-  models <- map(w, function(y) { 
-    print(y)
-    eval(parse(text = y)) })
+  models <- map(w, function(y) { eval(parse(text = y)) })
   
   aicVar <- bestMod(models) # AIC del modello migliore
   
@@ -137,8 +135,10 @@ sceltaVar <- function() {
     
     assign("AICS", AICS, envir = .GlobalEnv)
     assign("v_variabili", v_variabili[!v_variabili %in% c(names(AICS), v_dead)], envir = .GlobalEnv)
-    stop("=>>> Fine per scelta MODELLO iniziale")
-    return(0)
+    
+    saveRDS(AICS, file = glue("~/R/terni/rds/{pltnt}.rds"))
+    save.image(AICS, file = glue("~/R/terni/rds/{pltnt}.RData"))
+    return("=>>> Fine per scelta MODELLO iniziale")
   }
   
   
@@ -146,6 +146,8 @@ sceltaVar <- function() {
   
   log_print("Fine per scelta MODELLO", hide_notes = TRUE)
   log_print(paste(names(AICS), collapse = " + "), hide_notes = TRUE)
-  stop("==== Fine per scelta MODELLO")
-  return(0)
+  
+  saveRDS(AICS, file = glue("~/R/terni/rds/{pltnt}.rds"))
+  save.image(AICS, file = glue("~/R/terni/rds/{pltnt}.RData"))
+  return("==== Fine per scelta MODELLO")
 }

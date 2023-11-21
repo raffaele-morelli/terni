@@ -6,7 +6,7 @@ buildMods <- function(backward = FALSE) {
   AICS <- get("AICS", envir = .GlobalEnv)
   v_variabili <- get("v_variabili", envir = .GlobalEnv)
   v_dead <- get("v_dead", envir = .GlobalEnv)
-  cappas <- get("cappas", envir = .GlobalEnv)
+  # cappas <- get("cappas", envir = .GlobalEnv)
   
   
   # costruisce le "spline testuali"
