@@ -85,9 +85,11 @@ map(pltnts, \(pltnt) {
   rds <- readRDS(pltnt)
   mod <- getModel(names(rds), df)
   
-  gamtabs(mod, caption='Summary of m1', type = "HTML")
-    cat("\n\n")
-
+  gamtabs(mod, type = "HTML")
+  cat("\n\n")
+    
+  cat("R²:", summary(mod)$r.sq %>% round(3) )
+cat("\n\n")
   # stargazer(mod, type="text" )
 
   appraise(mod) %>% print()
