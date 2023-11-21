@@ -14,7 +14,7 @@
   sites <- pt_misura$Site
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
-  pltnt <- "Cr_i"
+  # pltnt <- "Cr_i"
   # pltnt <- "PM10"
 } 
 
@@ -91,7 +91,7 @@ names(df_indici_m)[2] <- "site"
 names(df_indici_m)[3] <- "kndvi"
 
 left_join(
-  dplyr::select(df_pltnt, c(seq(1,10), pltnt )), 
+  df_pltnt, 
   df_indici_m, by = c("data", "site")
 ) -> df
 
@@ -189,14 +189,14 @@ inner_join(df_acc, df_ferrovia_min_dist, by = "site") -> df_finale
 outdir <- "~/R/terni/data/dataframes"
 
 # standardizzazione ####
-df_std <- df_finale[,12:167] %>% scale() %>% as.data.frame()
+df_std <- df_finale[,92:247] %>% scale() %>% as.data.frame()
 
-df <- cbind(df[, 1:11], df_std)
+df <- cbind(df[, 1:91], df_std)
 
 df[is.na(df)] <- 0
-names(df)[11] <- "value"
+# names(df)[11] <- "value"
 
 
-write_csv(df, file = glue::glue("{outdir}/df_finale_{pltnt}.csv"))
+write_csv(df, file = glue::glue("{outdir}/df_finale.csv"))
 
 

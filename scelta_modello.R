@@ -19,8 +19,8 @@
   source('f_bestMod.R')
   source('f_sceltaVar.R')
   
-  pltnt <- "PM10" #### SET inquinante ####
-  # pltnt <- "Cr_i" #### SET inquinante ####
+  # pltnt <- "PM10" #### SET inquinante ####
+  pltnt <- "Cr_i" #### SET inquinante ####
   df <- read_csv(glue::glue("data/dataframes/df_finale_{pltnt}.csv"), show_col_types = FALSE)
   
   findCappa <- function(var) {
@@ -56,7 +56,8 @@
   # v_variabili <- c(v_scelte)
   # v_variabili <- c(v_urban_atlas)
   # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas)
-  v_variabili <- c("kndvi", v_meteo, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  # v_variabili <- c("kndvi", v_meteo, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
   
   
 }
