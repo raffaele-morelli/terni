@@ -14,13 +14,14 @@ buildMods <- function(backward = FALSE) {
     return(
       lapply(v, function(x) {
         unlist(x) %>% unique() -> i
-        # paste0("s(", x, ", k=", cappas[[i]], ")")      })
         case_when(
           x == "tp_median" ~ paste0("s(", x, ", k=3)"),
           x == "u10m_min" ~ paste0("s(", x, ", k=5)"),
           x == "u10m_max" ~ paste0("s(", x, ", k=8)"),
           x == "v10m_median" ~ paste0("s(", x, ", k=9)"),
           x == "wspeed_min" ~ paste0("s(", x, ", k=8)"),
+          # x == "wspeed_max" ~ paste0("s(", x, ", k=12)"),
+          # x == "pwspeed_max" ~ paste0("s(", x, ", k=12)"),
           x == "pblmin_median" ~ paste0("s(", x, ", k=3)"),
           x == "pbl00_median" ~ paste0("s(", x, ", k=6)"),
           x == "pblmin_IQR" ~ paste0("s(", x, ", k=9)"),
