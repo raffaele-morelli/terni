@@ -7,58 +7,43 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 
 {
   # library(sf)
-  library(dplyr)
+  #library(dplyr)
   library(ggplot2)
   library(chron)
   library(readxl)
-  library(glue)
-  library(lubridate)
-  library(readr)
-  library(purrr)
-  library(stringr)
-  library(mgcv)
-  library(gratia)
-  library(itsadug) # Load jtools
-  library(knitr)
-  library(stargazer)
+  #library(glue)
+  #library(lubridate)
+#  library(readr)
+  # library(purrr)
+  #library(stringr)
+#  library(mgcv)
+  # library(gratia)
+ # library(itsadug) # Load jtools
+  #library(knitr)
+  #library(stargazer)
 } 
 
 elements_data_rev <- read_excel("~/R/terni/data/TERNI PM Elements Data_rev2.xlsx")
 
 pltnts <- names(elements_data_rev)[17:87]
-# pltnts <- names(elements_data_rev)[17:20]
+pltnts <- grep("^[M-Z]", pltnts, value = TRUE) 
 
 ```
 
 
 ```{r, results='asis', message=FALSE,echo=FALSE, warning=FALSE}
 
-
-map(pltnts, \(pltnt) {
-  # inquinante <- tools::file_path_sans_ext(basename(pltnt))
-  
-  # cat("\n## ", inquinante, "\n\n")
-
-  # df <- read_csv("~/R/terni/data/dataframes/df_finale.csv", show_col_types = FALSE)
-  # index <- grep(inquinante, names(df))
-  # names(df)[index] <- "value"
-
-  # rds <- readRDS(pltnt)
-  # mod <- getModel(names(rds), df)
-  # ggplot(elements_data_rev, aes_string(x = pltnt )) + 
-  #   geom_histogram(bins = 50, na.rm = TRUE, orientation = "x") +
-  #   theme(axis.title.y = element_blank(), axis.title.x = element_blank()) + ggtitle(pltnt)
-  hist(elements_data_rev[[pltnt]], breaks = 40, main = pltnt, xlab = "")
-  # title(pltnt)
-  
-
-})
-
-
+for (pltnt in pltnts) {
+  ggplot(elements_data_rev, aes_string(x = pltnt )) +
+    geom_histogram(bins = 50, na.rm = TRUE, orientation = "x") +
+    theme(axis.title.y = element_blank(), axis.title.x = element_blank()) + 
+    ggtitle(pltnt) -> g
+  print(g)
+}
 ```
 
 
