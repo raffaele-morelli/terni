@@ -52,7 +52,7 @@ map(pltnts, \(pltnt) {
   # ggplot(elements_data_rev, aes_string(x = pltnt )) + 
   #   geom_histogram(bins = 50, na.rm = TRUE, orientation = "x") +
   #   theme(axis.title.y = element_blank(), axis.title.x = element_blank()) + ggtitle(pltnt)
-  hist(elements_data_rev[[pltnt]], breaks = 40, main = pltnt)
+  hist(elements_data_rev[[pltnt]], breaks = 40, main = pltnt, xlab = "")
   # title(pltnt)
   
 
