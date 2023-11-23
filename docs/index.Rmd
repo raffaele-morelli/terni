@@ -68,6 +68,7 @@ getModel <- function(vars, df) {
 
 ```
 
+- [Distribuzione traccianti](distribution)
 
 ```{r, results='asis'}
 
