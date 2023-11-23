@@ -1,0 +1,57 @@
+---
+title: "Terni distrubuzione indici"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+{
+  # library(sf)
+  #library(dplyr)
+  library(ggplot2)
+  library(chron)
+  library(readxl)
+  #library(glue)
+  #library(lubridate)
+#  library(readr)
+  # library(purrr)
+  #library(stringr)
+#  library(mgcv)
+  # library(gratia)
+ # library(itsadug) # Load jtools
+  #library(knitr)
+  #library(stargazer)
+} 
+
+elements_data_rev <- read_excel("~/R/terni/data/TERNI PM Elements Data_rev2.xlsx")
+
+pltnts <- names(elements_data_rev)[7:16]
+
+```
+
+```{r}
+htmltools::includeMarkdown('indice.md')
+
+```
+
+```{r, results='asis', message=FALSE,echo=FALSE, warning=FALSE}
+
+for (pltnt in pltnts) {
+  cat("\n## ", pltnt, "\n\n")
+
+  ggplot(elements_data_rev, aes_string(x = pltnt )) +
+    geom_histogram(bins = 50, na.rm = TRUE, orientation = "x", fill = "dodgerblue") +
+    theme(axis.title.y = element_blank(), axis.title.x = element_blank()) + 
+    ggtitle(pltnt) -> g
+  print(g)
+  
+  cat("\n\n")
+}
+```
+
+
+
