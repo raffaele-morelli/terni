@@ -70,37 +70,6 @@ getModel <- function(vars, df) {
 
 - [Distribuzione traccianti](distribution)
 
-```{r, results='asis'}
-
-pltnts <- list.files("~/R/terni/rds", pattern = "*.rds", full.names = TRUE) 
-
-map(pltnts, \(pltnt) {
-  inquinante <- tools::file_path_sans_ext(basename(pltnt))
-  
-  cat("\n## ", inquinante, "\n\n")
-
-  df <- read_csv("~/R/terni/data/dataframes/df_finale.csv", show_col_types = FALSE)
-  index <- grep(inquinante, names(df))
-  names(df)[index] <- "value"
-
-  rds <- readRDS(pltnt)
-  mod <- getModel(names(rds), df)
-  
-  gamtabs(mod, type = "HTML")
-  cat("\n\n")
-    
-  cat("R²:", summary(mod)$r.sq %>% round(3) )
-cat("\n\n")
-  # stargazer(mod, type="text" )
-
-  appraise(mod) %>% print()
-  draw(mod) %>% print()
-  
-  rm(mod)
-  cat("\n\n")
-})
-
-
-```
-
+- [Traccianti A-L](traccianti_al)
+- [Traccianti M-Z](traccianti_mz)
 
