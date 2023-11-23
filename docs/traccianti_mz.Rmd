@@ -68,10 +68,10 @@ getModel <- function(vars, df) {
 
 ```
 
-- [Distribuzione traccianti](distribution)
+```{r}
+htmltools::includeMarkdown('indice.md')
 
-- [Modelli scelti A-L](traccianti_al)
-- [Modelli scelti M-Z](traccianti_mz)
+```
 
 ```{r, results='asis'}
 
