@@ -12,6 +12,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ```{r}
-htmltools::includeMarkdown('indice.md')
+# htmltools::includeMarkdown('indice.md')
 
 ```

@@ -2,7 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 cat(args, sep = "\n")
 
 pltnt <- args[1] #### SET inquinante ####
-pltnt <- "Sb_i"
+# pltnt <- "Sb_i"
 cat("############# ", pltnt, "\n")
 
 ## init ####
@@ -17,16 +17,13 @@ cat("############# ", pltnt, "\n")
   library(readxl)
   library(glue)
   
-  library(datiInquinanti)
-  library(datiMeteo)
-  
   setwd("~/R/terni")
 
   source('f_buildMods.R')
   source('f_bestMod.R')
   source('f_sceltaVar.R')
   
-  df <- read_csv(glue::glue("data/dataframes/df_finale.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale_mod.csv"), show_col_types = FALSE)
   names(df)
   index <- grep(pltnt, names(df))
   
