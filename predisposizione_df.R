@@ -13,18 +13,10 @@
   
   sites <- pt_misura$Site
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
+  outdir <- "~/R/terni/data/dataframes"
   
-  # pltnt <- "Cr_i"
-  # pltnt <- "PM10"
 } 
 
-# fls <- list.files(path = "~/R/terni/data/dataframes", pattern = "^df_", full.names = TRUE)
-# bdata <- lapply(fls, function(x) {
-#   read_csv(x)
-# })
-# names(bdata) <- basename(fls) %>% str_remove_all(pattern = "df_") %>% str_remove_all(".csv")
-
-outdir <- "~/R/terni/data/dataframes"
 test <- list()
 
 estrai <- function(var, site) {
@@ -196,7 +188,34 @@ df <- cbind(df[, 1:91], df_std)
 df[is.na(df)] <- 0
 # names(df)[11] <- "value"
 
-
 write_csv(df, file = glue::glue("{outdir}/df_finale.csv"))
 
+# limiti e cambio unità di misura ####
+df_finale <- read_csv("data/dataframes/df_finale.csv", show_col_types = FALSE)
 
+limiti <- read.delim2('~/R/terni/data/limiti.txt') %>% as.data.frame()
+limiti[1] <- limiti[1]/1000
+limiti <- limiti*1000
+
+library(purrr)
+
+# df_finale[, 21:91]
+# df_finale[names(limiti) ] 
+
+mult <- function(x) {
+  return(x*1000)
+}
+
+df_finale %>% 
+  mutate(across(all_of(names(limiti)), mult )) -> df_finale
+
+tmp <- df_finale
+
+for (l in names(limiti)) {
+  # print(l)
+  # print(as.numeric(limiti[l]))
+  tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), round(as.numeric(limiti[l]), 3), tmp[[l]])
+}
+
+tmp %>% 
+  write_csv(file = glue::glue("{outdir}/df_finale_mod.csv"))

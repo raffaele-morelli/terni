@@ -15,5 +15,3 @@ knitr::opts_chunk$set(echo = FALSE)
 htmltools::includeMarkdown('indice.md')
 
 ```
-
-
