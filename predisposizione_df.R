@@ -214,8 +214,9 @@ tmp <- df_finale
 for (l in names(limiti)) {
   # print(l)
   # print(as.numeric(limiti[l]))
-  tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), round(as.numeric(limiti[l]), 3), tmp[[l]])
+  tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), round(as.numeric(limiti[l]), 4), tmp[[l]])
 }
 
 tmp %>% 
   write_csv(file = glue::glue("{outdir}/df_finale_mod.csv"))
+
