@@ -220,3 +220,14 @@ for (l in names(limiti)) {
 tmp %>% 
   write_csv(file = glue::glue("{outdir}/df_finale_mod.csv"))
 
+write_csv(limiti, file = glue::glue("{outdir}/limiti.csv"))
+
+# verifica dei limiti del nuovo df ####
+
+# limiti <- read_csv("data/dataframes/limiti.csv")
+# df_finale <- read_csv("data/dataframes/df_finale_mod.csv", show_col_types = FALSE)
+
+# df_finale[names(limiti)] %>% 
+#   reshape2::melt() %>% 
+#   group_by(variable) %>% 
+#   summarise(m = min(value)) %>% View()
