@@ -84,7 +84,7 @@ buildMods <- function(backward = FALSE) {
   
   # w conterrà le stringhe dei modelli
   w <- lapply(z[,  ncol(z)], function(x) 
-    paste0("gam(log(value) ~  ", x, ", gamma=1.4, family=gaussian(link=log), data = df)"))
+    paste0("gam(value ~  ", x, ", gamma=1.4, family=gaussian(link=log), data = df)"))
   
   # log_print(w %>% unlist())
   return(w)
