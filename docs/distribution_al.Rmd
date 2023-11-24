@@ -10,21 +10,10 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 
 {
-  # library(sf)
-  #library(dplyr)
   library(ggplot2)
   library(chron)
   library(readxl)
-  #library(glue)
-  #library(lubridate)
-#  library(readr)
-  # library(purrr)
-  #library(stringr)
-#  library(mgcv)
-  # library(gratia)
- # library(itsadug) # Load jtools
-  #library(knitr)
-  #library(stargazer)
+  library(dplyr)
 } 
 
 elements_data_rev <- read_excel("~/R/terni/data/TERNI PM Elements Data_rev2.xlsx")
@@ -34,19 +23,19 @@ pltnts <- grep("^[A-L]", pltnts, value = TRUE)
 
 ```
 
-```{r}
-htmltools::includeMarkdown('indice.md')
-
-```
 
 ```{r, results='asis', message=FALSE,echo=FALSE, warning=FALSE}
 
 for (pltnt in pltnts) {
-  cat("\n## ", pltnt, "\n\n")
+  # cat("\n## ", pltnt, "\n\n")
 
-  ggplot(elements_data_rev, aes_string(x = pltnt )) +
+  data.frame(obs = elements_data_rev[[pltnt]], trasf = log(elements_data_rev[[pltnt]]) ) %>% 
+    reshape2::melt() -> df
+  
+  ggplot(df, aes(x = value )) +
     geom_histogram(bins = 50, na.rm = TRUE, orientation = "x", fill = "dodgerblue") +
-    theme(axis.title.y = element_blank(), axis.title.x = element_blank()) + 
+    facet_wrap(~variable, scales = "free") +
+    theme(axis.title.y = element_blank(), axis.title.x = element_blank()) +
     ggtitle(pltnt) -> g
   print(g)
   

@@ -199,9 +199,6 @@ limiti <- limiti*1000
 
 library(purrr)
 
-# df_finale[, 21:91]
-# df_finale[names(limiti) ] 
-
 mult <- function(x) {
   return(x*1000)
 }
@@ -212,8 +209,6 @@ df_finale %>%
 tmp <- df_finale
 
 for (l in names(limiti)) {
-  # print(l)
-  # print(as.numeric(limiti[l]))
   tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), round(as.numeric(limiti[l]), 4), tmp[[l]])
 }
 
