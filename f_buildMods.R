@@ -18,6 +18,7 @@ buildMods <- function(backward = FALSE) {
           x == "tp_median" ~ paste0("s(", x, ", k=3)"),
           x == "u10m_min" ~ paste0("s(", x, ", k=5)"),
           x == "u10m_max" ~ paste0("s(", x, ", k=8)"),
+          x == "u10m_IQR" ~ paste0("s(", x, ", k=11)"),
           x == "v10m_median" ~ paste0("s(", x, ", k=9)"),
           x == "wspeed_min" ~ paste0("s(", x, ", k=8)"),
           # x == "wspeed_max" ~ paste0("s(", x, ", k=12)"),
