@@ -1,0 +1,5489 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Terni</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="traccianti_scelte.html">Traccianti scelte</a>
+</li>
+<li>
+  <a href="traccianti_mean.html">Traccianti mean</a>
+</li>
+<li>
+  <a href="distribuzioni.html">Distribuzioni</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Terni</h1>
+
+</div>
+
+
+<div id="as_s" class="section level2">
+<h2>As_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:09 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-1.0287
+</td>
+<td align="right">
+0.0183
+</td>
+<td align="right">
+-56.2505
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+4.1875
+</td>
+<td align="right">
+5.0021
+</td>
+<td align="right">
+8.5991
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(u10m_mean)
+</td>
+<td align="right">
+6.8157
+</td>
+<td align="right">
+7.9193
+</td>
+<td align="right">
+39.3619
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+7.1453
+</td>
+<td align="right">
+7.5483
+</td>
+<td align="right">
+8.0971
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.742</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="ba_s" class="section level2">
+<h2>Ba_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:10 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+1.6167
+</td>
+<td align="right">
+0.0284
+</td>
+<td align="right">
+56.9492
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(tmax2m_mean)
+</td>
+<td align="right">
+2.6562
+</td>
+<td align="right">
+3.1035
+</td>
+<td align="right">
+16.5336
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(scrapyard)
+</td>
+<td align="right">
+8.7433
+</td>
+<td align="right">
+8.9778
+</td>
+<td align="right">
+12.5695
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pbl00_mean)
+</td>
+<td align="right">
+2.6325
+</td>
+<td align="right">
+3.0324
+</td>
+<td align="right">
+59.1154
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pwspeed_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+28.0146
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(t2m_mean)
+</td>
+<td align="right">
+1.0009
+</td>
+<td align="right">
+1.0012
+</td>
+<td align="right">
+8.5209
+</td>
+<td align="right">
+0.0038
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.698</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+</div>
+<div id="bi_i" class="section level2">
+<h2>Bi_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:11 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-1.7264
+</td>
+<td align="right">
+0.0362
+</td>
+<td align="right">
+-47.6742
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pbl00_mean)
+</td>
+<td align="right">
+8.7718
+</td>
+<td align="right">
+8.9687
+</td>
+<td align="right">
+103.2445
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(scrapyard)
+</td>
+<td align="right">
+8.1593
+</td>
+<td align="right">
+8.7796
+</td>
+<td align="right">
+8.2773
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+25.9280
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s4_sup_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+6.8500
+</td>
+<td align="right">
+0.0094
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.811</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+</div>
+<div id="cd_s" class="section level2">
+<h2>Cd_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:12 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-2.4650
+</td>
+<td align="right">
+0.0591
+</td>
+<td align="right">
+-41.7134
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pbl12_mean)
+</td>
+<td align="right">
+1.9354
+</td>
+<td align="right">
+2.2608
+</td>
+<td align="right">
+111.0527
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pop_200)
+</td>
+<td align="right">
+8.5228
+</td>
+<td align="right">
+8.8876
+</td>
+<td align="right">
+8.7461
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+3.5885
+</td>
+<td align="right">
+4.4324
+</td>
+<td align="right">
+4.1064
+</td>
+<td align="right">
+0.0023
+</td>
+</tr>
+<tr>
+<td>
+s(v10m_mean)
+</td>
+<td align="right">
+4.2181
+</td>
+<td align="right">
+4.5519
+</td>
+<td align="right">
+24.9818
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+1.0003
+</td>
+<td align="right">
+1.0004
+</td>
+<td align="right">
+8.8725
+</td>
+<td align="right">
+0.0031
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.808</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-4.png" width="672" /></p>
+</div>
+<div id="ce_i" class="section level2">
+<h2>Ce_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:12 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-1.2542
+</td>
+<td align="right">
+0.0253
+</td>
+<td align="right">
+-49.5238
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(u10m_mean)
+</td>
+<td align="right">
+5.6220
+</td>
+<td align="right">
+6.4444
+</td>
+<td align="right">
+22.5532
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+1.4903
+</td>
+<td align="right">
+1.6806
+</td>
+<td align="right">
+8.3959
+</td>
+<td align="right">
+0.0155
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.384</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-5.png" width="672" /></p>
+</div>
+<div id="co_i" class="section level2">
+<h2>Co_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:13 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-1.5717
+</td>
+<td align="right">
+0.0340
+</td>
+<td align="right">
+-46.2040
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+76.5570
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_mean)
+</td>
+<td align="right">
+8.9475
+</td>
+<td align="right">
+8.9979
+</td>
+<td align="right">
+40.0193
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(kndvi)
+</td>
+<td align="right">
+8.0080
+</td>
+<td align="right">
+8.7330
+</td>
+<td align="right">
+37.7399
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s2_sup_200)
+</td>
+<td align="right">
+3.0554
+</td>
+<td align="right">
+3.3820
+</td>
+<td align="right">
+23.0984
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+8.6151
+</td>
+<td align="right">
+8.8831
+</td>
+<td align="right">
+20.2576
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s1_sup_200)
+</td>
+<td align="right">
+2.3807
+</td>
+<td align="right">
+2.6417
+</td>
+<td align="right">
+10.4747
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.914</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-6.png" width="672" /></p>
+</div>
+<div id="cr_i" class="section level2">
+<h2>Cr_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:14 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+3.2367
+</td>
+<td align="right">
+0.0363
+</td>
+<td align="right">
+89.2222
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+3.3022
+</td>
+<td align="right">
+3.7255
+</td>
+<td align="right">
+11.3403
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(u10m_mean)
+</td>
+<td align="right">
+6.0993
+</td>
+<td align="right">
+6.9419
+</td>
+<td align="right">
+15.7473
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(kndvi)
+</td>
+<td align="right">
+6.8084
+</td>
+<td align="right">
+7.9347
+</td>
+<td align="right">
+21.8386
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+11.5062
+</td>
+<td align="right">
+0.0008
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+10.7535
+</td>
+<td align="right">
+0.0012
+</td>
+</tr>
+<tr>
+<td>
+s(pbl12_mean)
+</td>
+<td align="right">
+2.5353
+</td>
+<td align="right">
+2.8750
+</td>
+<td align="right">
+14.0049
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s2_sup_200)
+</td>
+<td align="right">
+8.9999
+</td>
+<td align="right">
+9.0000
+</td>
+<td align="right">
+8.0225
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+23.8214
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s7_sup_200)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+5.3926
+</td>
+<td align="right">
+0.0210
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.859</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-7.png" width="672" /></p>
+</div>
+<div id="cr_s" class="section level2">
+<h2>Cr_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:15 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+0.4731
+</td>
+<td align="right">
+0.0339
+</td>
+<td align="right">
+13.9459
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+7.4892
+</td>
+<td align="right">
+7.8535
+</td>
+<td align="right">
+55.8053
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ptp_mean)
+</td>
+<td align="right">
+8.8972
+</td>
+<td align="right">
+8.9954
+</td>
+<td align="right">
+21.7119
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+1.2186
+</td>
+<td align="right">
+1.3994
+</td>
+<td align="right">
+18.0981
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.718</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-8.png" width="672" /></p>
+</div>
+<div id="cs_i" class="section level2">
+<h2>Cs_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:16 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-3.7574
+</td>
+<td align="right">
+0.0805
+</td>
+<td align="right">
+-46.6964
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(rh_mean)
+</td>
+<td align="right">
+7.3521
+</td>
+<td align="right">
+8.1794
+</td>
+<td align="right">
+80.5530
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s1_sup_200)
+</td>
+<td align="right">
+3.1930
+</td>
+<td align="right">
+3.4650
+</td>
+<td align="right">
+14.1604
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+2.8506
+</td>
+<td align="right">
+3.5334
+</td>
+<td align="right">
+5.1578
+</td>
+<td align="right">
+0.0016
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.764</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-9.png" width="672" /></p>
+</div>
+<div id="cs_s" class="section level2">
+<h2>Cs_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:16 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-3.4835
+</td>
+<td align="right">
+0.0424
+</td>
+<td align="right">
+-82.1657
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_mean)
+</td>
+<td align="right">
+6.8405
+</td>
+<td align="right">
+7.5227
+</td>
+<td align="right">
+91.8009
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s1_sup_200)
+</td>
+<td align="right">
+3.2574
+</td>
+<td align="right">
+3.5396
+</td>
+<td align="right">
+19.1128
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+4.1416
+</td>
+<td align="right">
+5.0441
+</td>
+<td align="right">
+13.5205
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s7_sup_200)
+</td>
+<td align="right">
+1.6250
+</td>
+<td align="right">
+1.8585
+</td>
+<td align="right">
+7.4391
+</td>
+<td align="right">
+0.0042
+</td>
+</tr>
+<tr>
+<td>
+s(ptp_mean)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+3.2602
+</td>
+<td align="right">
+0.0721
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.868</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-10.png" width="672" /></p>
+</div>
+<div id="cu_i" class="section level2">
+<h2>Cu_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:17 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+2.1807
+</td>
+<td align="right">
+0.0195
+</td>
+<td align="right">
+111.5562
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pblmax_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+392.1420
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+6.5208
+</td>
+<td align="right">
+7.0550
+</td>
+<td align="right">
+14.6987
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+4.4378
+</td>
+<td align="right">
+5.0672
+</td>
+<td align="right">
+9.2896
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pop_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+24.2409
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_mean)
+</td>
+<td align="right">
+2.2174
+</td>
+<td align="right">
+2.6305
+</td>
+<td align="right">
+12.2987
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(tp_mean)
+</td>
+<td align="right">
+2.8306
+</td>
+<td align="right">
+3.3789
+</td>
+<td align="right">
+27.3311
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(bh_200)
+</td>
+<td align="right">
+2.2186
+</td>
+<td align="right">
+2.6180
+</td>
+<td align="right">
+6.4256
+</td>
+<td align="right">
+0.0010
+</td>
+</tr>
+<tr>
+<td>
+s(s7_sup_200)
+</td>
+<td align="right">
+1.9999
+</td>
+<td align="right">
+2.0000
+</td>
+<td align="right">
+8.6511
+</td>
+<td align="right">
+0.0002
+</td>
+</tr>
+<tr>
+<td>
+s(s5_sup_200)
+</td>
+<td align="right">
+1.4097
+</td>
+<td align="right">
+1.5770
+</td>
+<td align="right">
+6.5215
+</td>
+<td align="right">
+0.0260
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.785</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-11.png" width="672" /></p>
+</div>
+<div id="fe_i" class="section level2">
+<h2>Fe_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:18 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+6.0921
+</td>
+<td align="right">
+0.0277
+</td>
+<td align="right">
+220.1428
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+5.0814
+</td>
+<td align="right">
+5.8242
+</td>
+<td align="right">
+8.5135
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(u10m_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+23.5884
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(kndvi)
+</td>
+<td align="right">
+7.2702
+</td>
+<td align="right">
+8.2781
+</td>
+<td align="right">
+13.7999
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pop_200)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+7.1854
+</td>
+<td align="right">
+0.0078
+</td>
+</tr>
+<tr>
+<td>
+s(pblmax_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+47.0802
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_mean)
+</td>
+<td align="right">
+1.0420
+</td>
+<td align="right">
+1.0800
+</td>
+<td align="right">
+18.0079
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+2.1691
+</td>
+<td align="right">
+2.6194
+</td>
+<td align="right">
+13.3935
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(rh_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+16.4445
+</td>
+<td align="right">
+0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.1140
+</td>
+<td align="right">
+0.2922
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+5.3380
+</td>
+<td align="right">
+6.1269
+</td>
+<td align="right">
+4.2332
+</td>
+<td align="right">
+0.0004
+</td>
+</tr>
+<tr>
+<td>
+s(v10m_mean)
+</td>
+<td align="right">
+4.2942
+</td>
+<td align="right">
+4.8419
+</td>
+<td align="right">
+4.6722
+</td>
+<td align="right">
+0.0003
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.729</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-12.png" width="672" /></p>
+</div>
+<div id="ga_s" class="section level2">
+<h2>Ga_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:19 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-4.7866
+</td>
+<td align="right">
+0.0439
+</td>
+<td align="right">
+-109.0922
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pblmax_mean)
+</td>
+<td align="right">
+8.6440
+</td>
+<td align="right">
+8.9472
+</td>
+<td align="right">
+23.3000
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(scrapyard)
+</td>
+<td align="right">
+3.3585
+</td>
+<td align="right">
+4.1420
+</td>
+<td align="right">
+50.3423
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+1.6999
+</td>
+<td align="right">
+1.9895
+</td>
+<td align="right">
+9.0706
+</td>
+<td align="right">
+0.0003
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.696</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-13.png" width="672" /></p>
+</div>
+<div id="k_s" class="section level2">
+<h2>K_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:20 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+5.5435
+</td>
+<td align="right">
+0.0425
+</td>
+<td align="right">
+130.4903
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pblmin_mean)
+</td>
+<td align="right">
+1.5224
+</td>
+<td align="right">
+1.7501
+</td>
+<td align="right">
+108.8245
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+2.3789
+</td>
+<td align="right">
+2.8834
+</td>
+<td align="right">
+7.9947
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s1_sup_200)
+</td>
+<td align="right">
+4.4573
+</td>
+<td align="right">
+4.7505
+</td>
+<td align="right">
+10.4723
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+62.1336
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+3.5045
+</td>
+<td align="right">
+4.2214
+</td>
+<td align="right">
+6.0103
+</td>
+<td align="right">
+0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+31.2694
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(u10m_mean)
+</td>
+<td align="right">
+2.8886
+</td>
+<td align="right">
+3.4888
+</td>
+<td align="right">
+25.5621
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.857</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-14.png" width="672" /></p>
+</div>
+<div id="la_i" class="section level2">
+<h2>La_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:20 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-1.8498
+</td>
+<td align="right">
+0.0287
+</td>
+<td align="right">
+-64.3639
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(t2m_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+28.4205
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pblmax_mean)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0003
+</td>
+<td align="right">
+10.2336
+</td>
+<td align="right">
+0.0015
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.188</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-15.png" width="672" /></p>
+</div>
+<div id="li_i" class="section level2">
+<h2>Li_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:21 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-2.2439
+</td>
+<td align="right">
+0.0251
+</td>
+<td align="right">
+-89.4907
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(t2m_mean)
+</td>
+<td align="right">
+7.1241
+</td>
+<td align="right">
+7.9483
+</td>
+<td align="right">
+45.9698
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+13.5047
+</td>
+<td align="right">
+0.0003
+</td>
+</tr>
+<tr>
+<td>
+s(s2_sup_200)
+</td>
+<td align="right">
+2.5565
+</td>
+<td align="right">
+3.0881
+</td>
+<td align="right">
+5.7287
+</td>
+<td align="right">
+0.0008
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.562</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-16.png" width="672" /></p>
+</div>
+<div id="mn_i" class="section level2">
+<h2>Mn_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:22 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+2.2871
+</td>
+<td align="right">
+0.0232
+</td>
+<td align="right">
+98.5278
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+7.7848
+</td>
+<td align="right">
+7.9788
+</td>
+<td align="right">
+73.0969
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_mean)
+</td>
+<td align="right">
+1.7911
+</td>
+<td align="right">
+2.1786
+</td>
+<td align="right">
+10.2157
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(u10m_mean)
+</td>
+<td align="right">
+2.6200
+</td>
+<td align="right">
+3.1191
+</td>
+<td align="right">
+10.4962
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+2.5439
+</td>
+<td align="right">
+3.0734
+</td>
+<td align="right">
+5.2332
+</td>
+<td align="right">
+0.0013
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.677</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-17.png" width="672" /></p>
+</div>
+<div id="mn_s" class="section level2">
+<h2>Mn_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:22 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+1.8458
+</td>
+<td align="right">
+0.0256
+</td>
+<td align="right">
+72.2079
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(wdir_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+6.6994
+</td>
+<td align="right">
+0.0102
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+7.3442
+</td>
+<td align="right">
+7.8104
+</td>
+<td align="right">
+45.0549
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+7.1645
+</td>
+<td align="right">
+7.8051
+</td>
+<td align="right">
+30.7691
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pblmin_mean)
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+1.0003
+</td>
+<td align="right">
+84.4471
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s7_sup_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+6.6228
+</td>
+<td align="right">
+0.0106
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.715</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-18.png" width="672" /></p>
+</div>
+<div id="mo_s" class="section level2">
+<h2>Mo_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:23 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+1.6837
+</td>
+<td align="right">
+0.0377
+</td>
+<td align="right">
+44.6168
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+1.0019
+</td>
+<td align="right">
+1.0026
+</td>
+<td align="right">
+48.2548
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(u10m_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+26.8734
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+2.2364
+</td>
+<td align="right">
+2.5473
+</td>
+<td align="right">
+5.9436
+</td>
+<td align="right">
+0.0008
+</td>
+</tr>
+<tr>
+<td>
+s(kndvi)
+</td>
+<td align="right">
+7.5487
+</td>
+<td align="right">
+8.4702
+</td>
+<td align="right">
+19.9456
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+4.5522
+</td>
+<td align="right">
+5.2072
+</td>
+<td align="right">
+24.7505
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+5.5147
+</td>
+<td align="right">
+5.8872
+</td>
+<td align="right">
+38.6684
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+3.8570
+</td>
+<td align="right">
+4.5879
+</td>
+<td align="right">
+8.7714
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pbl12_mean)
+</td>
+<td align="right">
+2.0111
+</td>
+<td align="right">
+2.1966
+</td>
+<td align="right">
+7.1167
+</td>
+<td align="right">
+0.0004
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+2.2037
+</td>
+<td align="right">
+2.6158
+</td>
+<td align="right">
+5.8710
+</td>
+<td align="right">
+0.0014
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.931</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-19.png" width="672" /></p>
+</div>
+<div id="nb_i" class="section level2">
+<h2>Nb_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:23 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-2.2736
+</td>
+<td align="right">
+0.0603
+</td>
+<td align="right">
+-37.7260
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+5.8719
+</td>
+<td align="right">
+6.0797
+</td>
+<td align="right">
+25.2961
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ptp_mean)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+68.5136
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(kndvi)
+</td>
+<td align="right">
+7.4439
+</td>
+<td align="right">
+8.4020
+</td>
+<td align="right">
+13.1725
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s2_sup_200)
+</td>
+<td align="right">
+7.3456
+</td>
+<td align="right">
+7.6157
+</td>
+<td align="right">
+5.6798
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(u10m_mean)
+</td>
+<td align="right">
+5.6666
+</td>
+<td align="right">
+6.2970
+</td>
+<td align="right">
+11.4677
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+1.8122
+</td>
+<td align="right">
+2.0244
+</td>
+<td align="right">
+8.2892
+</td>
+<td align="right">
+0.0004
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.849</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-20.png" width="672" /></p>
+</div>
+<div id="ni_i" class="section level2">
+<h2>Ni_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:24 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+2.3201
+</td>
+<td align="right">
+0.0436
+</td>
+<td align="right">
+53.2712
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+1.1523
+</td>
+<td align="right">
+1.2783
+</td>
+<td align="right">
+70.3516
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wdir_mean)
+</td>
+<td align="right">
+1.7965
+</td>
+<td align="right">
+2.2113
+</td>
+<td align="right">
+1.4030
+</td>
+<td align="right">
+0.1637
+</td>
+</tr>
+<tr>
+<td>
+s(kndvi)
+</td>
+<td align="right">
+5.9974
+</td>
+<td align="right">
+7.1542
+</td>
+<td align="right">
+30.0348
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+34.0440
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+52.1935
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+8.4049
+</td>
+<td align="right">
+8.8527
+</td>
+<td align="right">
+10.7460
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s2_sup_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+68.2027
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s5_sup_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+9.6679
+</td>
+<td align="right">
+0.0021
+</td>
+</tr>
+<tr>
+<td>
+s(s1_sup_200)
+</td>
+<td align="right">
+2.4372
+</td>
+<td align="right">
+2.7165
+</td>
+<td align="right">
+17.2240
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ptp_mean)
+</td>
+<td align="right">
+4.9164
+</td>
+<td align="right">
+5.4949
+</td>
+<td align="right">
+3.8905
+</td>
+<td align="right">
+0.0014
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.91</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-21.png" width="672" /></p>
+</div>
+<div id="pb_i" class="section level2">
+<h2>Pb_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:24 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+1.5771
+</td>
+<td align="right">
+0.0223
+</td>
+<td align="right">
+70.8133
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+7.5361
+</td>
+<td align="right">
+7.9010
+</td>
+<td align="right">
+113.5448
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_mean)
+</td>
+<td align="right">
+6.5754
+</td>
+<td align="right">
+7.3259
+</td>
+<td align="right">
+55.5043
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_mean)
+</td>
+<td align="right">
+1.0005
+</td>
+<td align="right">
+1.0008
+</td>
+<td align="right">
+9.2076
+</td>
+<td align="right">
+0.0027
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.761</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-22.png" width="672" /></p>
+</div>
+<div id="pm10" class="section level2">
+<h2>PM10</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:25 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+3.4171
+</td>
+<td align="right">
+0.0143
+</td>
+<td align="right">
+239.6400
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pbl00_mean)
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+1.0003
+</td>
+<td align="right">
+20.5749
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+5.7046
+</td>
+<td align="right">
+6.7068
+</td>
+<td align="right">
+6.3963
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pblmax_mean)
+</td>
+<td align="right">
+5.0830
+</td>
+<td align="right">
+5.9412
+</td>
+<td align="right">
+24.5107
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+2.0150
+</td>
+<td align="right">
+2.2196
+</td>
+<td align="right">
+34.8587
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+1.4959
+</td>
+<td align="right">
+1.8055
+</td>
+<td align="right">
+6.5210
+</td>
+<td align="right">
+0.0020
+</td>
+</tr>
+<tr>
+<td>
+s(bh_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+8.9779
+</td>
+<td align="right">
+0.0030
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.821</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-23.png" width="672" /></p>
+</div>
+<div id="rb_i" class="section level2">
+<h2>Rb_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:25 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-1.1921
+</td>
+<td align="right">
+0.0305
+</td>
+<td align="right">
+-39.0792
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+8.4979
+</td>
+<td align="right">
+8.9275
+</td>
+<td align="right">
+37.3648
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+2.3809
+</td>
+<td align="right">
+2.9927
+</td>
+<td align="right">
+5.7309
+</td>
+<td align="right">
+0.0008
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.548</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-24.png" width="672" /></p>
+</div>
+<div id="rb_s" class="section level2">
+<h2>Rb_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:26 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-0.4029
+</td>
+<td align="right">
+0.0451
+</td>
+<td align="right">
+-8.9416
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(tmax2m_mean)
+</td>
+<td align="right">
+2.6632
+</td>
+<td align="right">
+3.1594
+</td>
+<td align="right">
+94.4452
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+5.4957
+</td>
+<td align="right">
+6.4968
+</td>
+<td align="right">
+10.8045
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+3.9148
+</td>
+<td align="right">
+4.3190
+</td>
+<td align="right">
+3.6743
+</td>
+<td align="right">
+0.0033
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+2.0693
+</td>
+<td align="right">
+2.4858
+</td>
+<td align="right">
+10.6142
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s8_sup_200)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+6.2957
+</td>
+<td align="right">
+0.0127
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.751</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-25.png" width="672" /></p>
+</div>
+<div id="sb_i" class="section level2">
+<h2>Sb_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:27 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-0.3427
+</td>
+<td align="right">
+0.0257
+</td>
+<td align="right">
+-13.3115
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pbl12_mean)
+</td>
+<td align="right">
+2.2980
+</td>
+<td align="right">
+2.6646
+</td>
+<td align="right">
+59.8838
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.1523
+</td>
+<td align="right">
+0.2841
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+3.9708
+</td>
+<td align="right">
+4.3752
+</td>
+<td align="right">
+12.3397
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+7.4758
+</td>
+<td align="right">
+8.2466
+</td>
+<td align="right">
+15.7365
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pop_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+46.7392
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s8_sup_200)
+</td>
+<td align="right">
+5.7604
+</td>
+<td align="right">
+6.5128
+</td>
+<td align="right">
+14.6551
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.784</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-26.png" width="672" /></p>
+</div>
+<div id="sn_i" class="section level2">
+<h2>Sn_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:28 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+1.0496
+</td>
+<td align="right">
+0.0251
+</td>
+<td align="right">
+41.8897
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pbl12_mean)
+</td>
+<td align="right">
+4.5872
+</td>
+<td align="right">
+5.4150
+</td>
+<td align="right">
+155.7312
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+8.8430
+</td>
+<td align="right">
+8.9817
+</td>
+<td align="right">
+36.8224
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+8.8000
+</td>
+<td align="right">
+8.9816
+</td>
+<td align="right">
+10.5225
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+10.0721
+</td>
+<td align="right">
+0.0017
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+5.4625
+</td>
+<td align="right">
+0.0202
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.918</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-27.png" width="672" /></p>
+</div>
+<div id="sr_i" class="section level2">
+<h2>Sr_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:29 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+0.5189
+</td>
+<td align="right">
+0.0306
+</td>
+<td align="right">
+16.9368
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(wdir_mean)
+</td>
+<td align="right">
+4.2945
+</td>
+<td align="right">
+4.6959
+</td>
+<td align="right">
+13.9233
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s8_sup_200)
+</td>
+<td align="right">
+3.4242
+</td>
+<td align="right">
+4.2544
+</td>
+<td align="right">
+5.0175
+</td>
+<td align="right">
+0.0005
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+3.7328
+</td>
+<td align="right">
+4.1958
+</td>
+<td align="right">
+3.4911
+</td>
+<td align="right">
+0.0101
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.424</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-28.png" width="672" /></p>
+</div>
+<div id="tl_s" class="section level2">
+<h2>Tl_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:29 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-2.7956
+</td>
+<td align="right">
+0.0501
+</td>
+<td align="right">
+-55.7554
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(pbl12_mean)
+</td>
+<td align="right">
+2.0799
+</td>
+<td align="right">
+2.4474
+</td>
+<td align="right">
+111.7735
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+5.9204
+</td>
+<td align="right">
+6.7660
+</td>
+<td align="right">
+21.5101
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+0.6220
+</td>
+<td align="right">
+0.4310
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+2.6981
+</td>
+<td align="right">
+2.9625
+</td>
+<td align="right">
+4.0309
+</td>
+<td align="right">
+0.0079
+</td>
+</tr>
+<tr>
+<td>
+s(s2_sup_200)
+</td>
+<td align="right">
+3.3769
+</td>
+<td align="right">
+3.8375
+</td>
+<td align="right">
+13.3567
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+2.2854
+</td>
+<td align="right">
+2.4536
+</td>
+<td align="right">
+15.1192
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+2.8084
+</td>
+<td align="right">
+3.3277
+</td>
+<td align="right">
+10.7116
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.871</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-29.png" width="672" /></p>
+</div>
+<div id="u_i" class="section level2">
+<h2>U_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:30 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-5.0233
+</td>
+<td align="right">
+0.0429
+</td>
+<td align="right">
+-117.0662
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_mean)
+</td>
+<td align="right">
+2.0859
+</td>
+<td align="right">
+2.2587
+</td>
+<td align="right">
+7.9883
+</td>
+<td align="right">
+0.0006
+</td>
+</tr>
+<tr>
+<td>
+s(s5_sup_200)
+</td>
+<td align="right">
+1.9130
+</td>
+<td align="right">
+2.3450
+</td>
+<td align="right">
+7.5031
+</td>
+<td align="right">
+0.0009
+</td>
+</tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+2.6592
+</td>
+<td align="right">
+3.2205
+</td>
+<td align="right">
+10.5352
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(rh_mean)
+</td>
+<td align="right">
+7.5757
+</td>
+<td align="right">
+8.2636
+</td>
+<td align="right">
+36.8784
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.745</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-30.png" width="672" /></p>
+</div>
+<div id="w_i" class="section level2">
+<h2>W_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:30 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-2.5392
+</td>
+<td align="right">
+0.0374
+</td>
+<td align="right">
+-67.9830
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+64.2179
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_mean)
+</td>
+<td align="right">
+5.9521
+</td>
+<td align="right">
+6.8300
+</td>
+<td align="right">
+13.6067
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(kndvi)
+</td>
+<td align="right">
+6.3460
+</td>
+<td align="right">
+7.4677
+</td>
+<td align="right">
+16.4761
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+98.1787
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s7_sup_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+20.8755
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pwspeed_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+20.4335
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+3.8887
+</td>
+<td align="right">
+4.5276
+</td>
+<td align="right">
+4.6027
+</td>
+<td align="right">
+0.0038
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.698</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-31.png" width="672" /></p>
+</div>
+<div id="w_s" class="section level2">
+<h2>W_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:31 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-2.7118
+</td>
+<td align="right">
+0.0270
+</td>
+<td align="right">
+-100.6236
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+3.5823
+</td>
+<td align="right">
+4.3013
+</td>
+<td align="right">
+65.3550
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pblmax_mean)
+</td>
+<td align="right">
+8.9889
+</td>
+<td align="right">
+8.9996
+</td>
+<td align="right">
+41.5314
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(kndvi)
+</td>
+<td align="right">
+7.1864
+</td>
+<td align="right">
+8.2107
+</td>
+<td align="right">
+20.6256
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+5.4924
+</td>
+<td align="right">
+6.2363
+</td>
+<td align="right">
+23.6326
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s2_sup_200)
+</td>
+<td align="right">
+3.1380
+</td>
+<td align="right">
+3.5833
+</td>
+<td align="right">
+13.1126
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s7_sup_200)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+5.1965
+</td>
+<td align="right">
+0.0235
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.932</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-32.png" width="672" /></p>
+</div>
+<div id="zn_s" class="section level2">
+<h2>Zn_s</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:31 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+3.1847
+</td>
+<td align="right">
+0.0337
+</td>
+<td align="right">
+94.4090
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_mean)
+</td>
+<td align="right">
+4.5080
+</td>
+<td align="right">
+4.8886
+</td>
+<td align="right">
+46.2259
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s3_sup_200)
+</td>
+<td align="right">
+6.8941
+</td>
+<td align="right">
+7.4786
+</td>
+<td align="right">
+30.2439
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pwspeed_mean)
+</td>
+<td align="right">
+1.6669
+</td>
+<td align="right">
+1.9052
+</td>
+<td align="right">
+13.5077
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(v10m_mean)
+</td>
+<td align="right">
+1.7451
+</td>
+<td align="right">
+1.9775
+</td>
+<td align="right">
+5.7948
+</td>
+<td align="right">
+0.0026
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.74</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-33.png" width="672" /></p>
+</div>
+<div id="zr_i" class="section level2">
+<h2>Zr_i</h2>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Sat Nov 25 15:01:32 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-0.5139
+</td>
+<td align="right">
+0.0209
+</td>
+<td align="right">
+-24.6084
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(wdir_mean)
+</td>
+<td align="right">
+2.6670
+</td>
+<td align="right">
+3.1117
+</td>
+<td align="right">
+11.6170
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(hot_area)
+</td>
+<td align="right">
+8.9983
+</td>
+<td align="right">
+9.0000
+</td>
+<td align="right">
+24.1386
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+8.9101
+</td>
+<td align="right">
+8.9965
+</td>
+<td align="right">
+7.8600
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_mean)
+</td>
+<td align="right">
+1.8889
+</td>
+<td align="right">
+2.0831
+</td>
+<td align="right">
+19.2632
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+2.7493
+</td>
+<td align="right">
+3.0040
+</td>
+<td align="right">
+30.3295
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+8.6262
+</td>
+<td align="right">
+0.0036
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.67</p>
+<p><img src="traccianti_mean_files/figure-html/unnamed-chunk-1-34.png" width="672" /></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
