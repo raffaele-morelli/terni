@@ -2,7 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 cat(args, sep = "\n")
 
 pltnt <- args[1] #### SET inquinante ####
-# pltnt <- "PM10"
+pltnt <- "Nb_i"
 
 cat("############# ", pltnt, "\n")
 
