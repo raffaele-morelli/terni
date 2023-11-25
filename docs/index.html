@@ -2097,6 +2097,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2150,372 +2152,787 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <div class="layout-chunk" data-layout="l-body">
-<table>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <thead>
-<tr class="header">
-<th style="text-align: left;">pltnt</th>
-<th style="text-align: right;">Scelte</th>
-<th style="text-align: right;">Mean</th>
+<tr>
+<th style="text-align:left;">
+pltnt
+</th>
+<th style="text-align:right;">
+Scelte
+</th>
+<th style="text-align:right;">
+Mean
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">As_s</td>
-<td style="text-align: right;">0.766</td>
-<td style="text-align: right;">0.742</td>
+<tr>
+<td style="text-align:left;">
+As_s
+</td>
+<td style="text-align:right;">
+0.766
+</td>
+<td style="text-align:right;">
+0.742
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Ba_s</td>
-<td style="text-align: right;">0.712</td>
-<td style="text-align: right;">0.698</td>
+<tr>
+<td style="text-align:left;">
+Ba_s
+</td>
+<td style="text-align:right;">
+0.712
+</td>
+<td style="text-align:right;">
+0.698
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Bi_i</td>
-<td style="text-align: right;">0.812</td>
-<td style="text-align: right;">0.811</td>
+<tr>
+<td style="text-align:left;">
+Bi_i
+</td>
+<td style="text-align:right;">
+0.812
+</td>
+<td style="text-align:right;">
+0.811
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Cd_s</td>
-<td style="text-align: right;">0.791</td>
-<td style="text-align: right;">0.808</td>
+<tr>
+<td style="text-align:left;">
+Cd_s
+</td>
+<td style="text-align:right;">
+0.791
+</td>
+<td style="text-align:right;">
+0.808
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Ce_i</td>
-<td style="text-align: right;">0.388</td>
-<td style="text-align: right;">0.384</td>
+<tr>
+<td style="text-align:left;">
+Ce_i
+</td>
+<td style="text-align:right;">
+0.388
+</td>
+<td style="text-align:right;">
+0.384
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Co_i</td>
-<td style="text-align: right;">0.915</td>
-<td style="text-align: right;">0.914</td>
+<tr>
+<td style="text-align:left;">
+Co_i
+</td>
+<td style="text-align:right;">
+0.915
+</td>
+<td style="text-align:right;">
+0.914
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Cr_i</td>
-<td style="text-align: right;">0.858</td>
-<td style="text-align: right;">0.859</td>
+<tr>
+<td style="text-align:left;">
+Cr_i
+</td>
+<td style="text-align:right;">
+0.858
+</td>
+<td style="text-align:right;">
+0.859
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Cr_s</td>
-<td style="text-align: right;">0.721</td>
-<td style="text-align: right;">0.718</td>
+<tr>
+<td style="text-align:left;">
+Cr_s
+</td>
+<td style="text-align:right;">
+0.721
+</td>
+<td style="text-align:right;">
+0.718
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Cs_i</td>
-<td style="text-align: right;">0.788</td>
-<td style="text-align: right;">0.764</td>
+<tr>
+<td style="text-align:left;">
+Cs_i
+</td>
+<td style="text-align:right;">
+0.788
+</td>
+<td style="text-align:right;">
+0.764
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Cs_s</td>
-<td style="text-align: right;">0.866</td>
-<td style="text-align: right;">0.868</td>
+<tr>
+<td style="text-align:left;">
+Cs_s
+</td>
+<td style="text-align:right;">
+0.866
+</td>
+<td style="text-align:right;">
+0.868
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Cu_i</td>
-<td style="text-align: right;">0.787</td>
-<td style="text-align: right;">0.785</td>
+<tr>
+<td style="text-align:left;">
+Cu_i
+</td>
+<td style="text-align:right;">
+0.787
+</td>
+<td style="text-align:right;">
+0.785
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Fe_i</td>
-<td style="text-align: right;">0.677</td>
-<td style="text-align: right;">0.729</td>
+<tr>
+<td style="text-align:left;">
+Fe_i
+</td>
+<td style="text-align:right;">
+0.677
+</td>
+<td style="text-align:right;">
+0.729
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Ga_s</td>
-<td style="text-align: right;">0.700</td>
-<td style="text-align: right;">0.696</td>
+<tr>
+<td style="text-align:left;">
+Ga_s
+</td>
+<td style="text-align:right;">
+0.700
+</td>
+<td style="text-align:right;">
+0.696
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">K_s</td>
-<td style="text-align: right;">0.857</td>
-<td style="text-align: right;">0.857</td>
+<tr>
+<td style="text-align:left;">
+K_s
+</td>
+<td style="text-align:right;">
+0.857
+</td>
+<td style="text-align:right;">
+0.857
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">La_i</td>
-<td style="text-align: right;">0.200</td>
-<td style="text-align: right;">0.188</td>
+<tr>
+<td style="text-align:left;">
+La_i
+</td>
+<td style="text-align:right;">
+0.200
+</td>
+<td style="text-align:right;">
+0.188
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Li_i</td>
-<td style="text-align: right;">0.569</td>
-<td style="text-align: right;">0.562</td>
+<tr>
+<td style="text-align:left;">
+Li_i
+</td>
+<td style="text-align:right;">
+0.569
+</td>
+<td style="text-align:right;">
+0.562
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Mn_i</td>
-<td style="text-align: right;">0.682</td>
-<td style="text-align: right;">0.677</td>
+<tr>
+<td style="text-align:left;">
+Mn_i
+</td>
+<td style="text-align:right;">
+0.682
+</td>
+<td style="text-align:right;">
+0.677
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Mn_s</td>
-<td style="text-align: right;">0.714</td>
-<td style="text-align: right;">0.715</td>
+<tr>
+<td style="text-align:left;">
+Mn_s
+</td>
+<td style="text-align:right;">
+0.714
+</td>
+<td style="text-align:right;">
+0.715
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Mo_s</td>
-<td style="text-align: right;">0.932</td>
-<td style="text-align: right;">0.931</td>
+<tr>
+<td style="text-align:left;">
+Mo_s
+</td>
+<td style="text-align:right;">
+0.932
+</td>
+<td style="text-align:right;">
+0.931
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Ni_i</td>
-<td style="text-align: right;">0.911</td>
-<td style="text-align: right;">0.910</td>
+<tr>
+<td style="text-align:left;">
+Ni_i
+</td>
+<td style="text-align:right;">
+0.911
+</td>
+<td style="text-align:right;">
+0.910
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Pb_i</td>
-<td style="text-align: right;">0.760</td>
-<td style="text-align: right;">0.761</td>
+<tr>
+<td style="text-align:left;">
+Pb_i
+</td>
+<td style="text-align:right;">
+0.760
+</td>
+<td style="text-align:right;">
+0.761
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">PM10</td>
-<td style="text-align: right;">0.821</td>
-<td style="text-align: right;">0.821</td>
+<tr>
+<td style="text-align:left;">
+PM10
+</td>
+<td style="text-align:right;">
+0.821
+</td>
+<td style="text-align:right;">
+0.821
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Rb_i</td>
-<td style="text-align: right;">0.631</td>
-<td style="text-align: right;">0.548</td>
+<tr>
+<td style="text-align:left;">
+Rb_i
+</td>
+<td style="text-align:right;">
+0.631
+</td>
+<td style="text-align:right;">
+0.548
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Rb_s</td>
-<td style="text-align: right;">0.749</td>
-<td style="text-align: right;">0.751</td>
+<tr>
+<td style="text-align:left;">
+Rb_s
+</td>
+<td style="text-align:right;">
+0.749
+</td>
+<td style="text-align:right;">
+0.751
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Sb_i</td>
-<td style="text-align: right;">0.789</td>
-<td style="text-align: right;">0.784</td>
+<tr>
+<td style="text-align:left;">
+Sb_i
+</td>
+<td style="text-align:right;">
+0.789
+</td>
+<td style="text-align:right;">
+0.784
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Sn_i</td>
-<td style="text-align: right;">0.917</td>
-<td style="text-align: right;">0.918</td>
+<tr>
+<td style="text-align:left;">
+Sn_i
+</td>
+<td style="text-align:right;">
+0.917
+</td>
+<td style="text-align:right;">
+0.918
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Sr_i</td>
-<td style="text-align: right;">0.423</td>
-<td style="text-align: right;">0.424</td>
+<tr>
+<td style="text-align:left;">
+Sr_i
+</td>
+<td style="text-align:right;">
+0.423
+</td>
+<td style="text-align:right;">
+0.424
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Tl_s</td>
-<td style="text-align: right;">0.868</td>
-<td style="text-align: right;">0.871</td>
+<tr>
+<td style="text-align:left;">
+Tl_s
+</td>
+<td style="text-align:right;">
+0.868
+</td>
+<td style="text-align:right;">
+0.871
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">U_i</td>
-<td style="text-align: right;">0.747</td>
-<td style="text-align: right;">0.745</td>
+<tr>
+<td style="text-align:left;">
+U_i
+</td>
+<td style="text-align:right;">
+0.747
+</td>
+<td style="text-align:right;">
+0.745
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">W_i</td>
-<td style="text-align: right;">0.679</td>
-<td style="text-align: right;">0.698</td>
+<tr>
+<td style="text-align:left;">
+W_i
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+0.698
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">W_s</td>
-<td style="text-align: right;">0.932</td>
-<td style="text-align: right;">0.932</td>
+<tr>
+<td style="text-align:left;">
+W_s
+</td>
+<td style="text-align:right;">
+0.932
+</td>
+<td style="text-align:right;">
+0.932
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Zn_s</td>
-<td style="text-align: right;">0.741</td>
-<td style="text-align: right;">0.740</td>
+<tr>
+<td style="text-align:left;">
+Zn_s
+</td>
+<td style="text-align:right;">
+0.741
+</td>
+<td style="text-align:right;">
+0.740
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Zr_i</td>
-<td style="text-align: right;">0.667</td>
-<td style="text-align: right;">0.670</td>
+<tr>
+<td style="text-align:left;">
+Zr_i
+</td>
+<td style="text-align:right;">
+0.667
+</td>
+<td style="text-align:right;">
+0.670
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Nb_i</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.849</td>
+<tr>
+<td style="text-align:left;">
+Nb_i
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0.849
+</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<table>
-<colgroup>
-<col style="width: 2%" />
-<col style="width: 52%" />
-<col style="width: 44%" />
-</colgroup>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <thead>
-<tr class="header">
-<th style="text-align: left;">pltnt</th>
-<th style="text-align: left;">Scelte</th>
-<th style="text-align: left;">Mean</th>
+<tr>
+<th style="text-align:left;">
+pltnt
+</th>
+<th style="text-align:left;">
+Scelte
+</th>
+<th style="text-align:left;">
+Mean
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">As_s</td>
-<td style="text-align: left;">cold_area, u10m_max, s6_sup_200, kndvi, wspeed_min, wspeed_max_median, s5_sup_200, wspeed_max_IQR, pop_200</td>
-<td style="text-align: left;">cold_area, u10m_mean, s3_sup_200</td>
+<tr>
+<td style="text-align:left;">
+As_s
+</td>
+<td style="text-align:left;">
+cold_area, u10m_max, s6_sup_200, kndvi, wspeed_min, wspeed_max_median, s5_sup_200, wspeed_max_IQR, pop_200
+</td>
+<td style="text-align:left;">
+cold_area, u10m_mean, s3_sup_200
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Ba_s</td>
-<td style="text-align: left;">pblmin_IQR, scrapyard, t2m_IQR, wspeed_min, wspeed_IQR, pblmin_median, s1_sup_200</td>
-<td style="text-align: left;">tmax2m_mean, scrapyard, pbl00_mean, pwspeed_mean, t2m_mean</td>
+<tr>
+<td style="text-align:left;">
+Ba_s
+</td>
+<td style="text-align:left;">
+pblmin_IQR, scrapyard, t2m_IQR, wspeed_min, wspeed_IQR, pblmin_median, s1_sup_200
+</td>
+<td style="text-align:left;">
+tmax2m_mean, scrapyard, pbl00_mean, pwspeed_mean, t2m_mean
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Bi_i</td>
-<td style="text-align: left;">u10m_max, scrapyard, s6_sup_200, wspeed_max_median, s4_sup_200</td>
-<td style="text-align: left;">pbl00_mean, scrapyard, s6_sup_200, s4_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Bi_i
+</td>
+<td style="text-align:left;">
+u10m_max, scrapyard, s6_sup_200, wspeed_max_median, s4_sup_200
+</td>
+<td style="text-align:left;">
+pbl00_mean, scrapyard, s6_sup_200, s4_sup_200
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Cd_s</td>
-<td style="text-align: left;">u10m_min, pop_200, rh_IQR</td>
-<td style="text-align: left;">pbl12_mean, pop_200, hot_area, v10m_mean, sp_mean</td>
+<tr>
+<td style="text-align:left;">
+Cd_s
+</td>
+<td style="text-align:left;">
+u10m_min, pop_200, rh_IQR
+</td>
+<td style="text-align:left;">
+pbl12_mean, pop_200, hot_area, v10m_mean, sp_mean
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Ce_i</td>
-<td style="text-align: left;">nirradiance_IQR, tp_median, v10m_mean</td>
-<td style="text-align: left;">u10m_mean, wspeed_max_mean</td>
+<tr>
+<td style="text-align:left;">
+Ce_i
+</td>
+<td style="text-align:left;">
+nirradiance_IQR, tp_median, v10m_mean
+</td>
+<td style="text-align:left;">
+u10m_mean, wspeed_max_mean
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Co_i</td>
-<td style="text-align: left;">cold_area, wspeed_max_median, kndvi, s2_sup_200, s6_sup_200, wspeed_IQR, s3_sup_200, s7_sup_200, v10m_median</td>
-<td style="text-align: left;">cold_area, nirradiance_mean, kndvi, s2_sup_200, s6_sup_200, s1_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Co_i
+</td>
+<td style="text-align:left;">
+cold_area, wspeed_max_median, kndvi, s2_sup_200, s6_sup_200, wspeed_IQR, s3_sup_200, s7_sup_200, v10m_median
+</td>
+<td style="text-align:left;">
+cold_area, nirradiance_mean, kndvi, s2_sup_200, s6_sup_200, s1_sup_200
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Cr_i</td>
-<td style="text-align: left;">s3_sup_200, pblmin_median, kndvi, cold_area, ml_200, pbl12_IQR, s2_sup_200, pbl12_min, imp_200, wspeed_IQR, v10m_median, s5_sup_200</td>
-<td style="text-align: left;">s3_sup_200, u10m_mean, kndvi, cold_area, ml_200, pbl12_mean, s2_sup_200, s6_sup_200, s7_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Cr_i
+</td>
+<td style="text-align:left;">
+s3_sup_200, pblmin_median, kndvi, cold_area, ml_200, pbl12_IQR, s2_sup_200, pbl12_min, imp_200, wspeed_IQR, v10m_median, s5_sup_200
+</td>
+<td style="text-align:left;">
+s3_sup_200, u10m_mean, kndvi, cold_area, ml_200, pbl12_mean, s2_sup_200, s6_sup_200, s7_sup_200
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Cr_s</td>
-<td style="text-align: left;">s3_sup_200, nirradiance_IQR, cold_area, wspeed_max, rh_IQR, wspeed_max_max</td>
-<td style="text-align: left;">s3_sup_200, ptp_mean, cold_area</td>
+<tr>
+<td style="text-align:left;">
+Cr_s
+</td>
+<td style="text-align:left;">
+s3_sup_200, nirradiance_IQR, cold_area, wspeed_max, rh_IQR, wspeed_max_max
+</td>
+<td style="text-align:left;">
+s3_sup_200, ptp_mean, cold_area
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Cs_i</td>
-<td style="text-align: left;">pbl00_IQR, pop_200, s8_sup_200, s3_sup_200</td>
-<td style="text-align: left;">rh_mean, s1_sup_200, m_dis_ferr</td>
+<tr>
+<td style="text-align:left;">
+Cs_i
+</td>
+<td style="text-align:left;">
+pbl00_IQR, pop_200, s8_sup_200, s3_sup_200
+</td>
+<td style="text-align:left;">
+rh_mean, s1_sup_200, m_dis_ferr
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Cs_s</td>
-<td style="text-align: left;">t2m_IQR, s1_sup_200, m_dis_ferr, tp_median, s7_sup_200</td>
-<td style="text-align: left;">nirradiance_mean, s1_sup_200, m_dis_ferr, s7_sup_200, ptp_mean</td>
+<tr>
+<td style="text-align:left;">
+Cs_s
+</td>
+<td style="text-align:left;">
+t2m_IQR, s1_sup_200, m_dis_ferr, tp_median, s7_sup_200
+</td>
+<td style="text-align:left;">
+nirradiance_mean, s1_sup_200, m_dis_ferr, s7_sup_200, ptp_mean
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Cu_i</td>
-<td style="text-align: left;">u10m_max, hot_area, imp_200, sp_min, pop_200, pbl00_max, ml_200, m_dis_ferr</td>
-<td style="text-align: left;">pblmax_mean, hot_area, imp_200, pop_200, wspeed_mean, tp_mean, bh_200, s7_sup_200, s5_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Cu_i
+</td>
+<td style="text-align:left;">
+u10m_max, hot_area, imp_200, sp_min, pop_200, pbl00_max, ml_200, m_dis_ferr
+</td>
+<td style="text-align:left;">
+pblmax_mean, hot_area, imp_200, pop_200, wspeed_mean, tp_mean, bh_200, s7_sup_200, s5_sup_200
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Fe_i</td>
-<td style="text-align: left;">cold_area, u10m_IQR, kndvi, bh_200, pblmin_median, s3_sup_200, s2_sup_200</td>
-<td style="text-align: left;">cold_area, u10m_mean, kndvi, pop_200, pblmax_mean, wspeed_mean, imp_200, rh_mean, ml_200, m_dis_ferr, v10m_mean</td>
+<tr>
+<td style="text-align:left;">
+Fe_i
+</td>
+<td style="text-align:left;">
+cold_area, u10m_IQR, kndvi, bh_200, pblmin_median, s3_sup_200, s2_sup_200
+</td>
+<td style="text-align:left;">
+cold_area, u10m_mean, kndvi, pop_200, pblmax_mean, wspeed_mean, imp_200, rh_mean, ml_200, m_dis_ferr, v10m_mean
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Ga_s</td>
-<td style="text-align: left;">tp_max, scrapyard, s3_sup_200, pbl12_min, u10m_max</td>
-<td style="text-align: left;">pblmax_mean, scrapyard, s3_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Ga_s
+</td>
+<td style="text-align:left;">
+tp_max, scrapyard, s3_sup_200, pbl12_min, u10m_max
+</td>
+<td style="text-align:left;">
+pblmax_mean, scrapyard, s3_sup_200
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">K_s</td>
-<td style="text-align: left;">t2m_IQR, pop_200, cold_area, v10m_median, s3_sup_200</td>
-<td style="text-align: left;">pblmin_mean, hot_area, s1_sup_200, wspeed_max_mean, m_dis_ferr, sp_mean, u10m_mean</td>
+<tr>
+<td style="text-align:left;">
+K_s
+</td>
+<td style="text-align:left;">
+t2m_IQR, pop_200, cold_area, v10m_median, s3_sup_200
+</td>
+<td style="text-align:left;">
+pblmin_mean, hot_area, s1_sup_200, wspeed_max_mean, m_dis_ferr, sp_mean, u10m_mean
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">La_i</td>
-<td style="text-align: left;">t2m_mean, rh_IQR</td>
-<td style="text-align: left;">t2m_mean, pblmax_mean</td>
+<tr>
+<td style="text-align:left;">
+La_i
+</td>
+<td style="text-align:left;">
+t2m_mean, rh_IQR
+</td>
+<td style="text-align:left;">
+t2m_mean, pblmax_mean
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Li_i</td>
-<td style="text-align: left;">wspeed_max_median, s6_sup_200, s2_sup_200</td>
-<td style="text-align: left;">t2m_mean, s6_sup_200, s2_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Li_i
+</td>
+<td style="text-align:left;">
+wspeed_max_median, s6_sup_200, s2_sup_200
+</td>
+<td style="text-align:left;">
+t2m_mean, s6_sup_200, s2_sup_200
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Mn_i</td>
-<td style="text-align: left;">s3_sup_200, pbl00_max, imp_200, wspeed_max_max</td>
-<td style="text-align: left;">s3_sup_200, nirradiance_mean, u10m_mean, imp_200</td>
+<tr>
+<td style="text-align:left;">
+Mn_i
+</td>
+<td style="text-align:left;">
+s3_sup_200, pbl00_max, imp_200, wspeed_max_max
+</td>
+<td style="text-align:left;">
+s3_sup_200, nirradiance_mean, u10m_mean, imp_200
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Mn_s</td>
-<td style="text-align: left;">nirradiance_IQR, s3_sup_200, sp_min, tp_median, s7_sup_200</td>
-<td style="text-align: left;">wdir_mean, s3_sup_200, sp_mean, pblmin_mean, s7_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Mn_s
+</td>
+<td style="text-align:left;">
+nirradiance_IQR, s3_sup_200, sp_min, tp_median, s7_sup_200
+</td>
+<td style="text-align:left;">
+wdir_mean, s3_sup_200, sp_mean, pblmin_mean, s7_sup_200
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Mo_s</td>
-<td style="text-align: left;">cold_area, u10m_IQR, s3_sup_200, kndvi, s6_sup_200, u10m_min, s2_sup_200, v10m_max, s7_sup_200, pblmin_IQR</td>
-<td style="text-align: left;">cold_area, u10m_mean, s3_sup_200, kndvi, s6_sup_200, sp_mean, imp_200, pbl12_mean, hot_area</td>
+<tr>
+<td style="text-align:left;">
+Mo_s
+</td>
+<td style="text-align:left;">
+cold_area, u10m_IQR, s3_sup_200, kndvi, s6_sup_200, u10m_min, s2_sup_200, v10m_max, s7_sup_200, pblmin_IQR
+</td>
+<td style="text-align:left;">
+cold_area, u10m_mean, s3_sup_200, kndvi, s6_sup_200, sp_mean, imp_200, pbl12_mean, hot_area
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Ni_i</td>
-<td style="text-align: left;">cold_area, tp_max, kndvi, ml_200, pbl12_min, nirradiance_IQR, s1_sup_200, s6_sup_200, v10m_min, s2_sup_200, s5_sup_200, t2m_mean</td>
-<td style="text-align: left;">cold_area, wdir_mean, kndvi, ml_200, wspeed_max_mean, s6_sup_200, s2_sup_200, s5_sup_200, s1_sup_200, ptp_mean</td>
+<tr>
+<td style="text-align:left;">
+Ni_i
+</td>
+<td style="text-align:left;">
+cold_area, tp_max, kndvi, ml_200, pbl12_min, nirradiance_IQR, s1_sup_200, s6_sup_200, v10m_min, s2_sup_200, s5_sup_200, t2m_mean
+</td>
+<td style="text-align:left;">
+cold_area, wdir_mean, kndvi, ml_200, wspeed_max_mean, s6_sup_200, s2_sup_200, s5_sup_200, s1_sup_200, ptp_mean
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Pb_i</td>
-<td style="text-align: left;">s3_sup_200, pblmax_IQR, t2m_IQR, wspeed_IQR</td>
-<td style="text-align: left;">s3_sup_200, nirradiance_mean, wspeed_mean</td>
+<tr>
+<td style="text-align:left;">
+Pb_i
+</td>
+<td style="text-align:left;">
+s3_sup_200, pblmax_IQR, t2m_IQR, wspeed_IQR
+</td>
+<td style="text-align:left;">
+s3_sup_200, nirradiance_mean, wspeed_mean
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">PM10</td>
-<td style="text-align: left;">v10m_min, ml_200, m_dis_ferr, bh_200</td>
-<td style="text-align: left;">pbl00_mean, ml_200, pblmax_mean, sp_mean, m_dis_ferr, bh_200</td>
+<tr>
+<td style="text-align:left;">
+PM10
+</td>
+<td style="text-align:left;">
+v10m_min, ml_200, m_dis_ferr, bh_200
+</td>
+<td style="text-align:left;">
+pbl00_mean, ml_200, pblmax_mean, sp_mean, m_dis_ferr, bh_200
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Rb_i</td>
-<td style="text-align: left;">pbl12_min, hot_area, u10m_max, nirradiance_IQR, wspeed_IQR, pblmax_IQR, scrapyard, s8_sup_200</td>
-<td style="text-align: left;">wspeed_max_mean, hot_area</td>
+<tr>
+<td style="text-align:left;">
+Rb_i
+</td>
+<td style="text-align:left;">
+pbl12_min, hot_area, u10m_max, nirradiance_IQR, wspeed_IQR, pblmax_IQR, scrapyard, s8_sup_200
+</td>
+<td style="text-align:left;">
+wspeed_max_mean, hot_area
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Rb_s</td>
-<td style="text-align: left;">t2m_mean, hot_area, pblmax_IQR, v10m_min, m_dis_ferr, s8_sup_200</td>
-<td style="text-align: left;">tmax2m_mean, hot_area, wspeed_max_mean, m_dis_ferr, s8_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Rb_s
+</td>
+<td style="text-align:left;">
+t2m_mean, hot_area, pblmax_IQR, v10m_min, m_dis_ferr, s8_sup_200
+</td>
+<td style="text-align:left;">
+tmax2m_mean, hot_area, wspeed_max_mean, m_dis_ferr, s8_sup_200
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Sb_i</td>
-<td style="text-align: left;">t2m_IQR, hot_area, imp_200, pop_200, wspeed_max_median, pblmax_IQR, u10m_min</td>
-<td style="text-align: left;">pbl12_mean, hot_area, sp_mean, imp_200, pop_200, s8_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Sb_i
+</td>
+<td style="text-align:left;">
+t2m_IQR, hot_area, imp_200, pop_200, wspeed_max_median, pblmax_IQR, u10m_min
+</td>
+<td style="text-align:left;">
+pbl12_mean, hot_area, sp_mean, imp_200, pop_200, s8_sup_200
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Sn_i</td>
-<td style="text-align: left;">u10m_max, hot_area, ml_200, sp_min, s3_sup_200, scrapyard, s7_sup_200, s1_sup_200</td>
-<td style="text-align: left;">pbl12_mean, hot_area, ml_200, wspeed_max_mean, s3_sup_200</td>
+<tr>
+<td style="text-align:left;">
+Sn_i
+</td>
+<td style="text-align:left;">
+u10m_max, hot_area, ml_200, sp_min, s3_sup_200, scrapyard, s7_sup_200, s1_sup_200
+</td>
+<td style="text-align:left;">
+pbl12_mean, hot_area, ml_200, wspeed_max_mean, s3_sup_200
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Sr_i</td>
-<td style="text-align: left;">sp_min, s8_sup_200, v10m_max, pblmin_IQR, wspeed_min, v10m_median, wspeed_max_IQR, wspeed_IQR</td>
-<td style="text-align: left;">wdir_mean, s8_sup_200, sp_mean</td>
+<tr>
+<td style="text-align:left;">
+Sr_i
+</td>
+<td style="text-align:left;">
+sp_min, s8_sup_200, v10m_max, pblmin_IQR, wspeed_min, v10m_median, wspeed_max_IQR, wspeed_IQR
+</td>
+<td style="text-align:left;">
+wdir_mean, s8_sup_200, sp_mean
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Tl_s</td>
-<td style="text-align: left;">t2m_IQR, hot_area, s6_sup_200, u10m_IQR, ml_200, s5_sup_200, m_dis_ferr, bh_200, pbl12_min</td>
-<td style="text-align: left;">pbl12_mean, hot_area, s6_sup_200, wspeed_max_mean, s2_sup_200, sp_mean, m_dis_ferr</td>
+<tr>
+<td style="text-align:left;">
+Tl_s
+</td>
+<td style="text-align:left;">
+t2m_IQR, hot_area, s6_sup_200, u10m_IQR, ml_200, s5_sup_200, m_dis_ferr, bh_200, pbl12_min
+</td>
+<td style="text-align:left;">
+pbl12_mean, hot_area, s6_sup_200, wspeed_max_mean, s2_sup_200, sp_mean, m_dis_ferr
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">U_i</td>
-<td style="text-align: left;">wspeed_max_median, s5_sup_200, imp_200</td>
-<td style="text-align: left;">wspeed_mean, s5_sup_200, imp_200, rh_mean</td>
+<tr>
+<td style="text-align:left;">
+U_i
+</td>
+<td style="text-align:left;">
+wspeed_max_median, s5_sup_200, imp_200
+</td>
+<td style="text-align:left;">
+wspeed_mean, s5_sup_200, imp_200, rh_mean
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">W_i</td>
-<td style="text-align: left;">cold_area, wspeed_min, kndvi, ml_200, s7_sup_200</td>
-<td style="text-align: left;">cold_area, nirradiance_mean, kndvi, ml_200, s7_sup_200, pwspeed_mean, s3_sup_200</td>
+<tr>
+<td style="text-align:left;">
+W_i
+</td>
+<td style="text-align:left;">
+cold_area, wspeed_min, kndvi, ml_200, s7_sup_200
+</td>
+<td style="text-align:left;">
+cold_area, nirradiance_mean, kndvi, ml_200, s7_sup_200, pwspeed_mean, s3_sup_200
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">W_s</td>
-<td style="text-align: left;">cold_area, wspeed_IQR, kndvi, s6_sup_200, s2_sup_200, wspeed_max, s7_sup_200, pbl12_min</td>
-<td style="text-align: left;">cold_area, pblmax_mean, kndvi, s6_sup_200, s2_sup_200, s7_sup_200</td>
+<tr>
+<td style="text-align:left;">
+W_s
+</td>
+<td style="text-align:left;">
+cold_area, wspeed_IQR, kndvi, s6_sup_200, s2_sup_200, wspeed_max, s7_sup_200, pbl12_min
+</td>
+<td style="text-align:left;">
+cold_area, pblmax_mean, kndvi, s6_sup_200, s2_sup_200, s7_sup_200
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Zn_s</td>
-<td style="text-align: left;">nirradiance_IQR, s3_sup_200, u10m_min, wspeed_IQR, t2m_mean, pbl12_IQR, v10m_mean</td>
-<td style="text-align: left;">nirradiance_mean, s3_sup_200, pwspeed_mean, v10m_mean</td>
+<tr>
+<td style="text-align:left;">
+Zn_s
+</td>
+<td style="text-align:left;">
+nirradiance_IQR, s3_sup_200, u10m_min, wspeed_IQR, t2m_mean, pbl12_IQR, v10m_mean
+</td>
+<td style="text-align:left;">
+nirradiance_mean, s3_sup_200, pwspeed_mean, v10m_mean
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Zr_i</td>
-<td style="text-align: left;">wspeed_max_max, hot_area, imp_200, rh_IQR, tp_median, sp_min, pop_200, s7_sup_200, t2m_IQR</td>
-<td style="text-align: left;">wdir_mean, hot_area, imp_200, wspeed_mean, wspeed_max_mean, sp_mean</td>
+<tr>
+<td style="text-align:left;">
+Zr_i
+</td>
+<td style="text-align:left;">
+wspeed_max_max, hot_area, imp_200, rh_IQR, tp_median, sp_min, pop_200, s7_sup_200, t2m_IQR
+</td>
+<td style="text-align:left;">
+wdir_mean, hot_area, imp_200, wspeed_mean, wspeed_max_mean, sp_mean
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Nb_i</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">s3_sup_200, ptp_mean, kndvi, s2_sup_200, u10m_mean, wspeed_max_mean</td>
+<tr>
+<td style="text-align:left;">
+Nb_i
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+s3_sup_200, ptp_mean, kndvi, s2_sup_200, u10m_mean, wspeed_max_mean
+</td>
 </tr>
 </tbody>
 </table>
