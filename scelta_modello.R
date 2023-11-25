@@ -2,7 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 cat(args, sep = "\n")
 
 pltnt <- args[1] #### SET inquinante ####
-# pltnt <- "Sb_i"
+# pltnt <- "PM10"
 
 cat("############# ", pltnt, "\n")
 
@@ -51,6 +51,7 @@ cat("############# ", pltnt, "\n")
   v_meteo <- names(df)[93:182]
   
   v_meteo <- v_meteo[!(v_meteo %in% c("tp_min", "ptp_min", "ptp_median", "pbl00_min", "pblmin_min"))]
+  v_scelte <- v_scelte[ !(v_scelte %in% c("tp_min", "ptp_min", "ptp_median", "pbl00_min", "pblmin_min")) ]
   
   v_meteo_mean <- grep("mean", names(df), value = TRUE) # le variabili meteo (media)
   v_buf200 <- grep("200", names(df), value = TRUE)[1:4] # solo i buffer 200
@@ -64,8 +65,8 @@ cat("############# ", pltnt, "\n")
   # v_variabili <- c(v_urban_atlas)
   # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas)
   # v_variabili <- c("kndvi", v_meteo, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  # v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
 }
 
 # Variabili "ambiente" ####

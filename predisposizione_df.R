@@ -195,16 +195,16 @@ df_finale <- read_csv("data/dataframes/df_finale.csv", show_col_types = FALSE)
 
 limiti <- read.delim2('~/R/terni/data/limiti.txt') %>% as.data.frame()
 limiti[1] <- limiti[1]/1000
-limiti <- limiti*1000
+# limiti <- limiti*1000
 
 library(purrr)
 
-mult <- function(x) {
-  return(x*1000)
-}
-
-df_finale %>% 
-  mutate(across(all_of(names(limiti)), mult )) -> df_finale
+# mult <- function(x) {
+#   return(x*1000)
+# }
+# 
+# df_finale %>% 
+#   mutate(across(all_of(names(limiti)), mult )) -> df_finale
 
 tmp <- df_finale
 
@@ -219,10 +219,10 @@ write_csv(limiti, file = glue::glue("{outdir}/limiti.csv"))
 
 # verifica dei limiti del nuovo df ####
 
-# limiti <- read_csv("data/dataframes/limiti.csv")
-# df_finale <- read_csv("data/dataframes/df_finale_mod.csv", show_col_types = FALSE)
+limiti <- read_csv("data/dataframes/limiti.csv")
+df_finale <- read_csv("data/dataframes/df_finale_mod.csv", show_col_types = FALSE)
 
-# df_finale[names(limiti)] %>% 
-#   reshape2::melt() %>% 
-#   group_by(variable) %>% 
-#   summarise(m = min(value)) %>% View()
+df_finale[names(limiti)] %>%
+  reshape2::melt() %>%
+  group_by(variable) %>%
+  summarise(m = min(value)) %>% View()

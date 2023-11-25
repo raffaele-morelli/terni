@@ -84,6 +84,6 @@ map(pltnts, \(pltnt) {
 
 names(models) <- tools::file_path_sans_ext(basename(pltnts))
 
-saveRDS(models, file = "rds/modelli_scelti.RDS")
+saveRDS(models, file = "~/R/terni/rds/modelli_scelti.RDS")
 
 
