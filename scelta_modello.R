@@ -64,7 +64,8 @@ cat("############# ", pltnt, "\n")
   # v_variabili <- c(v_urban_atlas)
   # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas)
   # v_variabili <- c("kndvi", v_meteo, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
 }
 
 # Variabili "ambiente" ####
