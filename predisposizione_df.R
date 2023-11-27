@@ -196,12 +196,6 @@ limiti <- read_excel("data/limiti.xlsx")
 
 library(purrr)
 
-# mult <- function(x) {
-#   return(x*1000)
-# }
-# 
-# df_finale %>% 
-#   mutate(across(all_of(names(limiti)), mult )) -> df_finale
 
 tmp <- df_finale
 
@@ -209,7 +203,13 @@ for (l in names(limiti)) {
   tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), round(as.numeric(limiti[l]), 4), tmp[[l]])
 }
 
-tmp %>% 
+
+non_zero <- function(x) {
+  return( ifelse(x == 0, 1/1000000000, x))
+}
+
+tmp %>%
+  mutate(across(all_of(names(tmp[11:20])), non_zero )) %>% 
   write_csv(file = glue::glue("{outdir}/df_finale_lod.csv"))
 
 write_csv(limiti, file = glue::glue("{outdir}/limiti.csv"))
