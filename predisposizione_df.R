@@ -192,10 +192,7 @@ write_csv(df, file = glue::glue("{outdir}/df_finale.csv"))
 
 # limiti e cambio unità di misura ####
 df_finale <- read_csv("data/dataframes/df_finale.csv", show_col_types = FALSE)
-
-limiti <- read.delim2('~/R/terni/data/limiti.txt') %>% as.data.frame()
-limiti[1] <- limiti[1]/1000
-# limiti <- limiti*1000
+limiti <- read_excel("data/limiti.xlsx")
 
 library(purrr)
 
