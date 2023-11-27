@@ -205,7 +205,7 @@ for (l in names(limiti)) {
 
 
 non_zero <- function(x) {
-  return( ifelse(x == 0, 1/1000000000, x))
+  return( ifelse(x == 0, 1/1000000000000, x))
 }
 
 tmp %>%

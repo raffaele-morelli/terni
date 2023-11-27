@@ -2,8 +2,12 @@
 
 sceltaVar <- function() {
   AICS <- get("AICS", envir = .GlobalEnv)
+  
   v_variabili <- get("v_variabili", envir = .GlobalEnv)
   v_dead <- get("v_dead", envir = .GlobalEnv)
+  
+  outdir <- get("outdir", envir = .GlobalEnv)
+  
   
   w <- buildMods() # costruisce le stringhe dei modelli
   if(is.null(w)) {
@@ -136,8 +140,7 @@ sceltaVar <- function() {
     assign("AICS", AICS, envir = .GlobalEnv)
     assign("v_variabili", v_variabili[!v_variabili %in% c(names(AICS), v_dead)], envir = .GlobalEnv)
     
-    saveRDS(AICS, file = glue("~/R/terni/rds/{pltnt}.rds"))
-    save.image(AICS, file = glue("~/R/terni/rds/{pltnt}.RData"))
+    saveRDS(AICS, file = glue("~/R/terni/{outdir}/{pltnt}.rds"))
     return("=>>> Fine per scelta MODELLO iniziale")
   }
   
@@ -147,7 +150,6 @@ sceltaVar <- function() {
   log_print("Fine per scelta MODELLO", hide_notes = TRUE)
   log_print(paste(names(AICS), collapse = " + "), hide_notes = TRUE)
   
-  saveRDS(AICS, file = glue("~/R/terni/rds/{pltnt}.rds"))
-  save.image(AICS, file = glue("~/R/terni/rds/{pltnt}.RData"))
+  saveRDS(AICS, file = glue("~/R/terni/{outdir}/{pltnt}.rds"))
   return("==== Fine per scelta MODELLO")
 }

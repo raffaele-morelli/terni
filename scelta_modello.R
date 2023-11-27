@@ -2,7 +2,6 @@ args <- commandArgs(trailingOnly = TRUE)
 cat(args, sep = "\n")
 
 pltnt <- args[1] #### SET inquinante ####
-pltnt <- "Nb_i"
 
 cat("############# ", pltnt, "\n")
 
@@ -58,13 +57,6 @@ cat("############# ", pltnt, "\n")
   v_urban_atlas <- grep("s8_sup_200|s7_sup_200|s6_sup_200|s5_sup_200|s4_sup_200|s3_sup_200|s2_sup_200|s1_sup_200", names(df), value = TRUE)
   v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   
-  # v_variabili <- v_scelte
-  # v_variabili <- c(v_buf200)
-  # v_variabili <- c(v_acciaieria)
-  # v_variabili <- c(v_scelte)
-  # v_variabili <- c(v_urban_atlas)
-  # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas)
-  # v_variabili <- c("kndvi", v_meteo, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
   # v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
   v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
 }
@@ -75,6 +67,8 @@ assign("AICS", list(), envir = .GlobalEnv)
 assign("v_dead", c(), envir = .GlobalEnv)
 assign("N", 0, envir = .GlobalEnv)
 assign("pltnt", pltnt, envir = .GlobalEnv)
+assign("outdir", "rds/", envir = .GlobalEnv)
+
 # assign("cappas", cappas, envir = .GlobalEnv)
 
 fn <- file.path(glue("terni_{pltnt}.log"))
