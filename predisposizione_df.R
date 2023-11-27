@@ -210,7 +210,7 @@ for (l in names(limiti)) {
 }
 
 tmp %>% 
-  write_csv(file = glue::glue("{outdir}/df_finale_mod.csv"))
+  write_csv(file = glue::glue("{outdir}/df_finale_lod.csv"))
 
 write_csv(limiti, file = glue::glue("{outdir}/limiti.csv"))
 
