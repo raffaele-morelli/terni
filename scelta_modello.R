@@ -24,7 +24,7 @@ cat("############# ", pltnt, "\n")
   source('f_bestMod.R')
   source('f_sceltaVar.R')
   
-  df <- read_csv(glue::glue("data/dataframes/df_finale_mod.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale_lod.csv"), show_col_types = FALSE)
   names(df)
   index <- grep(pltnt, names(df))
   
