@@ -16,7 +16,7 @@
   # library(knitr)
   # library(stargazer)
   
-  dir <- "scelte"
+  dir <- "mean"
 } 
 
 getSign <- function(mod) {
