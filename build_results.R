@@ -1,8 +1,6 @@
 # init ####
 {
-  # library(sf)
   library(dplyr)
-  # library(ggplot2)
   library(chron)
   library(readxl)
   library(glue)
@@ -11,12 +9,8 @@
   library(purrr)
   library(stringr)
   library(mgcv)
-  # library(gratia)
-  library(itsadug) # Load jtools
-  # library(knitr)
-  # library(stargazer)
-  
-  dir <- "mean"
+
+  dir <- "all"
 } 
 
 getSign <- function(mod) {

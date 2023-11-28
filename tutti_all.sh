@@ -15,7 +15,7 @@
 # Rscript scelta_modello.R Cs_i all &
 # Rscript scelta_modello.R Cs_s all &
 # Rscript scelta_modello.R Cu_i all &
-# 
+ 
 # Rscript scelta_modello.R Fe_i all &
 # Rscript scelta_modello.R Ga_s all &
 # Rscript scelta_modello.R K_s all &
@@ -25,7 +25,7 @@
 # Rscript scelta_modello.R Mn_i all &
 # Rscript scelta_modello.R Mn_s all &
 # Rscript scelta_modello.R Mo_s all &
-# 
+
 # Rscript scelta_modello.R Nb_i all &
 # Rscript scelta_modello.R Ni_i all &
 # Rscript scelta_modello.R Pb_i all &
@@ -35,7 +35,7 @@
 # Rscript scelta_modello.R Sb_i all &
 # Rscript scelta_modello.R Sn_i all &
 # Rscript scelta_modello.R Sr_i all &
-# 
+ 
 # Rscript scelta_modello.R Tl_s all &
 # Rscript scelta_modello.R U_i all &
 # Rscript scelta_modello.R W_i all &

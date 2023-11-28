@@ -77,7 +77,8 @@ assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 fn <- file.path(glue("log/{outdir}/terni_{pltnt}.log"))
 lf <- log_open(fn)
 
-log_print("Variabili ", v_variabili)
+log_print("v_variabili", hide_notes = TRUE)
+log_print(v_variabili)
 
 # ricorsione ####
 sceltaVar()
