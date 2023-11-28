@@ -29,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -219,6 +222,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -226,6 +292,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -270,49 +346,11 @@ $(document).ready(function () {
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#as_s" id="toc-as_s">As_s</a></li>
-<li><a href="#ba_s" id="toc-ba_s">Ba_s</a></li>
-<li><a href="#bi_i" id="toc-bi_i">Bi_i</a></li>
-<li><a href="#cd_s" id="toc-cd_s">Cd_s</a></li>
-<li><a href="#ce_i" id="toc-ce_i">Ce_i</a></li>
-<li><a href="#co_i" id="toc-co_i">Co_i</a></li>
-<li><a href="#cr_i" id="toc-cr_i">Cr_i</a></li>
-<li><a href="#cr_s" id="toc-cr_s">Cr_s</a></li>
-<li><a href="#cs_i" id="toc-cs_i">Cs_i</a></li>
-<li><a href="#cs_s" id="toc-cs_s">Cs_s</a></li>
-<li><a href="#cu_i" id="toc-cu_i">Cu_i</a></li>
-<li><a href="#fe_i" id="toc-fe_i">Fe_i</a></li>
-<li><a href="#ga_s" id="toc-ga_s">Ga_s</a></li>
-<li><a href="#k_s" id="toc-k_s">K_s</a></li>
-<li><a href="#la_i" id="toc-la_i">La_i</a></li>
-<li><a href="#li_i" id="toc-li_i">Li_i</a></li>
-<li><a href="#mn_i" id="toc-mn_i">Mn_i</a></li>
-<li><a href="#mn_s" id="toc-mn_s">Mn_s</a></li>
-<li><a href="#mo_s" id="toc-mo_s">Mo_s</a></li>
-<li><a href="#nb_i" id="toc-nb_i">Nb_i</a></li>
-<li><a href="#ni_i" id="toc-ni_i">Ni_i</a></li>
-<li><a href="#pb_i" id="toc-pb_i">Pb_i</a></li>
-<li><a href="#pm10" id="toc-pm10">PM10</a></li>
-<li><a href="#rb_i" id="toc-rb_i">Rb_i</a></li>
-<li><a href="#rb_s" id="toc-rb_s">Rb_s</a></li>
-<li><a href="#sb_i" id="toc-sb_i">Sb_i</a></li>
-<li><a href="#sn_i" id="toc-sn_i">Sn_i</a></li>
-<li><a href="#sr_i" id="toc-sr_i">Sr_i</a></li>
-<li><a href="#tl_s" id="toc-tl_s">Tl_s</a></li>
-<li><a href="#u_i" id="toc-u_i">U_i</a></li>
-<li><a href="#w_i" id="toc-w_i">W_i</a></li>
-<li><a href="#w_s" id="toc-w_s">W_s</a></li>
-<li><a href="#zn_s" id="toc-zn_s">Zn_s</a></li>
-<li><a href="#zr_i" id="toc-zr_i">Zr_i</a></li>
-</ul>
-</div>
 
 <div id="as_s" class="section level2">
 <h2>As_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:20:56 2023 -->
+<!-- Tue Nov 28 07:33:18 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -409,7 +447,7 @@ s(pblmax_mean)
 <div id="ba_s" class="section level2">
 <h2>Ba_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:20:56 2023 -->
+<!-- Tue Nov 28 07:33:18 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -506,7 +544,7 @@ s(wdir_mean)
 <div id="bi_i" class="section level2">
 <h2>Bi_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:20:57 2023 -->
+<!-- Tue Nov 28 07:33:19 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -603,7 +641,7 @@ s(scrapyard)
 <div id="cd_s" class="section level2">
 <h2>Cd_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:20:58 2023 -->
+<!-- Tue Nov 28 07:33:19 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -700,7 +738,7 @@ s(pbl00_mean)
 <div id="ce_i" class="section level2">
 <h2>Ce_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:20:58 2023 -->
+<!-- Tue Nov 28 07:33:20 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -797,7 +835,7 @@ s(rh_mean)
 <div id="co_i" class="section level2">
 <h2>Co_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:20:59 2023 -->
+<!-- Tue Nov 28 07:33:20 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -894,7 +932,7 @@ s(nirradiance_mean)
 <div id="cr_i" class="section level2">
 <h2>Cr_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:20:59 2023 -->
+<!-- Tue Nov 28 07:33:21 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -991,7 +1029,7 @@ s(u10m_mean)
 <div id="cr_s" class="section level2">
 <h2>Cr_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:00 2023 -->
+<!-- Tue Nov 28 07:33:21 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1088,7 +1126,7 @@ s(tp_mean)
 <div id="cs_i" class="section level2">
 <h2>Cs_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:00 2023 -->
+<!-- Tue Nov 28 07:33:22 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1185,7 +1223,7 @@ s(s1_sup_200)
 <div id="cs_s" class="section level2">
 <h2>Cs_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:01 2023 -->
+<!-- Tue Nov 28 07:33:22 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1282,7 +1320,7 @@ s(s1_sup_200)
 <div id="cu_i" class="section level2">
 <h2>Cu_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:01 2023 -->
+<!-- Tue Nov 28 07:33:23 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1379,7 +1417,7 @@ s(hot_area)
 <div id="fe_i" class="section level2">
 <h2>Fe_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:02 2023 -->
+<!-- Tue Nov 28 07:33:23 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1476,7 +1514,7 @@ s(u10m_mean)
 <div id="ga_s" class="section level2">
 <h2>Ga_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:02 2023 -->
+<!-- Tue Nov 28 07:33:24 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1573,7 +1611,7 @@ s(nirradiance_mean)
 <div id="k_s" class="section level2">
 <h2>K_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:03 2023 -->
+<!-- Tue Nov 28 07:33:24 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1670,7 +1708,7 @@ s(hot_area)
 <div id="la_i" class="section level2">
 <h2>La_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:03 2023 -->
+<!-- Tue Nov 28 07:33:25 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1750,7 +1788,7 @@ s(t2m_mean)
 <div id="li_i" class="section level2">
 <h2>Li_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:04 2023 -->
+<!-- Tue Nov 28 07:33:25 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1847,7 +1885,7 @@ s(s6_sup_200)
 <div id="mn_i" class="section level2">
 <h2>Mn_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:04 2023 -->
+<!-- Tue Nov 28 07:33:25 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1944,7 +1982,7 @@ s(nirradiance_mean)
 <div id="mn_s" class="section level2">
 <h2>Mn_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:05 2023 -->
+<!-- Tue Nov 28 07:33:26 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2041,7 +2079,7 @@ s(pbl00_mean)
 <div id="mo_s" class="section level2">
 <h2>Mo_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:05 2023 -->
+<!-- Tue Nov 28 07:33:27 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2138,7 +2176,7 @@ s(u10m_mean)
 <div id="nb_i" class="section level2">
 <h2>Nb_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:06 2023 -->
+<!-- Tue Nov 28 07:33:27 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2235,7 +2273,7 @@ s(ptp_mean)
 <div id="ni_i" class="section level2">
 <h2>Ni_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:06 2023 -->
+<!-- Tue Nov 28 07:33:28 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2332,7 +2370,7 @@ s(wdir_mean)
 <div id="pb_i" class="section level2">
 <h2>Pb_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:07 2023 -->
+<!-- Tue Nov 28 07:33:28 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2429,7 +2467,7 @@ s(nirradiance_mean)
 <div id="pm10" class="section level2">
 <h2>PM10</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:08 2023 -->
+<!-- Tue Nov 28 07:33:28 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2526,7 +2564,7 @@ s(ml_200)
 <div id="rb_i" class="section level2">
 <h2>Rb_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:08 2023 -->
+<!-- Tue Nov 28 07:33:29 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2623,7 +2661,7 @@ s(hot_area)
 <div id="rb_s" class="section level2">
 <h2>Rb_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:09 2023 -->
+<!-- Tue Nov 28 07:33:29 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2720,7 +2758,7 @@ s(hot_area)
 <div id="sb_i" class="section level2">
 <h2>Sb_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:09 2023 -->
+<!-- Tue Nov 28 07:33:30 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2817,7 +2855,7 @@ s(pbl00_mean)
 <div id="sn_i" class="section level2">
 <h2>Sn_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:10 2023 -->
+<!-- Tue Nov 28 07:33:30 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2914,7 +2952,7 @@ s(hot_area)
 <div id="sr_i" class="section level2">
 <h2>Sr_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:10 2023 -->
+<!-- Tue Nov 28 07:33:31 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3011,7 +3049,7 @@ s(s8_sup_200)
 <div id="tl_s" class="section level2">
 <h2>Tl_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:11 2023 -->
+<!-- Tue Nov 28 07:33:31 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3108,7 +3146,7 @@ s(pbl00_mean)
 <div id="u_i" class="section level2">
 <h2>U_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:11 2023 -->
+<!-- Tue Nov 28 07:33:32 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3205,7 +3243,7 @@ s(s5_sup_200)
 <div id="w_i" class="section level2">
 <h2>W_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:12 2023 -->
+<!-- Tue Nov 28 07:33:32 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3302,7 +3340,7 @@ s(nirradiance_mean)
 <div id="w_s" class="section level2">
 <h2>W_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:12 2023 -->
+<!-- Tue Nov 28 07:33:32 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3399,7 +3437,7 @@ s(s3_sup_200)
 <div id="zn_s" class="section level2">
 <h2>Zn_s</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:13 2023 -->
+<!-- Tue Nov 28 07:33:33 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3496,7 +3534,7 @@ s(s3_sup_200)
 <div id="zr_i" class="section level2">
 <h2>Zr_i</h2>
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Nov 28 07:21:13 2023 -->
+<!-- Tue Nov 28 07:33:33 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3593,6 +3631,8 @@ s(pblmin_mean)
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -3625,6 +3665,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
