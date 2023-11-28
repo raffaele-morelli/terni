@@ -60,9 +60,9 @@ assign("AICS", list(), envir = .GlobalEnv)
 assign("v_dead", c(), envir = .GlobalEnv)
 assign("N", 0, envir = .GlobalEnv)
 assign("pltnt", pltnt, envir = .GlobalEnv)
-assign("outdir", "rds_mean/", envir = .GlobalEnv) # !!! directory di output !!! ####
+assign("outdir", "mean", envir = .GlobalEnv) # !!! directory di output !!! ####
 
-fn <- file.path(glue("terni_{pltnt}.log"))
+fn <- file.path(glue("log/{outdir}/terni_{pltnt}.log"))
 lf <- log_open(fn)
 
 # ricorsione ####
