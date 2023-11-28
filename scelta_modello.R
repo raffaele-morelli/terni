@@ -2,6 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 cat(args, sep = "\n")
 
 pltnt <- args[1] #### SET inquinante ####
+dir <- args[2] ### SET directory ####
 
 cat("############# ", pltnt, "\n")
 
@@ -42,6 +43,8 @@ cat("############# ", pltnt, "\n")
   
   v_meteo <- names(df)[93:182]
   
+  v_indici <- names(df)[c(11:14, 16:20)]  # esclusa il brake dust cr
+  
   v_meteo <- v_meteo[!(v_meteo %in% c("tp_min", "ptp_min", "ptp_median", "pbl00_min", "pblmin_min"))]
   v_scelte <- v_scelte[ !(v_scelte %in% c("tp_min", "ptp_min", "ptp_median", "pbl00_min", "pblmin_min")) ]
   
@@ -50,8 +53,12 @@ cat("############# ", pltnt, "\n")
   v_urban_atlas <- grep("s8_sup_200|s7_sup_200|s6_sup_200|s5_sup_200|s4_sup_200|s3_sup_200|s2_sup_200|s1_sup_200", names(df), value = TRUE)
   v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   
-  v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  if(dir == "mean") {
+    v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  }else{
+    v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  }
+  
 }
 
 # Variabili "ambiente" ####
@@ -60,10 +67,13 @@ assign("AICS", list(), envir = .GlobalEnv)
 assign("v_dead", c(), envir = .GlobalEnv)
 assign("N", 0, envir = .GlobalEnv)
 assign("pltnt", pltnt, envir = .GlobalEnv)
-assign("outdir", "mean", envir = .GlobalEnv) # !!! directory di output !!! ####
+
+assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 
 fn <- file.path(glue("log/{outdir}/terni_{pltnt}.log"))
 lf <- log_open(fn)
+
+log_print("Variabili ", v_variabili)
 
 # ricorsione ####
 sceltaVar()
