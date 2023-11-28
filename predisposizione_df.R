@@ -223,3 +223,9 @@ df_finale[names(limiti)] %>%
   reshape2::melt() %>%
   group_by(variable) %>%
   summarise(m = min(value)) %>% View()
+
+df_finale[names(tmp[11:20])] %>%
+  reshape2::melt() %>%
+  group_by(variable) %>%
+  filter(value == 0) %>% 
+  summarise(m = n()) %>% View()

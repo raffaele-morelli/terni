@@ -1,3 +1,4 @@
+# init ####
 {
   # library(sf)
   library(dplyr)
@@ -10,10 +11,12 @@
   library(purrr)
   library(stringr)
   library(mgcv)
-  library(gratia)
+  # library(gratia)
   library(itsadug) # Load jtools
-  library(knitr)
-  library(stargazer)
+  # library(knitr)
+  # library(stargazer)
+  
+  dir <- "scelte"
 } 
 
 getSign <- function(mod) {
@@ -54,8 +57,8 @@ getModel <- function(vars, df) {
   return(mod)
 }
 
-pltnts <- list.files("~/R/terni/rds", pattern = "*.rds", full.names = TRUE) 
-df <- read_csv("~/R/terni/data/dataframes/df_finale_mod.csv", show_col_types = FALSE)
+pltnts <- list.files(glue("~/R/terni/rds_{dir}"), pattern = "^[A-Z]", full.names = TRUE) 
+df <- read_csv("~/R/terni/data/dataframes/df_finale_lod.csv", show_col_types = FALSE)
 
 map(pltnts, \(pltnt) {
   inquinante <- tools::file_path_sans_ext(basename(pltnt))
@@ -84,6 +87,6 @@ map(pltnts, \(pltnt) {
 
 names(models) <- tools::file_path_sans_ext(basename(pltnts))
 
-saveRDS(models, file = "~/R/terni/rds/modelli_scelti.RDS")
+saveRDS(models, file = glue("~/R/terni/rds_{dir}/modelli_{dir}.RDS"))
 
 

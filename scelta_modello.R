@@ -24,28 +24,21 @@ cat("############# ", pltnt, "\n")
   source('f_sceltaVar.R')
   
   df <- read_csv(glue::glue("data/dataframes/df_finale_lod.csv"), show_col_types = FALSE)
-  names(df)
+
   index <- grep(pltnt, names(df))
   
   names(df)[index] <- "value"
-  # findCappa <- function(var) {
+
+  # map(names(df), \(var) {
   #   df[[var]] %>% unique() %>% length()
-  # }
-  # 
-  # map(names(df), findCappa) -> cappas
+  # }) -> cappas
   # names(cappas) <- names(df)  
 }
-# stop("ciaone")
 
 ## Variabili #####
 {
   df_terni_mensili_correlazione <- read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
   v_scelte <- df_terni_mensili_correlazione$`Variabili scelte`
-  
-  # idxs <- c(23)
-  # v_scelte <- v_scelte[!v_scelte %in% v_scelte[idxs]]
-  # idxs <- grep("pbl00_min|tp_median|pblmin_median", names(cappas))
-  # cappas <- cappas[-idxs]
   
   v_meteo <- names(df)[93:182]
   
@@ -57,8 +50,8 @@ cat("############# ", pltnt, "\n")
   v_urban_atlas <- grep("s8_sup_200|s7_sup_200|s6_sup_200|s5_sup_200|s4_sup_200|s3_sup_200|s2_sup_200|s1_sup_200", names(df), value = TRUE)
   v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   
-  # v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
+  # v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
 }
 
 # Variabili "ambiente" ####
@@ -67,14 +60,12 @@ assign("AICS", list(), envir = .GlobalEnv)
 assign("v_dead", c(), envir = .GlobalEnv)
 assign("N", 0, envir = .GlobalEnv)
 assign("pltnt", pltnt, envir = .GlobalEnv)
-assign("outdir", "rds/", envir = .GlobalEnv)
-
-# assign("cappas", cappas, envir = .GlobalEnv)
+assign("outdir", "rds_mean/", envir = .GlobalEnv) # !!! directory di output !!! ####
 
 fn <- file.path(glue("terni_{pltnt}.log"))
 lf <- log_open(fn)
 
-# funzione ricorsiva ####
+# ricorsione ####
 sceltaVar()
 
 log_close()
