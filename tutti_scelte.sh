@@ -43,3 +43,49 @@
 
 # Rscript scelta_modello.R Zn_s scelte &
 # Rscript scelta_modello.R Zr_i scelte &
+# Rscript scelta_modello.R Al_i scelte &                                                                                      
+# Rscript scelta_modello.R Al_s scelte &
+
+# Rscript scelta_modello.R As_i scelte &
+# Rscript scelta_modello.R B_i scelte &
+# Rscript scelta_modello.R B_s scelte &
+# Rscript scelta_modello.R Ba_i scelte &
+
+# Rscript scelta_modello.R Bi_s scelte &
+# Rscript scelta_modello.R Ca_i scelte &
+# Rscript scelta_modello.R Ca_s scelte &
+# Rscript scelta_modello.R Cd_i scelte &
+
+# Rscript scelta_modello.R Ce_s scelte &
+# Rscript scelta_modello.R Co_s scelte &
+# Rscript scelta_modello.R Cu_s scelte &
+# Rscript scelta_modello.R Fe_s scelte &
+
+# Rscript scelta_modello.R Ga_i scelte &
+# Rscript scelta_modello.R K_i scelte &
+# Rscript scelta_modello.R La_s scelte &
+# Rscript scelta_modello.R Li_s scelte &
+
+# Rscript scelta_modello.R Mg_i scelte &
+# Rscript scelta_modello.R Mg_s scelte &
+# Rscript scelta_modello.R Mo_i scelte &
+# Rscript scelta_modello.R Na_i scelte &
+
+# Rscript scelta_modello.R Na_s scelte &
+# Rscript scelta_modello.R Nb_s scelte &
+# Rscript scelta_modello.R Ni_s scelte &
+# Rscript scelta_modello.R Pb_s scelte &
+
+# Rscript scelta_modello.R Sb_s scelte &
+# Rscript scelta_modello.R Sn_s scelte &
+# Rscript scelta_modello.R Sr_s scelte &
+# Rscript scelta_modello.R Ti_i scelte &
+
+# Rscript scelta_modello.R Ti_s scelte &
+# Rscript scelta_modello.R Tl_i scelte &
+# Rscript scelta_modello.R U_s scelte &
+# Rscript scelta_modello.R V_i scelte &
+
+# Rscript scelta_modello.R V_s scelte &
+# Rscript scelta_modello.R Zn_i scelte &
+# Rscript scelta_modello.R Zr_s scelte &

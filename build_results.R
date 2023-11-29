@@ -10,7 +10,7 @@
   library(stringr)
   library(mgcv)
 
-  dir <- "all"
+  dir <- "scelte"
 } 
 
 getSign <- function(mod) {
