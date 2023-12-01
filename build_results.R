@@ -9,8 +9,9 @@
   library(purrr)
   library(stringr)
   library(mgcv)
+  library(logr)
 
-  dir <- "scelte"
+  dir <- "all"
 } 
 
 getSign <- function(mod) {
@@ -46,13 +47,16 @@ getModel <- function(vars, df) {
   
   ms <- paste("gam(value ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   
-  cat("stringa modello: ", ms)
+  # cat("stringa modello: ", ms)
   mod <- eval(parse(text = ms))
   return(mod)
 }
 
 pltnts <- list.files(glue("~/R/terni/rds_{dir}"), pattern = "^[A-Z]", full.names = TRUE) 
 df <- read_csv("~/R/terni/data/dataframes/df_finale_lod.csv", show_col_types = FALSE)
+
+fn <- file.path(glue("log/clean_v_nsign.log"))
+lf <- log_open(fn)
 
 map(pltnts, \(pltnt) {
   inquinante <- tools::file_path_sans_ext(basename(pltnt))
@@ -65,22 +69,26 @@ map(pltnts, \(pltnt) {
   rds <- readRDS(pltnt)
   mod <- getModel(names(rds), df)
   
-  # gamtabs(mod, type = "HTML")
-  # cat("\n\n")
+  v_sign <- getSign(mod) 
   
-  # cat("R²:", summary(mod)$r.sq %>% round(3) )
-  # cat("\n\n")
-  # stargazer(mod, type="text" )
+  log_print(inquinante)
   
-  # appraise(mod) %>% print()
-  # draw(mod) %>% print()
+  log_print( sprintf("Before: "), hide_notes = TRUE )
+  log_print( summary(mod)$s.table %>% 
+               as.data.frame(), hide_notes = TRUE)
   
-  # rm(mod)
-  # cat("\n\n")
+  lapply(v_sign, \(v) gsub("s\\(|\\)", '', v)) %>% unlist() -> v_sign
+  
+  log_print( sprintf("After: %s", paste0(v_sign, collapse = " - " )), hide_notes = TRUE )
+  
+  
+  mod <- getModel(v_sign, df)
+
 }) -> models
 
 names(models) <- tools::file_path_sans_ext(basename(pltnts))
 
-saveRDS(models, file = glue("~/R/terni/rds_{dir}/modelli_{dir}.RDS"))
+saveRDS(models, file = glue("~/R/terni/rds_{dir}/modelli_{dir}_clean.RDS"))
 
+log_close()
 
