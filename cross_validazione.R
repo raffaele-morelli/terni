@@ -40,8 +40,7 @@ for (pltnt in names(modelli)) {
   
   # va riletto ogni volta altrimenti "value" viene trovato più volte
   df <- read_csv(glue::glue("data/dataframes/df_finale_lod.csv"), show_col_types = FALSE)
-  d <- floor(nrow(df) * 0.8)
-  
+
   # sites <- unique(df$site)
   index <- grep(pltnt, names(df))
   names(df)[index] <- "value"
