@@ -4,7 +4,7 @@ cat(args, sep = "\n")
 # pltnt <- "Cr_i" # args[1] #### SET inquinante ####
 # dir <- args[2] ### SET directory ####
 
-cat("############# ", pltnt, "\n")
+# cat("############# ", pltnt, "\n")
 
 ## init ####
 {
@@ -24,11 +24,9 @@ cat("############# ", pltnt, "\n")
   
   modelli <- readRDS(glue("~/R/terni/rds_all/modelli_all.RDS"))
   # frml <- formula(modelli[[pltnt]])
-  set.seed(1974)
+  # set.seed(1974)
   
 }
-
-
 
 my_list <- list()
 
@@ -36,12 +34,11 @@ for (pltnt in names(modelli)) {
   if(pltnt %in% c("Fe_i", "Na_s") ) {
     next
   }
+  # va riletto ogni volta altrimenti "value" viene trovato più volte
   df <- read_csv(glue::glue("data/dataframes/df_finale_lod.csv"), show_col_types = FALSE)
-
   d <- floor(nrow(df) * 0.8)
   
   # sites <- unique(df$site)
-  
   index <- grep(pltnt, names(df))
   names(df)[index] <- "value"
   
@@ -85,8 +82,6 @@ for (pltnt in names(modelli)) {
   
   my_list[[pltnt]] <- c(compute.rmse(pdf$value, exp(as.numeric(gam_pdf))),  # 20%
                         compute.rmse(gam_tdf$y, gam_tdf$fitted.values), # 80%
-                        # mse(pdf$value, exp(as.numeric(gam_pdf))), # 20%
-                        # mse(gam_tdf$y, gam_tdf$fitted.values), # 80%
                         rsq(pdf$value, exp(as.numeric(gam_pdf))), # 20%
                         rsq(gam_tdf$y, gam_tdf$fitted.values), # 80%
                         nvalidate/n, # FAC2
@@ -104,8 +99,7 @@ arrotonda <- function(x) {
   unlist(x) %>% as.vector -> y
   return( round(y, 4) )
 }
-# 
-# my_df <- as.data.frame(my_df)
+
 
 my_df %>% 
   mutate(
