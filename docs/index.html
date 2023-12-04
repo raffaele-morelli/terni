@@ -16,7 +16,7 @@
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -327,16 +327,13 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
+  <a href="distribuzioni.html">Distribuzioni</a>
+</li>
+<li>
   <a href="traccianti_all.html">Traccianti all</a>
 </li>
 <li>
-  <a href="traccianti_all_clean.html">Traccianti all (clean)</a>
-</li>
-<li>
   <a href="cross_validation.html">Cross validation</a>
-</li>
-<li>
-  <a href="distribuzioni.html">Distribuzioni</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -2964,7 +2961,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
