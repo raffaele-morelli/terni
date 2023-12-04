@@ -61,17 +61,7 @@ cat("############# ", pltnt, "\n")
   v_urban_atlas <- grep("s8_sup_200|s7_sup_200|s6_sup_200|s5_sup_200|s4_sup_200|s3_sup_200|s2_sup_200|s1_sup_200", names(df), value = TRUE)
   v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   
-  # if(dir == "mean") {
-  #   v_variabili <- c("kndvi", v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  # }else{
-  #   v_variabili <- c("kndvi", v_scelte, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr")
-  # }
-  
-  # if(dir == "all") {
-    v_variabili <- c("kndvi", v_scelte, v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr") %>% unique()
-  # }
-
-
+  v_variabili <- c("kndvi", v_scelte, v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr") %>% unique()
 }
 
 # Variabili "ambiente" ####

@@ -356,7 +356,7 @@ stringa modello: gam(value ~ s(s3_sup_200) + s(nirradiance_IQR) +
 s(cold_area) + s(tp_max) + s(pblmin_IQR, k=9) + s(m_dis_ferr) +
 s(s8_sup_200) , gamma=1.4, family=gaussian(link=log), data =
 df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Mon Dec  4 11:31:10 2023 -->
+<!-- Mon Dec  4 11:40:44 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -422,7 +422,7 @@ s(s3_sup_200)
 8.0180
 </td>
 <td align="right">
-37.8104
+37.8086
 </td>
 <td align="right">
 &lt; 0.0001
@@ -533,192 +533,7 @@ s(s8_sup_200)
 <a name=tab.gam></a>
 </table>
 <p>R²: 0.814</p>
-<p><img src="indici_all_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-</div>
-<div id="cr-clean" class="section level1">
-<h1>CR (clean)</h1>
-stringa modello: gam(value ~ s(s3_sup_200) + s(nirradiance_IQR) +
-s(cold_area) + s(tp_max) + s(pblmin_IQR, k=9) + s(m_dis_ferr) +
-s(s8_sup_200) , gamma=1.4, family=gaussian(link=log), data =
-df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Mon Dec  4 11:31:11 2023 -->
-<table border="1">
-<caption align="bottom">
-</caption>
-<tr>
-<td>
-A. parametric coefficients
-</td>
-<td align="right">
-Estimate
-</td>
-<td align="right">
-Std. Error
-</td>
-<td align="right">
-t-value
-</td>
-<td align="right">
-p-value
-</td>
-</tr>
-<tr>
-<td>
-(Intercept)
-</td>
-<td align="right">
--14.7139
-</td>
-<td align="right">
-0.0220
-</td>
-<td align="right">
--669.7055
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-B. smooth terms
-</td>
-<td align="right">
-edf
-</td>
-<td align="right">
-Ref.df
-</td>
-<td align="right">
-F-value
-</td>
-<td align="right">
-p-value
-</td>
-</tr>
-<tr>
-<td>
-s(s3_sup_200)
-</td>
-<td align="right">
-7.9105
-</td>
-<td align="right">
-8.0180
-</td>
-<td align="right">
-37.8074
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(nirradiance_IQR)
-</td>
-<td align="right">
-2.2920
-</td>
-<td align="right">
-2.7098
-</td>
-<td align="right">
-55.7458
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(cold_area)
-</td>
-<td align="right">
-1.0001
-</td>
-<td align="right">
-1.0002
-</td>
-<td align="right">
-18.6103
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(tp_max)
-</td>
-<td align="right">
-2.4334
-</td>
-<td align="right">
-2.8725
-</td>
-<td align="right">
-14.4675
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(pblmin_IQR)
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-7.6577
-</td>
-<td align="right">
-0.0061
-</td>
-</tr>
-<tr>
-<td>
-s(m_dis_ferr)
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-13.1093
-</td>
-<td align="right">
-0.0004
-</td>
-</tr>
-<tr>
-<td>
-s(s8_sup_200)
-</td>
-<td align="right">
-1.2504
-</td>
-<td align="right">
-1.4498
-</td>
-<td align="right">
-4.8263
-</td>
-<td align="right">
-0.0264
-</td>
-</tr>
-<a name=tab.gam></a>
-</table>
-<p>R²: 0.814</p>
-<p><img src="indici_all_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="indici_all_files/figure-html/unnamed-chunk-1-1.png" width="672" /><img src="indici_all_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
 </div>
 <div id="non-cr" class="section level1">
 <h1>NON CR</h1>
@@ -727,7 +542,7 @@ stringa modello: gam(value ~ s(s3_sup_200) + s(wdir_mean) + s(cold_area)
 s(u10m_IQR) + s(pblmax_IQR) + s(pblmin_median, k=3) + s(rh_mean) ,
 gamma=1.4, family=gaussian(link=log), data =
 df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Mon Dec  4 11:31:13 2023 -->
+<!-- Mon Dec  4 11:40:48 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -972,7 +787,7 @@ s(rh_mean)
 <a name=tab.gam></a>
 </table>
 <p>R²: 0.847</p>
-<p><img src="indici_all_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="indici_all_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="ncr-clean" class="section level1">
 <h1>NCR (clean)</h1>
@@ -980,7 +795,7 @@ stringa modello: gam(value ~ s(s3_sup_200) + s(cold_area) + s(kndvi) +
 s(s8_sup_200) + s(s1_sup_200, k=7) + s(rh_mean) , gamma=1.4,
 family=gaussian(link=log), data =
 df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Mon Dec  4 11:31:15 2023 -->
+<!-- Mon Dec  4 11:40:49 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1140,7 +955,7 @@ s(rh_mean)
 <a name=tab.gam></a>
 </table>
 <p>R²: 0.79</p>
-<p><img src="indici_all_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="indici_all_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="indici_all_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 </div>
 
 
