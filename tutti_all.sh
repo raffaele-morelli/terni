@@ -73,3 +73,7 @@
 # Rscript scelta_modello.R Zn_s all &
 # Rscript scelta_modello.R Zr_i all &
 # Rscript scelta_modello.R Zr_s all &
+
+# INDICI ####
+Rscript scelta_modello.R TOT_CR indici &
+Rscript scelta_modello.R TOT_NCR indici &
