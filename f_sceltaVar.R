@@ -17,12 +17,15 @@ sceltaVar <- function() {
   log_print(sprintf("---------- START: %s", N), hide_notes = TRUE)
   
   # conterrà gli oggetti GAM calcolati sulle stazioni
-  models <- map(w, function(y) { eval(parse(text = y)) })
+  models <- map(w, function(y) {
+    # log_print(paste("=> ",  w), hide_notes = TRUE)
+    eval(parse(text = y)) 
+    })
   
   aicVar <- bestMod(models) # AIC del modello migliore
   
   log_print(unlist(w), hide_notes = TRUE)
-  log_print(unlist(aicVar[[3]]), hide_notes = TRUE)
+  # log_print(unlist(aicVar[[3]]), hide_notes = TRUE)
   
   # una lista di appoggio da concatenare in AICS
   tmp <- list()
@@ -60,7 +63,7 @@ sceltaVar <- function() {
     
     # log_print(unlist(w), hide_notes = TRUE)
     # log_print(t(aicBack[[3]]), hide_notes = TRUE)
-    log_print( cbind(unlist(w), unlist(aicBack[[3]])), hide_notes = TRUE )
+    # log_print( cbind(unlist(w), unlist(aicBack[[3]])), hide_notes = TRUE )
     
     if(is.null(aicBack)) {
       return(NA)

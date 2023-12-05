@@ -17,7 +17,7 @@ buildMods <- function(backward = FALSE) {
 
         k <- cappas[[i]]
         case_when(
-          k > 10 ~  paste0("s(", x, ", k=10)"),
+          k > 10 ~  paste0("s(", x, ", k=9)"),
           k < 10 ~  paste0("s(", x, ", k=", k-1 , ")"),
           .default = paste0("s(", x, ")")          
         )

@@ -22,7 +22,7 @@
   
   setwd("~/R/terni")
   
-  modelli <- readRDS(glue("~/R/terni/rds_all/modelli_all.RDS"))
+  modelli <- readRDS(glue("~/R/terni/rds_all/modelli_all_clean.RDS"))
   # frml <- formula(modelli[[pltnt]])
   # set.seed(1974)
   
