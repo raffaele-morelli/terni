@@ -2,7 +2,7 @@
 
 # traccianti ####
  
-# Rscript scelta_modello.R Al_i all &                                                                                                     
+# Rscript scelta_modello.R Al_i all &
 # Rscript scelta_modello.R Al_s all &
 # Rscript scelta_modello.R As_i all &
 # Rscript scelta_modello.R As_s all &
@@ -20,12 +20,12 @@
 # Rscript scelta_modello.R Ce_s all &
 # Rscript scelta_modello.R Co_i all &
 # Rscript scelta_modello.R Co_s all &
-# Rscript scelta_modello.R Cr_i all &
-# Rscript scelta_modello.R Cr_s all &
-# Rscript scelta_modello.R Cs_i all &
-# Rscript scelta_modello.R Cs_s all &
-# Rscript scelta_modello.R Cu_i all &
-# Rscript scelta_modello.R Cu_s all &
+Rscript scelta_modello.R Cr_i all &
+Rscript scelta_modello.R Cr_s all &
+Rscript scelta_modello.R Cs_i all &
+Rscript scelta_modello.R Cs_s all &
+Rscript scelta_modello.R Cu_i all &
+Rscript scelta_modello.R Cu_s all &
 # Rscript scelta_modello.R Fe_i all &
 # Rscript scelta_modello.R Fe_s all &
 # Rscript scelta_modello.R Ga_i all &
@@ -75,5 +75,5 @@
 # Rscript scelta_modello.R Zr_s all &
 
 # INDICI ####
-Rscript scelta_modello.R TOT_CR indici &
-Rscript scelta_modello.R TOT_NCR indici &
+# Rscript scelta_modello.R TOT_CR indici &
+# Rscript scelta_modello.R TOT_NCR indici &

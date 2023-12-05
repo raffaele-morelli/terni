@@ -67,6 +67,14 @@ for (pltnt in names(modelli)) {
       log_print(sprintf("Errors can't stop me on training: %s on %s", pltnt, s), hide_notes = TRUE )
     })
     if(an.error.occured) {
+      my_list[[pltnt]][[s]] <- c(NA,  # 20%
+                                 NA, # 80%
+                                 NA, # 20%
+                                 NA, # 80%
+                                 NA, # FAC2
+                                 NA, # Fractional BIAS
+                                 NA # Normalized Mean Square Error
+      )      
       next 
     }
     

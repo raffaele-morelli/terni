@@ -38,10 +38,10 @@ cat("############# ", pltnt, "\n")
   
   names(df)[index] <- "value"
 
-  # map(names(df), \(var) {
-  #   df[[var]] %>% unique() %>% length()
-  # }) -> cappas
-  # names(cappas) <- names(df)  
+  map(names(df), \(var) {
+    df[[var]] %>% unique() %>% length()
+  }) -> cappas
+  names(cappas) <- names(df)
 }
 
 ## Variabili #####

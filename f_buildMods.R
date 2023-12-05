@@ -14,26 +14,39 @@ buildMods <- function(backward = FALSE) {
     return(
       lapply(v, function(x) {
         unlist(x) %>% unique() -> i
+
+        k <- cappas[[i]]
         case_when(
-          x == "tp_median" ~ paste0("s(", x, ", k=3)"),
-          x == "u10m_min" ~ paste0("s(", x, ", k=5)"),
-          x == "u10m_max" ~ paste0("s(", x, ", k=8)"),
-          x == "u10m_IQR" ~ paste0("s(", x, ", k=11)"),
-          x == "v10m_median" ~ paste0("s(", x, ", k=9)"),
-          x == "wspeed_min" ~ paste0("s(", x, ", k=8)"),
-          # x == "wspeed_max" ~ paste0("s(", x, ", k=12)"),
-          # x == "pwspeed_max" ~ paste0("s(", x, ", k=12)"),
-          x == "pblmin_median" ~ paste0("s(", x, ", k=3)"),
-          x == "pbl00_median" ~ paste0("s(", x, ", k=6)"),
-          x == "pblmin_IQR" ~ paste0("s(", x, ", k=9)"),
-          x == "pbl00_min" ~ paste0("s(", x, ", k=1)"),
-          x == "s7_sup_200" ~ paste0("s(", x, ", k=3)"),
-          x == "s5_sup_200" ~ paste0("s(", x, ", k=9)"),
-          x == "s1_sup_200" ~ paste0("s(", x, ", k=7)"),
-          x == "u10m_median" ~ paste0("s(", x, ", k=9)"),
-          x == "pwspeed_min" ~ paste0("s(", x, ", k=7)"),
-          .default = paste0("s(", x, ")")
-          )
+          k > 10 ~  paste0("s(", x, ", k=10)"),
+          k < 10 ~  paste0("s(", x, ", k=", k-1 , ")"),
+          .default = paste0("s(", x, ")")          
+        )
+        
+        # paste0("s(", x, ", k =", cappas[[i]], ")")
+        # case_when(
+        #   x == "tp_median" ~ paste0("s(", x, ", k=2)"),
+        #   x == "u10m_min" ~ paste0("s(", x, ", k=4)"),
+        #   x == "u10m_max" ~ paste0("s(", x, ", k=7)"),
+        #   x == "u10m_IQR" ~ paste0("s(", x, ", k=9)"),
+        #   x == "v10m_median" ~ paste0("s(", x, ", k=8)"),
+        #   x == "wspeed_min" ~ paste0("s(", x, ", k=7)"),
+        #   # x == "wspeed_max" ~ paste0("s(", x, ", k=12)"),
+        #   # x == "pwspeed_max" ~ paste0("s(", x, ", k=12)"),
+        #   x == "pblmin_median" ~ paste0("s(", x, ", k=2)"),
+        #   x == "pbl00_median" ~ paste0("s(", x, ", k=5)"),
+        #   x == "pblmin_IQR" ~ paste0("s(", x, ", k=8)"),
+        #   x == "pbl00_min" ~ paste0("s(", x, ", k=1)"),
+        #   x == "s1_sup_200" ~ paste0("s(", x, ", k=6)"),
+        #   x == "s2_sup_200" ~ paste0("s(", x, ", k=9)"),
+        #   x == "s3_sup_200" ~ paste0("s(", x, ", k=9)"),
+        #   x == "s4_sup_200" ~ paste0("s(", x, ", k=9)"),
+        #   x == "s5_sup_200" ~ paste0("s(", x, ", k=8)"),
+        #   x == "s6_sup_200" ~ paste0("s(", x, ", k=9)"),
+        #   x == "s7_sup_200" ~ paste0("s(", x, ", k=2)"),
+        #   x == "u10m_median" ~ paste0("s(", x, ", k=8)"),
+        #   x == "pwspeed_min" ~ paste0("s(", x, ", k=6)"),
+        #   .default = paste0("s(", x, ")")
+        #   )
       })
     )
   }
