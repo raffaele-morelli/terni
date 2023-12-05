@@ -1,0 +1,55 @@
+---
+title: "Terni"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+{
+  # library(sf)
+  library(dplyr)
+  library(ggplot2)
+  library(chron)
+  library(readxl)
+  library(glue)
+  library(lubridate)
+  library(readr)
+  library(purrr)
+  library(stringr)
+  library(mgcv)
+  library(gratia)
+  library(itsadug) # Load jtools
+  library(knitr)
+} 
+modelli_all <- readRDS("~/R/terni/rds_all/modelli_all.RDS")
+
+```
+
+
+```{r, results='asis', echo=FALSE}
+
+
+walk(names(modelli_all), \(pltnt) {
+  inquinante <- tools::file_path_sans_ext(basename(pltnt))
+  
+  cat("\n\n# ", inquinante, "\n\n")
+
+  gamtabs(modelli_all[[pltnt]], type = "HTML")
+
+  cat("\n\n R²:", summary(modelli_all[[pltnt]])$r.sq %>% round(3), "\n\n")
+
+  appraise(modelli_all[[pltnt]]) %>% print()
+  # draw(modelli_all[[pltnt]]) %>% print()
+  
+  cat("\n\n")
+})
+
+
+```
+
+

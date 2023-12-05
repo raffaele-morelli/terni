@@ -1,0 +1,153 @@
+---
+title: "Terni"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+
+{
+  # library(sf)
+  library(dplyr)
+  library(ggplot2)
+  library(chron)
+  library(readxl)
+  library(glue)
+  library(lubridate)
+  library(readr)
+  library(purrr)
+  library(stringr)
+  # library(mgcv)
+  library(gratia)
+  # library(itsadug) # Load jtools
+  library(knitr)
+  library(kableExtra)
+  # library(stargazer)
+} 
+
+m_scelte <- readRDS("~/R/terni/rds_scelte/modelli_scelte.RDS")
+m_mean <- readRDS("~/R/terni/rds_mean/modelli_mean.RDS")
+m_all <- readRDS("~/R/terni/rds_all/modelli_all.RDS")
+m_all_clean <- readRDS("~/R/terni/rds_all/modelli_all_clean.RDS")
+
+map(names(m_scelte), \(pltnt) {
+  summary(m_scelte[[pltnt]])$r.sq %>% round(3)
+}) -> rquadri_scelti
+names(rquadri_scelti) <- names(m_scelte)
+
+map(names(m_mean), \(pltnt) {
+  summary(m_mean[[pltnt]])$r.sq %>% round(3)
+}) -> rquadri_mean
+names(rquadri_mean) <- names(m_mean)
+
+map(names(m_all), \(pltnt) {
+  summary(m_all[[pltnt]])$r.sq %>% round(3)
+}) -> rquadri_all
+names(rquadri_all) <- names(m_all)
+
+map(names(m_all_clean), \(pltnt) {
+  summary(m_all_clean[[pltnt]])$r.sq %>% round(3)
+}) -> rquadri_all_clean
+names(rquadri_all_clean) <- names(m_all_clean)
+
+```
+
+# R² 
+
+```{r, echo=FALSE}
+
+
+do.call(rbind, rquadri_scelti) %>% 
+  as.data.frame() %>% 
+  tibble::rownames_to_column() %>% 
+  setNames(c("pltnt", "Scelte")) %>% 
+  full_join(
+    do.call(rbind, rquadri_mean) %>% 
+      as.data.frame() %>% 
+      tibble::rownames_to_column() %>% 
+      setNames(c("pltnt", "Mean")) 
+  ) %>% 
+    full_join(
+    do.call(rbind, rquadri_all) %>% 
+      as.data.frame() %>% 
+      tibble::rownames_to_column() %>% 
+      setNames(c("pltnt", "All")) 
+  ) %>%
+    full_join(
+    do.call(rbind, rquadri_all_clean) %>% 
+      as.data.frame() %>% 
+      tibble::rownames_to_column() %>% 
+      setNames(c("pltnt", "All clean")) 
+  ) %>%  
+  kbl(escape = F) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = TRUE)
+
+
+```
+
+# Variabili selezionate
+
+```{r, echo=FALSE}
+
+map(names(m_scelte), \(pltnt) {
+  m_scelte[[pltnt]]$var.summary %>% names() %>% unlist() %>% 
+    paste0(collapse = ", ") %>% 
+    paste0(" (", length(m_scelte[[pltnt]]$var.summary), ")") 
+}) -> var_scelte
+
+names(var_scelte) <- names(m_scelte)
+
+map(names(m_mean), \(pltnt) {
+  m_mean[[pltnt]]$var.summary %>% names() %>% unlist() %>% 
+    paste0(collapse = ", ") %>% 
+    paste0(" (", length(m_mean[[pltnt]]$var.summary), ")") 
+}) -> var_mean
+
+names(var_mean) <- names(m_mean)
+
+map(names(m_all), \(pltnt) {
+  m_all[[pltnt]]$var.summary %>% names() %>% unlist() %>% 
+    paste0(collapse = ", ") %>% 
+    paste0(" (", length(m_all[[pltnt]]$var.summary), ")") 
+}) -> var_all
+
+names(var_all) <- names(m_all)
+
+map(names(m_all_clean), \(pltnt) {
+  m_all_clean[[pltnt]]$var.summary %>% names() %>% unlist() %>% 
+    paste0(collapse = ", ") %>% 
+    paste0(" (", length(m_all_clean[[pltnt]]$var.summary), ")") 
+}) -> var_all_clean
+
+names(var_all_clean) <- names(m_all_clean)
+
+do.call(rbind, var_scelte) %>% 
+  as.data.frame() %>% 
+  tibble::rownames_to_column() %>% 
+  setNames(c("pltnt", "Scelte")) %>% 
+  full_join(
+    do.call(rbind, var_mean) %>% 
+      as.data.frame() %>% 
+      tibble::rownames_to_column() %>% 
+      setNames(c("pltnt", "Mean")) 
+  ) %>% 
+  full_join(
+    do.call(rbind, var_all) %>% 
+      as.data.frame() %>% 
+      tibble::rownames_to_column() %>% 
+      setNames(c("pltnt", "All")) 
+  ) %>% 
+  full_join(
+    do.call(rbind, var_all_clean) %>% 
+      as.data.frame() %>% 
+      tibble::rownames_to_column() %>% 
+      setNames(c("pltnt", "All clean")) 
+  ) %>%    
+  kbl() %>% kable_styling(bootstrap_options = c("striped", "hover"), full_width = TRUE)
+
+```
+

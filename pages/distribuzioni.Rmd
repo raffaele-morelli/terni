@@ -1,0 +1,74 @@
+---
+title: "Terni"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+{
+  library(dplyr)
+  library(ggplot2)
+  library(chron)
+  library(readxl)
+  library(summarytools)
+}
+
+df_finale <- readr::read_csv("~/R/terni/data/dataframes/df_finale_lod.csv", show_col_types = FALSE)
+limiti <- readr::read_csv("~/R/terni/data/dataframes/limiti.csv", show_col_types = FALSE)
+
+pltnts <- names(limiti)
+# pltnts <- grep("^[M-Z]", pltnts, value = TRUE) 
+
+```
+
+```{r}
+# print(
+#   dfSummary(df_finale[,11:247], 
+#             varnumbers   = FALSE,
+#             na.col       = FALSE,
+#             style        = "multiline",
+#             plain.ascii  = FALSE,
+#             headings     = FALSE,
+#             graph.magnif = .8),
+#   method = "render"
+# )
+```
+
+
+```{r, results='asis', message=FALSE,echo=FALSE, warning=FALSE}
+
+for (pltnt in pltnts) {
+  
+  df <- data.frame("obs" = df_finale[[pltnt]], "tras" = log(df_finale[[pltnt]]))
+  
+  inquinante <- tools::file_path_sans_ext(basename(pltnt))
+  
+  cat("\n\n## ", inquinante, "\n\n")
+  
+  # summary(df_finale[[pltnt]]) %>% itsadug::print_summary()
+  as.data.frame(df_finale[[pltnt]]) %>%
+    setNames(pltnt) %>%
+    stargazer::stargazer( summary = TRUE, iqr = TRUE, type = "html")
+
+  sprintf("Moda: %s", round( raster::modal(df$obs, na.rm=TRUE), 5) ) %>% cat()
+  
+  # psych::describe(as.data.frame(df_finale[[pltnt]])  %>% print()
+  reshape2::melt(df) %>%
+    ggplot(aes(x = value)) +
+    geom_histogram(bins = 150, na.rm = TRUE, orientation = "x", alpha = 0.4, color = "dodgerblue", fill = "blue") +
+    facet_wrap(~variable, scales = "free") +
+    theme(axis.title.y = element_blank(), axis.title.x = element_blank()) +
+    ggtitle(pltnt) -> g
+
+  print(g)
+}
+
+
+
+```
+
+

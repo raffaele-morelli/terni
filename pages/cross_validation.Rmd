@@ -1,0 +1,88 @@
+---
+title: "Cross validation "
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+{
+  # library(sf)
+  library(dplyr)
+  library(ggplot2)
+  library(chron)
+  library(readxl)
+  library(glue)
+  library(lubridate)
+  library(readr)
+  library(purrr)
+  library(stringr)
+  library(mgcv)
+  library(gratia)
+  library(itsadug) # Load jtools
+  library(knitr)
+  library(kableExtra)
+  library(janitor)
+}
+
+cross_validation <- readRDS("~/R/terni/cross_validation.RDS")
+
+```
+
+
+```{r, echo=FALSE, results='asis', message=FALSE}
+
+arrotonda <- function(x) {
+  unlist(x) %>% as.vector -> y
+  return( round(y, 2) )
+}
+
+walk(names(cross_validation), \(pltnt) {
+  inquinante <- tools::file_path_sans_ext(basename(pltnt))
+  
+  cat("# ", inquinante, "\n\n")
+  do.call(rbind, cross_validation[[pltnt]]) %>% 
+    as.data.frame() -> my_df
+  
+  my_df %>% mutate(
+    across( all_of(names(my_df)), arrotonda )
+  ) %>%
+    setNames(c("rmse20", "rmse80", "rsq20", "rsq80", "FAC2", "FB", "NMSE")) %>% 
+  kbl(escape = F) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = TRUE) %>% print()
+  
+  # my_df %>% 
+  #   mutate(
+  #     across( all_of(names(my_df)), arrotonda )
+  #   ) %>%
+  #   setNames(c("rmse20", "rmse80", "rsq20", "rsq80", "FAC2", "FB", "NMSE")) %>% 
+  #  ungroup %>% 
+  #  add_row("medai" = !!! colMeans(., na.rm = TRUE)) %>% 
+  #     kbl(escape = F) %>% 
+  # kable_styling(bootstrap_options = c("striped", "hover"), full_width = TRUE) %>% print()
+  
+    my_df %>% 
+    mutate(
+      across( all_of(names(my_df)), arrotonda )
+    ) %>%
+      setNames(c("rmse20", "rmse80", "rsq20", "rsq80", "FAC2", "FB", "NMSE")) %>% 
+      # tibble::rownames_to_column(var = "Site") %>% 
+      reshape2::melt() %>% 
+      ggplot() + 
+      geom_boxplot(aes(y = value, x = variable, fill = variable)) + 
+      facet_wrap(~variable, scales = "free", ncol = 7) +
+      theme(axis.title = element_blank(), axis.text.x = element_blank(), legend.position = "none") -> g
+    print(g)
+    
+  
+  cat("\n\n")
+})
+
+
+```
+
+
