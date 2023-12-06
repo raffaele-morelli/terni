@@ -30,6 +30,7 @@
   # acciaieria ####
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")
 
+  dominio <- st_read("~/R/terni/data/dominio/dominio4_label.shp")
   
   pt_misura <- st_read("~/R/terni/data/shp/punti_misura.shp")
   v <- vect(pt_misura) # converto in SpatVector
@@ -623,10 +624,15 @@ library(ggrepel)
 library(ggthemes)
 cbind(pt_misura, st_coordinates(pt_misura)) -> pt_misura
 
-g <- ggplot(terni_sez) + geom_sf() 
-g <- g + geom_sf(data = pt_misura) + geom_sf(data = acciaieria, color = "red") 
+g <- ggplot() + 
+  geom_sf(data = terni_sez, fill = "transparent") + 
+  geom_sf(data = dominio, color = "dodgerblue4", size = 0.4, alpha = 0.5) +
+  geom_sf(data = pt_misura, color = "black", size = 3) 
 g <- g + geom_label_repel(data = pt_misura, 
                           aes(x = X, y = Y, label = Site), 
                           min.segment.length = 0, max.overlaps = Inf)
-g + theme_map()
-# g + coord_sf(crs = 4326, xlim = c(12.55, 12.70), ylim = c(42.54, 42.60))
+g +   geom_sf(data = acciaieria, color = "red", size = 3)  +
+  coord_sf(crs = 32632, xlim = c(793718.2, 803518.2), ylim = c(4712983, 4722783)) + theme_map()
+
+ggsave("mappa.png")
+
