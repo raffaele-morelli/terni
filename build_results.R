@@ -27,19 +27,7 @@ getSign <- function(mod) {
 
 getModel <- function(vars, df) {
   source("f_makeSpline.R")
-  # ms <-
-  #   lapply(vars, function(x) {
-  #     unlist(x) %>% unique() -> i
-  # 
-  #     k <- filter(kappas, var == i) %>% select(kappas) %>% as.numeric()
-  # 
-  #     # log_print(sprintf("var %s kappa %s", i, k))
-  #     case_when(
-  #       k > 4 ~  paste0("s(", x, ", k=5)"),
-  #       k > 0 ~ paste0("s(", x, ", k=", k, ")"),
-  #       .default = paste0("s(", x, ", k=", k, ")")  
-  #     )
-  #   }) %>% paste(collapse = " + ")
+
   ms <- makeSpline(vars) %>% paste(collapse = " + ")
   
   ms <- paste("gam(value ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
@@ -50,15 +38,15 @@ getModel <- function(vars, df) {
 
 pltnts <- list.files(glue("~/R/terni/rds_{dir}"), pattern = "^[A-Z]", full.names = TRUE) 
 
-map(names(df), \(var) {
-  df[[var]] %>% unique() %>% length()
-}) -> cappas
-names(cappas) <- names(df)
+# map(names(df), \(var) {
+#   df[[var]] %>% unique() %>% length()
+# }) -> cappas
+# names(cappas) <- names(df)
 
 fn <- file.path(glue("log/clean_v_nsign.log"))
 lf <- log_open(fn)
 
-map(pltnts, \(pltnt) {
+map(pltnts[1:2], \(pltnt) {
   inquinante <- tools::file_path_sans_ext(basename(pltnt))
   
   log_print(inquinante)
@@ -73,7 +61,7 @@ map(pltnts, \(pltnt) {
 }) -> models
 
 names(models) <- tools::file_path_sans_ext(basename(pltnts))
-saveRDS(models, file = glue("~/R/terni/rds_{dir}/modelli_{dir}.RDS"))
+# saveRDS(models, file = glue("~/R/terni/rds_{dir}/modelli_{dir}.RDS"))
 
 map(names(models), \(m) {
   v_sign <- getSign(models[[m]])
@@ -83,10 +71,7 @@ map(names(models), \(m) {
   index <- grep(m, names(df))
   names(df)[index] <- "value"
   log_print(m)
-  
-  # log_print( sprintf("Before: "), hide_notes = TRUE )
-  # log_print( summary(mod)$s.table %>%
-               # as.data.frame(), hide_notes = TRUE)
+
   
   lapply(v_sign, \(v) gsub("s\\(|\\)", '', v)) %>% unlist() -> v_sign
   
@@ -96,7 +81,7 @@ map(names(models), \(m) {
 
 names(models_clean) <- tools::file_path_sans_ext(basename(pltnts))
 
-saveRDS(models_clean, file = glue("~/R/terni/rds_{dir}/modelli_{dir}_clean.RDS"))
+# saveRDS(models_clean, file = glue("~/R/terni/rds_{dir}/modelli_{dir}_clean.RDS"))
 
 
 

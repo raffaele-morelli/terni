@@ -118,18 +118,4 @@ my_mat <- do.call(rbind, my_list)
 my_df <- data.frame(my_mat)
 
 saveRDS(my_list, file = "~/R/terni/cross_validation.RDS")
-# colnames(my_df) <- c("rmse20", "rmse80", "rsq20", "rsq80", "FAC2", "FB", "NMSE")
 
-# arrotonda <- function(x) {
-#   unlist(x) %>% as.vector -> y
-#   return( round(y, 4) )
-# }
-
-# my_df %>% 
-#   mutate(
-#     across( all_of(names(my_df)), arrotonda )
-#     ) -> my_df
-
-# tibble::rownames_to_column(my_df) -> my_df
-
-# write_csv(my_df, "~/R/terni/data/dataframes/df_cross_validazione.csv")

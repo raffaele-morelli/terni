@@ -355,11 +355,8 @@ div.tocify {
 
 <div id="cr" class="section level1">
 <h1>CR</h1>
-stringa modello: gam(value ~ s(cold_area) + s(nirradiance_IQR) +
-s(scrapyard) + s(m_dis_ferr) + s(tp_max) + s(pblmin_IQR, k=9) ,
-gamma=1.4, family=gaussian(link=log), data =
-df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:03:22 2023 -->
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Thu Dec  7 13:25:23 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -385,13 +382,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--14.7130
+-14.7256
 </td>
 <td align="right">
-0.0220
+0.0227
 </td>
 <td align="right">
--669.8060
+-647.5571
 </td>
 <td align="right">
 &lt; 0.0001
@@ -419,13 +416,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-5.7907
+3.9786
 </td>
 <td align="right">
-6.6950
+3.9996
 </td>
 <td align="right">
-52.6680
+98.0717
 </td>
 <td align="right">
 &lt; 0.0001
@@ -436,13 +433,13 @@ s(cold_area)
 s(nirradiance_IQR)
 </td>
 <td align="right">
-2.2902
+2.2427
 </td>
 <td align="right">
-2.7074
+2.6250
 </td>
 <td align="right">
-56.3751
+55.5424
 </td>
 <td align="right">
 &lt; 0.0001
@@ -453,13 +450,13 @@ s(nirradiance_IQR)
 s(scrapyard)
 </td>
 <td align="right">
-1.0012
+1.0002
 </td>
 <td align="right">
-1.0021
+1.0004
 </td>
 <td align="right">
-83.9028
+190.3039
 </td>
 <td align="right">
 &lt; 0.0001
@@ -470,16 +467,16 @@ s(scrapyard)
 s(m_dis_ferr)
 </td>
 <td align="right">
-5.6777
+3.9046
 </td>
 <td align="right">
-6.5491
+3.9942
 </td>
 <td align="right">
-4.9365
+21.7016
 </td>
 <td align="right">
-0.0001
+&lt; 0.0001
 </td>
 </tr>
 <tr>
@@ -487,13 +484,13 @@ s(m_dis_ferr)
 s(tp_max)
 </td>
 <td align="right">
-2.4385
+2.4139
 </td>
 <td align="right">
-2.8785
+2.8181
 </td>
 <td align="right">
-14.7723
+14.8448
 </td>
 <td align="right">
 &lt; 0.0001
@@ -510,24 +507,186 @@ s(pblmin_IQR)
 1.0000
 </td>
 <td align="right">
-7.7482
+7.2750
 </td>
 <td align="right">
-0.0058
+0.0074
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.815</p>
+<p>R²: 0.805</p>
 <p><img src="indici_all_files/figure-html/unnamed-chunk-1-1.png" width="672" /><img src="indici_all_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+</div>
+<div id="cr-clean" class="section level1">
+<h1>CR (clean)</h1>
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Thu Dec  7 13:25:25 2023 -->
+<table border="1">
+<caption align="bottom">
+</caption>
+<tr>
+<td>
+A. parametric coefficients
+</td>
+<td align="right">
+Estimate
+</td>
+<td align="right">
+Std. Error
+</td>
+<td align="right">
+t-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+(Intercept)
+</td>
+<td align="right">
+-14.7256
+</td>
+<td align="right">
+0.0227
+</td>
+<td align="right">
+-647.5571
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+B. smooth terms
+</td>
+<td align="right">
+edf
+</td>
+<td align="right">
+Ref.df
+</td>
+<td align="right">
+F-value
+</td>
+<td align="right">
+p-value
+</td>
+</tr>
+<tr>
+<td>
+s(cold_area)
+</td>
+<td align="right">
+3.9786
+</td>
+<td align="right">
+3.9996
+</td>
+<td align="right">
+98.0717
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_IQR)
+</td>
+<td align="right">
+2.2427
+</td>
+<td align="right">
+2.6250
+</td>
+<td align="right">
+55.5424
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(scrapyard)
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+1.0004
+</td>
+<td align="right">
+190.3039
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+3.9046
+</td>
+<td align="right">
+3.9942
+</td>
+<td align="right">
+21.7016
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(tp_max)
+</td>
+<td align="right">
+2.4139
+</td>
+<td align="right">
+2.8181
+</td>
+<td align="right">
+14.8448
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pblmin_IQR)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+7.2750
+</td>
+<td align="right">
+0.0074
+</td>
+</tr>
+<a name=tab.gam></a>
+</table>
+<p>R²: 0.805</p>
+<p><img src="indici_all_files/figure-html/unnamed-chunk-2-1.png" width="672" /><img src="indici_all_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 </div>
 <div id="non-cr" class="section level1">
 <h1>NON CR</h1>
-stringa modello: gam(value ~ s(cold_area) + s(pblmax_mean) + s(ml_200) +
-s(imp_200) + s(nirradiance_IQR) + s(s4_sup_200) + s(sp_mean) ,
-gamma=1.4, family=gaussian(link=log), data =
-df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:03:25 2023 -->
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Thu Dec  7 13:25:27 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -553,13 +712,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--14.7127
+-14.7198
 </td>
 <td align="right">
-0.0225
+0.0233
 </td>
 <td align="right">
--652.5885
+-632.1517
 </td>
 <td align="right">
 &lt; 0.0001
@@ -587,13 +746,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-7.4844
+3.1668
 </td>
 <td align="right">
-8.1911
+3.6421
 </td>
 <td align="right">
-49.7856
+127.2143
 </td>
 <td align="right">
 &lt; 0.0001
@@ -604,13 +763,13 @@ s(cold_area)
 s(pblmax_mean)
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-33.2573
+36.8900
 </td>
 <td align="right">
 &lt; 0.0001
@@ -621,13 +780,13 @@ s(pblmax_mean)
 s(ml_200)
 </td>
 <td align="right">
-1.0000
-</td>
-<td align="right">
 1.0001
 </td>
 <td align="right">
-29.4249
+1.0002
+</td>
+<td align="right">
+82.4046
 </td>
 <td align="right">
 &lt; 0.0001
@@ -638,13 +797,13 @@ s(ml_200)
 s(imp_200)
 </td>
 <td align="right">
-2.6967
+2.1238
 </td>
 <td align="right">
-3.2090
+2.5265
 </td>
 <td align="right">
-19.7523
+10.6747
 </td>
 <td align="right">
 &lt; 0.0001
@@ -655,13 +814,13 @@ s(imp_200)
 s(nirradiance_IQR)
 </td>
 <td align="right">
-1.6379
+1.5659
 </td>
 <td align="right">
-1.9097
+1.8268
 </td>
 <td align="right">
-42.0595
+43.9856
 </td>
 <td align="right">
 &lt; 0.0001
@@ -672,16 +831,16 @@ s(nirradiance_IQR)
 s(s4_sup_200)
 </td>
 <td align="right">
-1.4240
+3.7276
 </td>
 <td align="right">
-1.6561
+3.9300
 </td>
 <td align="right">
-3.1377
+12.0060
 </td>
 <td align="right">
-0.0374
+&lt; 0.0001
 </td>
 </tr>
 <tr>
@@ -689,30 +848,27 @@ s(s4_sup_200)
 s(sp_mean)
 </td>
 <td align="right">
-3.4921
+3.2968
 </td>
 <td align="right">
-4.0839
+3.6937
 </td>
 <td align="right">
-3.5140
+4.0068
 </td>
 <td align="right">
-0.0076
+0.0043
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.803</p>
-<p><img src="indici_all_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>R²: 0.791</p>
+<p><img src="indici_all_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="ncr-clean" class="section level1">
 <h1>NCR (clean)</h1>
-stringa modello: gam(value ~ s(cold_area) + s(pblmax_mean) + s(ml_200) +
-s(imp_200) + s(nirradiance_IQR) + s(s4_sup_200) + s(sp_mean) ,
-gamma=1.4, family=gaussian(link=log), data =
-df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:03:27 2023 -->
+<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Thu Dec  7 13:25:28 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -738,13 +894,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--14.7127
+-14.7198
 </td>
 <td align="right">
-0.0225
+0.0233
 </td>
 <td align="right">
--652.5885
+-632.1517
 </td>
 <td align="right">
 &lt; 0.0001
@@ -772,13 +928,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-7.4844
+3.1668
 </td>
 <td align="right">
-8.1911
+3.6421
 </td>
 <td align="right">
-49.7856
+127.2143
 </td>
 <td align="right">
 &lt; 0.0001
@@ -789,13 +945,13 @@ s(cold_area)
 s(pblmax_mean)
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-33.2573
+36.8900
 </td>
 <td align="right">
 &lt; 0.0001
@@ -806,13 +962,13 @@ s(pblmax_mean)
 s(ml_200)
 </td>
 <td align="right">
-1.0000
-</td>
-<td align="right">
 1.0001
 </td>
 <td align="right">
-29.4249
+1.0002
+</td>
+<td align="right">
+82.4046
 </td>
 <td align="right">
 &lt; 0.0001
@@ -823,13 +979,13 @@ s(ml_200)
 s(imp_200)
 </td>
 <td align="right">
-2.6967
+2.1238
 </td>
 <td align="right">
-3.2090
+2.5265
 </td>
 <td align="right">
-19.7523
+10.6747
 </td>
 <td align="right">
 &lt; 0.0001
@@ -840,13 +996,13 @@ s(imp_200)
 s(nirradiance_IQR)
 </td>
 <td align="right">
-1.6379
+1.5659
 </td>
 <td align="right">
-1.9097
+1.8268
 </td>
 <td align="right">
-42.0595
+43.9856
 </td>
 <td align="right">
 &lt; 0.0001
@@ -857,16 +1013,16 @@ s(nirradiance_IQR)
 s(s4_sup_200)
 </td>
 <td align="right">
-1.4240
+3.7276
 </td>
 <td align="right">
-1.6561
+3.9300
 </td>
 <td align="right">
-3.1377
+12.0060
 </td>
 <td align="right">
-0.0374
+&lt; 0.0001
 </td>
 </tr>
 <tr>
@@ -874,22 +1030,22 @@ s(s4_sup_200)
 s(sp_mean)
 </td>
 <td align="right">
-3.4921
+3.2968
 </td>
 <td align="right">
-4.0839
+3.6937
 </td>
 <td align="right">
-3.5140
+4.0068
 </td>
 <td align="right">
-0.0076
+0.0043
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.803</p>
-<p><img src="indici_all_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="indici_all_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p>R²: 0.791</p>
+<p><img src="indici_all_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="indici_all_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
 </div>
 
 

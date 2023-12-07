@@ -25,33 +25,16 @@ knitr::opts_chunk$set(echo = TRUE)
   library(gratia)
   library(itsadug) # Load jtools
   library(knitr)
+  kappas <- readRDS("~/R/terni/kappas.RDS")
 } 
 
 getModel <- function(vars, df) {
-  ms <- 
-    lapply(vars, function(x) {
-      case_when(
-        x == "tp_median" ~ paste0("s(", x, ", k=3)"),
-        x == "u10m_min" ~ paste0("s(", x, ", k=5)"),
-        x == "u10m_max" ~ paste0("s(", x, ", k=8)"),
-        x == "v10m_median" ~ paste0("s(", x, ", k=9)"),
-        x == "wspeed_min" ~ paste0("s(", x, ", k=8)"),
-        x == "pblmin_median" ~ paste0("s(", x, ", k=3)"),
-        x == "pbl00_median" ~ paste0("s(", x, ", k=6)"),
-        x == "pblmin_IQR" ~ paste0("s(", x, ", k=9)"),
-        x == "pbl00_min" ~ paste0("s(", x, ", k=1)"),
-        x == "s7_sup_200" ~ paste0("s(", x, ", k=3)"),
-        x == "s5_sup_200" ~ paste0("s(", x, ", k=9)"),
-        x == "s1_sup_200" ~ paste0("s(", x, ", k=7)"),
-        x == "u10m_median" ~ paste0("s(", x, ", k=9)"),
-        x == "pwspeed_min" ~ paste0("s(", x, ", k=7)"),
-        .default = paste0("s(", x, ")")
-      )
-    }) %>% paste(collapse = " + ") 
+  source("~/R/terni/f_makeSpline.R")
+
+  ms <- makeSpline(vars) %>% paste(collapse = " + ")
   
   ms <- paste("gam(value ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   
-  cat("stringa modello: ", ms)
   mod <- eval(parse(text = ms))
   return(mod)
 }
@@ -92,7 +75,23 @@ draw(mod_cr)
 ```
 
 
+# CR (clean)
 
+```{r, results='asis', echo=FALSE}
+
+v_sign <- getSign(mod_cr)
+lapply(v_sign, \(v) gsub("s\\(|\\)", '', v)) %>% unlist() -> v_sign
+
+mod_cr_clean <- getModel(v_sign, mod_cr$model) 
+
+gamtabs(mod_cr_clean, type = "HTML")
+
+cat("\n\n R²:", summary(mod_cr_clean)$r.sq %>% round(3), "\n\n")
+
+appraise(mod_cr_clean) %>% print()
+
+draw(mod_cr_clean)
+```
 
 # NON CR
 
