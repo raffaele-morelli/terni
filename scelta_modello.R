@@ -4,8 +4,8 @@ cat(args, sep = "\n")
 pltnt <- args[1] #### SET inquinante ####
 dir <- args[2] ### SET directory ####
 
-# pltnt <- "TOT_CR"
-# dir <- "indici"
+# pltnt <- "PM10"s
+# dir <- "all"
 
 cat("############# ", pltnt, "\n")
 
@@ -38,10 +38,10 @@ cat("############# ", pltnt, "\n")
   
   names(df)[index] <- "value"
 
-  map(names(df), \(var) {
-    df[[var]] %>% unique() %>% length()
-  }) -> cappas
-  names(cappas) <- names(df)
+  # map(names(df), \(var) {
+  #   df[[var]] %>% unique() %>% length()
+  # }) -> kappas
+  # names(kappas) <- names(df)
 }
 
 ## Variabili #####
@@ -70,14 +70,14 @@ assign("AICS", list(), envir = .GlobalEnv)
 assign("v_dead", c(), envir = .GlobalEnv)
 assign("N", 0, envir = .GlobalEnv)
 assign("pltnt", pltnt, envir = .GlobalEnv)
-
+assign("kappas", readRDS("kappas.RDS"))
 assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 
 fn <- file.path(glue("log/{outdir}/terni_{pltnt}.log"))
 lf <- log_open(fn)
 
-log_print("v_variabili", hide_notes = TRUE)
-log_print(v_variabili)
+# log_print("v_variabili", hide_notes = TRUE)
+# log_print(v_variabili)
 
 # ricorsione ####
 sceltaVar()

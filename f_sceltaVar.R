@@ -18,7 +18,6 @@ sceltaVar <- function() {
   
   # conterrà gli oggetti GAM calcolati sulle stazioni
   models <- map(w, function(y) {
-    # log_print(paste("=> ",  w), hide_notes = TRUE)
     eval(parse(text = y)) 
     })
   

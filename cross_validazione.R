@@ -23,19 +23,13 @@
   setwd("~/R/terni")
   
   modelli <- readRDS(glue("~/R/terni/rds_all/modelli_all_clean.RDS"))
-  # frml <- formula(modelli[[pltnt]])
-  # set.seed(1974)
-  
 }
 
 my_list <- list()
 
 for (pltnt in names(modelli)) {
-  # if(pltnt %in% c("Al_s", "As_s", "B_i") ) {
-  #   next
-  # }
   
-  fn <- file.path(glue("log/cross_valid_{pltnt}.log"))
+  fn <- file.path(glue("~/R/terni/log/cv/cross_valid_{pltnt}.log"))
   lf <- log_open(fn)
   
   # va riletto ogni volta altrimenti "value" viene trovato più volte

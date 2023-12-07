@@ -355,11 +355,11 @@ div.tocify {
 
 <div id="cr" class="section level1">
 <h1>CR</h1>
-stringa modello: gam(value ~ s(s3_sup_200) + s(pbl00_mean) + s(hot_area)
-+ s(pop_200) + s(v10m_mean) + s(pbl12_min) + s(wspeed_max_max) ,
+stringa modello: gam(value ~ s(cold_area) + s(nirradiance_IQR) +
+s(scrapyard) + s(m_dis_ferr) + s(tp_max) + s(pblmin_IQR, k=9) ,
 gamma=1.4, family=gaussian(link=log), data =
 df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Dec  5 15:40:50 2023 -->
+<!-- Thu Dec  7 13:03:22 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -385,13 +385,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--14.7286
+-14.7130
 </td>
 <td align="right">
-0.0237
+0.0220
 </td>
 <td align="right">
--620.7951
+-669.8060
 </td>
 <td align="right">
 &lt; 0.0001
@@ -416,50 +416,16 @@ p-value
 </tr>
 <tr>
 <td>
-s(s3_sup_200)
+s(cold_area)
 </td>
 <td align="right">
-1.0000
+5.7907
 </td>
 <td align="right">
-1.0001
+6.6950
 </td>
 <td align="right">
-5.0860
-</td>
-<td align="right">
-0.0250
-</td>
-</tr>
-<tr>
-<td>
-s(pbl00_mean)
-</td>
-<td align="right">
-1.0001
-</td>
-<td align="right">
-1.0001
-</td>
-<td align="right">
-0.7356
-</td>
-<td align="right">
-0.3918
-</td>
-</tr>
-<tr>
-<td>
-s(hot_area)
-</td>
-<td align="right">
-3.9305
-</td>
-<td align="right">
-4.7678
-</td>
-<td align="right">
-14.3802
+52.6680
 </td>
 <td align="right">
 &lt; 0.0001
@@ -467,16 +433,33 @@ s(hot_area)
 </tr>
 <tr>
 <td>
-s(pop_200)
+s(nirradiance_IQR)
 </td>
 <td align="right">
-8.6651
+2.2902
 </td>
 <td align="right">
-8.8789
+2.7074
 </td>
 <td align="right">
-34.7039
+56.3751
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(scrapyard)
+</td>
+<td align="right">
+1.0012
+</td>
+<td align="right">
+1.0021
+</td>
+<td align="right">
+83.9028
 </td>
 <td align="right">
 &lt; 0.0001
@@ -484,67 +467,67 @@ s(pop_200)
 </tr>
 <tr>
 <td>
-s(v10m_mean)
+s(m_dis_ferr)
 </td>
 <td align="right">
-1.0000
+5.6777
 </td>
 <td align="right">
-1.0000
+6.5491
 </td>
 <td align="right">
-13.9012
+4.9365
 </td>
 <td align="right">
-0.0002
+0.0001
 </td>
 </tr>
 <tr>
 <td>
-s(pbl12_min)
+s(tp_max)
 </td>
 <td align="right">
-1.0000
+2.4385
 </td>
 <td align="right">
-1.0000
+2.8785
 </td>
 <td align="right">
-1.7238
-</td>
-<td align="right">
-0.1904
-</td>
-</tr>
-<tr>
-<td>
-s(wspeed_max_max)
-</td>
-<td align="right">
-5.8774
-</td>
-<td align="right">
-6.1585
-</td>
-<td align="right">
-17.8084
+14.7723
 </td>
 <td align="right">
 &lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pblmin_IQR)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+7.7482
+</td>
+<td align="right">
+0.0058
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.794</p>
+<p>R²: 0.815</p>
 <p><img src="indici_all_files/figure-html/unnamed-chunk-1-1.png" width="672" /><img src="indici_all_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
 </div>
 <div id="non-cr" class="section level1">
 <h1>NON CR</h1>
-stringa modello: gam(value ~ s(s3_sup_200) + s(wdir_mean) + s(pop_200) +
-s(s6_sup_200) + s(kndvi) + s(s8_sup_200) , gamma=1.4,
-family=gaussian(link=log), data =
+stringa modello: gam(value ~ s(cold_area) + s(pblmax_mean) + s(ml_200) +
+s(imp_200) + s(nirradiance_IQR) + s(s4_sup_200) + s(sp_mean) ,
+gamma=1.4, family=gaussian(link=log), data =
 df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Dec  5 15:40:53 2023 -->
+<!-- Thu Dec  7 13:03:25 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -570,13 +553,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--14.7313
+-14.7127
 </td>
 <td align="right">
-0.0207
+0.0225
 </td>
 <td align="right">
--710.1313
+-652.5885
 </td>
 <td align="right">
 &lt; 0.0001
@@ -601,33 +584,16 @@ p-value
 </tr>
 <tr>
 <td>
-s(s3_sup_200)
+s(cold_area)
 </td>
 <td align="right">
-3.4509
+7.4844
 </td>
 <td align="right">
-3.6875
+8.1911
 </td>
 <td align="right">
-9.7061
-</td>
-<td align="right">
-0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(wdir_mean)
-</td>
-<td align="right">
-8.8590
-</td>
-<td align="right">
-8.9907
-</td>
-<td align="right">
-32.0117
+49.7856
 </td>
 <td align="right">
 &lt; 0.0001
@@ -635,33 +601,16 @@ s(wdir_mean)
 </tr>
 <tr>
 <td>
-s(pop_200)
+s(pblmax_mean)
 </td>
 <td align="right">
-4.8908
+1.0001
 </td>
 <td align="right">
-5.3305
+1.0001
 </td>
 <td align="right">
-10.8140
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(s6_sup_200)
-</td>
-<td align="right">
-7.3009
-</td>
-<td align="right">
-7.6987
-</td>
-<td align="right">
-19.1887
+33.2573
 </td>
 <td align="right">
 &lt; 0.0001
@@ -669,16 +618,16 @@ s(s6_sup_200)
 </tr>
 <tr>
 <td>
-s(kndvi)
+s(ml_200)
 </td>
 <td align="right">
-5.6490
+1.0000
 </td>
 <td align="right">
-6.8566
+1.0001
 </td>
 <td align="right">
-12.0143
+29.4249
 </td>
 <td align="right">
 &lt; 0.0001
@@ -686,33 +635,84 @@ s(kndvi)
 </tr>
 <tr>
 <td>
-s(s8_sup_200)
+s(imp_200)
 </td>
 <td align="right">
-2.6172
+2.6967
 </td>
 <td align="right">
-3.0262
+3.2090
 </td>
 <td align="right">
-7.0246
+19.7523
 </td>
 <td align="right">
-0.0002
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_IQR)
+</td>
+<td align="right">
+1.6379
+</td>
+<td align="right">
+1.9097
+</td>
+<td align="right">
+42.0595
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s4_sup_200)
+</td>
+<td align="right">
+1.4240
+</td>
+<td align="right">
+1.6561
+</td>
+<td align="right">
+3.1377
+</td>
+<td align="right">
+0.0374
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+3.4921
+</td>
+<td align="right">
+4.0839
+</td>
+<td align="right">
+3.5140
+</td>
+<td align="right">
+0.0076
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.844</p>
+<p>R²: 0.803</p>
 <p><img src="indici_all_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="ncr-clean" class="section level1">
 <h1>NCR (clean)</h1>
-stringa modello: gam(value ~ s(s3_sup_200) + s(wdir_mean) + s(pop_200) +
-s(s6_sup_200) + s(kndvi) + s(s8_sup_200) , gamma=1.4,
-family=gaussian(link=log), data =
+stringa modello: gam(value ~ s(cold_area) + s(pblmax_mean) + s(ml_200) +
+s(imp_200) + s(nirradiance_IQR) + s(s4_sup_200) + s(sp_mean) ,
+gamma=1.4, family=gaussian(link=log), data =
 df)<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Tue Dec  5 15:40:54 2023 -->
+<!-- Thu Dec  7 13:03:27 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -738,13 +738,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--14.7313
+-14.7127
 </td>
 <td align="right">
-0.0207
+0.0225
 </td>
 <td align="right">
--710.1313
+-652.5885
 </td>
 <td align="right">
 &lt; 0.0001
@@ -769,33 +769,16 @@ p-value
 </tr>
 <tr>
 <td>
-s(s3_sup_200)
+s(cold_area)
 </td>
 <td align="right">
-3.4509
+7.4844
 </td>
 <td align="right">
-3.6875
+8.1911
 </td>
 <td align="right">
-9.7061
-</td>
-<td align="right">
-0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(wdir_mean)
-</td>
-<td align="right">
-8.8590
-</td>
-<td align="right">
-8.9907
-</td>
-<td align="right">
-32.0117
+49.7856
 </td>
 <td align="right">
 &lt; 0.0001
@@ -803,33 +786,16 @@ s(wdir_mean)
 </tr>
 <tr>
 <td>
-s(pop_200)
+s(pblmax_mean)
 </td>
 <td align="right">
-4.8908
+1.0001
 </td>
 <td align="right">
-5.3305
+1.0001
 </td>
 <td align="right">
-10.8140
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(s6_sup_200)
-</td>
-<td align="right">
-7.3009
-</td>
-<td align="right">
-7.6987
-</td>
-<td align="right">
-19.1887
+33.2573
 </td>
 <td align="right">
 &lt; 0.0001
@@ -837,16 +803,16 @@ s(s6_sup_200)
 </tr>
 <tr>
 <td>
-s(kndvi)
+s(ml_200)
 </td>
 <td align="right">
-5.6490
+1.0000
 </td>
 <td align="right">
-6.8566
+1.0001
 </td>
 <td align="right">
-12.0143
+29.4249
 </td>
 <td align="right">
 &lt; 0.0001
@@ -854,24 +820,75 @@ s(kndvi)
 </tr>
 <tr>
 <td>
-s(s8_sup_200)
+s(imp_200)
 </td>
 <td align="right">
-2.6172
+2.6967
 </td>
 <td align="right">
-3.0262
+3.2090
 </td>
 <td align="right">
-7.0246
+19.7523
 </td>
 <td align="right">
-0.0002
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_IQR)
+</td>
+<td align="right">
+1.6379
+</td>
+<td align="right">
+1.9097
+</td>
+<td align="right">
+42.0595
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s4_sup_200)
+</td>
+<td align="right">
+1.4240
+</td>
+<td align="right">
+1.6561
+</td>
+<td align="right">
+3.1377
+</td>
+<td align="right">
+0.0374
+</td>
+</tr>
+<tr>
+<td>
+s(sp_mean)
+</td>
+<td align="right">
+3.4921
+</td>
+<td align="right">
+4.0839
+</td>
+<td align="right">
+3.5140
+</td>
+<td align="right">
+0.0076
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.844</p>
+<p>R²: 0.803</p>
 <p><img src="indici_all_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="indici_all_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 </div>
 

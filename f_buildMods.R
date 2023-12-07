@@ -6,50 +6,12 @@ buildMods <- function(backward = FALSE) {
   AICS <- get("AICS", envir = .GlobalEnv)
   v_variabili <- get("v_variabili", envir = .GlobalEnv)
   v_dead <- get("v_dead", envir = .GlobalEnv)
-  # cappas <- get("cappas", envir = .GlobalEnv)
+  kappas <- get("kappas", envir = .GlobalEnv)
   
   
   # costruisce le "spline testuali"
-  makeSpline <- function(v) {
-    return(
-      lapply(v, function(x) {
-        unlist(x) %>% unique() -> i
+  source("f_makeSpline.R")
 
-        k <- cappas[[i]]
-        case_when(
-          k > 10 ~  paste0("s(", x, ", k=9)"),
-          k < 10 ~  paste0("s(", x, ", k=", k-1 , ")"),
-          .default = paste0("s(", x, ")")          
-        )
-        
-        # paste0("s(", x, ", k =", cappas[[i]], ")")
-        # case_when(
-        #   x == "tp_median" ~ paste0("s(", x, ", k=2)"),
-        #   x == "u10m_min" ~ paste0("s(", x, ", k=4)"),
-        #   x == "u10m_max" ~ paste0("s(", x, ", k=7)"),
-        #   x == "u10m_IQR" ~ paste0("s(", x, ", k=9)"),
-        #   x == "v10m_median" ~ paste0("s(", x, ", k=8)"),
-        #   x == "wspeed_min" ~ paste0("s(", x, ", k=7)"),
-        #   # x == "wspeed_max" ~ paste0("s(", x, ", k=12)"),
-        #   # x == "pwspeed_max" ~ paste0("s(", x, ", k=12)"),
-        #   x == "pblmin_median" ~ paste0("s(", x, ", k=2)"),
-        #   x == "pbl00_median" ~ paste0("s(", x, ", k=5)"),
-        #   x == "pblmin_IQR" ~ paste0("s(", x, ", k=8)"),
-        #   x == "pbl00_min" ~ paste0("s(", x, ", k=1)"),
-        #   x == "s1_sup_200" ~ paste0("s(", x, ", k=6)"),
-        #   x == "s2_sup_200" ~ paste0("s(", x, ", k=9)"),
-        #   x == "s3_sup_200" ~ paste0("s(", x, ", k=9)"),
-        #   x == "s4_sup_200" ~ paste0("s(", x, ", k=9)"),
-        #   x == "s5_sup_200" ~ paste0("s(", x, ", k=8)"),
-        #   x == "s6_sup_200" ~ paste0("s(", x, ", k=9)"),
-        #   x == "s7_sup_200" ~ paste0("s(", x, ", k=2)"),
-        #   x == "u10m_median" ~ paste0("s(", x, ", k=8)"),
-        #   x == "pwspeed_min" ~ paste0("s(", x, ", k=6)"),
-        #   .default = paste0("s(", x, ")")
-        #   )
-      })
-    )
-  }
   
   if( length(AICS) > 1 & backward == TRUE ) {
     # Si elimina la variabile (n-1), si bloccano le variabili da 1 a (n-2) e

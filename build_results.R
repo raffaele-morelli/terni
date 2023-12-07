@@ -12,30 +12,35 @@
   library(logr)
 
   dir <- "all"
-  clean <- FALSE
+
+  kappas <- readRDS("~/R/terni/kappas.RDS")
 } 
 
 getSign <- function(mod) {
   summary(mod)$s.table %>% 
     as.data.frame() %>% 
-    filter(`p-value` < 0.05) %>% 
+    filter(`p-value` <= 0.05) %>% 
     rownames() -> v_sign
   return(v_sign)
 }
 
 
 getModel <- function(vars, df) {
-  ms <- 
-    lapply(vars, function(x) {
-      unlist(x) %>% unique() -> i
-      
-      k <- cappas[[i]]
-      case_when(
-        k > 10 ~  paste0("s(", x, ", k=9)"),
-        k < 10 ~  paste0("s(", x, ", k=", k-1 , ")"),
-        .default = paste0("s(", x, ")")          
-      )
-    }) %>% paste(collapse = " + ") 
+  source("f_makeSpline.R")
+  # ms <-
+  #   lapply(vars, function(x) {
+  #     unlist(x) %>% unique() -> i
+  # 
+  #     k <- filter(kappas, var == i) %>% select(kappas) %>% as.numeric()
+  # 
+  #     # log_print(sprintf("var %s kappa %s", i, k))
+  #     case_when(
+  #       k > 4 ~  paste0("s(", x, ", k=5)"),
+  #       k > 0 ~ paste0("s(", x, ", k=", k, ")"),
+  #       .default = paste0("s(", x, ", k=", k, ")")  
+  #     )
+  #   }) %>% paste(collapse = " + ")
+  ms <- makeSpline(vars) %>% paste(collapse = " + ")
   
   ms <- paste("gam(value ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   
