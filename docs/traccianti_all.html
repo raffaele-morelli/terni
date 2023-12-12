@@ -355,8 +355,9 @@ div.tocify {
 
 <div id="al_i" class="section level1">
 <h1>Al_i</h1>
+value ~ s(pbl12_IQR, k = 5) + s(s4_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:23 2023 -->
+<!-- Mon Dec 11 18:19:14 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -452,8 +453,10 @@ s(s4_sup_200)
 </div>
 <div id="al_s" class="section level1">
 <h1>Al_s</h1>
+value ~ s(u10m_min, k = 5) + s(bh_200, k = 5) + s(imp_200, k = 5) +
+s(pbl12_IQR, k = 5) + s(s4_sup_200, k = 5) + s(wspeed_max_max, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:23 2023 -->
+<!-- Mon Dec 11 18:19:15 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -617,8 +620,10 @@ s(wspeed_max_max)
 </div>
 <div id="as_i" class="section level1">
 <h1>As_i</h1>
+value ~ s(wspeed_max, k = 5) + s(pblmax_IQR, k = 5) + s(tmax2m_IQR, k =
+5) + s(pblmin_max, k = 5) + s(cold_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:24 2023 -->
+<!-- Mon Dec 11 18:19:15 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -765,8 +770,10 @@ s(cold_area)
 </div>
 <div id="as_s" class="section level1">
 <h1>As_s</h1>
+value ~ s(u10m_max, k = 5) + s(cold_area, k = 5) + s(wspeed_max_mean, k
+= 5) + s(s3_sup_200, k = 5) + s(s6_sup_200, k = 5) + s(kndvi, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:25 2023 -->
+<!-- Mon Dec 11 18:19:17 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -930,8 +937,9 @@ s(kndvi)
 </div>
 <div id="b_i" class="section level1">
 <h1>B_i</h1>
+value ~ s(wspeed_IQR, k = 5) + s(s7_sup_200, k = 1) + s(kndvi, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:25 2023 -->
+<!-- Mon Dec 11 18:19:17 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1044,8 +1052,10 @@ s(kndvi)
 </div>
 <div id="b_s" class="section level1">
 <h1>B_s</h1>
+value ~ s(wspeed_IQR, k = 5) + s(v10m_min, k = 5) + s(rh_IQR, k = 5) +
+s(pblmin_median, k = 2)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:25 2023 -->
+<!-- Mon Dec 11 18:19:17 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1175,8 +1185,11 @@ s(pblmin_median)
 </div>
 <div id="ba_i" class="section level1">
 <h1>Ba_i</h1>
+value ~ s(pblmax_IQR, k = 5) + s(pbl00_max, k = 5) + s(imp_200, k = 5) +
+s(t2m_IQR, k = 5) + s(s6_sup_200, k = 5) + s(hot_area, k = 5) +
+s(cold_area, k = 5) + s(s2_sup_200, k = 5) + s(s7_sup_200, k = 1)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:26 2023 -->
+<!-- Mon Dec 11 18:19:18 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1391,8 +1404,10 @@ s(s7_sup_200)
 </div>
 <div id="ba_s" class="section level1">
 <h1>Ba_s</h1>
+value ~ s(t2m_IQR, k = 5) + s(sp_min, k = 5) + s(s8_sup_200, k = 5) +
+s(pop_200, k = 5) + s(imp_200, k = 5) + s(nirradiance_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:26 2023 -->
+<!-- Mon Dec 11 18:19:18 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1556,8 +1571,10 @@ s(nirradiance_IQR)
 </div>
 <div id="bi_i" class="section level1">
 <h1>Bi_i</h1>
+value ~ s(wspeed_min, k = 5) + s(v10m_min, k = 5) + s(hot_area, k = 5) +
+s(s6_sup_200, k = 5) + s(pbl12_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:27 2023 -->
+<!-- Mon Dec 11 18:19:19 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1704,8 +1721,11 @@ s(pbl12_min)
 </div>
 <div id="bi_s" class="section level1">
 <h1>Bi_s</h1>
+value ~ s(pblmin_mean, k = 5) + s(wspeed_min, k = 5) + s(m_dis_ferr, k =
+5) + s(v10m_min, k = 5) + s(imp_200, k = 5) + s(bh_200, k = 5) +
+s(s3_sup_200, k = 5) + s(wspeed_max_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:27 2023 -->
+<!-- Mon Dec 11 18:19:19 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1903,8 +1923,9 @@ s(wspeed_max_mean)
 </div>
 <div id="ca_i" class="section level1">
 <h1>Ca_i</h1>
+value ~ s(pbl00_max, k = 5) + s(tmax2m_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:28 2023 -->
+<!-- Mon Dec 11 18:19:20 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2000,8 +2021,11 @@ s(tmax2m_IQR)
 </div>
 <div id="ca_s" class="section level1">
 <h1>Ca_s</h1>
+value ~ s(nirradiance_IQR, k = 5) + s(scrapyard, k = 5) + s(ml_200, k =
+5) + s(tp_median, k = 3) + s(m_dis_ferr, k = 5) + s(bh_200, k = 5) +
+s(imp_200, k = 5) + s(v10m_min, k = 5) + s(s4_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:28 2023 -->
+<!-- Mon Dec 11 18:19:21 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2027,13 +2051,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-6.6814
+6.6843
 </td>
 <td align="right">
-0.0202
+0.0200
 </td>
 <td align="right">
-330.4227
+334.9745
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2061,13 +2085,13 @@ p-value
 s(nirradiance_IQR)
 </td>
 <td align="right">
-1.4283
+1.0000
 </td>
 <td align="right">
-1.7307
+1.0000
 </td>
 <td align="right">
-58.1222
+58.4919
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2084,10 +2108,10 @@ s(scrapyard)
 1.0001
 </td>
 <td align="right">
-8.8379
+0.0918
 </td>
 <td align="right">
-0.0032
+0.7622
 </td>
 </tr>
 <tr>
@@ -2095,13 +2119,13 @@ s(scrapyard)
 s(ml_200)
 </td>
 <td align="right">
-3.4530
+1.0000
 </td>
 <td align="right">
-3.8228
+1.0000
 </td>
 <td align="right">
-10.8169
+20.9715
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2112,13 +2136,13 @@ s(ml_200)
 s(tp_median)
 </td>
 <td align="right">
-1.0000
+1.5235
 </td>
 <td align="right">
-1.0000
+1.7614
 </td>
 <td align="right">
-46.1042
+21.4860
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2135,7 +2159,24 @@ s(m_dis_ferr)
 1.0000
 </td>
 <td align="right">
-25.2209
+11.3823
+</td>
+<td align="right">
+0.0009
+</td>
+</tr>
+<tr>
+<td>
+s(bh_200)
+</td>
+<td align="right">
+3.7354
+</td>
+<td align="right">
+3.9532
+</td>
+<td align="right">
+10.8190
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2143,33 +2184,16 @@ s(m_dis_ferr)
 </tr>
 <tr>
 <td>
-s(s5_sup_200)
+s(imp_200)
 </td>
 <td align="right">
-1.0000
+2.5945
 </td>
 <td align="right">
-1.0000
+3.0139
 </td>
 <td align="right">
-25.1269
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(s2_sup_200)
-</td>
-<td align="right">
-3.7681
-</td>
-<td align="right">
-3.9534
-</td>
-<td align="right">
-8.5156
+22.7864
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2177,24 +2201,24 @@ s(s2_sup_200)
 </tr>
 <tr>
 <td>
-s(tmin2m_IQR)
+s(v10m_min)
 </td>
 <td align="right">
-1.0000
+3.2185
 </td>
 <td align="right">
-1.0001
+3.6218
 </td>
 <td align="right">
-17.6061
+3.4788
 </td>
 <td align="right">
-&lt; 0.0001
+0.0077
 </td>
 </tr>
 <tr>
 <td>
-s(wspeed_max_IQR)
+s(s4_sup_200)
 </td>
 <td align="right">
 1.0000
@@ -2203,21 +2227,23 @@ s(wspeed_max_IQR)
 1.0000
 </td>
 <td align="right">
-9.8569
+5.3979
 </td>
 <td align="right">
-0.0019
+0.0209
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.51</p>
+<p>R²: 0.514</p>
 <p><img src="traccianti_all_files/figure-html/unnamed-chunk-1-12.png" width="672" /></p>
 </div>
 <div id="cd_i" class="section level1">
 <h1>Cd_i</h1>
+value ~ s(pblmin_mean, k = 5) + s(scrapyard, k = 5) + s(m_dis_ferr, k =
+5) + s(wspeed_max_mean, k = 5) + s(s1_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:29 2023 -->
+<!-- Mon Dec 11 18:19:21 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2364,8 +2390,11 @@ s(s1_sup_200)
 </div>
 <div id="cd_s" class="section level1">
 <h1>Cd_s</h1>
+value ~ s(t2m_IQR, k = 5) + s(pblmin_median, k = 2) + s(scrapyard, k =
+5) + s(s2_sup_200, k = 5) + s(s4_sup_200, k = 5) + s(bh_200, k = 5) +
+s(s6_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:29 2023 -->
+<!-- Mon Dec 11 18:19:22 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2546,8 +2575,9 @@ s(s6_sup_200)
 </div>
 <div id="ce_i" class="section level1">
 <h1>Ce_i</h1>
-<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:30 2023 -->
+value ~ s(nirradiance_IQR, k = 5) + s(s8_sup_200, k = 5) + s(tp_median,
+k = 3) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Mon Dec 11 18:19:22 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2613,7 +2643,7 @@ s(nirradiance_IQR)
 3.8988
 </td>
 <td align="right">
-16.2204
+16.2195
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2641,13 +2671,13 @@ s(s8_sup_200)
 s(tp_median)
 </td>
 <td align="right">
-1.0000
+1.0001
 </td>
 <td align="right">
 1.0001
 </td>
 <td align="right">
-8.0081
+8.0069
 </td>
 <td align="right">
 0.0050
@@ -2660,8 +2690,9 @@ s(tp_median)
 </div>
 <div id="ce_s" class="section level1">
 <h1>Ce_s</h1>
-<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:30 2023 -->
+value ~ s(v10m_min, k = 5) + s(s5_sup_200, k = 5) + s(tmin2m_mean, k =
+5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Mon Dec 11 18:19:23 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2774,8 +2805,11 @@ s(tmin2m_mean)
 </div>
 <div id="co_i" class="section level1">
 <h1>Co_i</h1>
+value ~ s(cold_area, k = 5) + s(wspeed_max_max, k = 5) + s(ml_200, k =
+5) + s(kndvi, k = 5) + s(u10m_max, k = 5) + s(imp_200, k = 5) +
+s(sp_min, k = 5) + s(s3_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:30 2023 -->
+<!-- Mon Dec 11 18:19:23 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2973,8 +3007,10 @@ s(s3_sup_200)
 </div>
 <div id="co_s" class="section level1">
 <h1>Co_s</h1>
+value ~ s(u10m_mean, k = 5) + s(cold_area, k = 5) + s(t2m_IQR, k = 5) +
+s(pblmax_mean, k = 5) + s(s1_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:31 2023 -->
+<!-- Mon Dec 11 18:19:24 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3121,8 +3157,10 @@ s(s1_sup_200)
 </div>
 <div id="cr_i" class="section level1">
 <h1>Cr_i</h1>
+value ~ s(cold_area, k = 5) + s(pblmin_median, k = 2) + s(ml_200, k = 5)
++ s(imp_200, k = 5) + s(wspeed_mean, k = 5) + s(s5_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:31 2023 -->
+<!-- Mon Dec 11 18:19:24 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3286,8 +3324,10 @@ s(s5_sup_200)
 </div>
 <div id="cr_s" class="section level1">
 <h1>Cr_s</h1>
-<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:32 2023 -->
+value ~ s(scrapyard, k = 5) + s(nirradiance_IQR, k = 5) + s(s3_sup_200,
+k = 5) + s(s6_sup_200, k = 5) + s(wspeed_max, k = 5) + s(pblmax_IQR, k =
+5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Mon Dec 11 18:19:25 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3313,13 +3353,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-0.4599
+0.4585
 </td>
 <td align="right">
-0.0343
+0.0348
 </td>
 <td align="right">
-13.4149
+13.1788
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3347,13 +3387,13 @@ p-value
 s(scrapyard)
 </td>
 <td align="right">
-1.8397
+1.8079
 </td>
 <td align="right">
-2.2744
+2.2361
 </td>
 <td align="right">
-52.8428
+53.1608
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3364,13 +3404,13 @@ s(scrapyard)
 s(nirradiance_IQR)
 </td>
 <td align="right">
-1.8658
+2.4131
 </td>
 <td align="right">
-2.3130
+2.8980
 </td>
 <td align="right">
-30.7162
+29.8107
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3381,13 +3421,13 @@ s(nirradiance_IQR)
 s(s3_sup_200)
 </td>
 <td align="right">
-3.7814
+3.7781
 </td>
 <td align="right">
-3.9677
+3.9669
 </td>
 <td align="right">
-19.0864
+18.8172
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3401,10 +3441,10 @@ s(s6_sup_200)
 1.0001
 </td>
 <td align="right">
-1.0001
+1.0002
 </td>
 <td align="right">
-37.3222
+37.3428
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3412,7 +3452,7 @@ s(s6_sup_200)
 </tr>
 <tr>
 <td>
-s(tp_median)
+s(wspeed_max)
 </td>
 <td align="right">
 1.0000
@@ -3421,10 +3461,10 @@ s(tp_median)
 1.0000
 </td>
 <td align="right">
-11.4494
+32.6032
 </td>
 <td align="right">
-0.0008
+&lt; 0.0001
 </td>
 </tr>
 <tr>
@@ -3432,44 +3472,29 @@ s(tp_median)
 s(pblmax_IQR)
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
 1.0001
 </td>
 <td align="right">
-23.1391
+23.1824
 </td>
 <td align="right">
 &lt; 0.0001
 </td>
 </tr>
-<tr>
-<td>
-s(pblmin_mean)
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-6.1207
-</td>
-<td align="right">
-0.0140
-</td>
-</tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.698</p>
+<p>R²: 0.695</p>
 <p><img src="traccianti_all_files/figure-html/unnamed-chunk-1-20.png" width="672" /></p>
 </div>
 <div id="cs_i" class="section level1">
 <h1>Cs_i</h1>
+value ~ s(rh_mean, k = 5) + s(sp_min, k = 5) + s(s1_sup_200, k = 5) +
+s(s6_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:32 2023 -->
+<!-- Mon Dec 11 18:19:25 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3599,8 +3624,10 @@ s(s6_sup_200)
 </div>
 <div id="cs_s" class="section level1">
 <h1>Cs_s</h1>
+value ~ s(pbl12_mean, k = 5) + s(sp_mean, k = 5) + s(s1_sup_200, k = 5)
++ s(m_dis_ferr, k = 5) + s(s7_sup_200, k = 1) + s(wspeed_max_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:33 2023 -->
+<!-- Mon Dec 11 18:19:26 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3764,8 +3791,11 @@ s(wspeed_max_IQR)
 </div>
 <div id="cu_i" class="section level1">
 <h1>Cu_i</h1>
+value ~ s(pblmax_mean, k = 5) + s(s6_sup_200, k = 5) + s(s8_sup_200, k =
+5) + s(bh_200, k = 5) + s(pop_200, k = 5) + s(u10m_max, k = 5) +
+s(imp_200, k = 5) + s(s7_sup_200, k = 1) + s(hot_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:33 2023 -->
+<!-- Mon Dec 11 18:19:26 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3980,8 +4010,11 @@ s(hot_area)
 </div>
 <div id="cu_s" class="section level1">
 <h1>Cu_s</h1>
+value ~ s(u10m_max, k = 5) + s(s6_sup_200, k = 5) + s(s8_sup_200, k = 5)
++ s(tp_max, k = 5) + s(pop_200, k = 5) + s(bh_200, k = 5) +
+s(wspeed_max_max, k = 5) + s(s2_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:34 2023 -->
+<!-- Mon Dec 11 18:19:27 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4179,8 +4212,11 @@ s(s2_sup_200)
 </div>
 <div id="fe_i" class="section level1">
 <h1>Fe_i</h1>
+value ~ s(cold_area, k = 5) + s(pwspeed_mean, k = 5) + s(s6_sup_200, k =
+5) + s(kndvi, k = 5) + s(pblmin_max, k = 5) + s(s1_sup_200, k = 5) +
+s(wspeed_max_max, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:34 2023 -->
+<!-- Mon Dec 11 18:19:27 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4361,8 +4397,11 @@ s(wspeed_max_max)
 </div>
 <div id="fe_s" class="section level1">
 <h1>Fe_s</h1>
+value ~ s(u10m_min, k = 5) + s(m_dis_ferr, k = 5) + s(wspeed_max_max, k
+= 5) + s(s7_sup_200, k = 1) + s(wspeed_max_median, k = 5) +
+s(wspeed_max, k = 5) + s(pblmin_median, k = 2)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:35 2023 -->
+<!-- Mon Dec 11 18:19:28 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4543,8 +4582,11 @@ s(pblmin_median)
 </div>
 <div id="ga_i" class="section level1">
 <h1>Ga_i</h1>
+value ~ s(pbl12_mean, k = 5) + s(scrapyard, k = 5) + s(s6_sup_200, k =
+5) + s(wdir_mean, k = 5) + s(s4_sup_200, k = 5) + s(tp_median, k = 3) +
+s(wspeed_max, k = 5) + s(s5_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:35 2023 -->
+<!-- Mon Dec 11 18:19:28 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4570,13 +4612,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--2.6150
+-2.6225
 </td>
 <td align="right">
-0.0279
+0.0285
 </td>
 <td align="right">
--93.6190
+-92.1041
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4604,13 +4646,13 @@ p-value
 s(pbl12_mean)
 </td>
 <td align="right">
-2.0725
+1.0018
 </td>
 <td align="right">
-2.4468
+1.0034
 </td>
 <td align="right">
-29.7882
+79.1930
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4621,13 +4663,13 @@ s(pbl12_mean)
 s(scrapyard)
 </td>
 <td align="right">
-1.7328
+1.7628
 </td>
 <td align="right">
-2.1411
+2.1777
 </td>
 <td align="right">
-73.3257
+71.5872
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4644,7 +4686,7 @@ s(s6_sup_200)
 1.0001
 </td>
 <td align="right">
-41.7011
+40.1599
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4661,7 +4703,7 @@ s(wdir_mean)
 1.0000
 </td>
 <td align="right">
-55.2303
+61.2772
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4672,13 +4714,13 @@ s(wdir_mean)
 s(s4_sup_200)
 </td>
 <td align="right">
-1.7738
+1.7785
 </td>
 <td align="right">
-2.0758
+2.0804
 </td>
 <td align="right">
-12.7088
+12.3746
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4689,13 +4731,13 @@ s(s4_sup_200)
 s(tp_median)
 </td>
 <td align="right">
-1.6380
+1.9741
 </td>
 <td align="right">
-1.8460
+1.9993
 </td>
 <td align="right">
-18.1925
+60.6581
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4703,19 +4745,19 @@ s(tp_median)
 </tr>
 <tr>
 <td>
-s(v10m_min)
+s(wspeed_max)
 </td>
 <td align="right">
 1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-16.2948
+10.7794
 </td>
 <td align="right">
-0.0001
+0.0012
 </td>
 </tr>
 <tr>
@@ -4726,10 +4768,10 @@ s(s5_sup_200)
 1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-6.6959
+6.6940
 </td>
 <td align="right">
 0.0102
@@ -4737,13 +4779,15 @@ s(s5_sup_200)
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.62</p>
+<p>R²: 0.617</p>
 <p><img src="traccianti_all_files/figure-html/unnamed-chunk-1-27.png" width="672" /></p>
 </div>
 <div id="ga_s" class="section level1">
 <h1>Ga_s</h1>
+value ~ s(nirradiance_mean, k = 5) + s(scrapyard, k = 5) + s(pbl00_mean,
+k = 5) + s(s3_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:36 2023 -->
+<!-- Mon Dec 11 18:19:29 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4873,8 +4917,10 @@ s(s3_sup_200)
 </div>
 <div id="k_i" class="section level1">
 <h1>K_i</h1>
+value ~ s(v10m_mean, k = 5) + s(v10m_max, k = 5) + s(s8_sup_200, k = 5)
++ s(pop_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:36 2023 -->
+<!-- Mon Dec 11 18:19:29 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5004,8 +5050,10 @@ s(pop_200)
 </div>
 <div id="k_s" class="section level1">
 <h1>K_s</h1>
+value ~ s(u10m_min, k = 5) + s(v10m_median, k = 5) + s(hot_area, k = 5)
++ s(s1_sup_200, k = 5) + s(m_dis_ferr, k = 5) + s(rh_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:36 2023 -->
+<!-- Mon Dec 11 18:19:30 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5169,8 +5217,9 @@ s(rh_mean)
 </div>
 <div id="la_i" class="section level1">
 <h1>La_i</h1>
-<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:37 2023 -->
+value ~ s(tmin2m_mean, k = 5) + s(pblmax_IQR, k = 5) + s(u10m_max, k =
+5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Mon Dec 11 18:19:30 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5283,8 +5332,9 @@ s(u10m_max)
 </div>
 <div id="la_s" class="section level1">
 <h1>La_s</h1>
+value ~ s(s5_sup_200, k = 5) + s(v10m_min, k = 5) + s(s4_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:37 2023 -->
+<!-- Mon Dec 11 18:19:31 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5397,8 +5447,10 @@ s(s4_sup_200)
 </div>
 <div id="li_i" class="section level1">
 <h1>Li_i</h1>
+value ~ s(t2m_mean, k = 5) + s(tmin2m_IQR, k = 5) + s(s6_sup_200, k = 5)
++ s(s2_sup_200, k = 5) + s(pbl12_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:38 2023 -->
+<!-- Mon Dec 11 18:19:31 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5545,8 +5597,10 @@ s(pbl12_min)
 </div>
 <div id="li_s" class="section level1">
 <h1>Li_s</h1>
+value ~ s(t2m_IQR, k = 5) + s(scrapyard, k = 5) + s(tp_max, k = 5) +
+s(s3_sup_200, k = 5) + s(s6_sup_200, k = 5) + s(s5_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:38 2023 -->
+<!-- Mon Dec 11 18:19:32 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5710,8 +5764,9 @@ s(s5_sup_200)
 </div>
 <div id="mg_i" class="section level1">
 <h1>Mg_i</h1>
+value ~ s(rh_mean, k = 5) + s(s2_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:39 2023 -->
+<!-- Mon Dec 11 18:19:32 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5807,8 +5862,11 @@ s(s2_sup_200)
 </div>
 <div id="mg_s" class="section level1">
 <h1>Mg_s</h1>
+value ~ s(wspeed_max_IQR, k = 5) + s(scrapyard, k = 5) + s(v10m_max, k =
+5) + s(s3_sup_200, k = 5) + s(m_dis_ferr, k = 5) + s(s2_sup_200, k = 5)
++ s(ml_200, k = 5) + s(v10m_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:39 2023 -->
+<!-- Mon Dec 11 18:19:33 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6006,8 +6064,11 @@ s(v10m_mean)
 </div>
 <div id="mn_i" class="section level1">
 <h1>Mn_i</h1>
+value ~ s(cold_area, k = 5) + s(ml_200, k = 5) + s(s4_sup_200, k = 5) +
+s(pbl12_mean, k = 5) + s(imp_200, k = 5) + s(tp_max, k = 5) + s(bh_200,
+k = 5) + s(tp_median, k = 3) + s(wspeed_max_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:40 2023 -->
+<!-- Mon Dec 11 18:19:33 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6033,13 +6094,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-2.2803
+2.2801
 </td>
 <td align="right">
-0.0230
+0.0228
 </td>
 <td align="right">
-99.2859
+100.0320
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6073,7 +6134,7 @@ s(cold_area)
 1.0000
 </td>
 <td align="right">
-144.0460
+126.0295
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6084,13 +6145,13 @@ s(cold_area)
 s(ml_200)
 </td>
 <td align="right">
-2.0911
+2.0121
 </td>
 <td align="right">
-2.5425
+2.4468
 </td>
 <td align="right">
-40.1582
+43.3634
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6101,16 +6162,16 @@ s(ml_200)
 s(s4_sup_200)
 </td>
 <td align="right">
-1.8102
+1.7794
 </td>
 <td align="right">
-2.0904
+2.0519
 </td>
 <td align="right">
-11.1670
+10.0220
 </td>
 <td align="right">
-&lt; 0.0001
+0.0001
 </td>
 </tr>
 <tr>
@@ -6118,16 +6179,16 @@ s(s4_sup_200)
 s(pbl12_mean)
 </td>
 <td align="right">
-3.7911
+1.0000
 </td>
 <td align="right">
-3.9751
+1.0000
 </td>
 <td align="right">
-19.0024
+1.6907
 </td>
 <td align="right">
-&lt; 0.0001
+0.1947
 </td>
 </tr>
 <tr>
@@ -6135,13 +6196,13 @@ s(pbl12_mean)
 s(imp_200)
 </td>
 <td align="right">
-3.5512
+3.5157
 </td>
 <td align="right">
-3.8245
+3.7975
 </td>
 <td align="right">
-34.7993
+34.6157
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6155,13 +6216,13 @@ s(tp_max)
 1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-16.7301
+14.1884
 </td>
 <td align="right">
-0.0001
+0.0002
 </td>
 </tr>
 <tr>
@@ -6169,27 +6230,63 @@ s(tp_max)
 s(bh_200)
 </td>
 <td align="right">
-1.8298
+2.0722
 </td>
 <td align="right">
-2.1288
+2.3742
 </td>
 <td align="right">
-6.9655
+6.4264
 </td>
 <td align="right">
-0.0015
+0.0022
+</td>
+</tr>
+<tr>
+<td>
+s(tp_median)
+</td>
+<td align="right">
+1.9690
+</td>
+<td align="right">
+1.9990
+</td>
+<td align="right">
+20.4252
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_mean)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+8.3348
+</td>
+<td align="right">
+0.0042
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.69</p>
+<p>R²: 0.695</p>
 <p><img src="traccianti_all_files/figure-html/unnamed-chunk-1-37.png" width="672" /></p>
 </div>
 <div id="mn_s" class="section level1">
 <h1>Mn_s</h1>
+value ~ s(t2m_IQR, k = 5) + s(scrapyard, k = 5) + s(rh_IQR, k = 5) +
+s(s3_sup_200, k = 5) + s(imp_200, k = 5) + s(bh_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:40 2023 -->
+<!-- Mon Dec 11 18:19:33 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6353,8 +6450,12 @@ s(bh_200)
 </div>
 <div id="mo_i" class="section level1">
 <h1>Mo_i</h1>
+value ~ s(cold_area, k = 5) + s(pbl00_IQR, k = 5) + s(s1_sup_200, k = 5)
++ s(s3_sup_200, k = 5) + s(kndvi, k = 5) + s(s6_sup_200, k = 5) +
+s(wspeed_IQR, k = 5) + s(wspeed_max_IQR, k = 5) + s(pbl12_min, k = 5) +
+s(tmin2m_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:41 2023 -->
+<!-- Mon Dec 11 18:19:34 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6586,8 +6687,11 @@ s(tmin2m_IQR)
 </div>
 <div id="mo_s" class="section level1">
 <h1>Mo_s</h1>
+value ~ s(cold_area, k = 5) + s(u10m_max, k = 5) + s(ml_200, k = 5) +
+s(kndvi, k = 5) + s(wspeed_max_median, k = 5) + s(imp_200, k = 5) +
+s(pbl00_max, k = 5) + s(s5_sup_200, k = 5) + s(s3_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:41 2023 -->
+<!-- Mon Dec 11 18:19:34 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6802,8 +6906,9 @@ s(s3_sup_200)
 </div>
 <div id="na_i" class="section level1">
 <h1>Na_i</h1>
+value ~ s(pblmin_IQR, k = 5) + s(sp_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:42 2023 -->
+<!-- Mon Dec 11 18:19:35 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6899,8 +7004,10 @@ s(sp_mean)
 </div>
 <div id="na_s" class="section level1">
 <h1>Na_s</h1>
+value ~ s(sp_min, k = 5) + s(pblmax_IQR, k = 5) + s(s2_sup_200, k = 5) +
+s(m_dis_ferr, k = 5) + s(pbl12_IQR, k = 5) + s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:42 2023 -->
+<!-- Mon Dec 11 18:19:35 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7064,8 +7171,11 @@ s(ml_200)
 </div>
 <div id="nb_i" class="section level1">
 <h1>Nb_i</h1>
+value ~ s(s8_sup_200, k = 5) + s(tp_max, k = 5) + s(bh_200, k = 5) +
+s(cold_area, k = 5) + s(u10m_IQR, k = 5) + s(tmax2m_mean, k = 5) +
+s(s1_sup_200, k = 5) + s(s3_sup_200, k = 5) + s(sp_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:42 2023 -->
+<!-- Mon Dec 11 18:19:36 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7280,8 +7390,11 @@ s(sp_mean)
 </div>
 <div id="nb_s" class="section level1">
 <h1>Nb_s</h1>
+value ~ s(s8_sup_200, k = 5) + s(tp_mean, k = 5) + s(imp_200, k = 5) +
+s(wspeed_max_max, k = 5) + s(bh_200, k = 5) + s(cold_area, k = 5) +
+s(ml_200, k = 5) + s(tmax2m_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:43 2023 -->
+<!-- Mon Dec 11 18:19:36 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7479,8 +7592,13 @@ s(tmax2m_mean)
 </div>
 <div id="ni_i" class="section level1">
 <h1>Ni_i</h1>
+value ~ s(cold_area, k = 5) + s(wdir_mean, k = 5) + s(ml_200, k = 5) +
+s(kndvi, k = 5) + s(u10m_IQR, k = 5) + s(s3_sup_200, k = 5) +
+s(hot_area, k = 5) + s(s2_sup_200, k = 5) + s(s6_sup_200, k = 5) +
+s(t2m_IQR, k = 5) + s(u10m_mean, k = 5) + s(sp_mean, k = 5) +
+s(s1_sup_200, k = 5) + s(s7_sup_200, k = 1) + s(wspeed_max_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:43 2023 -->
+<!-- Mon Dec 11 18:19:37 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7797,8 +7915,11 @@ s(wspeed_max_IQR)
 </div>
 <div id="ni_s" class="section level1">
 <h1>Ni_s</h1>
+value ~ s(cold_area, k = 5) + s(nirradiance_IQR, k = 5) + s(rh_IQR, k =
+5) + s(tmax2m_mean, k = 5) + s(s8_sup_200, k = 5) + s(v10m_min, k = 5) +
+s(s5_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:44 2023 -->
+<!-- Mon Dec 11 18:19:37 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7979,8 +8100,11 @@ s(s5_sup_200)
 </div>
 <div id="pb_i" class="section level1">
 <h1>Pb_i</h1>
+value ~ s(pbl12_mean, k = 5) + s(scrapyard, k = 5) + s(s3_sup_200, k =
+5) + s(tmax2m_IQR, k = 5) + s(imp_200, k = 5) + s(m_dis_ferr, k = 5) +
+s(pop_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:44 2023 -->
+<!-- Mon Dec 11 18:19:38 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8006,13 +8130,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-1.5734
+1.5702
 </td>
 <td align="right">
-0.0219
+0.0221
 </td>
 <td align="right">
-71.9836
+71.2090
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8040,13 +8164,13 @@ p-value
 s(pbl12_mean)
 </td>
 <td align="right">
-1.0000
+2.6749
 </td>
 <td align="right">
-1.0000
+3.0675
 </td>
 <td align="right">
-49.2906
+71.0169
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8057,13 +8181,13 @@ s(pbl12_mean)
 s(scrapyard)
 </td>
 <td align="right">
-2.8672
+2.8805
 </td>
 <td align="right">
-3.3280
+3.3402
 </td>
 <td align="right">
-49.1105
+49.7030
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8074,13 +8198,13 @@ s(scrapyard)
 s(s3_sup_200)
 </td>
 <td align="right">
-2.0631
+2.0592
 </td>
 <td align="right">
-2.3281
+2.3241
 </td>
 <td align="right">
-18.0951
+18.1426
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8091,13 +8215,13 @@ s(s3_sup_200)
 s(tmax2m_IQR)
 </td>
 <td align="right">
-1.0000
+3.5777
 </td>
 <td align="right">
-1.0000
+3.8273
 </td>
 <td align="right">
-21.5315
+9.9570
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8108,13 +8232,13 @@ s(tmax2m_IQR)
 s(imp_200)
 </td>
 <td align="right">
-2.0572
+2.0584
 </td>
 <td align="right">
-2.4384
+2.4391
 </td>
 <td align="right">
-12.9637
+13.0477
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8128,10 +8252,10 @@ s(m_dis_ferr)
 1.0001
 </td>
 <td align="right">
-1.0001
+1.0003
 </td>
 <td align="right">
-24.6621
+25.2561
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8142,61 +8266,30 @@ s(m_dis_ferr)
 s(pop_200)
 </td>
 <td align="right">
-1.3342
+1.3261
 </td>
 <td align="right">
-1.5625
+1.5504
 </td>
 <td align="right">
-17.2703
+17.3193
 </td>
 <td align="right">
 0.0001
 </td>
 </tr>
-<tr>
-<td>
-s(tp_median)
-</td>
-<td align="right">
-1.2350
-</td>
-<td align="right">
-1.3931
-</td>
-<td align="right">
-16.3861
-</td>
-<td align="right">
-0.0039
-</td>
-</tr>
-<tr>
-<td>
-s(nirradiance_IQR)
-</td>
-<td align="right">
-2.4002
-</td>
-<td align="right">
-2.8336
-</td>
-<td align="right">
-29.9032
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.768</p>
+<p>R²: 0.769</p>
 <p><img src="traccianti_all_files/figure-html/unnamed-chunk-1-47.png" width="672" /></p>
 </div>
 <div id="pb_s" class="section level1">
 <h1>Pb_s</h1>
+value ~ s(t2m_IQR, k = 5) + s(scrapyard, k = 5) + s(cold_area, k = 5) +
+s(wspeed_max_max, k = 5) + s(m_dis_ferr, k = 5) + s(s7_sup_200, k = 1) +
+s(bh_200, k = 5) + s(pbl12_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:45 2023 -->
+<!-- Mon Dec 11 18:19:38 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8394,8 +8487,11 @@ s(pbl12_mean)
 </div>
 <div id="pm10" class="section level1">
 <h1>PM10</h1>
+value ~ s(sp_mean, k = 5) + s(sp_min, k = 5) + s(ml_200, k = 5) +
+s(pblmin_IQR, k = 5) + s(m_dis_ferr, k = 5) + s(bh_200, k = 5) +
+s(s6_sup_200, k = 5) + s(s2_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:45 2023 -->
+<!-- Mon Dec 11 18:19:39 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8593,8 +8689,10 @@ s(s2_sup_200)
 </div>
 <div id="rb_i" class="section level1">
 <h1>Rb_i</h1>
+value ~ s(u10m_mean, k = 5) + s(v10m_median, k = 5) + s(hot_area, k = 5)
++ s(pbl12_IQR, k = 5) + s(s2_sup_200, k = 5) + s(s5_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:46 2023 -->
+<!-- Mon Dec 11 18:19:39 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8758,8 +8856,10 @@ s(s5_sup_200)
 </div>
 <div id="rb_s" class="section level1">
 <h1>Rb_s</h1>
+value ~ s(tmax2m_mean, k = 5) + s(hot_area, k = 5) + s(nirradiance_IQR,
+k = 5) + s(m_dis_ferr, k = 5) + s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:46 2023 -->
+<!-- Mon Dec 11 18:19:40 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8906,8 +9006,10 @@ s(ml_200)
 </div>
 <div id="sb_i" class="section level1">
 <h1>Sb_i</h1>
-<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:47 2023 -->
+value ~ s(t2m_IQR, k = 5) + s(s6_sup_200, k = 5) + s(hot_area, k = 5) +
+s(s8_sup_200, k = 5) + s(wspeed_max_median, k = 5) + s(s7_sup_200, k =
+1) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Mon Dec 11 18:19:40 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9071,8 +9173,10 @@ s(s7_sup_200)
 </div>
 <div id="sb_s" class="section level1">
 <h1>Sb_s</h1>
+value ~ s(nirradiance_IQR, k = 5) + s(rh_IQR, k = 5) + s(hot_area, k =
+5) + s(cold_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:47 2023 -->
+<!-- Mon Dec 11 18:19:41 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9202,8 +9306,11 @@ s(cold_area)
 </div>
 <div id="sn_i" class="section level1">
 <h1>Sn_i</h1>
+value ~ s(pbl12_mean, k = 5) + s(hot_area, k = 5) + s(s5_sup_200, k = 5)
++ s(m_dis_ferr, k = 5) + s(s4_sup_200, k = 5) + s(cold_area, k = 5) +
+s(pblmin_IQR, k = 5) + s(s2_sup_200, k = 5) + s(imp_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:48 2023 -->
+<!-- Mon Dec 11 18:19:41 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9418,8 +9525,10 @@ s(imp_200)
 </div>
 <div id="sn_s" class="section level1">
 <h1>Sn_s</h1>
+value ~ s(sp_mean, k = 5) + s(s6_sup_200, k = 5) + s(rh_IQR, k = 5) +
+s(pbl00_IQR, k = 5) + s(s4_sup_200, k = 5) + s(pblmin_median, k = 2)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:48 2023 -->
+<!-- Mon Dec 11 18:19:41 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9583,8 +9692,9 @@ s(pblmin_median)
 </div>
 <div id="sr_i" class="section level1">
 <h1>Sr_i</h1>
-<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:49 2023 -->
+value ~ s(wspeed_max_mean, k = 5) + s(tmax2m_IQR, k = 5) + s(s8_sup_200,
+k = 5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Mon Dec 11 18:19:42 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9697,8 +9807,10 @@ s(s8_sup_200)
 </div>
 <div id="sr_s" class="section level1">
 <h1>Sr_s</h1>
+value ~ s(pblmin_mean, k = 5) + s(wspeed_min, k = 5) + s(imp_200, k = 5)
++ s(sp_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:49 2023 -->
+<!-- Mon Dec 11 18:19:42 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9828,8 +9940,11 @@ s(sp_min)
 </div>
 <div id="ti_i" class="section level1">
 <h1>Ti_i</h1>
+value ~ s(nirradiance_IQR, k = 5) + s(scrapyard, k = 5) + s(s6_sup_200,
+k = 5) + s(t2m_IQR, k = 5) + s(m_dis_ferr, k = 5) + s(kndvi, k = 5) +
+s(cold_area, k = 5) + s(tp_max, k = 5) + s(pblmin_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:50 2023 -->
+<!-- Mon Dec 11 18:19:43 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10044,8 +10159,11 @@ s(pblmin_mean)
 </div>
 <div id="ti_s" class="section level1">
 <h1>Ti_s</h1>
+value ~ s(scrapyard, k = 5) + s(pblmin_mean, k = 5) + s(s3_sup_200, k =
+5) + s(tp_median, k = 3) + s(s6_sup_200, k = 5) + s(nirradiance_mean, k
+= 5) + s(cold_area, k = 5) + s(s5_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:50 2023 -->
+<!-- Mon Dec 11 18:19:43 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10111,7 +10229,7 @@ s(scrapyard)
 1.0000
 </td>
 <td align="right">
-91.4500
+91.4482
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10122,13 +10240,13 @@ s(scrapyard)
 s(pblmin_mean)
 </td>
 <td align="right">
-1.0000
+1.0001
 </td>
 <td align="right">
 1.0001
 </td>
 <td align="right">
-29.0280
+29.0262
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10145,7 +10263,7 @@ s(s3_sup_200)
 2.2488
 </td>
 <td align="right">
-5.5792
+5.5793
 </td>
 <td align="right">
 0.0021
@@ -10162,7 +10280,7 @@ s(tp_median)
 1.0000
 </td>
 <td align="right">
-14.2751
+14.2740
 </td>
 <td align="right">
 0.0002
@@ -10179,7 +10297,7 @@ s(s6_sup_200)
 1.2164
 </td>
 <td align="right">
-10.4988
+10.4987
 </td>
 <td align="right">
 0.0006
@@ -10213,7 +10331,7 @@ s(cold_area)
 1.0002
 </td>
 <td align="right">
-39.0958
+39.0944
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10230,7 +10348,7 @@ s(s5_sup_200)
 1.0001
 </td>
 <td align="right">
-5.6733
+5.6732
 </td>
 <td align="right">
 0.0179
@@ -10243,8 +10361,11 @@ s(s5_sup_200)
 </div>
 <div id="tl_i" class="section level1">
 <h1>Tl_i</h1>
+value ~ s(rh_mean, k = 5) + s(hot_area, k = 5) + s(kndvi, k = 5) +
+s(pblmax_IQR, k = 5) + s(m_dis_ferr, k = 5) + s(s6_sup_200, k = 5) +
+s(ml_200, k = 5) + s(u10m_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:50 2023 -->
+<!-- Mon Dec 11 18:19:44 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10442,8 +10563,12 @@ s(u10m_min)
 </div>
 <div id="tl_s" class="section level1">
 <h1>Tl_s</h1>
+value ~ s(t2m_IQR, k = 5) + s(hot_area, k = 5) + s(imp_200, k = 5) +
+s(pblmax_mean, k = 5) + s(pop_200, k = 5) + s(wspeed_max_IQR, k = 5) +
+s(v10m_min, k = 5) + s(s5_sup_200, k = 5) + s(s7_sup_200, k = 1) +
+s(s4_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:51 2023 -->
+<!-- Mon Dec 11 18:19:44 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10675,8 +10800,10 @@ s(s4_sup_200)
 </div>
 <div id="u_i" class="section level1">
 <h1>U_i</h1>
+value ~ s(pbl12_mean, k = 5) + s(v10m_max, k = 5) + s(imp_200, k = 5) +
+s(s5_sup_200, k = 5) + s(t2m_IQR, k = 5) + s(pwspeed_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:51 2023 -->
+<!-- Mon Dec 11 18:19:45 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10840,8 +10967,11 @@ s(pwspeed_mean)
 </div>
 <div id="u_s" class="section level1">
 <h1>U_s</h1>
+value ~ s(tmin2m_mean, k = 5) + s(nirradiance_IQR, k = 5) +
+s(pblmax_IQR, k = 5) + s(s2_sup_200, k = 5) + s(s8_sup_200, k = 5) +
+s(m_dis_ferr, k = 5) + s(s1_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:52 2023 -->
+<!-- Mon Dec 11 18:19:45 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11022,8 +11152,9 @@ s(s1_sup_200)
 </div>
 <div id="v_i" class="section level1">
 <h1>V_i</h1>
+value ~ s(t2m_mean, k = 5) + s(cold_area, k = 5) + s(t2m_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:52 2023 -->
+<!-- Mon Dec 11 18:19:46 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11136,8 +11267,11 @@ s(t2m_IQR)
 </div>
 <div id="v_s" class="section level1">
 <h1>V_s</h1>
+value ~ s(rh_mean, k = 5) + s(pwspeed_mean, k = 5) + s(pop_200, k = 5) +
+s(s8_sup_200, k = 5) + s(u10m_IQR, k = 5) + s(imp_200, k = 5) +
+s(s7_sup_200, k = 1) + s(v10m_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:53 2023 -->
+<!-- Mon Dec 11 18:19:46 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11335,8 +11469,11 @@ s(v10m_mean)
 </div>
 <div id="w_i" class="section level1">
 <h1>W_i</h1>
+value ~ s(cold_area, k = 5) + s(s7_sup_200, k = 1) + s(wspeed_min, k =
+5) + s(s6_sup_200, k = 5) + s(s3_sup_200, k = 5) + s(kndvi, k = 5) +
+s(wspeed_IQR, k = 5) + s(s2_sup_200, k = 5) + s(tmax2m_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:53 2023 -->
+<!-- Mon Dec 11 18:19:47 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11551,8 +11688,11 @@ s(tmax2m_IQR)
 </div>
 <div id="w_s" class="section level1">
 <h1>W_s</h1>
+value ~ s(cold_area, k = 5) + s(rh_mean, k = 5) + s(ml_200, k = 5) +
+s(kndvi, k = 5) + s(u10m_min, k = 5) + s(imp_200, k = 5) + s(s5_sup_200,
+k = 5) + s(t2m_IQR, k = 5) + s(s7_sup_200, k = 1) + s(wspeed_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:54 2023 -->
+<!-- Mon Dec 11 18:19:47 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11784,8 +11924,9 @@ s(wspeed_IQR)
 </div>
 <div id="zn_i" class="section level1">
 <h1>Zn_i</h1>
+value ~ s(u10m_max, k = 5) + s(wspeed_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:55 2023 -->
+<!-- Mon Dec 11 18:19:48 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11881,8 +12022,10 @@ s(wspeed_min)
 </div>
 <div id="zn_s" class="section level1">
 <h1>Zn_s</h1>
+value ~ s(pbl12_mean, k = 5) + s(scrapyard, k = 5) + s(v10m_min, k = 5)
++ s(s3_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:55 2023 -->
+<!-- Mon Dec 11 18:19:48 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -12012,8 +12155,11 @@ s(s3_sup_200)
 </div>
 <div id="zr_i" class="section level1">
 <h1>Zr_i</h1>
-<!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:56 2023 -->
+value ~ s(pbl12_mean, k = 5) + s(s6_sup_200, k = 5) + s(s8_sup_200, k =
+5) + s(rh_IQR, k = 5) + s(hot_area, k = 5) + s(bh_200, k = 5) +
+s(ml_200, k = 5) + s(m_dis_ferr, k = 5) + s(ptp_mean, k = 5) + s(sp_min,
+k = 5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
+<!-- Mon Dec 11 18:19:49 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -12245,8 +12391,11 @@ s(sp_min)
 </div>
 <div id="zr_s" class="section level1">
 <h1>Zr_s</h1>
+value ~ s(cold_area, k = 5) + s(wspeed_max_max, k = 5) + s(u10m_IQR, k =
+5) + s(kndvi, k = 5) + s(v10m_max, k = 5) + s(scrapyard, k = 5) +
+s(s8_sup_200, k = 5) + s(pop_200, k = 5) + s(wspeed_max_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec  7 13:04:56 2023 -->
+<!-- Mon Dec 11 18:19:49 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>

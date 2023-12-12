@@ -4,7 +4,7 @@ cat(args, sep = "\n")
 pltnt <- args[1] #### SET inquinante ####
 dir <- args[2] ### SET directory ####
 
-# pltnt <- "PM10"s
+# pltnt <- "B_i"
 # dir <- "all"
 
 cat("############# ", pltnt, "\n")
