@@ -26,7 +26,7 @@ getSign <- function(mod) {
 
 
 getModel <- function(vars, df) {
-  source("f_makeSpline.R")
+  source("funzioni/f_makeSpline.R")
 
   ms <- makeSpline(vars) %>% paste(collapse = " + ")
   
@@ -36,12 +36,8 @@ getModel <- function(vars, df) {
   return(mod)
 }
 
-pltnts <- list.files(glue("~/R/terni/rds_{dir}"), pattern = "^[A-Z]", full.names = TRUE) 
+pltnts <- traccianti <- readRDS("~/R/terni/traccianti.RDS") # list.files(glue("~/R/terni/rds_{dir}"), pattern = "^[A-Z]", full.names = TRUE) 
 
-# map(names(df), \(var) {
-#   df[[var]] %>% unique() %>% length()
-# }) -> cappas
-# names(cappas) <- names(df)
 
 fn <- file.path(glue("log/clean_v_nsign.log"))
 lf <- log_open(fn)
@@ -82,7 +78,6 @@ map(names(models), \(m) {
 names(models_clean) <- tools::file_path_sans_ext(basename(pltnts))
 
 saveRDS(models_clean, file = glue("~/R/terni/rds_{dir}/modelli_{dir}_clean.RDS"))
-
 
 
 log_close()

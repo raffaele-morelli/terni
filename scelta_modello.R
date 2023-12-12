@@ -23,9 +23,9 @@ cat("############# ", pltnt, "\n")
   
   setwd("~/R/terni")
 
-  source('f_buildMods.R')
-  source('f_bestMod.R')
-  source('f_sceltaVar.R')
+  source('funzioni/f_buildMods.R')
+  source('funzioni/f_bestMod.R')
+  source('funzioni/f_sceltaVar.R')
   
   df <- read_csv(glue::glue("data/dataframes/df_finale_lod.csv"), show_col_types = FALSE)
 
