@@ -4,6 +4,7 @@
   library(dplyr)
   library(purrr)
   library(stringr)
+  library(readxl)
   
   setwd("~/R/terni")
 
@@ -54,5 +55,5 @@ c(
 ) %>% unique() -> v_variabili_finali
 
 df %>% 
-  select(c(1:83,  v_variabili_finali)) %>% 
+  select(c(1:83,  v_variabili_finali, v_acciaieria, v_buf200)) %>% 
   write_csv(file = "data/dataframes/df_finale_lod_clean.csv")
