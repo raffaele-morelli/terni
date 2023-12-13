@@ -31,11 +31,7 @@ for (pltnt in names(modelli)) {
   lf <- log_open(fn)
   
   # va riletto ogni volta altrimenti "value" viene trovato più volte
-  df <- read_csv(glue::glue("data/dataframes/df_finale_lod.csv"), show_col_types = FALSE)
-  df %>% mutate(
-    TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
-    TOT_NCR = Biomass_Burning_NCR + Soil_Dust_NCR + Steel_Plant_NCR + Road_Dust_NCR + Brake_Dust_NCR
-  ) -> df
+  df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
   
   # sites <- unique(df$site)
   index <- grep(pltnt, names(df))
