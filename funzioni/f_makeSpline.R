@@ -13,13 +13,7 @@ makeSpline <- function(v) {
       #   k <= 4 ~  paste0("s(", x, ", k=", k-1, ")"),
       #   .default = paste0("s(", x, ", k=", k-1, ")")
       # )
-
-      case_when(
-        k > 4 ~  paste0("s(", x, ", k=5)"),
-        k <= 4 ~  paste0("", x, ""),
-        .default = paste0("", x, "")
-      )
-      
+      paste0("s(", x, ", k=5)")
     })
   )
 }

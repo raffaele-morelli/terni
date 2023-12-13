@@ -33,7 +33,7 @@
   v_variabili <- c("kndvi", v_scelte, v_meteo, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr") %>% unique()
 }
 
-df <- df %>% select(c(1:10, "TOT_CR", "TOT_NCR", v_variabili)) 
+df <- df %>% select(c(1:10, 21:91, "TOT_CR", "TOT_NCR", v_variabili)) 
 
 map(v_urban_atlas, \(v) {
   df %>% select(all_of(v)) %>% unique() %>% unlist() %>% length()
@@ -50,3 +50,5 @@ map(v_meteo, \(v) {
 c(as.data.frame(res_v_meteo) %>% filter(V1 > 8) %>% rownames(),
 as.data.frame(res_v_scelte) %>% filter(V1 > 8) %>% rownames(),
 as.data.frame(res_v_urban_atlas) %>% filter(V1 > 16) %>% rownames()) %>% unique() -> v_variabili_finali
+
+df %>% select(c(1:10, 21:91, "TOT_CR", "TOT_NCR", v_variabili_finali)) %>% write_csv(file = "data/dataframes/df_finale_lod_clean.csv")
