@@ -8,6 +8,7 @@
   setwd("~/R/terni")
 
   df <- read_csv(glue::glue("data/dataframes/df_finale_lod.csv"), show_col_types = FALSE)
+  df$pblmin_IQR %>% unique() %>% length()
   
   df %>% mutate(
     TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
@@ -45,3 +46,7 @@ map(v_scelte, \(v) {
 map(v_meteo, \(v) {
   df %>% select(all_of(v)) %>% unique() %>% unlist() %>% length()
 }) %>% set_names(v_meteo) %>% as.data.frame() %>% t() -> res_v_meteo
+
+c(as.data.frame(res_v_meteo) %>% filter(V1 > 8) %>% rownames(),
+as.data.frame(res_v_scelte) %>% filter(V1 > 8) %>% rownames(),
+as.data.frame(res_v_urban_atlas) %>% filter(V1 > 16) %>% rownames()) %>% unique() -> v_variabili_finali
