@@ -11,7 +11,7 @@
   library(mgcv)
   library(logr)
 
-  dir <- "all"
+  dir <- "lineari"
 
   kappas <- readRDS("~/R/terni/kappas.RDS")
 } 
@@ -26,7 +26,7 @@ getSign <- function(mod) {
 
 
 getModel <- function(vars, df) {
-  source("funzioni/f_makeSpline.R")
+  source("~/R/terni/funzioni/f_makeSpline.R")
 
   ms <- makeSpline(vars) %>% paste(collapse = " + ")
   
@@ -36,7 +36,7 @@ getModel <- function(vars, df) {
   return(mod)
 }
 
-pltnts <- traccianti <- readRDS("~/R/terni/traccianti.RDS") # list.files(glue("~/R/terni/rds_{dir}"), pattern = "^[A-Z]", full.names = TRUE) 
+pltnts <- list.files(glue("~/R/terni/rds_{dir}"), pattern = "^[A-Z]", full.names = TRUE) 
 
 
 fn <- file.path(glue("log/clean_v_nsign.log"))
@@ -44,9 +44,13 @@ lf <- log_open(fn)
 
 map(pltnts, \(pltnt) {
   inquinante <- tools::file_path_sans_ext(basename(pltnt))
-  
-  log_print(inquinante)
+
+  log_print(inquinante, hide_notes = TRUE)
   df <- read_csv("~/R/terni/data/dataframes/df_finale_lod.csv", show_col_types = FALSE)
+  df %>% mutate(
+    TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
+    TOT_NCR = Biomass_Burning_NCR + Soil_Dust_NCR + Steel_Plant_NCR + Road_Dust_NCR + Brake_Dust_NCR
+  ) -> df
   
   index <- grep(inquinante, names(df))
   names(df)[index] <- "value"
@@ -63,10 +67,13 @@ map(names(models), \(m) {
   v_sign <- getSign(models[[m]])
   
   df <- read_csv("~/R/terni/data/dataframes/df_finale_lod.csv", show_col_types = FALSE)
-  
+  df %>% mutate(
+    TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
+    TOT_NCR = Biomass_Burning_NCR + Soil_Dust_NCR + Steel_Plant_NCR + Road_Dust_NCR + Brake_Dust_NCR
+  ) -> df  
   index <- grep(m, names(df))
   names(df)[index] <- "value"
-  log_print(m)
+  log_print(m, hide_notes = TRUE)
 
   
   lapply(v_sign, \(v) gsub("s\\(|\\)", '', v)) %>% unlist() -> v_sign

@@ -1,84 +1,95 @@
 #!/bin/sh
 
 # traccianti ####
- 
-Rscript scelta_modello.R Al_i all &
-Rscript scelta_modello.R Al_s all &
-Rscript scelta_modello.R As_i all &
-Rscript scelta_modello.R As_s all &
-Rscript scelta_modello.R B_i all &
-Rscript scelta_modello.R B_s all &
-Rscript scelta_modello.R Ba_i all &
-Rscript scelta_modello.R Ba_s all &
-Rscript scelta_modello.R Bi_i all &
-Rscript scelta_modello.R Bi_s all &
-Rscript scelta_modello.R Ca_i all &
-Rscript scelta_modello.R Ca_s all &
+Rscript scelta_modello.R Al_i $1 &
+Rscript scelta_modello.R Al_s $1 &
+Rscript scelta_modello.R As_i $1 &
+Rscript scelta_modello.R As_s $1 &
+Rscript scelta_modello.R B_i $1 &
+Rscript scelta_modello.R B_s $1 &
+Rscript scelta_modello.R Ba_i $1 &
+Rscript scelta_modello.R Ba_s $1 &
+wait
 
-Rscript scelta_modello.R Cd_i all &
-Rscript scelta_modello.R Cd_s all &
-Rscript scelta_modello.R Ce_i all &
-Rscript scelta_modello.R Ce_s all &
-Rscript scelta_modello.R Co_i all &
-Rscript scelta_modello.R Co_s all &
-Rscript scelta_modello.R Cr_i all &
-Rscript scelta_modello.R Cr_s all &
-Rscript scelta_modello.R Cs_i all &
-Rscript scelta_modello.R Cs_s all &
-Rscript scelta_modello.R Cu_i all &
-Rscript scelta_modello.R Cu_s all &
+Rscript scelta_modello.R Bi_i $1 &
+Rscript scelta_modello.R Bi_s $1 &
+Rscript scelta_modello.R Ca_i $1 &
+Rscript scelta_modello.R Ca_s $1 &
+Rscript scelta_modello.R Cd_i $1 &
+Rscript scelta_modello.R Cd_s $1 &
+Rscript scelta_modello.R Ce_i $1 &
+wait
 
-Rscript scelta_modello.R Fe_i all &
-Rscript scelta_modello.R Fe_s all &
-Rscript scelta_modello.R Ga_i all &
-Rscript scelta_modello.R Ga_s all &
-Rscript scelta_modello.R K_i all &
-Rscript scelta_modello.R K_s all &
-Rscript scelta_modello.R La_i all &
-Rscript scelta_modello.R La_s all &
-Rscript scelta_modello.R Li_i all &
-Rscript scelta_modello.R Li_s all &
-Rscript scelta_modello.R Mg_i all &
-Rscript scelta_modello.R Mg_s all &
+Rscript scelta_modello.R Ce_s $1 &
+Rscript scelta_modello.R Co_i $1 &
+Rscript scelta_modello.R Co_s $1 &
+Rscript scelta_modello.R Cr_i $1 &
+Rscript scelta_modello.R Cr_s $1 &
+Rscript scelta_modello.R Cs_i $1 &
+Rscript scelta_modello.R Cs_s $1 &
+Rscript scelta_modello.R Cu_i $1 &
+wait
 
-Rscript scelta_modello.R Mn_i all &
-Rscript scelta_modello.R Mn_s all &
-Rscript scelta_modello.R Mo_i all &
-Rscript scelta_modello.R Mo_s all &
-Rscript scelta_modello.R Na_i all &
-Rscript scelta_modello.R Na_s all &
-Rscript scelta_modello.R Nb_i all &
-Rscript scelta_modello.R Nb_s all &
-Rscript scelta_modello.R Ni_i all &
-Rscript scelta_modello.R Ni_s all &
-Rscript scelta_modello.R PM10 all &
-Rscript scelta_modello.R Pb_i all &
+Rscript scelta_modello.R Cu_s $1 &
+Rscript scelta_modello.R Fe_i $1 &
+Rscript scelta_modello.R Fe_s $1 &
+Rscript scelta_modello.R Ga_i $1 &
+Rscript scelta_modello.R Ga_s $1 &
+Rscript scelta_modello.R K_i $1 &
+Rscript scelta_modello.R K_s $1 &
+Rscript scelta_modello.R La_i $1 &
+wait
 
-Rscript scelta_modello.R Pb_s all &
-Rscript scelta_modello.R Rb_i all &
-Rscript scelta_modello.R Rb_s all &
-Rscript scelta_modello.R Sb_i all &
-Rscript scelta_modello.R Sb_s all &
-Rscript scelta_modello.R Sn_i all &
-Rscript scelta_modello.R Sn_s all &
-Rscript scelta_modello.R Sr_i all &
-Rscript scelta_modello.R Sr_s all &
-Rscript scelta_modello.R Ti_i all &
-Rscript scelta_modello.R Ti_s all &
-Rscript scelta_modello.R Tl_i all &
+Rscript scelta_modello.R La_s $1 &
+Rscript scelta_modello.R Li_i $1 &
+Rscript scelta_modello.R Li_s $1 &
+Rscript scelta_modello.R Mg_i $1 &
+Rscript scelta_modello.R Mg_s $1 &
+Rscript scelta_modello.R Mn_i $1 &
+Rscript scelta_modello.R Mn_s $1 &
+Rscript scelta_modello.R Mo_i $1 &
+wait
 
-Rscript scelta_modello.R Tl_s all &
-Rscript scelta_modello.R U_i all &
-Rscript scelta_modello.R U_s all &
-Rscript scelta_modello.R V_i all &
-Rscript scelta_modello.R V_s all &
-Rscript scelta_modello.R W_i all &
-Rscript scelta_modello.R W_s all &
-Rscript scelta_modello.R Zn_i all &
-Rscript scelta_modello.R Zn_s all &
-Rscript scelta_modello.R Zr_i all &
-Rscript scelta_modello.R Zr_s all &
+Rscript scelta_modello.R Mo_s $1 &
+Rscript scelta_modello.R Na_i $1 &
+Rscript scelta_modello.R Na_s $1 &
+Rscript scelta_modello.R Nb_i $1 &
+Rscript scelta_modello.R Nb_s $1 &
+Rscript scelta_modello.R Ni_i $1 &
+Rscript scelta_modello.R Ni_s $1 &
+Rscript scelta_modello.R PM10 $1 &
+wait
 
-## INDICI ####
-Rscript scelta_modello.R TOT_CR indici &
-Rscript scelta_modello.R TOT_NCR indici &
+Rscript scelta_modello.R Pb_i $1 &
+Rscript scelta_modello.R Pb_s $1 &
+Rscript scelta_modello.R Rb_i $1 &
+Rscript scelta_modello.R Rb_s $1 &
+Rscript scelta_modello.R Sb_i $1 &
+Rscript scelta_modello.R Sb_s $1 &
+Rscript scelta_modello.R Sn_i $1 &
+Rscript scelta_modello.R Sn_s $1 &
+wait
+
+Rscript scelta_modello.R Sr_i $1 &
+Rscript scelta_modello.R Sr_s $1 &
+Rscript scelta_modello.R Ti_i $1 &
+Rscript scelta_modello.R Ti_s $1 &
+Rscript scelta_modello.R Tl_i $1 &
+Rscript scelta_modello.R Tl_s $1 &
+Rscript scelta_modello.R U_i $1 &
+Rscript scelta_modello.R U_s $1 &
+wait
+
+Rscript scelta_modello.R V_i $1 &
+Rscript scelta_modello.R V_s $1 &
+Rscript scelta_modello.R W_i $1 &
+Rscript scelta_modello.R W_s $1 &
+Rscript scelta_modello.R Zn_i $1 &
+Rscript scelta_modello.R Zn_s $1 &
+Rscript scelta_modello.R Zr_i $1 &
+Rscript scelta_modello.R Zr_s $1 &
+wait
+
+# ## INDICI ####
+Rscript scelta_modello.R TOT_CR $1 &
+Rscript scelta_modello.R TOT_NCR $1 &

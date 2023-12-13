@@ -1,10 +1,7 @@
 # args <- commandArgs(trailingOnly = TRUE)
 # cat(args, sep = "\n")
 
-# pltnt <- "Cr_i" # args[1] #### SET inquinante ####
-# dir <- args[2] ### SET directory ####
-
-# cat("############# ", pltnt, "\n")
+# dir <- args[1] ### SET directory ####
 
 ## init ####
 {
@@ -22,19 +19,24 @@
   
   setwd("~/R/terni")
   
-  modelli <- readRDS(glue("~/R/terni/rds_all/modelli_all_clean.RDS"))
+  dir <- "lineari"
+  modelli <- readRDS(glue("~/R/terni/rds_{dir}/modelli_{dir}_clean.RDS"))
 }
 
 my_list <- list()
 
 for (pltnt in names(modelli)) {
   
-  fn <- file.path(glue("~/R/terni/log/cv/cross_valid_{pltnt}.log"))
+  fn <- file.path(glue("~/R/terni/log/cv/{dir}/cross_valid_{pltnt}.log"))
   lf <- log_open(fn)
   
   # va riletto ogni volta altrimenti "value" viene trovato più volte
   df <- read_csv(glue::glue("data/dataframes/df_finale_lod.csv"), show_col_types = FALSE)
-
+  df %>% mutate(
+    TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
+    TOT_NCR = Biomass_Burning_NCR + Soil_Dust_NCR + Steel_Plant_NCR + Road_Dust_NCR + Brake_Dust_NCR
+  ) -> df
+  
   # sites <- unique(df$site)
   index <- grep(pltnt, names(df))
   names(df)[index] <- "value"
@@ -117,5 +119,5 @@ for (pltnt in names(modelli)) {
 my_mat <- do.call(rbind, my_list)
 my_df <- data.frame(my_mat)
 
-saveRDS(my_list, file = "~/R/terni/cross_validation.RDS")
+saveRDS(my_list, file = glue("~/R/terni/cross_validation_{dir}.RDS"))
 

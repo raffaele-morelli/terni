@@ -10,7 +10,7 @@ buildMods <- function(backward = FALSE) {
   
   
   # costruisce le "spline testuali"
-  source("f_makeSpline.R")
+  source("~/R/terni/funzioni/f_makeSpline.R")
 
   
   if( length(AICS) > 1 & backward == TRUE ) {
