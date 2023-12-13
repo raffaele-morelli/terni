@@ -1,6 +1,8 @@
 args <- commandArgs(trailingOnly = TRUE)
 cat(args, sep = "\n")
 
+# There are three kinds of lies: lies, damned lies, and statistics.
+
 pltnt <- args[1] #### SET inquinante ####
 dir <- args[2] ### SET directory ####
 
@@ -62,7 +64,7 @@ cat("############# ", pltnt, "\n")
   # v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   # 
   # v_variabili <- c("kndvi", v_scelte, v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr") %>% unique()
-  v_variabili <- names(df)[74:156]
+  v_variabili <- names(df)[84:164]
 }
 
 # Variabili "ambiente" ####

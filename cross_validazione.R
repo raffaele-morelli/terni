@@ -19,7 +19,7 @@
   
   setwd("~/R/terni")
   
-  dir <- "lineari"
+  dir <- "all"
   modelli <- readRDS(glue("~/R/terni/rds_{dir}/modelli_{dir}_clean.RDS"))
 }
 

@@ -11,7 +11,7 @@
   library(mgcv)
   library(logr)
 
-  dir <- "lineari"
+  dir <- "all"
 
   kappas <- readRDS("~/R/terni/kappas.RDS")
 } 
