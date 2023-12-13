@@ -47,8 +47,12 @@ map(v_meteo, \(v) {
   df %>% select(all_of(v)) %>% unique() %>% unlist() %>% length()
 }) %>% set_names(v_meteo) %>% as.data.frame() %>% t() -> res_v_meteo
 
-c(as.data.frame(res_v_meteo) %>% filter(V1 > 8) %>% rownames(),
-as.data.frame(res_v_scelte) %>% filter(V1 > 8) %>% rownames(),
-as.data.frame(res_v_urban_atlas) %>% filter(V1 > 16) %>% rownames()) %>% unique() -> v_variabili_finali
+c(
+  as.data.frame(res_v_meteo) %>% filter(V1 > 8) %>% rownames(),
+  as.data.frame(res_v_scelte) %>% filter(V1 > 8) %>% rownames(),
+  as.data.frame(res_v_urban_atlas) %>% filter(V1 > 16) %>% rownames()
+) %>% unique() -> v_variabili_finali
 
-df %>% select(c(1:10, 21:91, "TOT_CR", "TOT_NCR", v_variabili_finali)) %>% write_csv(file = "data/dataframes/df_finale_lod_clean.csv")
+df %>% 
+  select(c(1:83,  v_variabili_finali)) %>% 
+  write_csv(file = "data/dataframes/df_finale_lod_clean.csv")
