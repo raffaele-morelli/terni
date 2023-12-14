@@ -6,7 +6,7 @@ cat(args, sep = "\n")
 pltnt <- args[1] #### SET inquinante ####
 dir <- args[2] ### SET directory ####
 
-# pltnt <- "B_i"
+# pltnt <- "Cr_i"
 # dir <- "all"
 
 cat("############# ", pltnt, "\n")
@@ -64,7 +64,7 @@ cat("############# ", pltnt, "\n")
   # v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   # 
   # v_variabili <- c("kndvi", v_scelte, v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr") %>% unique()
-  v_variabili <- names(df)[84:164]
+  v_variabili <- names(df)[84:171]
 }
 
 # Variabili "ambiente" ####
