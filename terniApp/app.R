@@ -11,7 +11,7 @@ df <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_lod_clea
 models <- readRDS("/home/rmorelli/R/terni/rds_out/modelli_all_clean.RDS")
 crssvld <- readRDS("/home/rmorelli/R/terni/rds_out/cross_validation_all.RDS")
 
-pltnts <-  readRDS("~/R/terni/traccianti.RDS")
+pltnts <-  readRDS("/home/rmorelli/R/terni/traccianti.RDS")
 
 ui <- fluidPage(
   titlePanel("Esercizio Terni"),
