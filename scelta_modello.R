@@ -31,40 +31,16 @@ cat("############# ", pltnt, "\n")
   
   df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
 
-  # df %>% mutate(
-  #   TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
-  #   TOT_NCR = Biomass_Burning_NCR + Soil_Dust_NCR + Steel_Plant_NCR + Road_Dust_NCR + Brake_Dust_NCR
-  # ) -> df
-
   index <- grep(pltnt, names(df))
   
   names(df)[index] <- "value"
-
-  # map(names(df), \(var) {
-  #   df[[var]] %>% unique() %>% length()
-  # }) -> kappas
-  # names(kappas) <- names(df)
 }
 
 ## Variabili #####
 {
-  # df_terni_mensili_correlazione <- read_excel("data/df_terni_mensili_correlazione.xlsx", sheet = " Variabili scelte")
-  # v_scelte <- df_terni_mensili_correlazione$`Variabili scelte`
-  # 
-  # v_meteo <- names(df)[93:182]
-  # 
-  # v_indici <- names(df)[c(11:14, 16:20)]  # esclusa il brake dust cr
-  # 
-  # v_meteo <- v_meteo[!(v_meteo %in% c("tp_min", "ptp_min", "ptp_median", "pbl00_min", "pblmin_min"))]
-  # v_scelte <- v_scelte[ !(v_scelte %in% c("tp_min", "ptp_min", "ptp_median", "pbl00_min", "pblmin_min")) ]
-  # 
-  # v_meteo_mean <- grep("mean", names(df), value = TRUE) # le variabili meteo (media)
-  # v_buf200 <- grep("200", names(df), value = TRUE)[1:4] # solo i buffer 200
-  # v_urban_atlas <- grep("s8_sup_200|s7_sup_200|s6_sup_200|s5_sup_200|s4_sup_200|s3_sup_200|s2_sup_200|s1_sup_200", names(df), value = TRUE)
-  # v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
-  # 
-  # v_variabili <- c("kndvi", v_scelte, v_meteo_mean, v_buf200, v_acciaieria, v_urban_atlas, "m_dis_ferr") %>% unique()
-  v_variabili <- names(df)[84:171]
+  # v_variabili <- names(df)[84:172]
+  # saveRDS(v_variabili, "v_variabili.RDS")
+  v_variabili <- readRDS("~/R/terni/v_variabili.RDS")
 }
 
 # Variabili "ambiente" ####
@@ -78,9 +54,6 @@ assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 
 fn <- file.path(glue("log/{outdir}/terni_{pltnt}.log"))
 lf <- log_open(fn)
-
-# log_print("v_variabili", hide_notes = TRUE)
-# log_print(v_variabili)
 
 # ricorsione ####
 sceltaVar()

@@ -354,7 +354,7 @@ div.tocify {
 <h2>Al_i</h2>
 value ~ s(pbl12_IQR, k = 5) + s(wspeed_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:47 2023 -->
+<!-- Thu Dec 14 09:47:20 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -453,7 +453,7 @@ s(wspeed_IQR)
 value ~ s(sp_IQR, k = 5) + s(bh_200, k = 5) + s(imp_200, k = 5) +
 s(tp_max, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:47 2023 -->
+<!-- Thu Dec 14 09:47:21 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -586,7 +586,7 @@ s(tp_max)
 value ~ s(wdir_median, k = 5) + s(t2m_IQR, k = 5) + s(nirradiance_IQR, k
 = 5) + s(cold_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:48 2023 -->
+<!-- Thu Dec 14 09:47:21 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -719,7 +719,7 @@ s(cold_area)
 value ~ s(u10m_max, k = 5) + s(cold_area, k = 5) + s(wspeed_max_mean, k
 = 5) + s(s6_sup_200, k = 5) + s(imp_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:49 2023 -->
+<!-- Thu Dec 14 09:47:22 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -870,7 +870,7 @@ value ~ s(wspeed_IQR, k = 5) + s(v10m_median, k = 5) + s(hot_area, k =
 5) + s(imp_200, k = 5) + s(pop_200, k = 5) + s(sp_IQR, k = 5) +
 s(pblmin_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:49 2023 -->
+<!-- Thu Dec 14 09:47:22 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1053,7 +1053,7 @@ s(pblmin_IQR)
 <h2>B_s</h2>
 value ~ s(wspeed_IQR, k = 5) + s(v10m_min, k = 5) + s(wspeed_max_min, k
 = 5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:50 2023 -->
+<!-- Thu Dec 14 09:47:23 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1170,7 +1170,7 @@ value ~ s(sp_max, k = 5) + s(nirradiance_max, k = 5) + s(imp_200, k = 5)
 + s(s6_sup_200, k = 5) + s(cold_area, k = 5) + s(bh_200, k = 5) +
 s(u10m_IQR, k = 5) + s(wdir_min, k = 5) + s(scrapyard, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:50 2023 -->
+<!-- Thu Dec 14 09:47:23 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1389,7 +1389,7 @@ value ~ s(t2m_IQR, k = 5) + s(sp_min, k = 5) + s(s8_sup_200, k = 5) +
 s(pop_200, k = 5) + s(pwspeed_IQR, k = 5) + s(wspeed_max_median, k = 5)
 + s(imp_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:51 2023 -->
+<!-- Thu Dec 14 09:47:24 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1574,7 +1574,7 @@ value ~ s(tmax2m_min, k = 5) + s(nirradiance_median, k = 5) +
 s(scrapyard, k = 5) + s(s6_sup_200, k = 5) + s(ml_200, k = 5) +
 s(bh_200, k = 5) + s(v10m_median, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:52 2023 -->
+<!-- Thu Dec 14 09:47:24 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1755,10 +1755,11 @@ s(v10m_median)
 </div>
 <div id="bi_s" class="section level2">
 <h2>Bi_s</h2>
-value ~ s(pblmin_mean, k = 5) + s(wspeed_max_mean, k = 5) + s(scrapyard,
-k = 5) + s(wspeed_max, k = 5)
+value ~ s(pblmin_mean, k = 5) + s(wspeed_max_mean, k = 5) +
+s(m_dis_ferr, k = 5) + s(wspeed_max, k = 5) + s(imp_200, k = 5) +
+s(bh_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:52 2023 -->
+<!-- Thu Dec 14 09:47:25 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1784,13 +1785,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--4.3975
+-4.4101
 </td>
 <td align="right">
-0.0345
+0.0319
 </td>
 <td align="right">
--127.3079
+-138.1342
 </td>
 <td align="right">
 &lt; 0.0001
@@ -1818,13 +1819,13 @@ p-value
 s(pblmin_mean)
 </td>
 <td align="right">
-1.0171
+1.0002
 </td>
 <td align="right">
-1.0309
+1.0004
 </td>
 <td align="right">
-43.4233
+44.9283
 </td>
 <td align="right">
 &lt; 0.0001
@@ -1835,13 +1836,13 @@ s(pblmin_mean)
 s(wspeed_max_mean)
 </td>
 <td align="right">
-2.0713
+2.2503
 </td>
 <td align="right">
-2.5903
+2.8029
 </td>
 <td align="right">
-16.7619
+27.2560
 </td>
 <td align="right">
 &lt; 0.0001
@@ -1849,19 +1850,19 @@ s(wspeed_max_mean)
 </tr>
 <tr>
 <td>
-s(scrapyard)
+s(m_dis_ferr)
 </td>
 <td align="right">
-2.4076
+2.2261
 </td>
 <td align="right">
-2.9224
+2.6852
 </td>
 <td align="right">
-6.1130
+15.2234
 </td>
 <td align="right">
-0.0012
+&lt; 0.0001
 </td>
 </tr>
 <tr>
@@ -1872,25 +1873,59 @@ s(wspeed_max)
 1.0001
 </td>
 <td align="right">
-1.0002
+1.0001
 </td>
 <td align="right">
-39.0524
+45.7445
 </td>
 <td align="right">
 &lt; 0.0001
 </td>
 </tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+3.4498
+</td>
+<td align="right">
+3.8046
+</td>
+<td align="right">
+8.1364
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(bh_200)
+</td>
+<td align="right">
+3.6497
+</td>
+<td align="right">
+3.9175
+</td>
+<td align="right">
+6.2930
+</td>
+<td align="right">
+0.0001
+</td>
+</tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.771</p>
+<p>R²: 0.808</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-10.png" width="672" /></p>
 </div>
 <div id="ca_i" class="section level2">
 <h2>Ca_i</h2>
 value ~ s(pbl00_max, k = 5) + s(tmax2m_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:53 2023 -->
+<!-- Thu Dec 14 09:47:25 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -1989,7 +2024,7 @@ s(tmax2m_IQR)
 value ~ s(nirradiance_IQR, k = 5) + s(scrapyard, k = 5) + s(ml_200, k =
 5) + s(nirradiance_min, k = 5) + s(s6_sup_200, k = 5) + s(bh_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:53 2023 -->
+<!-- Thu Dec 14 09:47:26 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2153,10 +2188,11 @@ s(bh_200)
 </div>
 <div id="cd_i" class="section level2">
 <h2>Cd_i</h2>
-value ~ s(pblmin_mean, k = 5) + s(scrapyard, k = 5) + s(wspeed_max_mean,
-k = 5) + s(s6_sup_200, k = 5) + s(wdir_mean, k = 5)
+value ~ s(pblmin_mean, k = 5) + s(scrapyard, k = 5) + s(m_dis_ferr, k =
+5) + s(wspeed_max_mean, k = 5) + s(s6_sup_200, k = 5) +
+s(wspeed_max_IQR, k = 5) + s(t2m_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:54 2023 -->
+<!-- Thu Dec 14 09:47:26 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2182,13 +2218,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--3.2590
+-3.2173
 </td>
 <td align="right">
-0.0761
+0.0659
 </td>
 <td align="right">
--42.8053
+-48.8163
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2216,13 +2252,13 @@ p-value
 s(pblmin_mean)
 </td>
 <td align="right">
-3.9704
+1.0000
 </td>
 <td align="right">
-3.9992
+1.0000
 </td>
 <td align="right">
-45.1591
+30.0885
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2233,13 +2269,30 @@ s(pblmin_mean)
 s(scrapyard)
 </td>
 <td align="right">
-1.0000
+1.2025
 </td>
 <td align="right">
-1.0001
+1.3524
 </td>
 <td align="right">
-58.0785
+55.8653
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+3.2084
+</td>
+<td align="right">
+3.6341
+</td>
+<td align="right">
+14.9185
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2253,10 +2306,10 @@ s(wspeed_max_mean)
 1.0000
 </td>
 <td align="right">
-1.0000
+1.0001
 </td>
 <td align="right">
-20.5501
+37.1535
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2267,13 +2320,30 @@ s(wspeed_max_mean)
 s(s6_sup_200)
 </td>
 <td align="right">
-3.9352
+2.1655
 </td>
 <td align="right">
-3.9969
+2.5470
 </td>
 <td align="right">
-14.6716
+9.4571
+</td>
+<td align="right">
+0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(wspeed_max_IQR)
+</td>
+<td align="right">
+2.9888
+</td>
+<td align="right">
+3.0709
+</td>
+<td align="right">
+21.6167
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2281,32 +2351,32 @@ s(s6_sup_200)
 </tr>
 <tr>
 <td>
-s(wdir_mean)
+s(t2m_min)
 </td>
 <td align="right">
 1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-24.7444
+9.5496
 </td>
 <td align="right">
-&lt; 0.0001
+0.0022
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.597</p>
+<p>R²: 0.637</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-13.png" width="672" /></p>
 </div>
 <div id="cd_s" class="section level2">
 <h2>Cd_s</h2>
 value ~ s(t2m_IQR, k = 5) + s(tmax2m_min, k = 5) + s(scrapyard, k = 5) +
-s(ml_200, k = 5) + s(cold_area, k = 5) + s(pbl12_IQR, k = 5)
+s(m_dis_ferr, k = 5) + s(bh_200, k = 5) + s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:55 2023 -->
+<!-- Thu Dec 14 09:47:27 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2332,13 +2402,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--2.4413
+-2.4496
 </td>
 <td align="right">
-0.0608
+0.0558
 </td>
 <td align="right">
--40.1663
+-43.9287
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2366,13 +2436,13 @@ p-value
 s(t2m_IQR)
 </td>
 <td align="right">
-3.8015
+3.9261
 </td>
 <td align="right">
-3.9746
+3.9969
 </td>
 <td align="right">
-80.8865
+95.6809
 </td>
 <td align="right">
 &lt; 0.0001
@@ -2389,10 +2459,10 @@ s(tmax2m_min)
 1.0000
 </td>
 <td align="right">
-20.8484
+15.7687
 </td>
 <td align="right">
-&lt; 0.0001
+0.0001
 </td>
 </tr>
 <tr>
@@ -2400,16 +2470,50 @@ s(tmax2m_min)
 s(scrapyard)
 </td>
 <td align="right">
-1.0001
+3.3396
 </td>
 <td align="right">
-1.0001
+3.7454
 </td>
 <td align="right">
-29.8514
+4.0238
+</td>
+<td align="right">
+0.0049
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+2.9256
+</td>
+<td align="right">
+3.4232
+</td>
+<td align="right">
+9.9919
 </td>
 <td align="right">
 &lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(bh_200)
+</td>
+<td align="right">
+3.8929
+</td>
+<td align="right">
+3.9756
+</td>
+<td align="right">
+5.8710
+</td>
+<td align="right">
+0.0004
 </td>
 </tr>
 <tr>
@@ -2420,59 +2524,25 @@ s(ml_200)
 1.0000
 </td>
 <td align="right">
-1.0000
+1.0001
 </td>
 <td align="right">
-8.6272
+5.9987
 </td>
 <td align="right">
-0.0036
-</td>
-</tr>
-<tr>
-<td>
-s(cold_area)
-</td>
-<td align="right">
-3.2798
-</td>
-<td align="right">
-3.7358
-</td>
-<td align="right">
-8.2845
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(pbl12_IQR)
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-6.5120
-</td>
-<td align="right">
-0.0113
+0.0150
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.772</p>
+<p>R²: 0.798</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-14.png" width="672" /></p>
 </div>
 <div id="ce_i" class="section level2">
 <h2>Ce_i</h2>
 value ~ s(nirradiance_IQR, k = 5) + s(s8_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:55 2023 -->
+<!-- Thu Dec 14 09:47:27 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2570,7 +2640,7 @@ s(s8_sup_200)
 <h2>Ce_s</h2>
 value ~ s(tmax2m_max, k = 5) + s(s8_sup_200, k = 5) + s(tmax2m_IQR, k =
 5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:56 2023 -->
+<!-- Thu Dec 14 09:47:28 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2686,7 +2756,7 @@ s(tmax2m_IQR)
 value ~ s(cold_area, k = 5) + s(wspeed_max_max, k = 5) + s(ml_200, k =
 5) + s(imp_200, k = 5) + s(tp_max, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:56 2023 -->
+<!-- Thu Dec 14 09:47:28 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2836,7 +2906,7 @@ s(tp_max)
 value ~ s(u10m_median, k = 5) + s(cold_area, k = 5) + s(wdir_IQR, k = 5)
 + s(pbl12_median, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:57 2023 -->
+<!-- Thu Dec 14 09:47:29 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2967,9 +3037,10 @@ s(pbl12_median)
 <div id="cr_i" class="section level2">
 <h2>Cr_i</h2>
 value ~ s(cold_area, k = 5) + s(pbl00_IQR, k = 5) + s(ml_200, k = 5) +
-s(imp_200, k = 5) + s(v10m_max, k = 5) + s(wspeed_mean, k = 5)
+s(imp_200, k = 5) + s(v10m_max, k = 5) + s(wspeed_mean, k = 5) +
+s(m_dis_ferr, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:57 2023 -->
+<!-- Thu Dec 14 09:47:29 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -2995,13 +3066,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-3.2707
+3.2599
 </td>
 <td align="right">
-0.0469
+0.0468
 </td>
 <td align="right">
-69.8046
+69.5865
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3029,13 +3100,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-1.2212
+1.0000
 </td>
 <td align="right">
-1.3919
+1.0000
 </td>
 <td align="right">
-151.7580
+187.1123
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3046,13 +3117,13 @@ s(cold_area)
 s(pbl00_IQR)
 </td>
 <td align="right">
-1.5203
+1.5845
 </td>
 <td align="right">
-1.8234
+1.9005
 </td>
 <td align="right">
-29.4881
+28.1916
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3063,13 +3134,13 @@ s(pbl00_IQR)
 s(ml_200)
 </td>
 <td align="right">
-2.1366
+2.1102
 </td>
 <td align="right">
-2.5478
+2.5267
 </td>
 <td align="right">
-75.3098
+65.2522
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3080,13 +3151,13 @@ s(ml_200)
 s(imp_200)
 </td>
 <td align="right">
-2.6335
+2.9940
 </td>
 <td align="right">
-3.0097
+3.3592
 </td>
 <td align="right">
-23.5179
+24.8960
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3097,13 +3168,13 @@ s(imp_200)
 s(v10m_max)
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-27.7789
+28.0727
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3114,21 +3185,38 @@ s(v10m_max)
 s(wspeed_mean)
 </td>
 <td align="right">
+1.0002
+</td>
+<td align="right">
 1.0003
 </td>
 <td align="right">
-1.0006
+11.5463
 </td>
 <td align="right">
-12.2187
+0.0008
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
 </td>
 <td align="right">
-0.0006
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+5.3900
+</td>
+<td align="right">
+0.0210
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.729</p>
+<p>R²: 0.735</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-19.png" width="672" /></p>
 </div>
 <div id="cr_s" class="section level2">
@@ -3137,7 +3225,7 @@ value ~ s(scrapyard, k = 5) + s(nirradiance_max, k = 5) + s(s6_sup_200,
 k = 5) + s(bh_200, k = 5) + s(wspeed_max_IQR, k = 5) + s(wdir_min, k =
 5) + s(pop_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:58 2023 -->
+<!-- Thu Dec 14 09:47:30 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3321,7 +3409,7 @@ s(pop_200)
 value ~ s(rh_max, k = 5) + s(ptp_IQR, k = 5) + s(imp_200, k = 5) +
 s(cold_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:58 2023 -->
+<!-- Thu Dec 14 09:47:30 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3452,9 +3540,9 @@ s(cold_area)
 <div id="cs_s" class="section level2">
 <h2>Cs_s</h2>
 value ~ s(pbl12_mean, k = 5) + s(tmax2m_min, k = 5) + s(cold_area, k =
-5) + s(imp_200, k = 5) + s(sp_median, k = 5) + s(s6_sup_200, k = 5)
+5) + s(m_dis_ferr, k = 5) + s(ml_200, k = 5) + s(sp_median, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:59 2023 -->
+<!-- Thu Dec 14 09:47:31 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3480,13 +3568,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--3.4797
+-3.4861
 </td>
 <td align="right">
-0.0415
+0.0409
 </td>
 <td align="right">
--83.9094
+-85.2583
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3514,13 +3602,13 @@ p-value
 s(pbl12_mean)
 </td>
 <td align="right">
-1.9010
+1.9122
 </td>
 <td align="right">
-2.2884
+2.3020
 </td>
 <td align="right">
-41.2208
+42.1218
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3531,13 +3619,13 @@ s(pbl12_mean)
 s(tmax2m_min)
 </td>
 <td align="right">
-2.6020
+2.6082
 </td>
 <td align="right">
-3.0921
+3.0973
 </td>
 <td align="right">
-23.3275
+24.2281
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3548,13 +3636,13 @@ s(tmax2m_min)
 s(cold_area)
 </td>
 <td align="right">
-2.8768
+3.4142
 </td>
 <td align="right">
-3.3965
+3.7924
 </td>
 <td align="right">
-17.6182
+16.6062
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3562,16 +3650,33 @@ s(cold_area)
 </tr>
 <tr>
 <td>
-s(imp_200)
+s(m_dis_ferr)
 </td>
 <td align="right">
-3.6256
+1.0000
 </td>
 <td align="right">
-3.8529
+1.0000
 </td>
 <td align="right">
-15.1047
+39.0412
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+3.5825
+</td>
+<td align="right">
+3.9047
+</td>
+<td align="right">
+8.9042
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3585,44 +3690,27 @@ s(sp_median)
 1.0001
 </td>
 <td align="right">
-1.0001
+1.0002
 </td>
 <td align="right">
-25.8152
+25.7810
 </td>
 <td align="right">
 &lt; 0.0001
 </td>
 </tr>
-<tr>
-<td>
-s(s6_sup_200)
-</td>
-<td align="right">
-3.9225
-</td>
-<td align="right">
-3.9909
-</td>
-<td align="right">
-5.9026
-</td>
-<td align="right">
-0.0001
-</td>
-</tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.863</p>
+<p>R²: 0.869</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-22.png" width="672" /></p>
 </div>
 <div id="cu_i" class="section level2">
 <h2>Cu_i</h2>
 value ~ s(pblmax_mean, k = 5) + s(s6_sup_200, k = 5) + s(s8_sup_200, k =
 5) + s(bh_200, k = 5) + s(pop_200, k = 5) + s(pwspeed_median, k = 5) +
-s(imp_200, k = 5) + s(wdir_max, k = 5)
+s(m_dis_ferr, k = 5) + s(scrapyard, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:46:59 2023 -->
+<!-- Thu Dec 14 09:47:31 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -3648,13 +3736,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-2.1791
+2.1793
 </td>
 <td align="right">
 0.0196
 </td>
 <td align="right">
-111.1787
+111.3237
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3682,13 +3770,13 @@ p-value
 s(pblmax_mean)
 </td>
 <td align="right">
-1.9886
+3.3652
 </td>
 <td align="right">
-2.3060
+3.7269
 </td>
 <td align="right">
-25.7361
+159.5780
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3699,13 +3787,13 @@ s(pblmax_mean)
 s(s6_sup_200)
 </td>
 <td align="right">
-3.9999
+3.9804
 </td>
 <td align="right">
-4.0000
+3.9929
 </td>
 <td align="right">
-15.2094
+19.0109
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3716,16 +3804,16 @@ s(s6_sup_200)
 s(s8_sup_200)
 </td>
 <td align="right">
-3.2497
+1.9198
 </td>
 <td align="right">
-3.7001
+2.2802
 </td>
 <td align="right">
-20.3951
+5.0437
 </td>
 <td align="right">
-&lt; 0.0001
+0.0065
 </td>
 </tr>
 <tr>
@@ -3733,13 +3821,13 @@ s(s8_sup_200)
 s(bh_200)
 </td>
 <td align="right">
-3.8783
+4.0000
 </td>
 <td align="right">
-3.9797
+4.0000
 </td>
 <td align="right">
-19.0053
+21.0601
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3750,13 +3838,13 @@ s(bh_200)
 s(pop_200)
 </td>
 <td align="right">
-3.4889
+2.7138
 </td>
 <td align="right">
-3.8077
+3.0763
 </td>
 <td align="right">
-7.6357
+11.7669
 </td>
 <td align="right">
 &lt; 0.0001
@@ -3767,55 +3855,55 @@ s(pop_200)
 s(pwspeed_median)
 </td>
 <td align="right">
-2.3240
+2.3772
 </td>
 <td align="right">
-2.8543
+2.9353
 </td>
 <td align="right">
-5.9225
+5.8402
 </td>
 <td align="right">
-0.0023
+0.0012
 </td>
 </tr>
 <tr>
 <td>
-s(imp_200)
+s(m_dis_ferr)
 </td>
 <td align="right">
-4.0000
+3.8791
 </td>
 <td align="right">
-4.0000
+3.9610
 </td>
 <td align="right">
-5.6320
+9.4316
 </td>
 <td align="right">
-0.0002
+&lt; 0.0001
 </td>
 </tr>
 <tr>
 <td>
-s(wdir_max)
+s(scrapyard)
 </td>
 <td align="right">
-1.6001
+2.7305
 </td>
 <td align="right">
-1.8325
+3.0510
 </td>
 <td align="right">
-10.3192
+10.1816
 </td>
 <td align="right">
-0.0001
+&lt; 0.0001
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.786</p>
+<p>R²: 0.787</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-23.png" width="672" /></p>
 </div>
 <div id="cu_s" class="section level2">
@@ -3824,7 +3912,7 @@ value ~ s(u10m_max, k = 5) + s(s6_sup_200, k = 5) + s(s8_sup_200, k = 5)
 + s(ptp_max, k = 5) + s(pop_200, k = 5) + s(bh_200, k = 5) + s(rh_max, k
 = 5) + s(ml_200, k = 5) + s(tp_IQR, k = 5) + s(wspeed_max_max, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:00 2023 -->
+<!-- Thu Dec 14 09:47:32 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4056,10 +4144,10 @@ s(wspeed_max_max)
 </div>
 <div id="fe_i" class="section level2">
 <h2>Fe_i</h2>
-value ~ s(cold_area, k = 5) + s(wdir_IQR, k = 5) + s(u10m_median, k = 5)
-+ s(bh_200, k = 5) + s(ml_200, k = 5) + s(imp_200, k = 5)
+value ~ s(cold_area, k = 5) + s(wdir_IQR, k = 5) + s(s6_sup_200, k = 5)
++ s(u10m_median, k = 5) + s(m_dis_ferr, k = 5) + s(hot_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:00 2023 -->
+<!-- Thu Dec 14 09:47:32 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4085,13 +4173,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-6.1341
+6.1271
 </td>
 <td align="right">
-0.0323
+0.0332
 </td>
 <td align="right">
-190.0332
+184.7534
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4119,13 +4207,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-1.0000
+2.0566
 </td>
 <td align="right">
-1.0000
+2.4836
 </td>
 <td align="right">
-72.8534
+23.8780
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4136,13 +4224,30 @@ s(cold_area)
 s(wdir_IQR)
 </td>
 <td align="right">
-1.0001
+3.7327
 </td>
 <td align="right">
-1.0002
+3.9355
 </td>
 <td align="right">
-55.7074
+16.7146
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(s6_sup_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+51.6330
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4153,80 +4258,64 @@ s(wdir_IQR)
 s(u10m_median)
 </td>
 <td align="right">
-3.8969
+2.4764
 </td>
 <td align="right">
-3.9923
+2.8777
 </td>
 <td align="right">
-8.2176
+4.9600
 </td>
 <td align="right">
-&lt; 0.0001
+0.0033
 </td>
 </tr>
 <tr>
 <td>
-s(bh_200)
+s(m_dis_ferr)
 </td>
 <td align="right">
-1.7334
+1.0000
 </td>
 <td align="right">
-2.0886
+1.0000
 </td>
 <td align="right">
-4.1327
+14.0934
 </td>
 <td align="right">
-0.0179
+0.0002
 </td>
 </tr>
 <tr>
 <td>
-s(ml_200)
+s(hot_area)
 </td>
 <td align="right">
-2.2400
+1.0001
 </td>
 <td align="right">
-2.6905
+1.0001
 </td>
 <td align="right">
-56.5087
+15.5433
 </td>
 <td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(imp_200)
-</td>
-<td align="right">
-2.4708
-</td>
-<td align="right">
-2.8643
-</td>
-<td align="right">
-18.7614
-</td>
-<td align="right">
-&lt; 0.0001
+0.0001
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.574</p>
+<p>R²: 0.556</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-25.png" width="672" /></p>
 </div>
 <div id="fe_s" class="section level2">
 <h2>Fe_s</h2>
-value ~ s(pbl12_median, k = 5) + s(pbl00_max, k = 5) + s(s6_sup_200, k =
-5) + s(v10m_max, k = 5) + s(pblmin_max, k = 5) + s(imp_200, k = 5)
+value ~ s(pbl12_median, k = 5) + s(m_dis_ferr, k = 5) +
+s(nirradiance_IQR, k = 5) + s(rh_IQR, k = 5) + s(s6_sup_200, k = 5) +
+s(s8_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:01 2023 -->
+<!-- Thu Dec 14 09:47:33 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4252,13 +4341,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-2.4432
+2.3828
 </td>
 <td align="right">
-0.0353
+0.0402
 </td>
 <td align="right">
-69.3025
+59.2809
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4286,13 +4375,13 @@ p-value
 s(pbl12_median)
 </td>
 <td align="right">
-2.3501
+4.0000
 </td>
 <td align="right">
-2.7796
+4.0000
 </td>
 <td align="right">
-49.0548
+22.9280
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4300,19 +4389,53 @@ s(pbl12_median)
 </tr>
 <tr>
 <td>
-s(pbl00_max)
+s(m_dis_ferr)
 </td>
 <td align="right">
-1.0000
+1.6035
+</td>
+<td align="right">
+1.9763
+</td>
+<td align="right">
+17.1584
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(nirradiance_IQR)
 </td>
 <td align="right">
 1.0001
 </td>
 <td align="right">
-70.7322
+1.0002
+</td>
+<td align="right">
+32.8913
 </td>
 <td align="right">
 &lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(rh_IQR)
+</td>
+<td align="right">
+2.0965
+</td>
+<td align="right">
+2.4285
+</td>
+<td align="right">
+7.0209
+</td>
+<td align="right">
+0.0003
 </td>
 </tr>
 <tr>
@@ -4320,47 +4443,13 @@ s(pbl00_max)
 s(s6_sup_200)
 </td>
 <td align="right">
-3.8681
-</td>
-<td align="right">
-3.9821
-</td>
-<td align="right">
-12.7599
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(v10m_max)
-</td>
-<td align="right">
-1.1111
-</td>
-<td align="right">
-1.2010
-</td>
-<td align="right">
-29.6280
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(pblmin_max)
-</td>
-<td align="right">
 1.0000
 </td>
 <td align="right">
 1.0000
 </td>
 <td align="right">
-14.4585
+14.7551
 </td>
 <td align="right">
 0.0002
@@ -4368,24 +4457,24 @@ s(pblmin_max)
 </tr>
 <tr>
 <td>
-s(imp_200)
+s(s8_sup_200)
 </td>
 <td align="right">
-2.2750
+2.0685
 </td>
 <td align="right">
-2.7636
+2.5628
 </td>
 <td align="right">
-3.0656
+3.5866
 </td>
 <td align="right">
-0.0205
+0.0138
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.533</p>
+<p>R²: 0.559</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-26.png" width="672" /></p>
 </div>
 <div id="ga_i" class="section level2">
@@ -4393,7 +4482,7 @@ s(imp_200)
 value ~ s(pbl12_mean, k = 5) + s(scrapyard, k = 5) + s(s6_sup_200, k =
 5) + s(sp_median, k = 5) + s(rh_max, k = 5) + s(bh_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:01 2023 -->
+<!-- Thu Dec 14 09:47:33 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4560,7 +4649,7 @@ s(bh_200)
 value ~ s(wdir_median, k = 5) + s(scrapyard, k = 5) + s(sp_IQR, k = 5) +
 s(nirradiance_median, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:02 2023 -->
+<!-- Thu Dec 14 09:47:34 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4694,7 +4783,7 @@ value ~ s(t2m_min, k = 5) + s(pblmin_IQR, k = 5) + s(s8_sup_200, k = 5)
 + s(pop_200, k = 5) + s(wdir_max, k = 5) + s(nirradiance_IQR, k = 5) +
 s(pblmax_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:02 2023 -->
+<!-- Thu Dec 14 09:47:34 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4876,10 +4965,9 @@ s(pblmax_IQR)
 <div id="k_s" class="section level2">
 <h2>K_s</h2>
 value ~ s(pbl12_median, k = 5) + s(v10m_median, k = 5) + s(hot_area, k =
-5) + s(imp_200, k = 5) + s(bh_200, k = 5) + s(pbl12_IQR, k = 5) +
-s(cold_area, k = 5) + s(s6_sup_200, k = 5)
+5) + s(m_dis_ferr, k = 5) + s(imp_200, k = 5) + s(pop_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:03 2023 -->
+<!-- Thu Dec 14 09:47:35 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -4905,13 +4993,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-5.5592
+5.5667
 </td>
 <td align="right">
-0.0406
+0.0421
 </td>
 <td align="right">
-136.7963
+132.1826
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4939,13 +5027,13 @@ p-value
 s(pbl12_median)
 </td>
 <td align="right">
-3.1738
+3.1316
 </td>
 <td align="right">
-3.5998
+3.5598
 </td>
 <td align="right">
-155.5314
+155.9836
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4956,13 +5044,13 @@ s(pbl12_median)
 s(v10m_median)
 </td>
 <td align="right">
-1.0000
+1.0001
 </td>
 <td align="right">
-1.0000
+1.0001
 </td>
 <td align="right">
-68.4861
+69.1035
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4973,13 +5061,30 @@ s(v10m_median)
 s(hot_area)
 </td>
 <td align="right">
+2.4613
+</td>
+<td align="right">
+2.9366
+</td>
+<td align="right">
+13.4480
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
 1.0000
 </td>
 <td align="right">
 1.0001
 </td>
 <td align="right">
-37.6698
+35.8605
 </td>
 <td align="right">
 &lt; 0.0001
@@ -4990,96 +5095,45 @@ s(hot_area)
 s(imp_200)
 </td>
 <td align="right">
-3.9351
+2.2630
 </td>
 <td align="right">
-3.9941
+2.6913
 </td>
 <td align="right">
-17.1839
+6.2327
 </td>
 <td align="right">
-&lt; 0.0001
+0.0010
 </td>
 </tr>
 <tr>
 <td>
-s(bh_200)
+s(pop_200)
 </td>
 <td align="right">
-3.9439
+1.9287
 </td>
 <td align="right">
-3.9939
+2.3318
 </td>
 <td align="right">
-9.7108
+3.3064
 </td>
 <td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(pbl12_IQR)
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-5.5056
-</td>
-<td align="right">
-0.0197
-</td>
-</tr>
-<tr>
-<td>
-s(cold_area)
-</td>
-<td align="right">
-1.0001
-</td>
-<td align="right">
-1.0001
-</td>
-<td align="right">
-19.5712
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(s6_sup_200)
-</td>
-<td align="right">
-3.4419
-</td>
-<td align="right">
-3.7901
-</td>
-<td align="right">
-3.0443
-</td>
-<td align="right">
-0.0127
+0.0220
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.857</p>
+<p>R²: 0.846</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-30.png" width="672" /></p>
 </div>
 <div id="la_i" class="section level2">
 <h2>La_i</h2>
 value ~ s(tmin2m_mean, k = 5) + s(wdir_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:03 2023 -->
+<!-- Thu Dec 14 09:47:35 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5177,7 +5231,7 @@ s(wdir_min)
 <h2>La_s</h2>
 value ~ s(v10m_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:04 2023 -->
+<!-- Thu Dec 14 09:47:36 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5259,7 +5313,7 @@ s(v10m_min)
 value ~ s(tmin2m_median, k = 5) + s(pblmin_max, k = 5) + s(s6_sup_200, k
 = 5) + s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:04 2023 -->
+<!-- Thu Dec 14 09:47:36 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5394,7 +5448,7 @@ s(pwspeed_mean, k = 5) + s(ml_200, k = 5) + s(bh_200, k = 5) +
 s(v10m_median, k = 5) + s(imp_200, k = 5) + s(wspeed_IQR, k = 5) +
 s(nirradiance_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:05 2023 -->
+<!-- Thu Dec 14 09:47:37 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5612,7 +5666,7 @@ s(nirradiance_IQR)
 value ~ s(rh_mean, k = 5) + s(pwspeed_median, k = 5) + s(v10m_IQR, k =
 5) + s(scrapyard, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:06 2023 -->
+<!-- Thu Dec 14 09:47:38 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5746,7 +5800,7 @@ value ~ s(wspeed_max_IQR, k = 5) + s(scrapyard, k = 5) + s(rh_max, k =
 5) + s(s6_sup_200, k = 5) + s(s8_sup_200, k = 5) + s(cold_area, k = 5) +
 s(tmin2m_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:06 2023 -->
+<!-- Thu Dec 14 09:47:38 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -5930,7 +5984,7 @@ s(tmin2m_mean)
 value ~ s(cold_area, k = 5) + s(ml_200, k = 5) + s(imp_200, k = 5) +
 s(wdir_IQR, k = 5) + s(bh_200, k = 5) + s(tp_IQR, k = 5) + s(wspeed_IQR,
 k = 5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:07 2023 -->
+<!-- Thu Dec 14 09:47:39 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6114,7 +6168,7 @@ s(wspeed_IQR)
 value ~ s(t2m_IQR, k = 5) + s(scrapyard, k = 5) + s(rh_IQR, k = 5) +
 s(bh_200, k = 5) + s(imp_200, k = 5) + s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:07 2023 -->
+<!-- Thu Dec 14 09:47:39 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6281,7 +6335,7 @@ s(ml_200)
 value ~ s(cold_area, k = 5) + s(wdir_max, k = 5) + s(ml_200, k = 5) +
 s(imp_200, k = 5) + s(sp_min, k = 5) + s(wspeed_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:08 2023 -->
+<!-- Thu Dec 14 09:47:40 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6446,10 +6500,10 @@ s(wspeed_mean)
 <div id="mo_s" class="section level2">
 <h2>Mo_s</h2>
 value ~ s(cold_area, k = 5) + s(nirradiance_min, k = 5) + s(ml_200, k =
-5) + s(wspeed_max_min, k = 5) + s(imp_200, k = 5) + s(pbl12_min, k = 5)
-+ s(u10m_IQR, k = 5)
+5) + s(wspeed_max_min, k = 5) + s(imp_200, k = 5) + s(m_dis_ferr, k = 5)
++ s(pbl12_min, k = 5) + s(scrapyard, k = 5) + s(u10m_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:08 2023 -->
+<!-- Thu Dec 14 09:47:40 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6475,13 +6529,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-1.6634
+1.6868
 </td>
 <td align="right">
-0.0516
+0.0481
 </td>
 <td align="right">
-32.2238
+35.0476
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6509,13 +6563,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-2.2259
+3.5657
 </td>
 <td align="right">
-2.7325
+3.8004
 </td>
 <td align="right">
-129.4151
+18.2711
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6532,7 +6586,7 @@ s(nirradiance_min)
 1.0000
 </td>
 <td align="right">
-17.0288
+18.3471
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6543,13 +6597,13 @@ s(nirradiance_min)
 s(ml_200)
 </td>
 <td align="right">
-1.6439
+1.0000
 </td>
 <td align="right">
-1.9557
+1.0001
 </td>
 <td align="right">
-82.3547
+19.6858
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6560,13 +6614,13 @@ s(ml_200)
 s(wspeed_max_min)
 </td>
 <td align="right">
-2.7353
+2.8720
 </td>
 <td align="right">
-3.1788
+3.3219
 </td>
 <td align="right">
-25.8004
+26.5285
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6577,13 +6631,30 @@ s(wspeed_max_min)
 s(imp_200)
 </td>
 <td align="right">
-2.6838
+2.1493
 </td>
 <td align="right">
-3.0419
+2.5659
 </td>
 <td align="right">
-22.2829
+10.2141
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+18.1043
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6600,7 +6671,7 @@ s(pbl12_min)
 1.0000
 </td>
 <td align="right">
-71.0506
+73.6717
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6608,16 +6679,33 @@ s(pbl12_min)
 </tr>
 <tr>
 <td>
+s(scrapyard)
+</td>
+<td align="right">
+1.8350
+</td>
+<td align="right">
+2.2121
+</td>
+<td align="right">
+2.5985
+</td>
+<td align="right">
+0.0354
+</td>
+</tr>
+<tr>
+<td>
 s(u10m_IQR)
 </td>
 <td align="right">
-1.6976
+1.7091
 </td>
 <td align="right">
-1.9974
+2.0049
 </td>
 <td align="right">
-33.5594
+35.6107
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6625,14 +6713,14 @@ s(u10m_IQR)
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.876</p>
+<p>R²: 0.885</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-40.png" width="672" /></p>
 </div>
 <div id="na_i" class="section level2">
 <h2>Na_i</h2>
 value ~ s(pblmin_IQR, k = 5) + s(sp_median, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:09 2023 -->
+<!-- Thu Dec 14 09:47:41 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6728,10 +6816,10 @@ s(sp_median)
 </div>
 <div id="na_s" class="section level2">
 <h2>Na_s</h2>
-value ~ s(sp_min, k = 5) + s(pblmax_IQR, k = 5) + s(pbl12_IQR, k = 5) +
-s(imp_200, k = 5)
+value ~ s(sp_min, k = 5) + s(pblmax_IQR, k = 5) + s(m_dis_ferr, k = 5) +
+s(ml_200, k = 5) + s(pbl12_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:09 2023 -->
+<!-- Thu Dec 14 09:47:41 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -6757,13 +6845,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-5.8658
+5.8593
 </td>
 <td align="right">
-0.0220
+0.0212
 </td>
 <td align="right">
-266.0406
+276.2651
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6791,13 +6879,13 @@ p-value
 s(sp_min)
 </td>
 <td align="right">
-3.9672
+3.9732
 </td>
 <td align="right">
-3.9992
+3.9995
 </td>
 <td align="right">
-51.0744
+58.8902
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6814,7 +6902,7 @@ s(pblmax_IQR)
 1.0000
 </td>
 <td align="right">
-22.6670
+26.2213
 </td>
 <td align="right">
 &lt; 0.0001
@@ -6822,41 +6910,58 @@ s(pblmax_IQR)
 </tr>
 <tr>
 <td>
-s(pbl12_IQR)
+s(m_dis_ferr)
 </td>
 <td align="right">
-1.0002
+3.5476
 </td>
 <td align="right">
-1.0003
+3.8681
 </td>
 <td align="right">
-5.8937
+7.2939
 </td>
 <td align="right">
-0.0159
+&lt; 0.0001
 </td>
 </tr>
 <tr>
 <td>
-s(imp_200)
+s(ml_200)
 </td>
 <td align="right">
-1.4015
+2.5657
 </td>
 <td align="right">
-1.6907
+3.1009
 </td>
 <td align="right">
-4.8193
+5.7579
 </td>
 <td align="right">
-0.0309
+0.0007
+</td>
+</tr>
+<tr>
+<td>
+s(pbl12_IQR)
+</td>
+<td align="right">
+1.0006
+</td>
+<td align="right">
+1.0012
+</td>
+<td align="right">
+6.2545
+</td>
+<td align="right">
+0.0130
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.522</p>
+<p>R²: 0.567</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-42.png" width="672" /></p>
 </div>
 <div id="nb_i" class="section level2">
@@ -6864,7 +6969,7 @@ s(imp_200)
 value ~ s(s8_sup_200, k = 5) + s(tp_max, k = 5) + s(bh_200, k = 5) +
 s(cold_area, k = 5) + s(tp_IQR, k = 5) + s(wdir_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:10 2023 -->
+<!-- Thu Dec 14 09:47:42 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7032,7 +7137,7 @@ value ~ s(tp_mean, k = 5) + s(imp_200, k = 5) + s(wspeed_max_max, k = 5)
 + s(bh_200, k = 5) + s(cold_area, k = 5) + s(ml_200, k = 5) +
 s(tmax2m_median, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:11 2023 -->
+<!-- Thu Dec 14 09:47:42 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7214,9 +7319,9 @@ s(tmax2m_median)
 <div id="ni_i" class="section level2">
 <h2>Ni_i</h2>
 value ~ s(cold_area, k = 5) + s(wdir_mean, k = 5) + s(ml_200, k = 5) +
-s(imp_200, k = 5) + s(wspeed_max_max, k = 5)
+s(imp_200, k = 5) + s(wspeed_max_max, k = 5) + s(m_dis_ferr, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:11 2023 -->
+<!-- Thu Dec 14 09:47:43 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7242,13 +7347,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-2.2705
+2.2964
 </td>
 <td align="right">
-0.0594
+0.0567
 </td>
 <td align="right">
-38.2373
+40.5147
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7276,13 +7381,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-1.8269
+2.9562
 </td>
 <td align="right">
-2.2674
+3.4851
 </td>
 <td align="right">
-108.2071
+56.7461
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7293,13 +7398,13 @@ s(cold_area)
 s(wdir_mean)
 </td>
 <td align="right">
-1.0003
+1.0002
 </td>
 <td align="right">
-1.0006
+1.0005
 </td>
 <td align="right">
-53.0788
+56.0375
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7310,13 +7415,13 @@ s(wdir_mean)
 s(ml_200)
 </td>
 <td align="right">
-1.0360
+1.0000
 </td>
 <td align="right">
-1.0664
+1.0000
 </td>
 <td align="right">
-118.1045
+71.2346
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7327,13 +7432,13 @@ s(ml_200)
 s(imp_200)
 </td>
 <td align="right">
-2.6669
+3.5963
 </td>
 <td align="right">
-3.0537
+3.8709
 </td>
 <td align="right">
-17.1798
+13.0582
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7344,21 +7449,38 @@ s(imp_200)
 s(wspeed_max_max)
 </td>
 <td align="right">
-3.7592
+3.7570
 </td>
 <td align="right">
-3.9604
+3.9597
 </td>
 <td align="right">
-11.2928
+12.0725
 </td>
 <td align="right">
 &lt; 0.0001
 </td>
 </tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0001
+</td>
+<td align="right">
+11.5204
+</td>
+<td align="right">
+0.0008
+</td>
+</tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.834</p>
+<p>R²: 0.843</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-45.png" width="672" /></p>
 </div>
 <div id="ni_s" class="section level2">
@@ -7366,7 +7488,7 @@ s(wspeed_max_max)
 value ~ s(cold_area, k = 5) + s(wdir_IQR, k = 5) + s(s8_sup_200, k = 5)
 + s(v10m_mean, k = 5) + s(wspeed_max_median, k = 5) + s(wspeed_max_max,
 k = 5) <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:12 2023 -->
+<!-- Thu Dec 14 09:47:43 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7531,9 +7653,9 @@ s(wspeed_max_max)
 <div id="pb_i" class="section level2">
 <h2>Pb_i</h2>
 value ~ s(pbl12_mean, k = 5) + s(scrapyard, k = 5) + s(ml_200, k = 5) +
-s(tmax2m_IQR, k = 5) + s(bh_200, k = 5) + s(imp_200, k = 5)
+s(tmax2m_IQR, k = 5) + s(m_dis_ferr, k = 5) + s(imp_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:12 2023 -->
+<!-- Thu Dec 14 09:47:44 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7559,13 +7681,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-1.5666
+1.5693
 </td>
 <td align="right">
-0.0227
+0.0221
 </td>
 <td align="right">
-68.9525
+71.1509
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7593,13 +7715,13 @@ p-value
 s(pbl12_mean)
 </td>
 <td align="right">
-2.6694
+2.6719
 </td>
 <td align="right">
-3.0634
+3.0650
 </td>
 <td align="right">
-67.7233
+71.2453
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7610,47 +7732,13 @@ s(pbl12_mean)
 s(scrapyard)
 </td>
 <td align="right">
-1.5796
+3.8351
 </td>
 <td align="right">
-1.9132
+3.9700
 </td>
 <td align="right">
-5.1540
-</td>
-<td align="right">
-0.0076
-</td>
-</tr>
-<tr>
-<td>
-s(ml_200)
-</td>
-<td align="right">
-1.0002
-</td>
-<td align="right">
-1.0004
-</td>
-<td align="right">
-15.0625
-</td>
-<td align="right">
-0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(tmax2m_IQR)
-</td>
-<td align="right">
-3.5532
-</td>
-<td align="right">
-3.8131
-</td>
-<td align="right">
-9.1949
+58.3436
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7658,16 +7746,50 @@ s(tmax2m_IQR)
 </tr>
 <tr>
 <td>
-s(bh_200)
+s(ml_200)
 </td>
 <td align="right">
-3.8319
+1.5913
 </td>
 <td align="right">
-3.9761
+1.9228
 </td>
 <td align="right">
-32.2818
+19.5164
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(tmax2m_IQR)
+</td>
+<td align="right">
+3.5757
+</td>
+<td align="right">
+3.8264
+</td>
+<td align="right">
+10.0442
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+3.4407
+</td>
+<td align="right">
+3.8146
+</td>
+<td align="right">
+22.6222
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7678,13 +7800,13 @@ s(bh_200)
 s(imp_200)
 </td>
 <td align="right">
-2.2847
+3.6803
 </td>
 <td align="right">
-2.6682
+3.9145
 </td>
 <td align="right">
-23.8119
+17.3678
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7692,15 +7814,16 @@ s(imp_200)
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.756</p>
+<p>R²: 0.77</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-47.png" width="672" /></p>
 </div>
 <div id="pb_s" class="section level2">
 <h2>Pb_s</h2>
 value ~ s(t2m_IQR, k = 5) + s(scrapyard, k = 5) + s(cold_area, k = 5) +
-s(wspeed_max_max, k = 5) + s(pbl12_mean, k = 5)
+s(wspeed_max_max, k = 5) + s(m_dis_ferr, k = 5) + s(pop_200, k = 5) +
+s(pbl12_mean, k = 5) + s(s8_sup_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:13 2023 -->
+<!-- Thu Dec 14 09:47:44 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -7726,13 +7849,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--0.3939
+-0.4150
 </td>
 <td align="right">
-0.0498
+0.0434
 </td>
 <td align="right">
--7.9086
+-9.5685
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7760,13 +7883,13 @@ p-value
 s(t2m_IQR)
 </td>
 <td align="right">
-3.5518
+3.6125
 </td>
 <td align="right">
-3.7820
+3.8168
 </td>
 <td align="right">
-38.8479
+53.5451
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7777,13 +7900,13 @@ s(t2m_IQR)
 s(scrapyard)
 </td>
 <td align="right">
-1.0002
+2.8282
 </td>
 <td align="right">
-1.0003
+3.1274
 </td>
 <td align="right">
-240.3496
+28.3413
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7794,13 +7917,13 @@ s(scrapyard)
 s(cold_area)
 </td>
 <td align="right">
-2.3937
+4.0000
 </td>
 <td align="right">
-2.9233
+4.0000
 </td>
 <td align="right">
-45.0574
+17.4329
 </td>
 <td align="right">
 &lt; 0.0001
@@ -7811,16 +7934,50 @@ s(cold_area)
 s(wspeed_max_max)
 </td>
 <td align="right">
-2.4010
+2.4741
 </td>
 <td align="right">
-2.7209
+2.7884
 </td>
 <td align="right">
-13.2375
+20.7094
 </td>
 <td align="right">
 &lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+4.0000
+</td>
+<td align="right">
+4.0000
+</td>
+<td align="right">
+18.2377
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pop_200)
+</td>
+<td align="right">
+1.4129
+</td>
+<td align="right">
+1.6558
+</td>
+<td align="right">
+7.5152
+</td>
+<td align="right">
+0.0031
 </td>
 </tr>
 <tr>
@@ -7834,15 +7991,32 @@ s(pbl12_mean)
 1.0000
 </td>
 <td align="right">
-9.5665
+10.3051
 </td>
 <td align="right">
-0.0022
+0.0015
+</td>
+</tr>
+<tr>
+<td>
+s(s8_sup_200)
+</td>
+<td align="right">
+1.8736
+</td>
+<td align="right">
+2.2945
+</td>
+<td align="right">
+4.2653
+</td>
+<td align="right">
+0.0122
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.747</p>
+<p>R²: 0.814</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-48.png" width="672" /></p>
 </div>
 <div id="pm10" class="section level2">
@@ -7851,7 +8025,7 @@ value ~ s(sp_mean, k = 5) + s(pblmax_min, k = 5) + s(ml_200, k = 5) +
 s(wspeed_max, k = 5) + s(tmin2m_IQR, k = 5) + s(pop_200, k = 5) +
 s(s6_sup_200, k = 5) + s(scrapyard, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:14 2023 -->
+<!-- Thu Dec 14 09:47:45 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8051,7 +8225,7 @@ s(scrapyard)
 <h2>Rb_i</h2>
 value ~ s(tmax2m_min, k = 5) + s(u10m_max, k = 5) + s(hot_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:14 2023 -->
+<!-- Thu Dec 14 09:47:45 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8164,9 +8338,10 @@ s(hot_area)
 </div>
 <div id="rb_s" class="section level2">
 <h2>Rb_s</h2>
-value ~ s(wdir_median, k = 5) + s(hot_area, k = 5) + s(sp_IQR, k = 5)
+value ~ s(wdir_median, k = 5) + s(hot_area, k = 5) + s(m_dis_ferr, k =
+5) + s(sp_IQR, k = 5) + s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:15 2023 -->
+<!-- Thu Dec 14 09:47:46 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8192,13 +8367,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--0.4144
+-0.4272
 </td>
 <td align="right">
-0.0493
+0.0477
 </td>
 <td align="right">
--8.4136
+-8.9652
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8226,13 +8401,13 @@ p-value
 s(wdir_median)
 </td>
 <td align="right">
-3.9805
+3.9841
 </td>
 <td align="right">
 3.9998
 </td>
 <td align="right">
-77.3734
+83.7648
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8243,13 +8418,30 @@ s(wdir_median)
 s(hot_area)
 </td>
 <td align="right">
-2.2189
+3.3467
 </td>
 <td align="right">
-2.7234
+3.7457
 </td>
 <td align="right">
-16.6805
+16.2226
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+19.1875
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8266,24 +8458,41 @@ s(sp_IQR)
 1.0001
 </td>
 <td align="right">
-8.3154
+8.9008
 </td>
 <td align="right">
-0.0042
+0.0031
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+1.5956
+</td>
+<td align="right">
+1.9649
+</td>
+<td align="right">
+3.2732
+</td>
+<td align="right">
+0.0297
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.722</p>
+<p>R²: 0.745</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-51.png" width="672" /></p>
 </div>
 <div id="sb_i" class="section level2">
 <h2>Sb_i</h2>
 value ~ s(t2m_IQR, k = 5) + s(s6_sup_200, k = 5) + s(hot_area, k = 5) +
-s(s8_sup_200, k = 5) + s(wspeed_max_median, k = 5) + s(bh_200, k = 5) +
-s(pop_200, k = 5) + s(nirradiance_min, k = 5)
+s(wspeed_max_median, k = 5) + s(bh_200, k = 5) + s(m_dis_ferr, k = 5) +
+s(imp_200, k = 5) + s(nirradiance_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:15 2023 -->
+<!-- Thu Dec 14 09:47:47 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8309,13 +8518,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--0.3573
+-0.3556
 </td>
 <td align="right">
 0.0266
 </td>
 <td align="right">
--13.4381
+-13.3905
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8343,13 +8552,13 @@ p-value
 s(t2m_IQR)
 </td>
 <td align="right">
-3.8763
+3.8757
 </td>
 <td align="right">
 3.9898
 </td>
 <td align="right">
-38.5909
+38.1934
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8360,16 +8569,16 @@ s(t2m_IQR)
 s(s6_sup_200)
 </td>
 <td align="right">
-3.9567
+2.3080
 </td>
 <td align="right">
-3.9952
+2.7069
 </td>
 <td align="right">
-10.3714
+8.6078
 </td>
 <td align="right">
-&lt; 0.0001
+0.0001
 </td>
 </tr>
 <tr>
@@ -8377,30 +8586,13 @@ s(s6_sup_200)
 s(hot_area)
 </td>
 <td align="right">
-3.9957
+4.0000
 </td>
 <td align="right">
-3.9993
+4.0000
 </td>
 <td align="right">
-9.6980
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(s8_sup_200)
-</td>
-<td align="right">
-3.6236
-</td>
-<td align="right">
-3.8987
-</td>
-<td align="right">
-15.2362
+29.2210
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8417,10 +8609,10 @@ s(wspeed_max_median)
 1.0000
 </td>
 <td align="right">
-7.1151
+7.2046
 </td>
 <td align="right">
-0.0081
+0.0078
 </td>
 </tr>
 <tr>
@@ -8428,13 +8620,13 @@ s(wspeed_max_median)
 s(bh_200)
 </td>
 <td align="right">
-3.9908
+2.9427
 </td>
 <td align="right">
-3.9993
+3.3510
 </td>
 <td align="right">
-12.5087
+19.1950
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8442,16 +8634,33 @@ s(bh_200)
 </tr>
 <tr>
 <td>
-s(pop_200)
+s(m_dis_ferr)
 </td>
 <td align="right">
-3.1710
+3.4172
 </td>
 <td align="right">
-3.6112
+3.7414
 </td>
 <td align="right">
-9.8079
+10.1260
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(imp_200)
+</td>
+<td align="right">
+2.9642
+</td>
+<td align="right">
+3.2444
+</td>
+<td align="right">
+20.5137
 </td>
 <td align="right">
 &lt; 0.0001
@@ -8468,7 +8677,7 @@ s(nirradiance_min)
 1.0000
 </td>
 <td align="right">
-8.1022
+8.0777
 </td>
 <td align="right">
 0.0048
@@ -8476,7 +8685,7 @@ s(nirradiance_min)
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.787</p>
+<p>R²: 0.786</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-52.png" width="672" /></p>
 </div>
 <div id="sb_s" class="section level2">
@@ -8484,7 +8693,7 @@ s(nirradiance_min)
 value ~ s(nirradiance_IQR, k = 5) + s(rh_IQR, k = 5) + s(hot_area, k =
 5) + s(cold_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:16 2023 -->
+<!-- Thu Dec 14 09:47:47 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8618,7 +8827,7 @@ value ~ s(pbl12_mean, k = 5) + s(hot_area, k = 5) + s(s8_sup_200, k = 5)
 + s(s6_sup_200, k = 5) + s(imp_200, k = 5) + s(sp_min, k = 5) +
 s(rh_median, k = 5) + s(cold_area, k = 5) + s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:16 2023 -->
+<!-- Thu Dec 14 09:47:48 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8836,7 +9045,7 @@ s(ml_200)
 value ~ s(s6_sup_200, k = 5) + s(rh_IQR, k = 5) + s(pblmax_min, k = 5) +
 s(pblmin_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:17 2023 -->
+<!-- Thu Dec 14 09:47:48 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -8969,7 +9178,7 @@ s(pblmin_IQR)
 value ~ s(tp_IQR, k = 5) + s(wdir_min, k = 5) + s(s8_sup_200, k = 5) +
 s(v10m_median, k = 5) + s(sp_median, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:17 2023 -->
+<!-- Thu Dec 14 09:47:49 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9119,7 +9328,7 @@ s(sp_median)
 value ~ s(pblmin_mean, k = 5) + s(wspeed_max_min, k = 5) + s(imp_200, k
 = 5) + s(v10m_min, k = 5) + s(wspeed_max_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:18 2023 -->
+<!-- Thu Dec 14 09:47:49 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9267,9 +9476,9 @@ s(wspeed_max_IQR)
 <div id="ti_i" class="section level2">
 <h2>Ti_i</h2>
 value ~ s(sp_max, k = 5) + s(scrapyard, k = 5) + s(s6_sup_200, k = 5) +
-s(t2m_max, k = 5) + s(cold_area, k = 5) + s(bh_200, k = 5)
+s(m_dis_ferr, k = 5) + s(t2m_max, k = 5) + s(cold_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:18 2023 -->
+<!-- Thu Dec 14 09:47:50 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9295,13 +9504,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-1.6250
+1.6213
 </td>
 <td align="right">
-0.0251
+0.0260
 </td>
 <td align="right">
-64.8693
+62.3744
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9329,13 +9538,13 @@ p-value
 s(sp_max)
 </td>
 <td align="right">
-3.9998
+3.9987
 </td>
 <td align="right">
-3.9999
+3.9996
 </td>
 <td align="right">
-17.0766
+16.0215
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9346,13 +9555,13 @@ s(sp_max)
 s(scrapyard)
 </td>
 <td align="right">
-3.9995
+3.9997
 </td>
 <td align="right">
-4.0000
+3.9998
 </td>
 <td align="right">
-18.4018
+26.0060
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9363,16 +9572,33 @@ s(scrapyard)
 s(s6_sup_200)
 </td>
 <td align="right">
-1.0000
+3.7209
 </td>
 <td align="right">
-1.0000
+3.9096
 </td>
 <td align="right">
-36.7198
+18.3804
 </td>
 <td align="right">
 &lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+12.3799
+</td>
+<td align="right">
+0.0005
 </td>
 </tr>
 <tr>
@@ -9380,16 +9606,16 @@ s(s6_sup_200)
 s(t2m_max)
 </td>
 <td align="right">
-2.0113
+2.0144
 </td>
 <td align="right">
-2.4010
+2.4039
 </td>
 <td align="right">
-8.7665
+7.9537
 </td>
 <td align="right">
-0.0001
+0.0002
 </td>
 </tr>
 <tr>
@@ -9397,38 +9623,21 @@ s(t2m_max)
 s(cold_area)
 </td>
 <td align="right">
-3.8440
+2.3349
 </td>
 <td align="right">
-3.9836
+2.7284
 </td>
 <td align="right">
-10.9318
+5.4127
 </td>
 <td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(bh_200)
-</td>
-<td align="right">
-3.8593
-</td>
-<td align="right">
-3.9885
-</td>
-<td align="right">
-11.3984
-</td>
-<td align="right">
-&lt; 0.0001
+0.0024
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.625</p>
+<p>R²: 0.6</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-58.png" width="672" /></p>
 </div>
 <div id="ti_s" class="section level2">
@@ -9437,7 +9646,7 @@ value ~ s(scrapyard, k = 5) + s(pblmin_mean, k = 5) + s(ml_200, k = 5) +
 s(tp_IQR, k = 5) + s(s8_sup_200, k = 5) + s(cold_area, k = 5) +
 s(ptp_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:19 2023 -->
+<!-- Thu Dec 14 09:47:50 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9618,11 +9827,10 @@ s(ptp_IQR)
 </div>
 <div id="tl_i" class="section level2">
 <h2>Tl_i</h2>
-value ~ s(nirradiance_min, k = 5) + s(hot_area, k = 5) + s(imp_200, k =
-5) + s(wdir_IQR, k = 5) + s(wspeed_max_IQR, k = 5) + s(bh_200, k = 5) +
-s(s6_sup_200, k = 5) + s(pop_200, k = 5)
+value ~ s(nirradiance_min, k = 5) + s(m_dis_ferr, k = 5) + s(tmax2m_max,
+k = 5) + s(s6_sup_200, k = 5) + s(cold_area, k = 5) + s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:19 2023 -->
+<!-- Thu Dec 14 09:47:51 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -9648,13 +9856,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--3.7824
+-4.2356
 </td>
 <td align="right">
-0.0719
+0.1754
 </td>
 <td align="right">
--52.6139
+-24.1507
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9682,30 +9890,13 @@ p-value
 s(nirradiance_min)
 </td>
 <td align="right">
-2.6418
+2.3680
 </td>
 <td align="right">
-2.9161
+2.8111
 </td>
 <td align="right">
-60.6010
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(hot_area)
-</td>
-<td align="right">
-2.2468
-</td>
-<td align="right">
-2.6371
-</td>
-<td align="right">
-30.7093
+40.7542
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9713,33 +9904,16 @@ s(hot_area)
 </tr>
 <tr>
 <td>
-s(imp_200)
+s(m_dis_ferr)
 </td>
 <td align="right">
-1.7644
+1.0000
 </td>
 <td align="right">
-2.1071
+1.0000
 </td>
 <td align="right">
-3.3573
-</td>
-<td align="right">
-0.0379
-</td>
-</tr>
-<tr>
-<td>
-s(wdir_IQR)
-</td>
-<td align="right">
-2.6472
-</td>
-<td align="right">
-3.0382
-</td>
-<td align="right">
-11.0195
+32.3574
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9747,33 +9921,16 @@ s(wdir_IQR)
 </tr>
 <tr>
 <td>
-s(wspeed_max_IQR)
+s(tmax2m_max)
 </td>
 <td align="right">
-1.3831
+4.0000
 </td>
 <td align="right">
-1.5946
+4.0000
 </td>
 <td align="right">
-8.3517
-</td>
-<td align="right">
-0.0006
-</td>
-</tr>
-<tr>
-<td>
-s(bh_200)
-</td>
-<td align="right">
-3.5355
-</td>
-<td align="right">
-3.8606
-</td>
-<td align="right">
-10.3584
+12.5657
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9784,13 +9941,13 @@ s(bh_200)
 s(s6_sup_200)
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-27.5994
+78.7657
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9798,16 +9955,33 @@ s(s6_sup_200)
 </tr>
 <tr>
 <td>
-s(pop_200)
+s(cold_area)
 </td>
 <td align="right">
-2.4288
+2.2097
 </td>
 <td align="right">
-2.8703
+2.6824
 </td>
 <td align="right">
-10.9494
+14.9138
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(ml_200)
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+1.0000
+</td>
+<td align="right">
+34.3247
 </td>
 <td align="right">
 &lt; 0.0001
@@ -9815,7 +9989,7 @@ s(pop_200)
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.802</p>
+<p>R²: 0.792</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-60.png" width="672" /></p>
 </div>
 <div id="tl_s" class="section level2">
@@ -9824,7 +9998,7 @@ value ~ s(t2m_IQR, k = 5) + s(hot_area, k = 5) + s(imp_200, k = 5) +
 s(nirradiance_max, k = 5) + s(s6_sup_200, k = 5) + s(pbl12_IQR, k = 5) +
 s(ml_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:20 2023 -->
+<!-- Thu Dec 14 09:47:51 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10006,10 +10180,9 @@ s(ml_200)
 <div id="tot_cr" class="section level2">
 <h2>TOT_CR</h2>
 value ~ s(cold_area, k = 5) + s(nirradiance_IQR, k = 5) + s(scrapyard, k
-= 5) + s(ml_200, k = 5) + s(bh_200, k = 5) + s(tp_IQR, k = 5) +
-s(v10m_IQR, k = 5)
+= 5) + s(m_dis_ferr, k = 5) + s(tp_max, k = 5) + s(pblmin_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:21 2023 -->
+<!-- Thu Dec 14 09:47:52 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10035,13 +10208,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--14.7171
+-14.7256
 </td>
 <td align="right">
-0.0225
+0.0227
 </td>
 <td align="right">
--654.3491
+-647.5571
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10069,13 +10242,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-3.8218
+3.9786
 </td>
 <td align="right">
-3.9768
+3.9996
 </td>
 <td align="right">
-11.9430
+98.0717
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10086,13 +10259,13 @@ s(cold_area)
 s(nirradiance_IQR)
 </td>
 <td align="right">
-1.0000
+2.2427
 </td>
 <td align="right">
-1.0000
+2.6250
 </td>
 <td align="right">
-49.5092
+55.5424
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10103,30 +10276,13 @@ s(nirradiance_IQR)
 s(scrapyard)
 </td>
 <td align="right">
-3.9992
+1.0002
 </td>
 <td align="right">
-3.9999
+1.0004
 </td>
 <td align="right">
-10.2549
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(ml_200)
-</td>
-<td align="right">
-1.7393
-</td>
-<td align="right">
-2.1687
-</td>
-<td align="right">
-13.2689
+190.3039
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10134,33 +10290,16 @@ s(ml_200)
 </tr>
 <tr>
 <td>
-s(bh_200)
+s(m_dis_ferr)
 </td>
 <td align="right">
-3.9713
+3.9046
 </td>
 <td align="right">
-3.9972
+3.9942
 </td>
 <td align="right">
-13.2066
-</td>
-<td align="right">
-&lt; 0.0001
-</td>
-</tr>
-<tr>
-<td>
-s(tp_IQR)
-</td>
-<td align="right">
-1.6961
-</td>
-<td align="right">
-1.9988
-</td>
-<td align="right">
-46.7292
+21.7016
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10168,7 +10307,24 @@ s(tp_IQR)
 </tr>
 <tr>
 <td>
-s(v10m_IQR)
+s(tp_max)
+</td>
+<td align="right">
+2.4139
+</td>
+<td align="right">
+2.8181
+</td>
+<td align="right">
+14.8448
+</td>
+<td align="right">
+&lt; 0.0001
+</td>
+</tr>
+<tr>
+<td>
+s(pblmin_IQR)
 </td>
 <td align="right">
 1.0000
@@ -10177,10 +10333,10 @@ s(v10m_IQR)
 1.0000
 </td>
 <td align="right">
-17.5842
+7.2750
 </td>
 <td align="right">
-&lt; 0.0001
+0.0074
 </td>
 </tr>
 <a name=tab.gam></a>
@@ -10191,9 +10347,10 @@ s(v10m_IQR)
 <div id="tot_ncr" class="section level2">
 <h2>TOT_NCR</h2>
 value ~ s(cold_area, k = 5) + s(wspeed_max_min, k = 5) + s(ml_200, k =
-5) + s(imp_200, k = 5) + s(wspeed_max_max, k = 5) + s(sp_IQR, k = 5)
+5) + s(imp_200, k = 5) + s(wspeed_max_max, k = 5) + s(sp_IQR, k = 5) +
+s(m_dis_ferr, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:21 2023 -->
+<!-- Thu Dec 14 09:47:52 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10219,13 +10376,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--0.4379
+-0.4416
 </td>
 <td align="right">
 0.0208
 </td>
 <td align="right">
--21.0143
+-21.2166
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10253,13 +10410,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-1.8578
+1.6335
 </td>
 <td align="right">
-2.2911
+1.9943
 </td>
 <td align="right">
-175.7856
+187.5149
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10276,7 +10433,7 @@ s(wspeed_max_min)
 1.0001
 </td>
 <td align="right">
-121.6541
+123.8015
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10287,13 +10444,13 @@ s(wspeed_max_min)
 s(ml_200)
 </td>
 <td align="right">
-2.6278
+2.2476
 </td>
 <td align="right">
-3.0749
+2.6694
 </td>
 <td align="right">
-78.9992
+86.9256
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10304,13 +10461,13 @@ s(ml_200)
 s(imp_200)
 </td>
 <td align="right">
-2.7031
+3.0772
 </td>
 <td align="right">
-3.1002
+3.4540
 </td>
 <td align="right">
-38.2965
+38.8002
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10324,10 +10481,10 @@ s(wspeed_max_max)
 1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-25.7538
+25.7193
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10341,18 +10498,35 @@ s(sp_IQR)
 1.0000
 </td>
 <td align="right">
-1.0001
+1.0000
 </td>
 <td align="right">
-5.8425
+5.9168
 </td>
 <td align="right">
-0.0163
+0.0157
+</td>
+</tr>
+<tr>
+<td>
+s(m_dis_ferr)
+</td>
+<td align="right">
+1.0002
+</td>
+<td align="right">
+1.0004
+</td>
+<td align="right">
+4.7572
+</td>
+<td align="right">
+0.0300
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.803</p>
+<p>R²: 0.806</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-63.png" width="672" /></p>
 </div>
 <div id="u_i" class="section level2">
@@ -10360,7 +10534,7 @@ s(sp_IQR)
 value ~ s(rh_max, k = 5) + s(tp_IQR, k = 5) + s(imp_200, k = 5) +
 s(pbl00_max, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:22 2023 -->
+<!-- Thu Dec 14 09:47:53 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10492,7 +10666,7 @@ s(pbl00_max)
 <h2>U_s</h2>
 value ~ s(tmin2m_max, k = 5) + s(v10m_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:22 2023 -->
+<!-- Thu Dec 14 09:47:53 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10591,7 +10765,7 @@ s(v10m_IQR)
 value ~ s(rh_min, k = 5) + s(cold_area, k = 5) + s(wdir_mean, k = 5) +
 s(wspeed_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:23 2023 -->
+<!-- Thu Dec 14 09:47:54 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10722,9 +10896,9 @@ s(wspeed_IQR)
 <div id="v_s" class="section level2">
 <h2>V_s</h2>
 value ~ s(rh_max, k = 5) + s(wdir_IQR, k = 5) + s(pop_200, k = 5) +
-s(s6_sup_200, k = 5) + s(cold_area, k = 5) + s(scrapyard, k = 5)
+s(s6_sup_200, k = 5) + s(cold_area, k = 5) + s(imp_200, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:23 2023 -->
+<!-- Thu Dec 14 09:47:54 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -10750,13 +10924,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--0.7132
+-0.7139
 </td>
 <td align="right">
-0.0332
+0.0330
 </td>
 <td align="right">
--21.4566
+-21.6381
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10784,13 +10958,13 @@ p-value
 s(rh_max)
 </td>
 <td align="right">
-2.2501
+2.2554
 </td>
 <td align="right">
-2.6815
+2.6867
 </td>
 <td align="right">
-213.6864
+216.6125
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10807,7 +10981,7 @@ s(wdir_IQR)
 4.0000
 </td>
 <td align="right">
-18.5144
+18.6667
 </td>
 <td align="right">
 &lt; 0.0001
@@ -10818,16 +10992,16 @@ s(wdir_IQR)
 s(pop_200)
 </td>
 <td align="right">
-1.2951
+2.7789
 </td>
 <td align="right">
-1.5131
+3.2778
 </td>
 <td align="right">
-3.5989
+3.7636
 </td>
 <td align="right">
-0.0263
+0.0093
 </td>
 </tr>
 <tr>
@@ -10835,16 +11009,16 @@ s(pop_200)
 s(s6_sup_200)
 </td>
 <td align="right">
-3.5775
+3.7821
 </td>
 <td align="right">
-3.8554
+3.9582
 </td>
 <td align="right">
-3.9070
+12.1282
 </td>
 <td align="right">
-0.0026
+&lt; 0.0001
 </td>
 </tr>
 <tr>
@@ -10852,38 +11026,38 @@ s(s6_sup_200)
 s(cold_area)
 </td>
 <td align="right">
-2.8529
+2.5542
 </td>
 <td align="right">
-3.1634
+3.0763
 </td>
 <td align="right">
-9.9078
+8.5455
 </td>
 <td align="right">
-0.0001
+&lt; 0.0001
 </td>
 </tr>
 <tr>
 <td>
-s(scrapyard)
+s(imp_200)
 </td>
 <td align="right">
-3.3846
+3.9999
 </td>
 <td align="right">
-3.5719
+4.0000
 </td>
 <td align="right">
-7.5844
+7.2553
 </td>
 <td align="right">
-0.0002
+&lt; 0.0001
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.805</p>
+<p>R²: 0.807</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-67.png" width="672" /></p>
 </div>
 <div id="w_i" class="section level2">
@@ -10891,7 +11065,7 @@ s(scrapyard)
 value ~ s(cold_area, k = 5) + s(sp_max, k = 5) + s(ml_200, k = 5) +
 s(imp_200, k = 5) + s(pbl12_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:24 2023 -->
+<!-- Thu Dec 14 09:47:55 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11039,9 +11213,10 @@ s(pbl12_min)
 <div id="w_s" class="section level2">
 <h2>W_s</h2>
 value ~ s(cold_area, k = 5) + s(rh_max, k = 5) + s(ml_200, k = 5) +
-s(imp_200, k = 5) + s(tmax2m_IQR, k = 5) + s(tp_IQR, k = 5)
+s(imp_200, k = 5) + s(tmax2m_IQR, k = 5) + s(m_dis_ferr, k = 5) +
+s(tp_IQR, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:24 2023 -->
+<!-- Thu Dec 14 09:47:55 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11067,13 +11242,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
--2.7172
+-2.7058
 </td>
 <td align="right">
-0.0347
+0.0338
 </td>
 <td align="right">
--78.2895
+-80.1165
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11101,13 +11276,13 @@ p-value
 s(cold_area)
 </td>
 <td align="right">
-2.4966
+3.6315
 </td>
 <td align="right">
-3.0192
+3.9098
 </td>
 <td align="right">
-151.4668
+99.6670
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11118,13 +11293,13 @@ s(cold_area)
 s(rh_max)
 </td>
 <td align="right">
-2.1121
+2.1186
 </td>
 <td align="right">
-2.2950
+2.3034
 </td>
 <td align="right">
-20.3891
+21.3062
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11135,13 +11310,13 @@ s(rh_max)
 s(ml_200)
 </td>
 <td align="right">
-1.9281
+2.0800
 </td>
 <td align="right">
-2.2970
+2.4518
 </td>
 <td align="right">
-74.2381
+47.8222
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11152,13 +11327,13 @@ s(ml_200)
 s(imp_200)
 </td>
 <td align="right">
-2.5273
+2.8087
 </td>
 <td align="right">
-2.9014
+3.2178
 </td>
 <td align="right">
-21.2712
+17.9819
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11169,13 +11344,13 @@ s(imp_200)
 s(tmax2m_IQR)
 </td>
 <td align="right">
-3.9376
+3.9402
 </td>
 <td align="right">
-3.9848
+3.9852
 </td>
 <td align="right">
-17.8262
+18.8469
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11183,16 +11358,33 @@ s(tmax2m_IQR)
 </tr>
 <tr>
 <td>
-s(tp_IQR)
+s(m_dis_ferr)
 </td>
 <td align="right">
 1.0000
 </td>
 <td align="right">
+1.0000
+</td>
+<td align="right">
+12.4248
+</td>
+<td align="right">
+0.0005
+</td>
+</tr>
+<tr>
+<td>
+s(tp_IQR)
+</td>
+<td align="right">
 1.0001
 </td>
 <td align="right">
-18.1325
+1.0001
+</td>
+<td align="right">
+19.0961
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11200,7 +11392,7 @@ s(tp_IQR)
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.881</p>
+<p>R²: 0.888</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-69.png" width="672" /></p>
 </div>
 <div id="zn_i" class="section level2">
@@ -11209,7 +11401,7 @@ value ~ s(u10m_max, k = 5) + s(wdir_min, k = 5) + s(imp_200, k = 5) +
 s(scrapyard, k = 5) + s(cold_area, k = 5) + s(tmin2m_IQR, k = 5) +
 s(v10m_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:25 2023 -->
+<!-- Thu Dec 14 09:47:56 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11391,9 +11583,9 @@ s(v10m_min)
 <div id="zn_s" class="section level2">
 <h2>Zn_s</h2>
 value ~ s(pbl12_mean, k = 5) + s(scrapyard, k = 5) + s(v10m_min, k = 5)
-+ s(hot_area, k = 5) + s(pbl12_min, k = 5) + s(ml_200, k = 5)
++ s(m_dis_ferr, k = 5) + s(pbl12_min, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:25 2023 -->
+<!-- Thu Dec 14 09:47:56 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11419,13 +11611,13 @@ p-value
 (Intercept)
 </td>
 <td align="right">
-3.1694
+3.1723
 </td>
 <td align="right">
-0.0360
+0.0346
 </td>
 <td align="right">
-88.0943
+91.7175
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11456,10 +11648,10 @@ s(pbl12_mean)
 1.0000
 </td>
 <td align="right">
-1.0000
+1.0001
 </td>
 <td align="right">
-139.9571
+151.5811
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11470,13 +11662,13 @@ s(pbl12_mean)
 s(scrapyard)
 </td>
 <td align="right">
-1.3360
+3.4917
 </td>
 <td align="right">
-1.5892
+3.8439
 </td>
 <td align="right">
-27.7272
+33.2968
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11487,13 +11679,13 @@ s(scrapyard)
 s(v10m_min)
 </td>
 <td align="right">
-3.9378
+3.9287
 </td>
 <td align="right">
-3.9968
+3.9959
 </td>
 <td align="right">
-26.8108
+28.7661
 </td>
 <td align="right">
 &lt; 0.0001
@@ -11501,19 +11693,19 @@ s(v10m_min)
 </tr>
 <tr>
 <td>
-s(hot_area)
+s(m_dis_ferr)
 </td>
 <td align="right">
-1.0001
+3.5241
 </td>
 <td align="right">
-1.0001
+3.8638
 </td>
 <td align="right">
-45.4813
+6.3824
 </td>
 <td align="right">
-&lt; 0.0001
+0.0003
 </td>
 </tr>
 <tr>
@@ -11521,38 +11713,21 @@ s(hot_area)
 s(pbl12_min)
 </td>
 <td align="right">
-1.0000
-</td>
-<td align="right">
 1.0001
 </td>
 <td align="right">
-8.0704
+1.0002
 </td>
 <td align="right">
-0.0048
-</td>
-</tr>
-<tr>
-<td>
-s(ml_200)
+8.6841
 </td>
 <td align="right">
-1.0000
-</td>
-<td align="right">
-1.0000
-</td>
-<td align="right">
-8.2530
-</td>
-<td align="right">
-0.0044
+0.0035
 </td>
 </tr>
 <a name=tab.gam></a>
 </table>
-<p>R²: 0.712</p>
+<p>R²: 0.73</p>
 <p><img src="traccianti_all_clean_files/figure-html/unnamed-chunk-1-71.png" width="672" /></p>
 </div>
 <div id="zr_i" class="section level2">
@@ -11560,7 +11735,7 @@ s(ml_200)
 value ~ s(sp_max, k = 5) + s(s6_sup_200, k = 5) + s(s8_sup_200, k = 5) +
 s(sp_mean, k = 5) + s(cold_area, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:26 2023 -->
+<!-- Thu Dec 14 09:47:57 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>
@@ -11710,7 +11885,7 @@ s(cold_area)
 value ~ s(cold_area, k = 5) + s(u10m_IQR, k = 5) + s(v10m_max, k = 5) +
 s(pwspeed_mean, k = 5)
 <!-- html table generated in R 4.3.2 by xtable 1.8-4 package -->
-<!-- Thu Dec 14 05:47:26 2023 -->
+<!-- Thu Dec 14 09:47:57 2023 -->
 <table border="1">
 <caption align="bottom">
 </caption>

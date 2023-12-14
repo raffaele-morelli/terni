@@ -84,7 +84,7 @@ map(names(models), \(m) {
 
 names(models_clean) <- tools::file_path_sans_ext(basename(pltnts))
 
-saveRDS(models_clean, file = glue("~/R/terni/rds_{dir}/modelli_{dir}_clean.RDS"))
+saveRDS(models_clean, file = glue("~/R/terni/rds_out/modelli_{dir}_clean.RDS"))
 
 
 log_close()

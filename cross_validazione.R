@@ -115,5 +115,5 @@ for (pltnt in names(modelli)) {
 my_mat <- do.call(rbind, my_list)
 my_df <- data.frame(my_mat)
 
-saveRDS(my_list, file = glue("~/R/terni/cross_validation_{dir}.RDS"))
+saveRDS(my_list, file = glue("~/R/terni/rds_out/cross_validation_{dir}.RDS"))
 
