@@ -6,7 +6,6 @@ library(summarytools)
 library(knitr)
 library(kableExtra)
 
-limiti <- read_excel("/home/rmorelli/R/terni/data/limiti.xlsx")
 df <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
 models <- readRDS("/home/rmorelli/R/terni/rds_out/modelli_all_clean.RDS")
 crssvld <- readRDS("/home/rmorelli/R/terni/rds_out/cross_validation_all.RDS")

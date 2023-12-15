@@ -7,6 +7,7 @@ buildMods <- function(backward = FALSE) {
   v_variabili <- get("v_variabili", envir = .GlobalEnv)
   v_dead <- get("v_dead", envir = .GlobalEnv)
   kappas <- get("kappas", envir = .GlobalEnv)
+  family <- get("family", envir = .GlobalEnv)
   
   
   # costruisce le "spline testuali"
@@ -59,8 +60,10 @@ buildMods <- function(backward = FALSE) {
   # log_print(z)
   
   # w conterrà le stringhe dei modelli
-  w <- lapply(z[,  ncol(z)], function(x) 
-    paste0("gam(value ~  ", x, ", gamma=1.4, family=gaussian(link=log), data = df)"))
+  w <- lapply(z[,  ncol(z)], function(x) {
+    # paste0("gam(value ~  ", x, ", gamma=1.4, family={family}, data = df)")
+    glue("gam(value ~  {x}, gamma=1.4, family={family}, data = df)")
+  })
   
   # log_print(w %>% unlist())
   return(w)
