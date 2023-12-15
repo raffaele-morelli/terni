@@ -52,8 +52,8 @@ assign("pltnt", pltnt, envir = .GlobalEnv)
 assign("kappas", readRDS("kappas.RDS"))
 assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 
-# assign("family", 'Gamma(link=inverse)')
-assign("family", 'poisson(link=log)')
+assign("family", 'Gamma(link=inverse)')
+# assign("family", 'poisson(link=log)')
 # assign("family", 'gaussian(link=log)')
 
 fn <- file.path(glue("log/{outdir}/terni_{pltnt}.log"))
