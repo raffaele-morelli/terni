@@ -28,8 +28,8 @@ cat(args, sep = "\n")
   
   cat("############# ", pltnt, "\n")
   
-  df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
-  # df <- read_csv(glue::glue("data/dataframes/df_finale.csv"), show_col_types = FALSE)
+  # df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale.csv"), show_col_types = FALSE)
   
   index <- grep(pltnt, names(df))
   
@@ -48,9 +48,9 @@ assign("pltnt", pltnt, envir = .GlobalEnv)
 assign("kappas", readRDS("~/R/terni/rds_out/kappas.RDS"))
 assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 
-# assign("family", 'Gamma(link=identity)')
+assign("family", 'Gamma(link=identity)')
 # assign("family", 'poisson(link=log)')
-assign("family", 'gaussian(link=log)')
+# assign("family", 'gaussian(link=log)')
 
 fn <- file.path(glue("log/{outdir}/{dir}_{pltnt}.log"))
 lf <- log_open(fn)
