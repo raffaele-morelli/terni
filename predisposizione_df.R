@@ -180,6 +180,8 @@ inner_join(df_acc, df_ferrovia_min_dist, by = "site") -> df_finale
 
 outdir <- "~/R/terni/data/dataframes"
 
+write_csv(df_finale, file = glue::glue("{outdir}/df_finale_raw.csv") )
+
 # standardizzazione ####
 df_std <- df_finale[,92:247] %>% scale() %>% as.data.frame()
 

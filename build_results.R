@@ -11,9 +11,9 @@
   library(mgcv)
   library(logr)
 
-  dir <- "all"
+  dir <- "gaussian"
 
-  kappas <- readRDS("~/R/terni/kappas.RDS")
+  kappas <- readRDS("~/R/terni/rds_out/kappas.RDS")
 } 
 
 getSign <- function(mod) {
