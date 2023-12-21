@@ -188,3 +188,4 @@ getBufferRastKNDVI <- function(dist, rst, mese, id) {
 # i <- "X2016.11.02"
 # rst <- terra::rast(glue::glue("~/R/terni/data/kndvi/{i}.tiff"))
 # getBufferRastKNDVI(200, rst, "X2016.11.02", 1925)
+df <- readr::read_csv("data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
