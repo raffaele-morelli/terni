@@ -58,6 +58,9 @@
   imper_rst <- as.data.frame(imperm, xy = TRUE)
   
   bh <- rast("~/R/terni/data/bh/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
+
+  pol_st <- raster::stack("~/R/terni/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
+  raster::brick(pol_st) -> kndvi_rasterone
   
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
@@ -185,172 +188,17 @@ getAcciaMinDist <- function(dist, id) {
   )
 }
 
-# # Ndvi ####
-# 
-# # nc_data <- nc_open("~/R/terni_asi/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
-# pol_st <- stack("~/R/terni/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
-# brick(pol_st) -> ndvi_rasterone
-# # plot(pol_st)
-# 
-# getBufferRastNDVI <- function(dist, rst, var) {
-#   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
-#   print( paste(dist, name, sep = "--"))
-#   
-#   v1 <- buffer(v_utm33, dist, quadsegs = 17)
-#   
-#   extract(rst, v1, xy = TRUE) %>%
-#     group_by(ID) %>%
-#     mutate(ifelse(get(var) < 0, 0, get(var) )) %>% 
-#     summarise(m = mean(get(var), na.rm = TRUE), .groups = 'drop') %>%
-#     cbind(v1$Site) %>%
-#     setNames(c("ID", "media", "site")) %>% 
-#     write_csv(file = glue("~/R/terni/data/ndvi/out/rast_{var}_{name}.csv"))
-# }
-# 
-# for (i in names(pol_st)) {
-#   print(i)
-#   outfile <- glue("~/R/terni/data/ndvi/{i}.tiff")
-#   # writeRaster(ndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
-#   
-#   rst <- rast(outfile)
-#   walk(dists, ~ getBufferRastNDVI(.x, rst, i))
-# }
-# 
-# # unisco i dataframe
-# mesi <- names(ndvi_rasterone)
-# 
-# for(d in dists) {
-#   name <- str_pad(d, 3, pad = "0")
-#   print(name)
-#   flsNDVI <- list.files(path = "~/R/terni/data/ndvi/out", pattern = glue("^rast.*_{name}\\.csv$"), full.names = TRUE )
-#   
-#   dfs <-  lapply(flsNDVI, function(x) { 
-#     read_csv(x, col_types = cols(ID = col_skip(), site = col_skip()))
-#   })
-#   
-#   do.call(cbind, dfs) %>%
-#     setNames(mesi) %>% 
-#     cbind(pt_misura$Site) %>% 
-#     write_csv(file = glue("{outdir}/df_ndvi_{name}.csv"))
-# }
-# 
-# 
-# # Kndvi ####
-# 
-# # nc_data <- nc_open("~/R/terni_asi/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
-# pol_st <- stack("~/R/terni/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
-# brick(pol_st) -> kndvi_rasterone
-# 
-# # plot(pol_st)
-# 
-# getBufferRastKNDVI <- function(dist, rst, var) {
-#   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
-#   print( paste(dist, name, sep = "--"))
-#   
-#   v1 <- buffer(v_utm33, dist, quadsegs = 17)
-#   
-#   extract(rst, v1, xy = TRUE) %>%
-#     group_by(ID) %>%
-#     mutate(ifelse(get(var) < 0, 0, get(var) )) %>% 
-#     summarise(m = mean(get(var), na.rm = TRUE), .groups = 'drop') %>%
-#     cbind(v1$Site) %>%
-#     setNames(c("ID", "media", "site")) %>% 
-#     write_csv(file = glue("~/R/terni/data/kndvi/out/rast_{var}_{name}.csv"))
-# }
-# 
-# for (i in names(pol_st)) {
-#   print(i)
-#   outfile <- glue("~/R/terni/data/kndvi/{i}.tiff")
-#   writeRaster(kndvi_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
-#   
-#   rst <- rast(outfile)
-#   
-#   walk(dists, ~ getBufferRastKNDVI(.x, rst, i))
-# }
-# 
-# # unisco i dataframe
-# mesi <- names(kndvi_rasterone)
-# 
-# for(d in dists) {
-#   name <- str_pad(d, 3, pad = "0")
-#   print(name)
-#   flsKNDVI <- list.files(path = "~/R/terni/data/kndvi/out", pattern = glue("^rast.*_{name}\\.csv$"), full.names = TRUE )
-#   
-#   dfs <-  lapply(flsKNDVI, function(x) { 
-#     read_csv(x, col_types = cols(ID = col_skip(), site = col_skip()))
-#   })
-#   
-#   do.call(cbind, dfs) %>%
-#     setNames(mesi) %>%
-#     cbind(pt_misura$Site) %>%
-#     write_csv(file = glue("{outdir}/df_kndvi_{name}.csv"))
-# }
-# 
-# 
-# 
-# # LAI ####
-# 
-# # nc_data <- nc_open("~/R/terni_asi/data/lai/T33TUH_201611_201801_S2_L3B_20m_LAI_monthly_Terni.nc")
-# pol_st <- stack("~/R/terni/data/lai/T33TUH_201611_201801_S2_L3B_20m_LAI_monthly_Terni.nc")
-# brick(pol_st) -> lai_rasterone
-# 
-# getBufferRastLAI <- function(dist, rst, var) {
-#   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
-#   print( paste(dist, name, sep = "--"))
-#   
-#   v1 <- buffer(v_utm33, dist, quadsegs = 17)
-#   
-#   extract(rst, v1, xy = TRUE) %>%
-#     group_by(ID) %>%
-#     mutate(ifelse(get(var) < 0, 0, get(var) )) %>% 
-#     summarise(m = mean(get(var), na.rm = TRUE), .groups = 'drop') %>%
-#     cbind(v1$Site) %>%
-#     setNames(c("ID", "media", "site")) %>% 
-#     write_csv(file = glue("~/R/terni/data/lai/out/rast_{var}_{name}.csv"))
-# }
-# 
-# for (i in names(pol_st)) {
-#   print(i)
-#   outfile <- glue("~/R/terni/data/lai/{i}.tiff")
-#   writeRaster(lai_rasterone[[i]], outfile, format = 'GTiff', overwrite = T)
-#   
-#   rst <- rast(outfile)
-#   walk(dists, ~ getBufferRastLAI(.x, rst, i))
-# }
-# 
-# # unisco i dataframe
-# mesi <- names(lai_rasterone)
-# 
-# for(d in dists) {
-#   name <- str_pad(d, 3, pad = "0")
-#   print(name)
-#   flsLAI <- list.files(path = "~/R/terni/data/lai/out", pattern = glue("^rast.*_{name}\\.csv$"), full.names = TRUE )
-#   
-#   dfs <-  lapply(flsLAI, function(x) { 
-#     read_csv(x, col_types = cols(ID = col_skip(), site = col_skip()))
-#   })
-#   
-#   do.call(cbind, dfs) %>%
-#     setNames(mesi) %>% 
-#     cbind(pt_misura$Site) %>% 
-#     write_csv(file = glue("{outdir}/df_lai_{name}.csv"))
-# }
-# 
-# 
-# # plots ####
-# library(ggrepel)
-# library(ggthemes)
-# cbind(pt_misura, st_coordinates(pt_misura)) -> pt_misura
-# 
-# g <- ggplot() + 
-#   geom_sf(data = terni_sez, fill = "transparent") + 
-#   geom_sf(data = dominio, color = "dodgerblue4", size = 0.4, alpha = 0.5) +
-#   geom_sf(data = pt_misura, color = "black", size = 3) 
-# g <- g + geom_label_repel(data = pt_misura, 
-#                           aes(x = X, y = Y, label = Site), 
-#                           min.segment.length = 0, max.overlaps = Inf)
-# g +   geom_sf(data = acciaieria, color = "red", size = 3)  +
-#   coord_sf(crs = 32632, xlim = c(793718.2, 803518.2), ylim = c(4712983, 4722783)) + theme_map()
-# 
-# ggsave("mappa.png")
-# 
+
+
+getBufferRastKNDVI <- function(dist, rst, mese, id) {
+  b <- buffer(vect(dominio[id, "id"]), dist, quadsegs = 17)
+  
+  extract(rst, b, xy = TRUE) %>%
+    group_by(ID) %>%
+    mutate(ifelse(get(mese) < 0, 0, get(mese) )) %>%
+    summarise(m = mean(get(mese), na.rm = TRUE), .groups = 'drop') %>%
+    setNames(c("ID", "media", "site")) %>% select(media) %>% as.numeric() 
+}
+# i <- "X2016.11.02"
+# rst <- terra::rast(glue::glue("~/R/terni/data/kndvi/{i}.tiff"))
+# getBufferRastKNDVI(200, rst, "X2016.11.02", 1925)
