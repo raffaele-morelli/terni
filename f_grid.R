@@ -27,8 +27,10 @@
   
   terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), 
                               by = join_by(SEZ2021 == SEZ2011))
-
-  strade_utm32 <- st_read("data/osm/strade_interesse.shp") # strade di interesse
+  
+  ferrovia <- st_read("~/R/terni/data/osm/ferrovie.shp")
+  
+  strade_utm32 <- st_read("~R/terni/data/osm/strade_interesse.shp") # strade di interesse
   strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
 
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")   # acciaieria
@@ -171,58 +173,18 @@ getStradeMinDist <- function(dist, id) {
 # st_distance(dominio[1925, "id"], strade_utm32_filtered) -> df
 # getStradeMinDist(200,1925)
 
-# walk(dists, ~ getBufferStradeMinDist(.x)) 
-# fls <- list.files(path = "~/R/terni/data/osm", pattern = glue("^df_strade_min"), 
-#                   full.names = TRUE, recursive = TRUE)
-# 
-# lapply(fls, function(x) {
-#   df <- read_csv(x, show_col_types = FALSE)
-# }) -> dfs_strade
-# 
-# do.call(cbind, dfs_strade) %>%
-#   cbind(sort(pt_misura$Site)) %>%
-#   setNames(c(dists, "site")) %>%
-#   dplyr::select(c('200', "site")) %>% 
-#   write_csv(file = glue("{outdir}/df_strade_min_dist.csv"))
-# 
-# # distanza minima punto ferrovia ####
-# 
-# ferrovia <- st_read("~/R/terni/data/osm/ferrovie.shp")
-# 
-# tmplist <- list()
-# for (s in pt_misura$Site) {
-#   st_distance(
-#     filter(pt_misura, Site == s), ferrovia
-#   ) -> df
-#   
-#   tmplist[[s]] <- apply(df, 1, FUN = min)
-# }
-# 
-# do.call(rbind, tmplist) %>%
-#   as.data.frame() %>%
-#   cbind(names(tmplist)) %>% 
-#   setNames(c("m_dis", "site")) %>% 
-#   write_csv(file = glue("{outdir}/df_ferrovia_min_dist.csv"))
-# 
-# # distanza acciaieria ####
-# tmplist <- list()
-# for (s in pt_misura$Site) {
-#   st_distance(
-#     filter(pt_misura, Site == s), acciaieria
-#   ) -> df
-#   
-#   tmplist[[s]] <- df
-# }
-# 
-# 
-# do.call(rbind, tmplist) %>%
-#   as.data.frame() %>%
-#   cbind(names(tmplist)) %>% 
-#   setNames(c("cold_area", "hot_area", "scrapyard", "site")) %>% 
-#   write_csv(file = glue("{outdir}/df_acc_dist.csv"))
-# 
-# 
-# 
+getFerroMinDist <- function(dist, id) {
+  return(
+    as.numeric(min(st_distance(dominio[id, "id"], ferrovia)) %>% round())
+  )
+}
+
+getAcciaMinDist <- function(dist, id) {
+  return(
+    as.numeric(min(st_distance(dominio[id, "id"], acciaieria)) %>% round())
+  )
+}
+
 # # Ndvi ####
 # 
 # # nc_data <- nc_open("~/R/terni_asi/data/ndvi/T33TUH_201611_201801_S2_L3B_10m_NDVI_monthly_Terni.nc")
