@@ -3,25 +3,12 @@
   library(sf)
   library(dplyr)
   library(ggplot2)
-  # library(plotly)
   library(terra)
-  # library(ncdf4) # package for netcdf manipulation
-  # library(raster) # package for raster manipulation
-  # library(rgdal) # package for geospatial analysis
-  # library(chron)
-  # library(readxl)
-  # library(glue)
-  # library(lubridate)
-  # library(readr)
-  # library(mapview)
   library(purrr)
   library(stringr)
-  # library(readr)
-  
-  outdir <- "~/R/terni/data/dataframes"
-} 
 
-{
+  outdir <- "~/R/terni/data/dataframes"
+
   terni_sez <- st_read("~/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
   terni_indicatori_sez <- readr::read_csv("~/R/terni/data/R10_indicatori_2021_sezioni_terni.csv", show_col_types = FALSE)
   
@@ -30,7 +17,7 @@
   
   ferrovia <- st_read("~/R/terni/data/osm/ferrovie.shp")
   
-  strade_utm32 <- st_read("~R/terni/data/osm/strade_interesse.shp") # strade di interesse
+  strade_utm32 <- st_read("~/R/terni/data/osm/strade_interesse.shp") # strade di interesse
   strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
 
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")   # acciaieria
@@ -59,8 +46,8 @@
   
   bh <- rast("~/R/terni/data/bh/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
 
-  pol_st <- raster::stack("~/R/terni/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
-  raster::brick(pol_st) -> kndvi_rasterone
+  # pol_st <- raster::stack("~/R/terni/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
+  # raster::brick(pol_st) -> kndvi_rasterone
   
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
@@ -187,7 +174,6 @@ getAcciaMinDist <- function(dist, id) {
     as.numeric(min(st_distance(dominio[id, "id"], acciaieria)) %>% round())
   )
 }
-
 
 
 getBufferRastKNDVI <- function(dist, rst, mese, id) {
