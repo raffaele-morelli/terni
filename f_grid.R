@@ -27,10 +27,10 @@
   
   terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), 
                               by = join_by(SEZ2021 == SEZ2011))
-  # terni_sez_pop %>%
-  #   st_drop_geometry() %>%
-  #   select(c(PRO_COM, SEZ, P1, SHAPE_Area)) -> terni_sez_pop
-  
+
+  strade_utm32 <- st_read("data/osm/strade_interesse.shp") # strade di interesse
+  strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
+
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")   # acciaieria
   dominio <- st_read("~/R/terni/data/dominio/dominio4_label.shp") %>% select(-Id) # dominio
   dominio <- tibble::rowid_to_column(dominio, var = "id")
@@ -88,7 +88,7 @@ getBufferUA <- function(dist, code, id) {
   st_intersection(var, pt_buffer) %>%
     mutate(area = st_area(geom)) %>%
     st_drop_geometry %>%
-    summarise(area = sum(area)) %>% select(area) %>% as.numeric()
+    summarise(area = sum(area)) %>% select(area) %>% as.numeric() %>% round()
 }
 # getBufferUA(200, 12220, 2200) # test
 
@@ -112,7 +112,7 @@ getBufferImperv <- function(dist, id) {
   extract(imperm, b, xy = TRUE) %>%
     group_by(ID) %>%
     summarise(m = mean(rst_impermeabilizzazione_utm32)) %>% 
-    select(m) %>% as.numeric()
+    select(m) %>% as.numeric() %>% round()
 }
 # getBufferImperv(200, 1920) # test
 
@@ -135,7 +135,7 @@ getBufferBH <- function(dist, id) {
   extract(bh, b, xy = TRUE) %>%
     group_by(ID) %>%
     summarise(m = mean(IT515_TERNI_UA2012_DHM_V010, na.rm = TRUE), .groups = 'drop') %>% 
-    select(m) %>% as.numeric()
+    select(m) %>% as.numeric() %>% round()
 }
 # d <- st_transform(dominio[1920, "id"], 3035)
 # getBufferBH(200, 1920) # se non lo trasformiamo noi lo fa in automatico
@@ -148,83 +148,29 @@ getBufferIntSEZ <- function(dist, id) {
     mutate(PP1 = as.integer( (area_int / SHAPE_Area) * P1)) %>%
     select(SHAPE_Area, area_int, P1, PP1) %>%
     st_drop_geometry() %>%
-    summarise(m = sum(PP1)) %>% select(m) %>% as.numeric()
+    summarise(m = sum(PP1)) %>% select(m) %>% as.numeric() %>% round()
 }
-
 # getBufferIntSEZ(200, 1920)
 
+getBufferIntStrade <- function(dist, id) {
+  pt_buffer <- st_buffer(dominio[id, "id"], dist, singleSide = FALSE, nQuadSegs = 17)
 
-# # Strade OSM ####
-# strade_utm32 <- st_read("data/osm/strade_interesse.shp")
-# # somma dei metri lineari delle strade nel buffer
-# 
-# getBufferIntStrade <- function(dist) {
-#   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
-#   print( paste(dist, name, sep = "--"))
-#   
-#   pt_buffer <- st_buffer(pt_misura, dist, singleSide = FALSE, nQuadSegs = 17)
-#   # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
-#   st_intersection(strade_utm32, pt_buffer) %>% 
-#     group_by(Site) %>% 
-#     summarise(m = sum(st_length(geometry))) %>% st_drop_geometry() %>% 
-#     write_csv(glue("~/R/terni/data/osm/df_strade_ml_{name}.csv"))
-# }
-# 
-# walk(dists, ~ getBufferIntStrade(.x))
-# 
-# fls <- list.files(path = "~/R/terni/data/osm", pattern = glue("^df_strade_ml.*"), full.names = TRUE, recursive = TRUE)
-# 
-# lapply(fls, function(x) {
-#   # df <- read_csv(x, col_types = cols(Site = col_skip()))
-#   df <- read_csv(x, show_col_types = FALSE)
-#   
-#   right_join(
-#     df, 
-#     pt_misura %>% st_drop_geometry() %>% dplyr::select(Site), by = join_by(Site)
-#   ) %>% 
-#     arrange(Site) %>% dplyr::select(-Site)
-#   
-# }) -> dfs_osm
-# 
-# do.call(cbind, dfs_osm) %>%
-#   cbind(sort(pt_misura$Site)) %>%
-#   setNames(c(dists, "site")) %>%
-#   write_csv(file = glue("{outdir}/df_strade_ml.csv"))
-# 
-# # distanza minima punto linea ####
-# strade_utm32_filtered <- filter(strade_utm32, 
-#                                 highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
-# 
-# # plot(strade_utm32_filtered)
-# getBufferStradeMinDist <- function(dist) {
-#   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
-#   print( paste(dist, name, sep = "--"))
-#   
-#   pt_buffer <- st_buffer(pt_misura, dist, singleSide = FALSE, nQuadSegs = 17)
-#   # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
-#   
-#   # st_intersection(pt_buffer, strade_utm32_filtered) %>%
-#   #   group_by(Site) %>% 
-#   #   summarise(m = sum(st_length(geometry))) %>% 
-#   #   arrange(Site) %>% 
-#   #   st_cast() -> tmp_inters
-#   
-#   tmplist <- list()
-#   for (s in pt_misura$Site) {
-#     st_distance(
-#       # filter(pt_misura, Site == s), filter(tmp_inters, Site == s)
-#       filter(pt_misura, Site == s), strade_utm32_filtered
-#     ) -> df
-#     
-#     tmplist[[s]] <- apply(df, 1, FUN = min)
-#   }
-#   
-#   do.call(rbind, tmplist) %>% 
-#     as.data.frame() %>%
-#     setNames(dist) %>% 
-#     write_csv(glue("~/R/terni/data/osm/df_strade_min_dist_{name}.csv"))
-# }
-# 
+  st_intersection(strade_utm32, pt_buffer) %>%
+    summarise(m = sum(st_length(geometry))) %>% 
+    st_drop_geometry() %>% 
+    select(m) %>% as.numeric() %>% round()
+}
+# getBufferIntStrade(200, 1925)
+ 
+
+getStradeMinDist <- function(dist, id) {
+  return(
+    as.numeric(min(st_distance(dominio[id, "id"], strade_utm32_filtered)) %>% round())
+  )
+}
+# st_distance(dominio[1925, "id"], strade_utm32_filtered) -> df
+# getStradeMinDist(200,1925)
+
 # walk(dists, ~ getBufferStradeMinDist(.x)) 
 # fls <- list.files(path = "~/R/terni/data/osm", pattern = glue("^df_strade_min"), 
 #                   full.names = TRUE, recursive = TRUE)
