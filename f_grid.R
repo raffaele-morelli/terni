@@ -21,6 +21,8 @@
   strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
 
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")   # acciaieria
+  acciaieria$field_1 <- c("cold_area", "hot_area", "scrapyard")
+  
   dominio <- st_read("~/R/terni/data/dominio/dominio4_label.shp") %>% select(-Id) # dominio
   dominio <- tibble::rowid_to_column(dominio, var = "id")
   
@@ -37,7 +39,12 @@
   terni_ua_all <- st_read("~/R/terni/data/IT515L2_TERNI_UA2018_v013/Data/IT515L2_TERNI_UA2018_v013.gpkg")
   
   # prendiamo i codici di interesse
-  codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220, 12230)
+  codes_2018 <- c(11100, 11210, 11220, 11230, 11240, 12100, 12210, 12220)
+  cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
+  
+  lista_ua <- as.list(codes_2018)
+  names(lista_ua) <- paste0(cod_str, "_sup_200")
+  
   terni_ua_fltr <- filter(terni_ua_all, code_2018 %in% codes_2018)
   terni_ua_utm32 <- st_transform(terni_ua_fltr, 32632) # WGS84/UTM 32
   
@@ -48,6 +55,14 @@
 
   # pol_st <- raster::stack("~/R/terni/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
   # raster::brick(pol_st) -> kndvi_rasterone
+  kndvis <- list.files("~/R/terni/data/kndvi/", pattern = "*.tiff", full.names = TRUE)
+  for (i in kndvis) {
+    mese <- tools::file_path_sans_ext(basename(i))
+    assign(paste(mese), terra::rast(i))
+  }
+  
+  df_meteo <- readr::read_csv("~/R/terni/data/dataframes/df_terni_meteo_mensili_periodo.csv", show_col_types = FALSE) %>% arrange(data)
+  # df_meteo <- cbind(df_meteo[,1:4], scale(df_meteo[,5:94]) )
   
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   
@@ -71,6 +86,7 @@
 # 12220: Other roads and associated land
 # 12230: Railways and associated land
 
+cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 
 getBufferUA <- function(dist, code, id) {
   pt_buffer <- st_buffer(dominio[id, "id"], dist, singleSide = FALSE, nQuadSegs = 17)
@@ -80,7 +96,7 @@ getBufferUA <- function(dist, code, id) {
   st_intersection(var, pt_buffer) %>%
     mutate(area = st_area(geom)) %>%
     st_drop_geometry %>%
-    summarise(area = sum(area)) %>% select(area) %>% as.numeric() %>% round()
+    summarise(area = sum(area)) %>% select(area) %>% as.numeric()
 }
 # getBufferUA(200, 12220, 2200) # test
 
@@ -104,9 +120,15 @@ getBufferImperv <- function(dist, id) {
   extract(imperm, b, xy = TRUE) %>%
     group_by(ID) %>%
     summarise(m = mean(rst_impermeabilizzazione_utm32)) %>% 
-    select(m) %>% as.numeric() %>% round()
+    select(m) %>% as.numeric() -> val
+  
+  if(!is.na(val)) {
+    return(val)
+  }else{
+    return(0)
+  }
 }
-# getBufferImperv(200, 1920) # test
+# getBufferImperv(200, 1) # test
 
 # b <- buffer(vect( dominio[1920, "id"] ), 200, quadsegs = 17)
 # inter <- extract(imperm, b, xy = TRUE) %>%
@@ -127,7 +149,9 @@ getBufferBH <- function(dist, id) {
   extract(bh, b, xy = TRUE) %>%
     group_by(ID) %>%
     summarise(m = mean(IT515_TERNI_UA2012_DHM_V010, na.rm = TRUE), .groups = 'drop') %>% 
-    select(m) %>% as.numeric() %>% round()
+    select(m) %>% as.numeric() %>% round() -> val
+  
+  if(!is.na(val)) { return(val)}else{ return(0)}
 }
 # d <- st_transform(dominio[1920, "id"], 3035)
 # getBufferBH(200, 1920) # se non lo trasformiamo noi lo fa in automatico
@@ -147,10 +171,15 @@ getBufferIntSEZ <- function(dist, id) {
 getBufferIntStrade <- function(dist, id) {
   pt_buffer <- st_buffer(dominio[id, "id"], dist, singleSide = FALSE, nQuadSegs = 17)
 
-  st_intersection(strade_utm32, pt_buffer) %>%
-    summarise(m = sum(st_length(geometry))) %>% 
-    st_drop_geometry() %>% 
-    select(m) %>% as.numeric() %>% round()
+  inter <- st_intersection(strade_utm32, pt_buffer) 
+  if(nrow(inter) > 0 ) {
+    inter %>% 
+      summarise(m = sum(st_length(geometry))) %>% 
+      st_drop_geometry() %>% 
+      select(m) %>% as.numeric() %>% round()
+  }else{
+    return(0)
+  }
 }
 # getBufferIntStrade(200, 1925)
  
@@ -169,9 +198,9 @@ getFerroMinDist <- function(dist, id) {
   )
 }
 
-getAcciaMinDist <- function(dist, id) {
+getAcciaMinDist <- function(dist, id, var) {
   return(
-    as.numeric(min(st_distance(dominio[id, "id"], acciaieria)) %>% round())
+    as.numeric(min(st_distance(dominio[id, "id"], filter(acciaieria, field_1 == var) ) ) ) %>% round()
   )
 }
 
@@ -185,7 +214,90 @@ getBufferRastKNDVI <- function(dist, rst, mese, id) {
     summarise(m = mean(get(mese), na.rm = TRUE), .groups = 'drop') %>%
     setNames(c("ID", "media", "site")) %>% select(media) %>% as.numeric() 
 }
-# i <- "X2016.11.02"
-# rst <- terra::rast(glue::glue("~/R/terni/data/kndvi/{i}.tiff"))
-# getBufferRastKNDVI(200, rst, "X2016.11.02", 1925)
-df <- readr::read_csv("data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
+i <- "X2016.11.02"
+rst <- terra::rast(glue::glue("~/R/terni/data/kndvi/{i}.tiff"))
+getBufferRastKNDVI(200, rst, "X2016.11.02", 1925)
+
+# esempio cr_i ####
+# df <- readr::read_csv("data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
+df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+v_meteo <- names(df)[84:162]
+
+v_ua <- c("s6_sup_200", "s8_sup_200")
+v_acc <- c("cold_area", "hot_area", "scrapyard")
+v_spa <- c("imp_200", "bh_200", "pop_200", "ml_200")
+
+pltnt <- "Cr_i"
+vars <- readRDS(glue::glue("~/R/terni/rds_gaussian/{pltnt}.rds")) %>% names()
+modelli <- readRDS("~/R/terni/rds_out/modelli_all_clean.RDS")
+
+index <- grep(pltnt, names(df), value = FALSE)
+names(df)[index] <- "value"
+
+gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), 
+                     data = df, 
+                     family = family(modelli[[pltnt]]))
+
+modelli[[pltnt]]$model -> mod_data
+
+library(logr)
+library(lubridate)
+
+new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% 
+  as.data.frame() %>% 
+  setNames(c("data"))
+
+
+# test ####
+{
+  log_open(file_name = "domine.log")
+
+  map(1500:1600, \(id) {
+    # log_print(
+    #   sprintf("s8: %s, s6: %s, cold_area: %s, hot_area: %s, scrapyard: %s, imp: %s,  bh: %s, pop: %s, mlstrade: %s, ferr: %s", 
+    #           getBufferUA(200, lista_ua[["s8_sup_200"]], id),
+    #           getBufferUA(200, lista_ua[["s6_sup_200"]], id),
+    #           getAcciaMinDist(200, id, "cold_area"),
+    #           getAcciaMinDist(200, id, "hot_area"),
+    #           getAcciaMinDist(200, id, "scrapyard"),
+    #           getBufferImperv(200, id), 
+    #           getBufferBH(200, id), 
+    #           getBufferIntSEZ(200, id),
+    #           getBufferIntStrade(200, id),
+    #           getFerroMinDist(200, id),
+    #   hide_notes = TRUE))
+    
+    data.frame("variable" = c(getBufferUA(200, lista_ua[["s8_sup_200"]], id),
+                              getBufferUA(200, lista_ua[["s6_sup_200"]], id),
+                              getAcciaMinDist(200, id, "cold_area"),
+                              getAcciaMinDist(200, id, "hot_area"),
+                              getAcciaMinDist(200, id, "scrapyard"),
+                              getBufferImperv(200, id), 
+                              getBufferBH(200, id), 
+                              getBufferIntSEZ(200, id),
+                              getBufferIntStrade(200, id),
+                              getFerroMinDist(200, id))) %>% t() -> df_spat
+    # log_print(df_spat, hide_notes = TRUE)
+    rownames(df_spat) <- NULL
+    
+    colnames(df_spat) <- c('s6_sup_200', 's8_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
+
+    # log_print(df_spat, hide_notes = TRUE)
+    # log_print(t(df_spat), hide_notes = TRUE)
+    map(df_meteo$data, \(d) {
+      cbind(
+        filter(df_meteo, data == d),
+        df_spat
+      ) -> pdf 
+      
+      # log_print(pdf, hide_notes = FALSE)
+      saveRDS(pdf, glue::glue("~/R/terni/tmp/{d}.RDS"))
+      mgcv::predict.gam(gam_tdf, newdata = pdf) -> mod
+      log_print(mod)
+
+    })
+  }) -> ppipp
+  
+  log_close()
+}
+
