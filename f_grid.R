@@ -6,6 +6,8 @@
   library(terra)
   library(purrr)
   library(stringr)
+  library(logr)
+  library(lubridate)  
 
   outdir <- "~/R/terni/data/dataframes"
 
@@ -23,13 +25,13 @@
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")   # acciaieria
   acciaieria$field_1 <- c("cold_area", "hot_area", "scrapyard")
   
-  dominio <- st_read("~/R/terni/data/dominio/dominio4_label.shp") %>% select(-Id) # dominio
-  dominio <- tibble::rowid_to_column(dominio, var = "id")
+  # dominio <- st_read("~/R/terni/data/dominio/dominio4_label.shp") %>% select(-Id) # dominio
+  # dominio <- tibble::rowid_to_column(dominio, var = "id")
   
-  dominio_100 <- st_read("~/R/terni/data/dominio/dominio_100m.shp")
+  dominio <- st_read("~/R/terni/data/dominio/dominio_200m.shp")
+  # dominio <- st_read("~/R/terni/data/dominio/dominio_100m_redux.shp")
   
-  dominio <- dominio_100
-  
+
   # punti di misura
   pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp") 
   pt_misura_utm33 <- st_transform(pt_misura_utm32, 32633) # WGS84/UTM 32
@@ -218,20 +220,17 @@ getBufferRastKNDVI <- function(dist, rst, mese, id) {
     summarise(m = mean(get(mese), na.rm = TRUE), .groups = 'drop') %>%
     setNames(c("ID", "media", "site")) %>% select(media) %>% as.numeric() 
 }
-i <- "X2016.11.02"
-rst <- terra::rast(glue::glue("~/R/terni/data/kndvi/{i}.tiff"))
-getBufferRastKNDVI(200, rst, "X2016.11.02", 1925)
+# i <- "X2016.11.02"
+# rst <- terra::rast(glue::glue("~/R/terni/data/kndvi/{i}.tiff"))
+# getBufferRastKNDVI(200, rst, "X2016.11.02", 1925)
 
-# esempio cr_i ####
+# esempio ####
 # df <- readr::read_csv("data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
 df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
 v_meteo <- names(df)[84:162]
 
-v_ua <- c("s6_sup_200", "s8_sup_200")
-v_acc <- c("cold_area", "hot_area", "scrapyard")
-v_spa <- c("imp_200", "bh_200", "pop_200", "ml_200")
 
-pltnt <- "Cr_i"
+pltnt <- "Tl_s"
 vars <- readRDS(glue::glue("~/R/terni/rds_gaussian/{pltnt}.rds")) %>% names()
 modelli <- readRDS("~/R/terni/rds_out/modelli_all_clean.RDS")
 
@@ -244,19 +243,15 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]),
 
 modelli[[pltnt]]$model -> mod_data
 
-library(logr)
-library(lubridate)
-
-new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% 
-  as.data.frame() %>% 
-  setNames(c("data"))
-
+# new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% 
+#   as.data.frame() %>% 
+#   setNames(c("data"))
 
 # test ####
 {
   log_open(file_name = "domine.log")
 
-  map(1:9604, \(id) {
+  map(1:nrow(dominio), \(id) {
     # log_print(
     #   sprintf("s8: %s, s6: %s, cold_area: %s, hot_area: %s, scrapyard: %s, imp: %s,  bh: %s, pop: %s, mlstrade: %s, ferr: %s", 
     #           getBufferUA(200, lista_ua[["s8_sup_200"]], id),
@@ -270,7 +265,7 @@ new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>%
     #           getBufferIntStrade(200, id),
     #           getFerroMinDist(200, id),
     #   hide_notes = TRUE))
-    
+    log_print(id, hide_notes = TRUE)
     data.frame("variable" = c(getBufferUA(200, lista_ua[["s8_sup_200"]], id),
                               getBufferUA(200, lista_ua[["s6_sup_200"]], id),
                               getAcciaMinDist(200, id, "cold_area"),
@@ -305,26 +300,4 @@ new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>%
   log_close()
 }
 
-# saveRDS(ppipp, file = "~/R/terni/rds_out/cromo_100m.RDS")
-cromo <- readRDS("~/R/terni/rds_out/cromo_100m.RDS")
-do.call(rbind.data.frame, cromo) -> cromo_df
- 
- 
-r <- matrix(cromo_df[,1], ncol = 98,  byrow = FALSE) %>% raster::raster()
-
-# st_bbox(dominio_100)
-raster::extent(r) <- c(793718.2, 803518.2,  4712982.8, 4722782.8 )
-# plot(r)
-r_df <- as.data.frame(r, xy = TRUE) %>% 
-  na.omit() %>% 
-  setNames(c("x", "y", "value")) 
-
-ggplot(data = r_df) + 
-  geom_raster(aes(x = x, y = y, fill = value)) +
-  scale_fill_viridis_c(direction = -1) +
-  theme_void() +
-  theme(
-    legend.position = "left"
-  ) + coord_equal()
-
-r <- writeRaster(r, '~/R/terni/tiff_out/filename.tif', overwrite = TRUE)
+saveRDS(ppipp, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_200m.RDS"))
