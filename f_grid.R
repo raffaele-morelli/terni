@@ -26,6 +26,10 @@
   dominio <- st_read("~/R/terni/data/dominio/dominio4_label.shp") %>% select(-Id) # dominio
   dominio <- tibble::rowid_to_column(dominio, var = "id")
   
+  dominio_100 <- st_read("~/R/terni/data/dominio/dominio_100m.shp")
+  
+  dominio <- dominio_100
+  
   # punti di misura
   pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp") 
   pt_misura_utm33 <- st_transform(pt_misura_utm32, 32633) # WGS84/UTM 32
@@ -252,7 +256,7 @@ new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>%
 {
   log_open(file_name = "domine.log")
 
-  map(1500:1600, \(id) {
+  map(1:2500, \(id) {
     # log_print(
     #   sprintf("s8: %s, s6: %s, cold_area: %s, hot_area: %s, scrapyard: %s, imp: %s,  bh: %s, pop: %s, mlstrade: %s, ferr: %s", 
     #           getBufferUA(200, lista_ua[["s8_sup_200"]], id),
@@ -301,3 +305,13 @@ new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>%
   log_close()
 }
 
+saveRDS(ppipp, file = "cromo_100m.RDS")
+# cromo <- readRDS("~/R/terni/cromo.RDS")
+# 
+# do.call(rbind.data.frame, cromo) -> cromo_df
+# 
+# 
+# r <- matrix(cromo_df[,1], ncol = 50,  byrow = TRUE) %>% raster::raster()
+# # replace with correct coordinates
+# raster::extent(r) <- c(793718.2, 803518.2,  4712982.8, 4722782.8 )
+# r <- writeRaster(r, 'filename.tif', overwrite = TRUE)

@@ -626,11 +626,11 @@ cbind(pt_misura, st_coordinates(pt_misura)) -> pt_misura
 
 g <- ggplot() + 
   geom_sf(data = terni_sez, fill = "transparent") + 
-  geom_sf(data = dominio, color = "dodgerblue4", size = 0.4, alpha = 0.5) +
-  geom_sf(data = pt_misura, color = "black", size = 3) 
-g <- g + geom_label_repel(data = pt_misura, 
-                          aes(x = X, y = Y, label = Site), 
-                          min.segment.length = 0, max.overlaps = Inf)
+  geom_sf(data = dominio, color = "dodgerblue4", size = 0.4, alpha = 0.5) 
+  # geom_sf(data = pt_misura, color = "black", size = 3) 
+# g <- g + geom_label_repel(data = pt_misura, 
+#                           aes(x = X, y = Y, label = Site), 
+#                           min.segment.length = 0, max.overlaps = Inf)
 g +   geom_sf(data = acciaieria, color = "red", size = 3)  +
   coord_sf(crs = 32632, xlim = c(793718.2, 803518.2), ylim = c(4712983, 4722783)) + theme_map()
 
