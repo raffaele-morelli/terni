@@ -31,7 +31,7 @@ purrr::walk(fls, \(f) {
   r <- matrix(trcnt_df[,mese], ncol = 54,  byrow = FALSE) %>% raster::raster()
   
   mese <- str_pad(mese, 2, pad = "0")
-  raster::extent(r) <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]),  as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]) )
+  raster::extent(r) <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
   r <- terra::writeRaster(r, glue::glue('~/R/terni/tiff_out/{mese}/{fout}_{mese}.tif'), overwrite = TRUE)
 })
 
