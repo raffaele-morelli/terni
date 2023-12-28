@@ -187,7 +187,7 @@ getBufferRastKNDVI <- function(dist, rst, mese, id) {
 # SET tracciante ####
 # pltnt <- "Cr_i"
 pltnt <- args[1]
-dist <- 200
+dist <- 100
 
 # df <- readr::read_csv("data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
 df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
