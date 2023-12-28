@@ -28,8 +28,9 @@ cat(args, sep = "\n")
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")   # acciaieria
   acciaieria$field_1 <- c("cold_area", "hot_area", "scrapyard")
   
-  # dominio <- st_read("~/R/terni/data/dominio/dominio_200m.shp")
-  dominio <- st_read("~/R/terni/data/dominio/dominio_200m_redux.shp")
+  # dominio ####
+  dominio <- st_read("~/R/terni/data/dominio/dominio_200m.shp")
+  # dominio <- st_read("~/R/terni/data/dominio/dominio_200m_redux.shp")
 
   # punti di misura
   pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp") 
