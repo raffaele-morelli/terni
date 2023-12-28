@@ -38,7 +38,6 @@ getModel <- function(vars, df) {
 
 pltnts <- list.files(glue("~/R/terni/rds_{dir}"), pattern = "^[A-Z]", full.names = TRUE) 
 
-
 fn <- file.path(glue("log/clean_v_nsign.log"))
 lf <- log_open(fn)
 
@@ -48,12 +47,7 @@ map(pltnts, \(pltnt) {
   log_print(inquinante, hide_notes = TRUE)
   # df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
   df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
-  
-  df %>% mutate(
-    TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
-    TOT_NCR = Biomass_Burning_NCR + Soil_Dust_NCR + Steel_Plant_NCR + Road_Dust_NCR + Brake_Dust_NCR
-  ) -> df
-  
+
   index <- grep(inquinante, names(df))
   names(df)[index] <- "value"
   

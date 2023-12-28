@@ -187,7 +187,7 @@ getBufferRastKNDVI <- function(dist, rst, mese, id) {
 # SET tracciante ####
 # pltnt <- "Cr_i"
 pltnt <- args[1]
-dist <- 100
+dist <- 200
 
 # df <- readr::read_csv("data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
 df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
@@ -231,7 +231,6 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
                               getFerroMinDist(dist, id))) %>% t() -> df_spat
     # log_print(df_spat, hide_notes = TRUE)
     rownames(df_spat) <- NULL
-    
     colnames(df_spat) <- c('s8_sup_200', 's6_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
 
     map(df_meteo$data, \(d) {

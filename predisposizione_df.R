@@ -180,6 +180,12 @@ inner_join(df_acc, df_ferrovia_min_dist, by = "site") -> df_finale
 
 outdir <- "~/R/terni/data/dataframes"
 
+df_finale %>% mutate(
+  TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
+  TOT_NCR = Biomass_Burning_NCR + Soil_Dust_NCR + Steel_Plant_NCR + Road_Dust_NCR + Brake_Dust_NCR
+) -> df_finale
+
+# write_csv(df, "~/R/terni/data/dataframes/df_finale_raw.csv")
 write_csv(df_finale, file = glue::glue("{outdir}/df_finale_raw.csv") )
 
 # standardizzazione ####

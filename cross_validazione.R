@@ -19,8 +19,8 @@
   
   setwd("~/R/terni")
   
-  dir <- "all"
-  modelli <- readRDS(glue("~/R/terni/rds_{dir}/modelli_{dir}_clean.RDS"))
+  dir <- "gaussian"
+  modelli <- readRDS(glue("~/R/terni/rds_out/modelli_{dir}_clean.RDS"))
 }
 
 my_list <- list()
@@ -31,7 +31,7 @@ for (pltnt in names(modelli)) {
   lf <- log_open(fn)
   
   # va riletto ogni volta altrimenti "value" viene trovato più volte
-  df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
   
   # sites <- unique(df$site)
   index <- grep(pltnt, names(df))

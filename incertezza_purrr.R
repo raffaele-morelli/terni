@@ -21,19 +21,19 @@ cat(args, sep = "\n")
   
   setwd("~/R/terni")
   
-  modelli <- readRDS(glue("~/R/terni/rds_out/modelli_all_clean.RDS"))
-  traccianti <- readRDS("~/R/terni/traccianti.RDS")
+  modelli <- readRDS(glue("~/R/terni/rds_out/modelli_gaussian_clean.RDS"))
+  traccianti <- readRDS("~/R/terni/rds_out/traccianti.RDS")
 }
 
 big_list <- list()
 
 for (pltnt in traccianti) {
-  df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
   
   index <- grep(pltnt, names(df))
   names(df)[index] <- "value"
   
-  map(seq(1:100), \(r) {
+  map(seq(1:50), \(r) {
     cat("pltnt: ", pltnt, " : ", r, "\n")
     my_list <- list()
     
