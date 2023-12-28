@@ -1,3 +1,6 @@
+args <- commandArgs(trailingOnly = TRUE)
+cat(args, sep = "\n")
+
 # init e dati ####
 {
   library(sf)
@@ -25,12 +28,8 @@
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")   # acciaieria
   acciaieria$field_1 <- c("cold_area", "hot_area", "scrapyard")
   
-  # dominio <- st_read("~/R/terni/data/dominio/dominio4_label.shp") %>% select(-Id) # dominio
-  # dominio <- tibble::rowid_to_column(dominio, var = "id")
-  
-  dominio <- st_read("~/R/terni/data/dominio/dominio_200m.shp")
-  # dominio <- st_read("~/R/terni/data/dominio/dominio_100m_redux.shp")
-  
+  # dominio <- st_read("~/R/terni/data/dominio/dominio_200m.shp")
+  dominio <- st_read("~/R/terni/data/dominio/dominio_200m_redux.shp")
 
   # punti di misura
   pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp") 
@@ -59,24 +58,10 @@
   
   bh <- rast("~/R/terni/data/bh/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
 
-  # pol_st <- raster::stack("~/R/terni/data/kndvi/T33TUH_201611_201801_S2_L3B_10m_kNDVI_monthly_Terni.nc")
-  # raster::brick(pol_st) -> kndvi_rasterone
-  kndvis <- list.files("~/R/terni/data/kndvi/", pattern = "*.tiff", full.names = TRUE)
-  for (i in kndvis) {
-    mese <- tools::file_path_sans_ext(basename(i))
-    assign(paste(mese), terra::rast(i))
-  }
-  
-  df_meteo <- readr::read_csv("~/R/terni/data/dataframes/df_terni_meteo_mensili_periodo.csv", show_col_types = FALSE) %>% arrange(data)
-  # df_meteo <- cbind(df_meteo[,1:4], scale(df_meteo[,5:94]) )
-  
+  df_meteo <- readr::read_csv("~/R/terni/data/dataframes/df_terni_meteo_mensili_periodo.csv", show_col_types = FALSE) %>% 
+    arrange(data)
+
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
-  
-  # creo le directory per gli output
-  # dir.create("~/R/terni/out/building_heights", recursive = TRUE, showWarnings = FALSE)
-  # dir.create("~/R/terni/out/imperviousness", recursive = TRUE, showWarnings = FALSE)
-  # dir.create("~/R/terni/out/urban_atlas", recursive = TRUE, showWarnings = FALSE)
-  # dir.create("~/R/terni/out/ndvi", recursive = TRUE, showWarnings = FALSE)
 }
 
 
@@ -106,19 +91,6 @@ getBufferUA <- function(dist, code, id) {
 }
 # getBufferUA(200, 12220, 2200) # test
 
-# pt_buffer <- st_buffer(dominio[1820, "id"], 200, singleSide = FALSE, nQuadSegs = 17)
-# g <- ggplot() + 
-#   geom_sf(data = dominio, size = 0.1) + 
-#   geom_sf(data = pt_buffer, fill = "green", color = "red") 
-# g
-# var <- filter(terni_ua_utm32, code_2018 == 12220)
-# var_cropped <- st_crop(var, st_bbox(dominio))
-# g + geom_sf(data = var_cropped, fill = "transparent")
-#  
-# inter <- st_intersection(var_cropped, pt_buffer)
-# g <- g + geom_sf(data = var_cropped, fill = "transparent") +
-#   geom_sf(data = inter, fill = "transparent", color = "orange")
-# g
 
 getBufferImperv <- function(dist, id) {
   b <- buffer(vect(dominio[id, "id"]), dist, quadsegs = 17)
@@ -135,18 +107,6 @@ getBufferImperv <- function(dist, id) {
   }
 }
 # getBufferImperv(200, 1) # test
-
-# b <- buffer(vect( dominio[1920, "id"] ), 200, quadsegs = 17)
-# inter <- extract(imperm, b, xy = TRUE) %>%
-#   group_by(ID) %>%
-#   summarise(m = mean(rst_impermeabilizzazione_utm32))
-# 
-# e <- extract(imperm, b, xy = TRUE)
-# 
-# ggplot() + geom_sf(data = dominio, size = 0.1) +
-#   geom_sf(data = st_as_sf(b)) +
-#   geom_raster(data = e, aes(x, y, fill = rst_impermeabilizzazione_utm32))
-
 
 # # calcola l'altezza media per gli edifici che sono nel buffer
 getBufferBH <- function(dist, id) {
@@ -220,84 +180,73 @@ getBufferRastKNDVI <- function(dist, rst, mese, id) {
     summarise(m = mean(get(mese), na.rm = TRUE), .groups = 'drop') %>%
     setNames(c("ID", "media", "site")) %>% select(media) %>% as.numeric() 
 }
-# i <- "X2016.11.02"
-# rst <- terra::rast(glue::glue("~/R/terni/data/kndvi/{i}.tiff"))
-# getBufferRastKNDVI(200, rst, "X2016.11.02", 1925)
 
-# esempio ####
+
+
+# SET tracciante ####
+# pltnt <- "Cr_i"
+pltnt <- args[1]
+dist <- 200
+
 # df <- readr::read_csv("data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
 df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
-v_meteo <- names(df)[84:162]
 
-
-pltnt <- "Tl_s"
-vars <- readRDS(glue::glue("~/R/terni/rds_gaussian/{pltnt}.rds")) %>% names()
-modelli <- readRDS("~/R/terni/rds_out/modelli_all_clean.RDS")
+modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
 
 index <- grep(pltnt, names(df), value = FALSE)
 names(df)[index] <- "value"
 
-gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), 
-                     data = df, 
-                     family = family(modelli[[pltnt]]))
+gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 
-modelli[[pltnt]]$model -> mod_data
 
-# new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% 
-#   as.data.frame() %>% 
-#   setNames(c("data"))
-
-# test ####
+# routine #### 
 {
-  log_open(file_name = "domine.log")
+  log_open(file_name = glue::glue("{pltnt}_domine.log"))
 
   map(1:nrow(dominio), \(id) {
     # log_print(
-    #   sprintf("s8: %s, s6: %s, cold_area: %s, hot_area: %s, scrapyard: %s, imp: %s,  bh: %s, pop: %s, mlstrade: %s, ferr: %s", 
+    #   sprintf("s8: %s, s6: %s, cold_area: %s, hot_area: %s, scrapyard: %s, imp: %s,  bh: %s, pop: %s, mlstrade: %s, ferr: %s",
     #           getBufferUA(200, lista_ua[["s8_sup_200"]], id),
     #           getBufferUA(200, lista_ua[["s6_sup_200"]], id),
     #           getAcciaMinDist(200, id, "cold_area"),
     #           getAcciaMinDist(200, id, "hot_area"),
     #           getAcciaMinDist(200, id, "scrapyard"),
-    #           getBufferImperv(200, id), 
-    #           getBufferBH(200, id), 
+    #           getBufferImperv(200, id),
+    #           getBufferBH(200, id),
     #           getBufferIntSEZ(200, id),
     #           getBufferIntStrade(200, id),
     #           getFerroMinDist(200, id),
     #   hide_notes = TRUE))
     log_print(id, hide_notes = TRUE)
-    data.frame("variable" = c(getBufferUA(200, lista_ua[["s8_sup_200"]], id),
-                              getBufferUA(200, lista_ua[["s6_sup_200"]], id),
-                              getAcciaMinDist(200, id, "cold_area"),
-                              getAcciaMinDist(200, id, "hot_area"),
-                              getAcciaMinDist(200, id, "scrapyard"),
-                              getBufferImperv(200, id), 
-                              getBufferBH(200, id), 
-                              getBufferIntSEZ(200, id),
-                              getBufferIntStrade(200, id),
-                              getFerroMinDist(200, id))) %>% t() -> df_spat
+    data.frame("variable" = c(getBufferUA(dist, lista_ua[["s8_sup_200"]], id),
+                              getBufferUA(dist, lista_ua[["s6_sup_200"]], id),
+                              getAcciaMinDist(dist, id, "cold_area"),
+                              getAcciaMinDist(dist, id, "hot_area"),
+                              getAcciaMinDist(dist, id, "scrapyard"),
+                              getBufferImperv(dist, id), 
+                              getBufferBH(dist, id), 
+                              getBufferIntSEZ(dist, id),
+                              getBufferIntStrade(dist, id),
+                              getFerroMinDist(dist, id))) %>% t() -> df_spat
     # log_print(df_spat, hide_notes = TRUE)
     rownames(df_spat) <- NULL
     
-    colnames(df_spat) <- c('s6_sup_200', 's8_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
+    colnames(df_spat) <- c('s8_sup_200', 's6_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
 
-    # log_print(df_spat, hide_notes = TRUE)
-    # log_print(t(df_spat), hide_notes = TRUE)
     map(df_meteo$data, \(d) {
       cbind(
         filter(df_meteo, data == d),
         df_spat
       ) -> pdf 
-      
-      # log_print(pdf, hide_notes = FALSE)
-      saveRDS(pdf, glue::glue("~/R/terni/tmp/{d}.RDS"))
-      mgcv::predict.gam(gam_tdf, newdata = pdf) -> mod
-      # log_print(mod)
 
+      # log_print(pdf, hide_notes = FALSE)
+
+      mgcv::predict.gam(gam_tdf, newdata = pdf, type = "response") -> mod
+      # log_print(mod, hide_notes = TRUE)
     })
   }) -> ppipp
   
   log_close()
 }
 
-saveRDS(ppipp, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_200m.RDS"))
+saveRDS(ppipp, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m.RDS"))
