@@ -1,5 +1,6 @@
 library(sf)
 library(glue)
+library(stringr)
 
 # pltnt <- "Cr_i"
 for (i in seq(1:12)) {
@@ -7,7 +8,7 @@ for (i in seq(1:12)) {
   dir.create(glue::glue("~/R/terni/tiff_out/{mese}"), recursive = TRUE, showWarnings = FALSE)
 }
 
-mese <- 9
+mese <- 1
 ext <- ""
 
 {
@@ -20,18 +21,21 @@ ext <- ""
 
 pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp")
 st_bbox(dominio) -> bbox
+r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
 
-fls <- list.files("~/R/terni/rds_out_traccianti/", full.names = TRUE)
+fls <- list.files("~/R/terni/rds_out_traccianti/", pattern = "200m_100res", full.names = TRUE)
 
 purrr::walk(fls, \(f) {
   tools::file_path_sans_ext(f) %>% basename() -> fout
+  print(fout)
+  
   trcnt <- readRDS(f)
   trcnt_df <- do.call(rbind.data.frame, trcnt)
   
-  r <- matrix(trcnt_df[,mese], ncol = 54,  byrow = FALSE) %>% raster::raster()
+  r <- matrix(trcnt_df[,mese], ncol = 109,  byrow = FALSE) %>% raster::raster()
   
   mese <- str_pad(mese, 2, pad = "0")
-  raster::extent(r) <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
+  raster::extent(r) <- r_extent
   r <- terra::writeRaster(r, glue::glue('~/R/terni/tiff_out/{mese}/{fout}_{mese}.tif'), overwrite = TRUE)
 })
 
