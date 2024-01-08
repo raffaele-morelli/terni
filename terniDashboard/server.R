@@ -12,7 +12,28 @@ server <- function(input, output) {
       ggtitle(input$traccianti)
     
   })
-  
+
+  # boxPlot ####
+  output$boxPlot <- renderPlot({
+    if(input$traccianti == "All") {
+      return("Seleziona un tracciante")
+    }
+    df_m <- data.frame((df[[input$traccianti]]))
+    
+    reshape2::melt(df_m) %>%
+      ggplot(aes(x = value)) +
+      geom_boxplot(fill = 'dodgerblue4', colour = 'white') + xlab("") + ylab("") +
+      ggtitle(input$traccianti)
+    
+    idx <- grep(input$traccianti, names(df))
+    names(df)[idx] <- "value"
+    df %>% 
+      select(c("data", "site", idx)) %>% 
+      ggplot(aes(data, value)) + geom_boxplot() + facet_wrap(~site, scales = "free", ncol = 6) + 
+      theme(axis.text.x = element_blank(), axis.ticks.x = element_blank() ) + xlab("") + ylab("")
+    
+  })
+    
   output$splines <- renderPlot({
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
