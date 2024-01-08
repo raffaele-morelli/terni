@@ -18,7 +18,9 @@ ui <- fluidPage(
         tabPanel("Predict", 
                  # plotOutput("predict"),
                  plotOutput("predictImage", width = 600, height = 250)
-                 )
+                 ),
+        # tabPanel("test", plotlyOutput('plot'))
+
       )
     )
   )

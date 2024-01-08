@@ -71,7 +71,7 @@ server <- function(input, output) {
       geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 3) +
       scale_fill_viridis_c(direction = -1, option = "B") +
       theme_void() +
-      theme(legend.position = "none") +
+      theme(legend.position = "bottom", legend.title = element_blank()) +
       coord_sf(datum = sf::st_crs(32632)) -> g1
     
     ggplot(data = r_df) + 
@@ -84,4 +84,28 @@ server <- function(input, output) {
                             )
     
   }, width = 1200, height = 600)
+  
+  output$plot <- renderPlotly({
+    if (is.null(input$traccianti)) {return(NULL)}
+    
+    f <- glue::glue('/home/rmorelli/R/terni/rds_out_traccianti/{input$traccianti}_{input$res}m_{input$res}res.RDS')
+    
+    trcnt <- readRDS(f)
+    trcnt_df <- do.call(rbind.data.frame, trcnt)
+    
+    if(input$res == 100) {
+      n_col <- 109
+    }else{
+      n_col <- 54
+    }
+    
+    r <- matrix(trcnt_df[, 1], ncol = n_col,  byrow = FALSE) %>% raster::raster()
+    raster::extent(r) <- r_extent
+    crs(r) <- " +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    
+    r_df <- as.data.frame(r, xy = TRUE) %>% na.omit() %>% setNames(c("x", "y", "value"))
+    ggplot(data = r_df) +
+      geom_raster(aes(x = x, y = y, fill = value)) 
+    # plot_ly(data = r_df) %>% add_rasterly_image(x = ~x, y = ~y, color = ~z)
+  })
 }
