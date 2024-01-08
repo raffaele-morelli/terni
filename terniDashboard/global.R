@@ -15,6 +15,7 @@ models <- readRDS("/home/rmorelli/R/terni/rds_out/modelli_gaussian_clean.RDS")
 # crssvld <- readRDS("/home/rmorelli/R/terni/rds_out/cross_validation_gaussian.RDS")
 
 terni_sez <- st_read("/home/rmorelli/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
+pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp")
 
 dominio <- st_read(glue("/home/rmorelli/R/terni/data/dominio/dominio_200m.shp")) # 54 col
 st_bbox(dominio) -> bbox
