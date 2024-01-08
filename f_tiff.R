@@ -3,6 +3,7 @@ library(glue)
 library(stringr)
 library(terra)
 library(ggplot2)
+library(dplyr)
 
 # pltnt <- "Cr_i"
 for (i in seq(1:12)) {
@@ -59,3 +60,5 @@ purrr::walk(fls, \(f) {
   ggsave(filename = glue::glue('~/R/terni/png_out/{fout}_{mese}.png'), plot = g, 
          width = 1000, height = 600, units = "px", dpi = 72)
 })
+
+

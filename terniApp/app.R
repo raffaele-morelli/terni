@@ -18,6 +18,7 @@ models <- readRDS("/home/rmorelli/R/terni/rds_out/modelli_gaussian_clean.RDS")
 
 dominio <- st_read(glue("/home/rmorelli/R/terni/data/dominio/dominio_200m.shp")) # 54 col
 st_bbox(dominio) -> bbox
+
 r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
 rm(dominio)
 
@@ -124,7 +125,7 @@ server <- function(input, output) {
 
 
 # Run the application 
-shinyApp(ui = ui, server = server)
+# shinyApp(ui = ui, server = server)
 
 
 
