@@ -4,11 +4,11 @@ server <- function(input, output) {
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
     }
-    df <- data.frame(log(df[[input$traccianti]]))
+    df <- data.frame((df[[input$traccianti]]))
     
     reshape2::melt(df) %>%
       ggplot(aes(x = value) ) +
-      geom_histogram(bins = 60, fill = 'dodgerblue4', colour = 'white') + xlab("") + ylab("log(value)") +
+      geom_histogram(bins = 60, fill = 'dodgerblue4', colour = 'white') + xlab("") + ylab("") +
       ggtitle(input$traccianti)
     
   })
@@ -69,7 +69,7 @@ server <- function(input, output) {
       geom_raster(aes(x = x, y = y, fill = value)) +
       geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey90", fill = "transparent", size = 0.5) +
       geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 3) +
-      scale_fill_viridis_c(direction = -1, option = "magma") +
+      scale_fill_viridis_c(direction = -1, option = "B") +
       theme_void() +
       theme(legend.position = "none") +
       coord_sf(datum = sf::st_crs(32632)) -> g1
