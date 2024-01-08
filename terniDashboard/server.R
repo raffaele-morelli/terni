@@ -71,7 +71,7 @@ server <- function(input, output) {
       geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 3) +
       scale_fill_viridis_c(direction = -1, option = "B") +
       theme_void() +
-      theme(legend.position = "left", legend.title = element_blank()) +
+      theme(legend.position = "bottom", legend.title = element_blank()) +
       coord_sf(datum = sf::st_crs(32632)) -> g1
     
     ggplot(data = r_df) + 
