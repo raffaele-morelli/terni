@@ -8,7 +8,7 @@ server <- function(input, output) {
     
     reshape2::melt(df) %>%
       ggplot(aes(x = value) ) +
-      geom_histogram(bins = 60, fill = 'dodgerblue4', colour = 'white') + xlab("") + ylab("") +
+      geom_histogram(bins = 60, fill = 'dodgerblue4', colour = 'white') + xlab("") + ylab("log(value)") +
       ggtitle(input$traccianti)
     
   })
