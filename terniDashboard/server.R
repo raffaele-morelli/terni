@@ -78,10 +78,8 @@ server <- function(input, output) {
       geom_histogram(aes(x = value), bins = 80, color = "dodgerblue4", fill = "lightgray") +
       theme_light() + theme(axis.title.x = element_blank(), axis.title.y = element_blank()) -> g2
     
-    gridExtra::grid.arrange(g1, g2, 
-                            layout_matrix = rbind(c(1, 1, 2),
-                                                  c(1, 1, 2))
-                            )
+    gridExtra::grid.arrange(g1, g2, layout_matrix = rbind(c(1, 1, 2),
+                                                          c(1, 1, 2)))
     
   }, width = 1200, height = 600)
   

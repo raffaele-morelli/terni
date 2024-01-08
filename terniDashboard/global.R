@@ -8,8 +8,8 @@ library(summarytools)
 library(sf)
 library(glue)
 library(terra)
-library(plotly)
-library(rasterly)
+# library(plotly)
+# library(rasterly)
 
 
 df <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
