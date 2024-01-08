@@ -7,7 +7,7 @@ ui <- fluidPage(
     sidebarPanel(
       selectInput("traccianti", "Tracciante", choices = c(pltnts)),
       selectInput("res", "Risoluzione", choices = c("100", "200")),
-      plotOutput("distPlot")
+      plotOutput("distPlot"), width = 3
     ),
     
     mainPanel(
