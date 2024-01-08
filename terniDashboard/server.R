@@ -71,7 +71,7 @@ server <- function(input, output) {
       geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 3) +
       scale_fill_viridis_c(direction = -1, option = "B") +
       theme_void() +
-      theme(legend.position = "bottom", legend.title = element_blank()) +
+      theme(legend.position = "left", legend.title = element_blank()) +
       coord_sf(datum = sf::st_crs(32632)) -> g1
     
     ggplot(data = r_df) + 
@@ -79,7 +79,7 @@ server <- function(input, output) {
       theme_light() + theme(axis.title.x = element_blank(), axis.title.y = element_blank()) -> g2
     
     gridExtra::grid.arrange(g1, g2, layout_matrix = rbind(c(1, 1, 2),
-                                                          c(1, 1, 2)))
+                                                          c(1, 1, NA)))
     
   }, width = 1200, height = 600)
   
