@@ -66,6 +66,7 @@ server <- function(input, output) {
     
   }, deleteFile = FALSE)
   
+  # predict "ar volo" ####
   output$predictImage <- renderPlot({
     if (is.null(input$traccianti))
       return(NULL)
@@ -81,7 +82,8 @@ server <- function(input, output) {
       n_col <- 54
     }
     
-    r <- matrix(trcnt_df[, 1], ncol = n_col,  byrow = FALSE) %>% raster::raster()
+    # print(as.numeric( input$mese) )
+    r <- matrix(trcnt_df[, as.numeric( input$mese)], ncol = n_col,  byrow = FALSE) %>% raster::raster()
     raster::extent(r) <- r_extent
     crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
     r_df <- as.data.frame(r, xy = TRUE) %>% na.omit() %>% setNames(c("x", "y", "value"))
@@ -90,9 +92,9 @@ server <- function(input, output) {
       geom_raster(aes(x = x, y = y, fill = value)) +
       geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey90", fill = "transparent", size = 0.5) +
       geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 3) +
-      scale_fill_viridis_c(direction = -1, option = "B") +
+      scale_fill_viridis_c(option = "B") +
       theme_void() +
-      theme(legend.position = "bottom", legend.title = element_blank()) +
+      theme(legend.position = "bottom", legend.title = element_blank()) + ggtitle(input$mese) +
       coord_sf(datum = sf::st_crs(32632)) -> g1
     
     ggplot(data = r_df) + 
@@ -103,6 +105,4 @@ server <- function(input, output) {
                                                           c(1, 1, NA)))
     
   }, width = 1200, height = 600)
-  
-
 }
