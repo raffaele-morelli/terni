@@ -1,8 +1,14 @@
-args <- commandArgs(trailingOnly = TRUE)
-cat(args, sep = "\n")
-
 # init e dati ####
 {
+  args <- commandArgs(trailingOnly = TRUE)
+  cat(args, sep = "\n")
+
+    # SET tracciante ####
+  pltnt <- "Cs_i"
+  # pltnt <- args[1]
+  dist <- 100
+  res <- 100
+  
   library(sf)
   library(dplyr)
   library(ggplot2)
@@ -10,15 +16,15 @@ cat(args, sep = "\n")
   library(purrr)
   library(stringr)
   library(logr)
-  library(lubridate)  
+  library(lubridate)
+  library(glue)
 
   outdir <- "~/R/terni/data/dataframes"
 
   terni_sez <- st_read("~/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
   terni_indicatori_sez <- readr::read_csv("~/R/terni/data/R10_indicatori_2021_sezioni_terni.csv", show_col_types = FALSE)
   
-  terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), 
-                              by = join_by(SEZ2021 == SEZ2011))
+  terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), by = join_by(SEZ2021 == SEZ2011))
   
   ferrovia <- st_read("~/R/terni/data/osm/ferrovie.shp")
   
@@ -29,7 +35,7 @@ cat(args, sep = "\n")
   acciaieria$field_1 <- c("cold_area", "hot_area", "scrapyard")
   
   # dominio ####
-  dominio <- st_read("~/R/terni/data/dominio/dominio_200m.shp")
+  dominio <- st_read(glue("~/R/terni/data/dominio/dominio_{res}m.shp"))
   # dominio <- st_read("~/R/terni/data/dominio/dominio_200m_redux.shp")
 
   # punti di misura
@@ -184,11 +190,6 @@ getBufferRastKNDVI <- function(dist, rst, mese, id) {
 
 
 
-# SET tracciante ####
-# pltnt <- "Cr_i"
-pltnt <- args[1]
-dist <- 200
-
 # df <- readr::read_csv("data/dataframes/df_finale_lod_clean.csv", show_col_types = FALSE)
 df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
 
@@ -196,6 +197,7 @@ modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
 
 index <- grep(pltnt, names(df), value = FALSE)
 names(df)[index] <- "value"
+source("f_test.R")
 
 gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 
@@ -224,7 +226,7 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
                               getAcciaMinDist(dist, id, "cold_area"),
                               getAcciaMinDist(dist, id, "hot_area"),
                               getAcciaMinDist(dist, id, "scrapyard"),
-                              getBufferImperv(dist, id), 
+                              getBufferImperv(dist, id),
                               getBufferBH(dist, id), 
                               getBufferIntSEZ(dist, id),
                               getBufferIntStrade(dist, id),
@@ -237,8 +239,7 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
       cbind(
         filter(df_meteo, data == d),
         df_spat
-      ) -> pdf 
-
+      ) -> pdf
       # log_print(pdf, hide_notes = FALSE)
 
       mgcv::predict.gam(gam_tdf, newdata = pdf, type = "response") -> mod
@@ -249,4 +250,4 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
   log_close()
 }
 
-saveRDS(ppipp, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m.RDS"))
+saveRDS(ppipp, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m_{res}res.RDS"))

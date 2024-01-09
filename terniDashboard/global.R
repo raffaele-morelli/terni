@@ -57,3 +57,11 @@ createPredictImage <- function(f, res) {
   # ggsave(filename = glue::glue('~/R/terni/png_out/{fout}_{mese}.png'), plot = g, width = 1000, height = 600, units = "px", dpi = 72)
 }
 
+remove_outliers <- function(x, na.rm = TRUE, ...) {
+  qnt <- quantile(x, probs = c(.25, .75), na.rm = na.rm, ...)
+  H <- 1.5 * IQR(x, na.rm = na.rm)
+  y <- x
+  y[x < (qnt[1] - H)] <- NA
+  y[x > (qnt[2] + H)] <- NA
+  y
+}

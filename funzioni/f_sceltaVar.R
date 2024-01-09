@@ -142,7 +142,7 @@ sceltaVar <- function() {
     assign("AICS", AICS, envir = .GlobalEnv)
     assign("v_variabili", v_variabili[!v_variabili %in% c(names(AICS), v_dead)], envir = .GlobalEnv)
     
-    saveRDS(AICS, file = glue("~/R/terni/rds_{outdir}/{pltnt}.rds"))
+    saveRDS(AICS, file = glue("~/R/terni/rds_{outdir}/{pltnt}{suffix}.rds"))
     stop("=>>> Fine per scelta MODELLO iniziale")
   }
   
@@ -152,6 +152,6 @@ sceltaVar <- function() {
   log_print("Fine per scelta MODELLO", hide_notes = TRUE)
   log_print(paste(names(AICS), collapse = " + "), hide_notes = TRUE)
   
-  saveRDS(AICS, file = glue("~/R/terni/rds_{outdir}/{pltnt}.rds"))
+  saveRDS(AICS, file = glue("~/R/terni/rds_{outdir}/{pltnt}{suffix}.rds"))
   stop("==== Fine per scelta MODELLO")
 }

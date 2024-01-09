@@ -1,10 +1,11 @@
 server <- function(input, output) {
   
+  # distPlot ####
   output$distPlot <- renderPlot({
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
     }
-    df <- data.frame((df[[input$traccianti]]))
+    df <- data.frame((df[[input$traccianti]])) %>% setNames(c("value"))
     
     reshape2::melt(df) %>%
       ggplot(aes(x = value) ) +
@@ -29,18 +30,38 @@ server <- function(input, output) {
     names(df)[idx] <- "value"
     df %>% 
       select(c("data", "site", idx)) %>% 
-      ggplot(aes(data, value)) + geom_boxplot() + facet_wrap(~site, scales = "free", ncol = 6) + 
+      ggplot(aes(data, value)) + geom_boxplot() + facet_wrap(~site, ncol = 6) + 
       theme(axis.text.x = element_blank(), axis.ticks.x = element_blank() ) + xlab("") + ylab("")
     
   })
+
+  # distros ####
+  output$distros <- renderPlot({
+    if(input$traccianti == "All") {
+      return("Seleziona un tracciante")
+    }
     
+    idx <- grep(input$traccianti, names(df))
+    names(df)[idx] <- "value"
+    
+    df %>% select(site, value) %>% 
+      ggplot(aes(x = value) ) +
+      geom_histogram(bins = 80, fill = 'dodgerblue4', colour = 'white') + 
+      facet_wrap(~site, scales = "free_y") +
+      xlab("") + ylab("") +
+      ggtitle(input$traccianti)
+  })
+  
+  # splines ####
   output$splines <- renderPlot({
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
     }
-    gratia::draw(models[[input$traccianti]])
+    # gratia::draw(models[[input$traccianti]])
+    mgcv::plot.gam(models[[input$traccianti]], pages = 1)
   })
   
+  # check ####
   output$check <- renderPlot({
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
@@ -48,6 +69,7 @@ server <- function(input, output) {
     gratia::appraise(models[[input$traccianti]]) & ggtitle(input$traccianti)
   })
   
+  # summary ####
   output$summary <- renderPrint({
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
@@ -55,7 +77,7 @@ server <- function(input, output) {
     summary( (models[[input$traccianti]]))
   })
   
-  # image2 sends pre-rendered images
+  # predict pre render ####
   output$predict <- renderImage({
     if (is.null(input$traccianti))
       return(NULL)

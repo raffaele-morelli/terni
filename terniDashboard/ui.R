@@ -23,7 +23,8 @@ ui <- fluidPage(
         ), 
         tabPanel("Splines", plotOutput("splines", width = 800, height = 800)),
         tabPanel("Predict", plotOutput("predictImage", width = 800, height = 250)),
-        tabPanel("Boxplt", plotOutput("boxPlot", width = 1000, height = 800))
+        tabPanel("Boxplt", plotOutput("boxPlot", width = 1000, height = 800)),
+        tabPanel("Distros", plotOutput("distros", width = 1000, height = 800))
       )
     )
   )

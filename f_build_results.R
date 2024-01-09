@@ -46,10 +46,12 @@ map(pltnts, \(pltnt) {
 
   log_print(inquinante, hide_notes = TRUE)
   # df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
-  df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
-
+  # df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+  df <- read_csv(glue::glue("~/R/terni/data/dataframes/df_finale.csv"), show_col_types = FALSE) # raw -> standardizzato
+  
   index <- grep(inquinante, names(df))
   names(df)[index] <- "value"
+  # source("f_test.R")
   
   rds <- readRDS(pltnt)
   mod <- getModel(names(rds), df)
@@ -63,7 +65,8 @@ map(names(models), \(m) {
   v_sign <- getSign(models[[m]])
   
   # df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
-  df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+  # df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale.csv"), show_col_types = FALSE) # raw -> standardizzato
   
   df %>% mutate(
     TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
@@ -72,6 +75,9 @@ map(names(models), \(m) {
   
   index <- grep(m, names(df))
   names(df)[index] <- "value"
+  
+  # source("f_test.R")
+  
   log_print(m, hide_notes = TRUE)
 
   
