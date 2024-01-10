@@ -21,7 +21,7 @@ ui <- fluidPage(
                    column(width = 6, offset = 2, verbatimTextOutput("summary") )
                  )
         ), 
-        tabPanel("Splines", plotOutput("splines", width = 800, height = 800)),
+        tabPanel("Splines", plotOutput("splines", width = 1000, height = 1000)),
         tabPanel("Predict", plotOutput("predictImage", width = 800, height = 250)),
         tabPanel("Boxplt", plotOutput("boxPlot", width = 1000, height = 800)),
         tabPanel("Distros", plotOutput("distros", width = 1000, height = 800))
