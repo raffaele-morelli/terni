@@ -57,7 +57,7 @@ server <- function(input, output) {
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
     }
-    gratia::draw(models[[input$traccianti]], scales = "fixed", residuals = TRUE)
+    gratia::draw(models[[input$traccianti]], scales = "fixed", residuals = FALSE)
     # mgcv::plot.gam(models[[input$traccianti]], pages = 1)
   })
   
