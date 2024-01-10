@@ -46,7 +46,7 @@ server <- function(input, output) {
     
     df %>% select(site, value) %>% 
       ggplot(aes(x = value) ) +
-      geom_histogram(bins = 80, binwidth = 1, fill = 'dodgerblue4', colour = 'white') + 
+      geom_histogram(bins = 80, fill = 'dodgerblue4', colour = 'white') + 
       facet_wrap(~site, scales = "free_y") +
       xlab("") + ylab("") +
       ggtitle(input$traccianti)
