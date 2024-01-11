@@ -205,7 +205,7 @@ write_csv(tmp, file = glue::glue("{outdir}/df_finale_raw_lod.csv") )
 
 
 # standardizzazione ####
-df_std <- tmp[,92:249] %>% scale() %>% as.data.frame()
+df_std <- tmp[, 92:249] %>% scale() %>% as.data.frame()
 df <- cbind(tmp[, 1:91], df_std)
 
 df[is.na(df)] <- 0

@@ -115,16 +115,16 @@ getBufferImperv <- function(dist, pt_id) {
 # getBufferImperv(100, 30) # test
 
 # b <- buffer(vect(filter(dominio, id == 7311)), 100, quadsegs = 17)
-
+# bb <- buffer(vect(dominio[7311, "id"] ), 100, quadsegs = 17)
 # extract(imperm, b, xy = TRUE) %>%
 #   group_by(ID) %>%
 #   summarise(m = mean(rst_impermeabilizzazione_utm32)) %>% 
 #   select(m) %>% as.numeric()
 
 # ggplot(terni_sez_crop) + geom_sf() +
-  # geom_sf(data = bbb, fill = "red") 
-  # geom_sf(data = bbb, fill = "black") +
-#   geom_sf(data = st_as_sf(b), color = "green", fill = "transparent")
+#   geom_sf(data = filter(dominio, id == 7311), color = "red") +
+#   geom_sf(data = st_as_sf(b), color = "green", fill = "transparent")+
+#   geom_sf(data = st_as_sf(bb), fill = "black") 
 
 
 # # calcola l'altezza media per gli edifici che sono nel buffer
@@ -201,7 +201,6 @@ getBufferRastKNDVI <- function(dist, rst, mese, pt_id) {
 }
 
 
-
 df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
 
 modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
@@ -221,9 +220,8 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
 {
   log_open(file_name = glue::glue("{pltnt}_domine.log"))
 
-  # map(1:nrow(dominio), \(id) {
   map(dominio$id, \(id) {
-      # log_print(
+    # log_print(
     #   sprintf("s8: %s, s6: %s, cold_area: %s, hot_area: %s, scrapyard: %s, imp: %s,  bh: %s, pop: %s, mlstrade: %s, ferr: %s",
     #           getBufferUA(200, lista_ua[["s8_sup_200"]], id),
     #           getBufferUA(200, lista_ua[["s6_sup_200"]], id),
@@ -237,7 +235,7 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
     #           getFerroMinDist(200, id),
     #   hide_notes = TRUE))
     # log_print(sprintf("id %s, imp: %s", id, getBufferImperv(dist, id), hide_notes = TRUE))
-    log_print(id, hide_notes = TRUE)
+    # log_print(id, hide_notes = TRUE)
     data.frame("variable" = c(getBufferUA(dist, lista_ua[["s8_sup_200"]], id),
                               getBufferUA(dist, lista_ua[["s6_sup_200"]], id),
                               getAcciaMinDist(dist, id, "cold_area"),
