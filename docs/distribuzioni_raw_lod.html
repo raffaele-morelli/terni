@@ -1,0 +1,4368 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Terni - distribuzioni raw + lod</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="distribuzioni_raw.html">Distribuzioni RAW</a>
+</li>
+<li>
+  <a href="distribuzioni_raw_lod.html">Distribuzioni RAW LOD</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Terni - distribuzioni raw + lod</h1>
+
+</div>
+
+
+<div id="pm10" class="section level2">
+<h2>PM10</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">32.88</td>
+<td align="center">15.2</td>
+<td align="center">29.32</td>
+<td align="center">30.93</td>
+<td align="center">13.65</td>
+<td align="center">10.36</td>
+<td align="center">96.01</td>
+<td align="center">85.64</td>
+<td align="center">1.134</td>
+<td align="center">0.931</td>
+<td align="center">0.9152</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 5</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="al_i" class="section level2">
+<h2>Al_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="5%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">203.2</td>
+<td align="center">122</td>
+<td align="center">170.7</td>
+<td align="center">183.7</td>
+<td align="center">74.75</td>
+<td align="center">35.06</td>
+<td align="center">1114</td>
+<td align="center">1079</td>
+<td align="center">3.028</td>
+<td align="center">14.87</td>
+<td align="center">7.346</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 5.946253</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+</div>
+<div id="al_s" class="section level2">
+<h2>Al_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">261</td>
+<td align="center">9.218</td>
+<td align="center">7.002</td>
+<td align="center">7.696</td>
+<td align="center">8.165</td>
+<td align="center">4.496</td>
+<td align="center">1.988</td>
+<td align="center">66.71</td>
+<td align="center">64.72</td>
+<td align="center">3.918</td>
+<td align="center">23.97</td>
+<td align="center">0.4334</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 1.938667</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+</div>
+<div id="as_i" class="section level2">
+<h2>As_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">98</td>
+<td align="center">0.844</td>
+<td align="center">0.2904</td>
+<td align="center">0.8398</td>
+<td align="center">0.8071</td>
+<td align="center">0.2143</td>
+<td align="center">0.469</td>
+<td align="center">1.912</td>
+<td align="center">1.443</td>
+<td align="center">1.232</td>
+<td align="center">1.977</td>
+<td align="center">0.02934</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.9617215</p>
+<p>LOD: 0.4659711</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-4.png" width="672" /></p>
+</div>
+<div id="as_s" class="section level2">
+<h2>As_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.3379</td>
+<td align="center">0.2358</td>
+<td align="center">0.2831</td>
+<td align="center">0.3114</td>
+<td align="center">0.1816</td>
+<td align="center">0.03496</td>
+<td align="center">1.481</td>
+<td align="center">1.446</td>
+<td align="center">1.562</td>
+<td align="center">3.834</td>
+<td align="center">0.01419</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.03535562</p>
+<p>LOD: 0.02780666</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-5.png" width="672" /></p>
+</div>
+<div id="b_i" class="section level2">
+<h2>B_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">228</td>
+<td align="center">3.818</td>
+<td align="center">3.864</td>
+<td align="center">2.86</td>
+<td align="center">3.139</td>
+<td align="center">2.026</td>
+<td align="center">0.641</td>
+<td align="center">38.74</td>
+<td align="center">38.1</td>
+<td align="center">4.449</td>
+<td align="center">30.82</td>
+<td align="center">0.2559</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 1.490709</p>
+<p>LOD: 0.5464837</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-6.png" width="672" /></p>
+</div>
+<div id="b_s" class="section level2">
+<h2>B_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">237</td>
+<td align="center">5.305</td>
+<td align="center">2.845</td>
+<td align="center">4.828</td>
+<td align="center">5.054</td>
+<td align="center">2.971</td>
+<td align="center">1.269</td>
+<td align="center">16.25</td>
+<td align="center">14.99</td>
+<td align="center">0.8166</td>
+<td align="center">0.4144</td>
+<td align="center">0.1848</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 1.264386</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-7.png" width="672" /></p>
+</div>
+<div id="ba_i" class="section level2">
+<h2>Ba_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">239</td>
+<td align="center">13.28</td>
+<td align="center">9.733</td>
+<td align="center">10.89</td>
+<td align="center">11.85</td>
+<td align="center">5.264</td>
+<td align="center">0.9393</td>
+<td align="center">71.05</td>
+<td align="center">70.11</td>
+<td align="center">2.133</td>
+<td align="center">6.894</td>
+<td align="center">0.6296</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 10.88595</p>
+<p>LOD: 0.9040354</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-8.png" width="672" /></p>
+</div>
+<div id="ba_s" class="section level2">
+<h2>Ba_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">274</td>
+<td align="center">5.786</td>
+<td align="center">3.704</td>
+<td align="center">4.665</td>
+<td align="center">5.276</td>
+<td align="center">2.541</td>
+<td align="center">1.078</td>
+<td align="center">24.21</td>
+<td align="center">23.13</td>
+<td align="center">1.645</td>
+<td align="center">3.633</td>
+<td align="center">0.2238</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 4.178069</p>
+<p>LOD: 1.0527</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-9.png" width="672" /></p>
+</div>
+<div id="bi_i" class="section level2">
+<h2>Bi_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">264</td>
+<td align="center">0.2327</td>
+<td align="center">0.1832</td>
+<td align="center">0.1679</td>
+<td align="center">0.2021</td>
+<td align="center">0.1153</td>
+<td align="center">0.01552</td>
+<td align="center">1.043</td>
+<td align="center">1.028</td>
+<td align="center">1.627</td>
+<td align="center">2.661</td>
+<td align="center">0.01128</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.01316941</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-10.png" width="672" /></p>
+</div>
+<div id="bi_s" class="section level2">
+<h2>Bi_s</h2>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="9%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">189</td>
+<td align="center">0.01922</td>
+<td align="center">0.01236</td>
+<td align="center">0.01505</td>
+<td align="center">0.01748</td>
+<td align="center">0.008752</td>
+<td align="center">0.006291</td>
+<td align="center">0.07145</td>
+<td align="center">0.06516</td>
+<td align="center">1.418</td>
+<td align="center">1.969</td>
+<td align="center">0.0008992</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.008806542</p>
+<p>LOD: 0.006203808</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-11.png" width="672" /></p>
+</div>
+<div id="ca_i" class="section level2">
+<h2>Ca_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="5%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">1079</td>
+<td align="center">691.9</td>
+<td align="center">960.4</td>
+<td align="center">987.4</td>
+<td align="center">647</td>
+<td align="center">95.82</td>
+<td align="center">4047</td>
+<td align="center">3951</td>
+<td align="center">1.375</td>
+<td align="center">2.213</td>
+<td align="center">41.65</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 524.0175</p>
+<p>LOD: 93.72944</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-12.png" width="672" /></p>
+</div>
+<div id="ca_s" class="section level2">
+<h2>Ca_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">835.5</td>
+<td align="center">351.4</td>
+<td align="center">814.6</td>
+<td align="center">811.6</td>
+<td align="center">289.5</td>
+<td align="center">92.18</td>
+<td align="center">2976</td>
+<td align="center">2884</td>
+<td align="center">1.474</td>
+<td align="center">5.77</td>
+<td align="center">21.15</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 77.31287</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-13.png" width="672" /></p>
+</div>
+<div id="cd_i" class="section level2">
+<h2>Cd_i</h2>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.05506</td>
+<td align="center">0.05236</td>
+<td align="center">0.04387</td>
+<td align="center">0.04669</td>
+<td align="center">0.04343</td>
+<td align="center">0.00411</td>
+<td align="center">0.3356</td>
+<td align="center">0.3315</td>
+<td align="center">2.055</td>
+<td align="center">6.265</td>
+<td align="center">0.003151</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.004161494</p>
+<p>LOD: 0.002957197</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-14.png" width="672" /></p>
+</div>
+<div id="cd_s" class="section level2">
+<h2>Cd_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">274</td>
+<td align="center">0.1276</td>
+<td align="center">0.1205</td>
+<td align="center">0.07096</td>
+<td align="center">0.1089</td>
+<td align="center">0.07155</td>
+<td align="center">0.007023</td>
+<td align="center">0.6731</td>
+<td align="center">0.666</td>
+<td align="center">1.556</td>
+<td align="center">2.723</td>
+<td align="center">0.007279</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.01680684 0.01680758 0.06758615</p>
+<p>LOD: 0.00688705</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-15.png" width="672" /></p>
+</div>
+<div id="ce_i" class="section level2">
+<h2>Ce_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="7%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.2962</td>
+<td align="center">0.1436</td>
+<td align="center">0.2596</td>
+<td align="center">0.2774</td>
+<td align="center">0.06962</td>
+<td align="center">0.1034</td>
+<td align="center">1.097</td>
+<td align="center">0.9936</td>
+<td align="center">2.162</td>
+<td align="center">6.905</td>
+<td align="center">0.008644</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.1042052 0.2129858 0.2130047</p>
+<p>LOD: 0.02082689</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-16.png" width="672" /></p>
+</div>
+<div id="ce_s" class="section level2">
+<h2>Ce_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">137</td>
+<td align="center">0.03041</td>
+<td align="center">0.02527</td>
+<td align="center">0.02337</td>
+<td align="center">0.02488</td>
+<td align="center">0.007887</td>
+<td align="center">0.01569</td>
+<td align="center">0.2262</td>
+<td align="center">0.2105</td>
+<td align="center">4.536</td>
+<td align="center">27.2</td>
+<td align="center">0.002159</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.01578315 0.01629256</p>
+<p>LOD: 0.01563397</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-17.png" width="672" /></p>
+</div>
+<div id="co_i" class="section level2">
+<h2>Co_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.2879</td>
+<td align="center">0.3368</td>
+<td align="center">0.2141</td>
+<td align="center">0.2261</td>
+<td align="center">0.1338</td>
+<td align="center">0.02443</td>
+<td align="center">2.741</td>
+<td align="center">2.716</td>
+<td align="center">4.114</td>
+<td align="center">21.64</td>
+<td align="center">0.02027</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.02474102</p>
+<p>LOD: 0.01792958</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-18.png" width="672" /></p>
+</div>
+<div id="co_s" class="section level2">
+<h2>Co_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.04046</td>
+<td align="center">0.0252</td>
+<td align="center">0.03664</td>
+<td align="center">0.03847</td>
+<td align="center">0.02427</td>
+<td align="center">0.005357</td>
+<td align="center">0.1662</td>
+<td align="center">0.1608</td>
+<td align="center">0.9577</td>
+<td align="center">1.805</td>
+<td align="center">0.001517</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.005698953</p>
+<p>LOD: 0.003691721</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-19.png" width="672" /></p>
+</div>
+<div id="cr_i" class="section level2">
+<h2>Cr_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">33.53</td>
+<td align="center">35.11</td>
+<td align="center">23.19</td>
+<td align="center">26.43</td>
+<td align="center">13.7</td>
+<td align="center">3.081</td>
+<td align="center">319.6</td>
+<td align="center">316.5</td>
+<td align="center">4.022</td>
+<td align="center">22.4</td>
+<td align="center">2.113</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 1.912471</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-20.png" width="672" /></p>
+</div>
+<div id="cr_s" class="section level2">
+<h2>Cr_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">274</td>
+<td align="center">1.871</td>
+<td align="center">1.449</td>
+<td align="center">1.496</td>
+<td align="center">1.657</td>
+<td align="center">0.8711</td>
+<td align="center">0.1116</td>
+<td align="center">13.95</td>
+<td align="center">13.84</td>
+<td align="center">3.094</td>
+<td align="center">18.06</td>
+<td align="center">0.08754</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.09138804</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-21.png" width="672" /></p>
+</div>
+<div id="cs_i" class="section level2">
+<h2>Cs_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">232</td>
+<td align="center">0.0372</td>
+<td align="center">0.02195</td>
+<td align="center">0.0295</td>
+<td align="center">0.03332</td>
+<td align="center">0.01121</td>
+<td align="center">0.01303</td>
+<td align="center">0.1719</td>
+<td align="center">0.1588</td>
+<td align="center">2.114</td>
+<td align="center">6.294</td>
+<td align="center">0.001441</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.02302209 0.02390756 0.02523576 0.02545712 0.02744896
+0.02833488 0.0288786 0.03030823 0.03298357</p>
+<p>LOD: 0.001311384</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-22.png" width="672" /></p>
+</div>
+<div id="cs_s" class="section level2">
+<h2>Cs_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">267</td>
+<td align="center">0.04464</td>
+<td align="center">0.03662</td>
+<td align="center">0.02869</td>
+<td align="center">0.03987</td>
+<td align="center">0.02623</td>
+<td align="center">0.007628</td>
+<td align="center">0.1835</td>
+<td align="center">0.1759</td>
+<td align="center">1.043</td>
+<td align="center">0.3766</td>
+<td align="center">0.002241</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.008868393</p>
+<p>LOD: 0.006643265</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-23.png" width="672" /></p>
+</div>
+<div id="cu_i" class="section level2">
+<h2>Cu_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="10%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">9.789</td>
+<td align="center">5.547</td>
+<td align="center">8.045</td>
+<td align="center">9.025</td>
+<td align="center">4.13</td>
+<td align="center">1.584</td>
+<td align="center">29.31</td>
+<td align="center">27.73</td>
+<td align="center">1.296</td>
+<td align="center">1.48</td>
+<td align="center">0.3339</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.8322743</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-24.png" width="672" /></p>
+</div>
+<div id="cu_s" class="section level2">
+<h2>Cu_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="6%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">2.955</td>
+<td align="center">1.922</td>
+<td align="center">2.483</td>
+<td align="center">2.67</td>
+<td align="center">1.49</td>
+<td align="center">0.2703</td>
+<td align="center">13.63</td>
+<td align="center">13.36</td>
+<td align="center">1.823</td>
+<td align="center">4.815</td>
+<td align="center">0.1157</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.09046794</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-25.png" width="672" /></p>
+</div>
+<div id="fe_i" class="section level2">
+<h2>Fe_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">510.9</td>
+<td align="center">348.8</td>
+<td align="center">443.9</td>
+<td align="center">463.7</td>
+<td align="center">215.6</td>
+<td align="center">44.11</td>
+<td align="center">3981</td>
+<td align="center">3937</td>
+<td align="center">4.664</td>
+<td align="center">37.66</td>
+<td align="center">21</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 34.70854</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-26.png" width="672" /></p>
+</div>
+<div id="fe_s" class="section level2">
+<h2>Fe_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">12.91</td>
+<td align="center">8.373</td>
+<td align="center">12.23</td>
+<td align="center">12.08</td>
+<td align="center">7.048</td>
+<td align="center">0.8149</td>
+<td align="center">52.93</td>
+<td align="center">52.11</td>
+<td align="center">1.599</td>
+<td align="center">4.459</td>
+<td align="center">0.504</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 1.820489</p>
+<p>LOD: 0.3002132</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-27.png" width="672" /></p>
+</div>
+<div id="ga_i" class="section level2">
+<h2>Ga_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">254</td>
+<td align="center">0.08725</td>
+<td align="center">0.04269</td>
+<td align="center">0.08014</td>
+<td align="center">0.08356</td>
+<td align="center">0.03099</td>
+<td align="center">0.005322</td>
+<td align="center">0.3111</td>
+<td align="center">0.3058</td>
+<td align="center">1.428</td>
+<td align="center">4.465</td>
+<td align="center">0.002679</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.07526453 0.1111259</p>
+<p>LOD: 0.004894085</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-28.png" width="672" /></p>
+</div>
+<div id="ga_s" class="section level2">
+<h2>Ga_s</h2>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="9%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">275</td>
+<td align="center">0.01029</td>
+<td align="center">0.007676</td>
+<td align="center">0.009364</td>
+<td align="center">0.009342</td>
+<td align="center">0.007339</td>
+<td align="center">0.001867</td>
+<td align="center">0.06454</td>
+<td align="center">0.06267</td>
+<td align="center">2.044</td>
+<td align="center">9.143</td>
+<td align="center">0.0004629</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.001985961 0.003425028</p>
+<p>LOD: 0.001436919</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-29.png" width="672" /></p>
+</div>
+<div id="k_i" class="section level2">
+<h2>K_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="6%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">223</td>
+<td align="center">1249</td>
+<td align="center">976.9</td>
+<td align="center">964</td>
+<td align="center">1104</td>
+<td align="center">780.6</td>
+<td align="center">93.71</td>
+<td align="center">4712</td>
+<td align="center">4618</td>
+<td align="center">1.274</td>
+<td align="center">1.159</td>
+<td align="center">65.41</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 91.79287</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-30.png" width="672" /></p>
+</div>
+<div id="k_s" class="section level2">
+<h2>K_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">267</td>
+<td align="center">372.1</td>
+<td align="center">314.9</td>
+<td align="center">202</td>
+<td align="center">321.2</td>
+<td align="center">147.4</td>
+<td align="center">70.93</td>
+<td align="center">1979</td>
+<td align="center">1908</td>
+<td align="center">1.477</td>
+<td align="center">2.581</td>
+<td align="center">19.27</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 70.3797</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-31.png" width="672" /></p>
+</div>
+<div id="la_i" class="section level2">
+<h2>La_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.161</td>
+<td align="center">0.08011</td>
+<td align="center">0.1528</td>
+<td align="center">0.1505</td>
+<td align="center">0.04164</td>
+<td align="center">0.05471</td>
+<td align="center">0.6574</td>
+<td align="center">0.6027</td>
+<td align="center">2.47</td>
+<td align="center">9.815</td>
+<td align="center">0.004822</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.06098674</p>
+<p>LOD: 0.01051468</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-32.png" width="672" /></p>
+</div>
+<div id="la_s" class="section level2">
+<h2>La_s</h2>
+<table>
+<colgroup>
+<col width="3%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">53</td>
+<td align="center">0.02521</td>
+<td align="center">0.01913</td>
+<td align="center">0.01727</td>
+<td align="center">0.02106</td>
+<td align="center">0.005123</td>
+<td align="center">0.01331</td>
+<td align="center">0.1218</td>
+<td align="center">0.1085</td>
+<td align="center">2.902</td>
+<td align="center">10.29</td>
+<td align="center">0.002628</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.01540709</p>
+<p>LOD: 0.01314416</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-33.png" width="672" /></p>
+</div>
+<div id="li_i" class="section level2">
+<h2>Li_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">273</td>
+<td align="center">0.1143</td>
+<td align="center">0.05964</td>
+<td align="center">0.1018</td>
+<td align="center">0.1063</td>
+<td align="center">0.04162</td>
+<td align="center">0.0211</td>
+<td align="center">0.4324</td>
+<td align="center">0.4113</td>
+<td align="center">1.796</td>
+<td align="center">4.997</td>
+<td align="center">0.00361</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.07083721 0.07902776</p>
+<p>LOD: 0.02084175</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-34.png" width="672" /></p>
+</div>
+<div id="li_s" class="section level2">
+<h2>Li_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.1348</td>
+<td align="center">0.08788</td>
+<td align="center">0.1166</td>
+<td align="center">0.1254</td>
+<td align="center">0.07524</td>
+<td align="center">0.01428</td>
+<td align="center">0.9058</td>
+<td align="center">0.8915</td>
+<td align="center">2.879</td>
+<td align="center">20.12</td>
+<td align="center">0.00529</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.01222724</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-35.png" width="672" /></p>
+</div>
+<div id="mg_i" class="section level2">
+<h2>Mg_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">58.27</td>
+<td align="center">26.82</td>
+<td align="center">52.2</td>
+<td align="center">54.92</td>
+<td align="center">19.98</td>
+<td align="center">22.66</td>
+<td align="center">181.8</td>
+<td align="center">159.2</td>
+<td align="center">1.6</td>
+<td align="center">3.613</td>
+<td align="center">1.614</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 22.66079</p>
+<p>LOD: 14.13556</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-36.png" width="672" /></p>
+</div>
+<div id="mg_s" class="section level2">
+<h2>Mg_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">64.02</td>
+<td align="center">29.28</td>
+<td align="center">61.05</td>
+<td align="center">61.35</td>
+<td align="center">20.08</td>
+<td align="center">12.72</td>
+<td align="center">351.3</td>
+<td align="center">338.6</td>
+<td align="center">3.903</td>
+<td align="center">32.95</td>
+<td align="center">1.763</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 4.046119</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-37.png" width="672" /></p>
+</div>
+<div id="mn_i" class="section level2">
+<h2>Mn_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="6%" />
+<col width="7%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">10.5</td>
+<td align="center">6.216</td>
+<td align="center">9.002</td>
+<td align="center">9.487</td>
+<td align="center">4.002</td>
+<td align="center">1.476</td>
+<td align="center">48.07</td>
+<td align="center">46.59</td>
+<td align="center">2.583</td>
+<td align="center">9.822</td>
+<td align="center">0.3741</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.2387872</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-38.png" width="672" /></p>
+</div>
+<div id="mn_s" class="section level2">
+<h2>Mn_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">7.145</td>
+<td align="center">4.344</td>
+<td align="center">6.404</td>
+<td align="center">6.707</td>
+<td align="center">3.836</td>
+<td align="center">0.7291</td>
+<td align="center">46.04</td>
+<td align="center">45.31</td>
+<td align="center">3.08</td>
+<td align="center">22.34</td>
+<td align="center">0.2615</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.1484175</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-39.png" width="672" /></p>
+</div>
+<div id="mo_i" class="section level2">
+<h2>Mo_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="6%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">4.143</td>
+<td align="center">3.981</td>
+<td align="center">2.833</td>
+<td align="center">3.472</td>
+<td align="center">2.71</td>
+<td align="center">0.2597</td>
+<td align="center">29.93</td>
+<td align="center">29.67</td>
+<td align="center">2.341</td>
+<td align="center">8.314</td>
+<td align="center">0.2397</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.7526166</p>
+<p>LOD: 0.04956555</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-40.png" width="672" /></p>
+</div>
+<div id="mo_s" class="section level2">
+<h2>Mo_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">274</td>
+<td align="center">8.084</td>
+<td align="center">10.81</td>
+<td align="center">4.943</td>
+<td align="center">5.737</td>
+<td align="center">3.023</td>
+<td align="center">1.009</td>
+<td align="center">95.65</td>
+<td align="center">94.64</td>
+<td align="center">4.286</td>
+<td align="center">23.05</td>
+<td align="center">0.6529</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.9349715</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-41.png" width="672" /></p>
+</div>
+<div id="na_i" class="section level2">
+<h2>Na_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="5%" />
+<col width="8%" />
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">273</td>
+<td align="center">287.6</td>
+<td align="center">135.7</td>
+<td align="center">257.3</td>
+<td align="center">269.8</td>
+<td align="center">101</td>
+<td align="center">105.1</td>
+<td align="center">808</td>
+<td align="center">703</td>
+<td align="center">1.333</td>
+<td align="center">2.039</td>
+<td align="center">8.213</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 135.7383</p>
+<p>LOD: 97.70957</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-42.png" width="672" /></p>
+</div>
+<div id="na_s" class="section level2">
+<h2>Na_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">371.8</td>
+<td align="center">167.2</td>
+<td align="center">353.6</td>
+<td align="center">360.1</td>
+<td align="center">117.8</td>
+<td align="center">16.84</td>
+<td align="center">1414</td>
+<td align="center">1397</td>
+<td align="center">1.823</td>
+<td align="center">8.372</td>
+<td align="center">10.06</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 8.85071</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-43.png" width="672" /></p>
+</div>
+<div id="nb_i" class="section level2">
+<h2>Nb_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">246</td>
+<td align="center">0.1873</td>
+<td align="center">0.2595</td>
+<td align="center">0.1198</td>
+<td align="center">0.1357</td>
+<td align="center">0.06714</td>
+<td align="center">0.004657</td>
+<td align="center">2.821</td>
+<td align="center">2.817</td>
+<td align="center">5.779</td>
+<td align="center">46.49</td>
+<td align="center">0.01654</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.07305087 0.1406759</p>
+<p>LOD: 0.002435378</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-44.png" width="672" /></p>
+</div>
+<div id="nb_s" class="section level2">
+<h2>Nb_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">254</td>
+<td align="center">0.005567</td>
+<td align="center">0.007819</td>
+<td align="center">0.002883</td>
+<td align="center">0.003817</td>
+<td align="center">0.001732</td>
+<td align="center">0.001144</td>
+<td align="center">0.06748</td>
+<td align="center">0.06633</td>
+<td align="center">4.442</td>
+<td align="center">25.75</td>
+<td align="center">0.0004906</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.002042464</p>
+<p>LOD: 0.001104983</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-45.png" width="672" /></p>
+</div>
+<div id="ni_i" class="section level2">
+<h2>Ni_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">14.99</td>
+<td align="center">20.09</td>
+<td align="center">9.412</td>
+<td align="center">10.77</td>
+<td align="center">5.689</td>
+<td align="center">1.374</td>
+<td align="center">157.3</td>
+<td align="center">155.9</td>
+<td align="center">4.407</td>
+<td align="center">22.9</td>
+<td align="center">1.209</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.4791348</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-46.png" width="672" /></p>
+</div>
+<div id="ni_s" class="section level2">
+<h2>Ni_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="6%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">1.189</td>
+<td align="center">1.06</td>
+<td align="center">0.9856</td>
+<td align="center">1.007</td>
+<td align="center">0.5496</td>
+<td align="center">0.1107</td>
+<td align="center">8.791</td>
+<td align="center">8.68</td>
+<td align="center">3.755</td>
+<td align="center">19.37</td>
+<td align="center">0.06379</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.2856001 0.2860814</p>
+<p>LOD: 0.01922712</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-47.png" width="672" /></p>
+</div>
+<div id="pb_i" class="section level2">
+<h2>Pb_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="6%" />
+<col width="7%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">5.29</td>
+<td align="center">3.345</td>
+<td align="center">4.415</td>
+<td align="center">4.819</td>
+<td align="center">2.415</td>
+<td align="center">0.436</td>
+<td align="center">30.44</td>
+<td align="center">30</td>
+<td align="center">2.711</td>
+<td align="center">13.21</td>
+<td align="center">0.2013</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 9.11</p>
+<p>LOD: 0.1374939</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-48.png" width="672" /></p>
+</div>
+<div id="pb_s" class="section level2">
+<h2>Pb_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">264</td>
+<td align="center">0.9224</td>
+<td align="center">0.8444</td>
+<td align="center">0.6647</td>
+<td align="center">0.7714</td>
+<td align="center">0.5545</td>
+<td align="center">0.1787</td>
+<td align="center">6.307</td>
+<td align="center">6.129</td>
+<td align="center">2.642</td>
+<td align="center">10.91</td>
+<td align="center">0.05197</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 1.31 1.38</p>
+<p>LOD: 0.1757938</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-49.png" width="672" /></p>
+</div>
+<div id="rb_i" class="section level2">
+<h2>Rb_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">260</td>
+<td align="center">0.3465</td>
+<td align="center">0.1962</td>
+<td align="center">0.3043</td>
+<td align="center">0.3168</td>
+<td align="center">0.1323</td>
+<td align="center">0.1</td>
+<td align="center">1.279</td>
+<td align="center">1.179</td>
+<td align="center">1.835</td>
+<td align="center">4.439</td>
+<td align="center">0.01217</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.0978843</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-50.png" width="672" /></p>
+</div>
+<div id="rb_s" class="section level2">
+<h2>Rb_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">272</td>
+<td align="center">0.8833</td>
+<td align="center">0.7372</td>
+<td align="center">0.5598</td>
+<td align="center">0.7548</td>
+<td align="center">0.4239</td>
+<td align="center">0.1267</td>
+<td align="center">4.4</td>
+<td align="center">4.273</td>
+<td align="center">1.627</td>
+<td align="center">2.778</td>
+<td align="center">0.0447</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.103829</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-51.png" width="672" /></p>
+</div>
+<div id="sb_i" class="section level2">
+<h2>Sb_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.8226</td>
+<td align="center">0.5482</td>
+<td align="center">0.6579</td>
+<td align="center">0.7547</td>
+<td align="center">0.4709</td>
+<td align="center">0.04213</td>
+<td align="center">3.605</td>
+<td align="center">3.562</td>
+<td align="center">1.307</td>
+<td align="center">2.269</td>
+<td align="center">0.033</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.3379054</p>
+<p>LOD: 0.004963409</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-52.png" width="672" /></p>
+</div>
+<div id="sb_s" class="section level2">
+<h2>Sb_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.4028</td>
+<td align="center">0.1857</td>
+<td align="center">0.3875</td>
+<td align="center">0.388</td>
+<td align="center">0.1682</td>
+<td align="center">0.03836</td>
+<td align="center">1.334</td>
+<td align="center">1.296</td>
+<td align="center">1.237</td>
+<td align="center">3.3</td>
+<td align="center">0.01118</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.007788973</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-53.png" width="672" /></p>
+</div>
+<div id="sn_i" class="section level2">
+<h2>Sn_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">3.776</td>
+<td align="center">3.022</td>
+<td align="center">2.716</td>
+<td align="center">3.335</td>
+<td align="center">2.264</td>
+<td align="center">0.2975</td>
+<td align="center">13.78</td>
+<td align="center">13.49</td>
+<td align="center">1.17</td>
+<td align="center">0.6159</td>
+<td align="center">0.1819</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.05188744</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-54.png" width="672" /></p>
+</div>
+<div id="sn_s" class="section level2">
+<h2>Sn_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.1788</td>
+<td align="center">0.1171</td>
+<td align="center">0.1555</td>
+<td align="center">0.1629</td>
+<td align="center">0.08798</td>
+<td align="center">0.02253</td>
+<td align="center">0.8175</td>
+<td align="center">0.7949</td>
+<td align="center">2.04</td>
+<td align="center">6.637</td>
+<td align="center">0.007047</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.007465414</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-55.png" width="672" /></p>
+</div>
+<div id="sr_i" class="section level2">
+<h2>Sr_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">270</td>
+<td align="center">1.816</td>
+<td align="center">0.9952</td>
+<td align="center">1.616</td>
+<td align="center">1.705</td>
+<td align="center">0.8353</td>
+<td align="center">0.5327</td>
+<td align="center">5.604</td>
+<td align="center">5.071</td>
+<td align="center">1.088</td>
+<td align="center">1.245</td>
+<td align="center">0.06057</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.6083583</p>
+<p>LOD: 0.5197018</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-56.png" width="672" /></p>
+</div>
+<div id="sr_s" class="section level2">
+<h2>Sr_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="6%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">2.19</td>
+<td align="center">1.278</td>
+<td align="center">1.935</td>
+<td align="center">1.987</td>
+<td align="center">0.7392</td>
+<td align="center">0.414</td>
+<td align="center">10.53</td>
+<td align="center">10.12</td>
+<td align="center">2.299</td>
+<td align="center">8.168</td>
+<td align="center">0.07692</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.196197</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-57.png" width="672" /></p>
+</div>
+<div id="ti_i" class="section level2">
+<h2>Ti_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="7%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">5.481</td>
+<td align="center">3.198</td>
+<td align="center">4.787</td>
+<td align="center">4.951</td>
+<td align="center">2.006</td>
+<td align="center">0.8796</td>
+<td align="center">23.15</td>
+<td align="center">22.27</td>
+<td align="center">2.133</td>
+<td align="center">6.155</td>
+<td align="center">0.1925</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.1948359</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-58.png" width="672" /></p>
+</div>
+<div id="ti_s" class="section level2">
+<h2>Ti_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">161</td>
+<td align="center">0.1685</td>
+<td align="center">0.1387</td>
+<td align="center">0.1343</td>
+<td align="center">0.1446</td>
+<td align="center">0.05245</td>
+<td align="center">0.08403</td>
+<td align="center">1.527</td>
+<td align="center">1.443</td>
+<td align="center">6.417</td>
+<td align="center">55.94</td>
+<td align="center">0.01093</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.19</p>
+<p>LOD: 0.08389901</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-59.png" width="672" /></p>
+</div>
+<div id="tl_i" class="section level2">
+<h2>Tl_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">233</td>
+<td align="center">0.03996</td>
+<td align="center">0.02349</td>
+<td align="center">0.03751</td>
+<td align="center">0.03798</td>
+<td align="center">0.02175</td>
+<td align="center">0.002293</td>
+<td align="center">0.1871</td>
+<td align="center">0.1848</td>
+<td align="center">1.513</td>
+<td align="center">6.022</td>
+<td align="center">0.001539</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.05290654</p>
+<p>LOD: 0.0011</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-60.png" width="672" /></p>
+</div>
+<div id="tl_s" class="section level2">
+<h2>Tl_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="8%" />
+<col width="7%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.09277</td>
+<td align="center">0.0808</td>
+<td align="center">0.0611</td>
+<td align="center">0.08317</td>
+<td align="center">0.06424</td>
+<td align="center">0.001584</td>
+<td align="center">0.497</td>
+<td align="center">0.4954</td>
+<td align="center">1.218</td>
+<td align="center">2.138</td>
+<td align="center">0.004864</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.0004298387</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-61.png" width="672" /></p>
+</div>
+<div id="u_i" class="section level2">
+<h2>U_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">224</td>
+<td align="center">0.009691</td>
+<td align="center">0.004455</td>
+<td align="center">0.009305</td>
+<td align="center">0.009344</td>
+<td align="center">0.003942</td>
+<td align="center">0.001732</td>
+<td align="center">0.03017</td>
+<td align="center">0.02844</td>
+<td align="center">1.039</td>
+<td align="center">2.284</td>
+<td align="center">0.0002977</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.01173241</p>
+<p>LOD: 0.001704983</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-62.png" width="672" /></p>
+</div>
+<div id="u_s" class="section level2">
+<h2>U_s</h2>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="7%" />
+<col width="9%" />
+<col width="7%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="5%" />
+<col width="8%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">263</td>
+<td align="center">0.00179</td>
+<td align="center">0.0007635</td>
+<td align="center">0.00182</td>
+<td align="center">0.001725</td>
+<td align="center">0.0006635</td>
+<td align="center">0.0005313</td>
+<td align="center">0.005485</td>
+<td align="center">0.004954</td>
+<td align="center">1.18</td>
+<td align="center">2.868</td>
+<td align="center">4.708e-05</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.00182</p>
+<p>LOD: 0.0004461903</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-63.png" width="672" /></p>
+</div>
+<div id="v_i" class="section level2">
+<h2>V_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">250</td>
+<td align="center">0.5412</td>
+<td align="center">0.3329</td>
+<td align="center">0.5023</td>
+<td align="center">0.5041</td>
+<td align="center">0.2357</td>
+<td align="center">0.09739</td>
+<td align="center">2.078</td>
+<td align="center">1.98</td>
+<td align="center">1.589</td>
+<td align="center">4.189</td>
+<td align="center">0.02105</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.1101948</p>
+<p>LOD: 0.09077024</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-64.png" width="672" /></p>
+</div>
+<div id="v_s" class="section level2">
+<h2>V_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">274</td>
+<td align="center">0.6141</td>
+<td align="center">0.4837</td>
+<td align="center">0.4527</td>
+<td align="center">0.5314</td>
+<td align="center">0.3472</td>
+<td align="center">0.05355</td>
+<td align="center">3.301</td>
+<td align="center">3.247</td>
+<td align="center">1.754</td>
+<td align="center">4.059</td>
+<td align="center">0.02922</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.784992</p>
+<p>LOD: 0.02966535</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-65.png" width="672" /></p>
+</div>
+<div id="w_i" class="section level2">
+<h2>W_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">224</td>
+<td align="center">0.1082</td>
+<td align="center">0.07609</td>
+<td align="center">0.08348</td>
+<td align="center">0.09361</td>
+<td align="center">0.04477</td>
+<td align="center">0.02797</td>
+<td align="center">0.4635</td>
+<td align="center">0.4356</td>
+<td align="center">2.302</td>
+<td align="center">6.225</td>
+<td align="center">0.005084</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.1062558</p>
+<p>LOD: 0.02782311</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-66.png" width="672" /></p>
+</div>
+<div id="w_s" class="section level2">
+<h2>W_s</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.0866</td>
+<td align="center">0.09894</td>
+<td align="center">0.06261</td>
+<td align="center">0.06713</td>
+<td align="center">0.03921</td>
+<td align="center">0.00315</td>
+<td align="center">0.6935</td>
+<td align="center">0.6903</td>
+<td align="center">3.843</td>
+<td align="center">17.01</td>
+<td align="center">0.005955</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.002993701</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-67.png" width="672" /></p>
+</div>
+<div id="zn_i" class="section level2">
+<h2>Zn_i</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">270</td>
+<td align="center">41.12</td>
+<td align="center">27.79</td>
+<td align="center">34.8</td>
+<td align="center">35.36</td>
+<td align="center">12.27</td>
+<td align="center">11.57</td>
+<td align="center">181.7</td>
+<td align="center">170.1</td>
+<td align="center">2.582</td>
+<td align="center">7.569</td>
+<td align="center">1.691</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 34.80341</p>
+<p>LOD: 11.46206</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-68.png" width="672" /></p>
+</div>
+<div id="zn_s" class="section level2">
+<h2>Zn_s</h2>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">275</td>
+<td align="center">28.91</td>
+<td align="center">21.07</td>
+<td align="center">23.2</td>
+<td align="center">26.56</td>
+<td align="center">15.21</td>
+<td align="center">4.103</td>
+<td align="center">198.1</td>
+<td align="center">194</td>
+<td align="center">2.564</td>
+<td align="center">14.61</td>
+<td align="center">1.271</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 4.148757 4.148941</p>
+<p>LOD: 4.079364</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-69.png" width="672" /></p>
+</div>
+<div id="zr_i" class="section level2">
+<h2>Zr_i</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.6463</td>
+<td align="center">0.3221</td>
+<td align="center">0.5795</td>
+<td align="center">0.6187</td>
+<td align="center">0.2835</td>
+<td align="center">0.08956</td>
+<td align="center">1.659</td>
+<td align="center">1.57</td>
+<td align="center">0.8204</td>
+<td align="center">0.3756</td>
+<td align="center">0.01939</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD: 0.03418234</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-70.png" width="672" /></p>
+</div>
+<div id="zr_s" class="section level2">
+<h2>Zr_s</h2>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.02467</td>
+<td align="center">0.03082</td>
+<td align="center">0.0173</td>
+<td align="center">0.0196</td>
+<td align="center">0.01462</td>
+<td align="center">0.002131</td>
+<td align="center">0.3248</td>
+<td align="center">0.3227</td>
+<td align="center">5.552</td>
+<td align="center">43.76</td>
+<td align="center">0.001855</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: 0.003184306 0.003184447</p>
+<p>LOD: 0.00115</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-71.png" width="672" /></p>
+</div>
+<div id="tot_cr" class="section level2">
+<h2>TOT_CR</h2>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="5%" />
+<col width="8%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">4.506e-07</td>
+<td align="center">3.114e-07</td>
+<td align="center">3.742e-07</td>
+<td align="center">3.991e-07</td>
+<td align="center">1.894e-07</td>
+<td align="center">7.221e-08</td>
+<td align="center">1.874e-06</td>
+<td align="center">1.802e-06</td>
+<td align="center">2.351</td>
+<td align="center">6.689</td>
+<td align="center">1.874e-08</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD:</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-72.png" width="672" /></p>
+</div>
+<div id="tot_ncr" class="section level2">
+<h2>TOT_NCR</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">trimmed</th>
+<th align="center">mad</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">276</td>
+<td align="center">0.7105</td>
+<td align="center">0.4617</td>
+<td align="center">0.5756</td>
+<td align="center">0.6281</td>
+<td align="center">0.2875</td>
+<td align="center">0.1088</td>
+<td align="center">2.773</td>
+<td align="center">2.664</td>
+<td align="center">2.301</td>
+<td align="center">6.111</td>
+<td align="center">0.02779</td>
+</tr>
+</tbody>
+</table>
+<p>Moda: NA</p>
+<p>LOD:</p>
+<p><img src="distribuzioni_raw_lod_files/figure-html/unnamed-chunk-1-73.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
