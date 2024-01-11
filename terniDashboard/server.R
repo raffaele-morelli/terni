@@ -78,15 +78,15 @@ server <- function(input, output) {
   })
   
   # predict pre render ####
-  output$predict <- renderImage({
-    if (is.null(input$traccianti))
-      return(NULL)
-    
-    return(list(
-      src = glue("/home/rmorelli/R/terni/png_out/{input$traccianti}_{input$res}m_{input$res}res_01.png")
-    ))
-    
-  }, deleteFile = FALSE)
+  # output$predict <- renderImage({
+  #   if (is.null(input$traccianti))
+  #     return(NULL)
+  #   
+  #   return(list(
+  #     src = glue("/home/rmorelli/R/terni/png_out/{input$traccianti}_{input$res}m_{input$res}res_01.png")
+  #   ))
+  #   
+  # }, deleteFile = FALSE)
   
   # predict "ar volo" ####
   output$predictImage <- renderPlot({
@@ -114,7 +114,7 @@ server <- function(input, output) {
       geom_raster(aes(x = x, y = y, fill = value)) +
       geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey90", fill = "transparent", size = 0.5) +
       geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 3) +
-      scale_fill_viridis_c(option = "B") +
+      scale_fill_viridis_c(option = "B", direction = -1) +
       theme_void() +
       theme(legend.position = "bottom", 
             legend.title = element_blank(),
@@ -123,7 +123,7 @@ server <- function(input, output) {
             legend.key.height = unit(15, "points"),
             legend.key.width = unit(100, "points")
       ) + 
-      ggtitle(input$mese) +
+      ggtitle(glue("{input$traccianti} - {input$mese}")) +
       coord_sf(datum = sf::st_crs(32632)) -> g1
     
     ggplot(data = r_df) + 

@@ -25,7 +25,7 @@
     pltnt <- args[1] #### SET inquinante ####
     dir <- args[2] ### SET directory ####
   }
-  # pltnt <- "Cs_i"
+  pltnt <- "Tl_i"
   dir <- "gaussian"
   
   cat("############# ", pltnt, "\n")
@@ -39,7 +39,7 @@
   ## Variabili #####  
   names(df)[index] <- "value"
 
-  # source("f_test.R") # !!!! warning !!!!! ####
+  source("f_test.R") # !!!! warning !!!!! ####
   
   v_variabili <- readRDS("~/R/terni/rds_out/v_variabili.RDS")  
 }
@@ -53,7 +53,7 @@ assign("N", 0, envir = .GlobalEnv)
 assign("pltnt", pltnt, envir = .GlobalEnv)
 assign("kappas", readRDS("~/R/terni/rds_out/kappas.RDS"))
 assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
-assign("suffix", '', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
+assign("suffix", '_test', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
 
 # assign("family", 'Gamma(link=identity)')
 # assign("family", 'poisson(link=log)')
