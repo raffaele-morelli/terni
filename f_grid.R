@@ -6,8 +6,8 @@
   # SET tracciante ####
   pltnt <- "Cs_i"
   # pltnt <- args[1]
-  dist <- 200
-  res <- 200
+  dist <- 100
+  res <- 100
   
   library(sf)
   library(dplyr)
@@ -112,7 +112,7 @@ getBufferImperv <- function(dist, pt_id) {
   if(!is.na(val)) { return(val)}else{ return(0)}
   # return(val)
 }
-getBufferImperv(100, 30) # test
+# getBufferImperv(100, 30) # test
 
 # b <- buffer(vect(filter(dominio, id == 7311)), 100, quadsegs = 17)
 
@@ -208,11 +208,11 @@ modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
 
 index <- grep(pltnt, names(df), value = FALSE)
 names(df)[index] <- "value"
-source("f_test.R")
+# source("f_test.R")
 
-frm <- formula(modelli[[pltnt]]) %>% as.character()
+# frm <- formula(modelli[[pltnt]]) %>% as.character()
 
-gsub("s\\(imp_200, k = 5\\) \\+", "", frm[3])
+# gsub("s\\(imp_200, k = 5\\) \\+", "", frm[3])
 
 gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 

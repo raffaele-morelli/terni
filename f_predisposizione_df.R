@@ -188,52 +188,53 @@ df_finale %>% mutate(
 # write_csv(df, "~/R/terni/data/dataframes/df_finale_raw.csv")
 write_csv(df_finale, file = glue::glue("{outdir}/df_finale_raw.csv") )
 
-# standardizzazione ####
-df_std <- df_finale[,92:247] %>% scale() %>% as.data.frame()
+# limiti e cambio unità di misura ####
+df_finale_raw <- read_csv(glue::glue("{outdir}/df_finale_raw.csv"), show_col_types = FALSE)
+limiti <- read_excel("~/R/terni/data/limiti.xlsx")
 
-df <- cbind(df[, 1:91], df_std)
+tmp <- df_finale
+
+for (l in names(limiti)) {
+  tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), 
+                     NA, 
+                     tmp[[l]]
+  )
+}
+
+write_csv(tmp, file = glue::glue("{outdir}/df_finale_raw_lod.csv") )
+
+
+# standardizzazione ####
+df_std <- tmp[,92:249] %>% scale() %>% as.data.frame()
+df <- cbind(tmp[, 1:91], df_std)
 
 df[is.na(df)] <- 0
 # names(df)[11] <- "value"
 
 write_csv(df, file = glue::glue("{outdir}/df_finale.csv"))
 
-# limiti e cambio unità di misura ####
-df_finale <- read_csv("data/dataframes/df_finale.csv", show_col_types = FALSE)
-limiti <- read_excel("data/limiti.xlsx")
-
-library(purrr)
-
-
-tmp <- df_finale
-
-for (l in names(limiti)) {
-  tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), round(as.numeric(limiti[l]), 4), tmp[[l]])
-}
-
-
 non_zero <- function(x) {
   return( ifelse(x == 0, 1/1000000000000, x))
 }
 
-tmp %>%
-  mutate(across(all_of(names(tmp[11:20])), non_zero )) %>% 
-  write_csv(file = glue::glue("{outdir}/df_finale_lod.csv"))
-
-write_csv(limiti, file = glue::glue("{outdir}/limiti.csv"))
-
-# verifica dei limiti del nuovo df ####
-
-limiti <- read_csv("data/dataframes/limiti.csv")
-df_finale <- read_csv("data/dataframes/df_finale_lod.csv", show_col_types = FALSE)
-
-df_finale[names(limiti)] %>%
-  reshape2::melt() %>%
-  group_by(variable) %>%
-  summarise(m = min(value)) %>% View()
-
-df_finale[names(tmp[11:20])] %>%
-  reshape2::melt() %>%
-  group_by(variable) %>%
-  filter(value == 0) %>% 
-  summarise(m = n()) %>% View()
+# tmp %>%
+#   mutate(across(all_of(names(tmp[11:20])), non_zero )) %>% 
+#   write_csv(file = glue::glue("{outdir}/df_finale_lod.csv"))
+# 
+# write_csv(limiti, file = glue::glue("{outdir}/limiti.csv"))
+# 
+# # verifica dei limiti del nuovo df ####
+# 
+# limiti <- read_csv("data/dataframes/limiti.csv")
+# df_finale <- read_csv("data/dataframes/df_finale_lod.csv", show_col_types = FALSE)
+# 
+# df_finale[names(limiti)] %>%
+#   reshape2::melt() %>%
+#   group_by(variable) %>%
+#   summarise(m = min(value)) %>% View()
+# 
+# df_finale[names(tmp[11:20])] %>%
+#   reshape2::melt() %>%
+#   group_by(variable) %>%
+#   filter(value == 0) %>% 
+#   summarise(m = n()) %>% View()
