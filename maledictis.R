@@ -10,7 +10,7 @@ library(glue)
 library(utils)
 library(mgcv)
 
-df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw_lod.csv", show_col_types = FALSE)
 
 select(df, month_y, Cs_i, rh_max, tp_IQR, imp_200, cold_area) %>% 
   group_by(month_y) %>% 
