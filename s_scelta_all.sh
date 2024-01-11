@@ -91,5 +91,5 @@ Rscript f_scelta_modello.R Zr_s $1 &
 wait
 
 # ## INDICI ####
-Rscript f_scelta_modello.R TOT_CR $1 &
-Rscript f_scelta_modello.R TOT_NCR $1 &
+# Rscript f_scelta_modello.R TOT_CR $1 &
+# Rscript f_scelta_modello.R TOT_NCR $1 &

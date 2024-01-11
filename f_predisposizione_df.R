@@ -208,10 +208,10 @@ write_csv(tmp, file = glue::glue("{outdir}/df_finale_raw_lod.csv") )
 df_std <- tmp[, 92:249] %>% scale() %>% as.data.frame()
 df <- cbind(tmp[, 1:91], df_std)
 
-df[is.na(df)] <- 0
+# df[is.na(df)] <- 0
 # names(df)[11] <- "value"
 
-write_csv(df, file = glue::glue("{outdir}/df_finale.csv"))
+write_csv(df, file = glue::glue("{outdir}/df_finale_raw_lod_std.csv"))
 
 non_zero <- function(x) {
   return( ifelse(x == 0, 1/1000000000000, x))
