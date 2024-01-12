@@ -21,25 +21,25 @@
   source('funzioni/f_bestMod.R')
   source('funzioni/f_sceltaVar.R')
 
-  if(!is.na(args[1])) {
+  if(!purrr::is_empty(args)) {
     pltnt <- args[1] #### SET inquinante ####
     dir <- args[2] ### SET directory ####
+  }else{
+    pltnt <- "PM10"
+    dir <- "gaussian"
   }
-  pltnt <- "Tl_i"
-  dir <- "gaussian"
+
   
   cat("############# ", pltnt, "\n")
   
-  # df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
-  # df <- read_csv(glue::glue("data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
-  df <- read_csv(glue::glue("data/dataframes/df_finale.csv"), show_col_types = FALSE) # raw -> standardizzato
-  
+  df <- read_csv(glue::glue("data/dataframes/df_finale_raw_lod_std.csv"), show_col_types = FALSE)
+
   index <- grep(pltnt, names(df))
   
   ## Variabili #####  
   names(df)[index] <- "value"
 
-  source("f_test.R") # !!!! warning !!!!! ####
+  # source("f_test.R") # !!!! warning !!!!! ####
   
   v_variabili <- readRDS("~/R/terni/rds_out/v_variabili.RDS")  
 }
@@ -53,7 +53,7 @@ assign("N", 0, envir = .GlobalEnv)
 assign("pltnt", pltnt, envir = .GlobalEnv)
 assign("kappas", readRDS("~/R/terni/rds_out/kappas.RDS"))
 assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
-assign("suffix", '_test', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
+assign("suffix", '', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
 
 # assign("family", 'Gamma(link=identity)')
 # assign("family", 'poisson(link=log)')

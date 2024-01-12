@@ -10,11 +10,3 @@ map(traccianti, \(t) {
 }) -> anomalie
 
 do.call(rbind, anomalie) %>% as.data.frame() %>% setNames(c("t", "moda", "lod"))
-# As_s 
-# B_i 
-# Ba_i 
-# Ba_s 
-# Ca_i 
-# Cd_i 
-# Ce_i 0.1042
-# Co_i 0.0247

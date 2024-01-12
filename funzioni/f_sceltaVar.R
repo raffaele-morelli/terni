@@ -8,7 +8,6 @@ sceltaVar <- function() {
   
   outdir <- get("outdir", envir = .GlobalEnv)
   
-  
   w <- buildMods() # costruisce le stringhe dei modelli
   if(is.null(w)) {
     return("Nessun modello da costruire")
@@ -19,7 +18,7 @@ sceltaVar <- function() {
   # conterrà gli oggetti GAM calcolati sulle stazioni
   models <- map(w, function(y) {
     eval(parse(text = y)) 
-    })
+  })
   
   aicVar <- bestMod(models) # AIC del modello migliore
   

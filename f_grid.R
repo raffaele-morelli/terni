@@ -4,10 +4,17 @@
   cat(args, sep = "\n")
 
   # SET tracciante ####
-  pltnt <- "Cs_i"
-  # pltnt <- args[1]
-  dist <- 100
-  res <- 100
+  if(purrr::is_empty(args)) {
+    pltnt <- "Cs_i"
+    dist <- 200
+    res <- 200
+    kappa <- 5
+  }else{  
+    pltnt <- args[1]
+    dist <- args[2]
+    res <- args[3]
+    kappa <- args[4]
+  }
   
   library(sf)
   library(dplyr)
@@ -201,25 +208,28 @@ getBufferRastKNDVI <- function(dist, rst, mese, pt_id) {
 }
 
 
-df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+df <- readr::read_csv("data/dataframes/df_finale_raw_lod.csv", show_col_types = FALSE)
 
 modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
-
 index <- grep(pltnt, names(df), value = FALSE)
 names(df)[index] <- "value"
 # source("f_test.R")
 
+# kappa <- 2
 # frm <- formula(modelli[[pltnt]]) %>% as.character()
-
-# gsub("s\\(imp_200, k = 5\\) \\+", "", frm[3])
-
+# frm[3] <- gsub("k = 5", glue("k = {kappa}"), frm[3])
+# frm_new <- paste(frm[2], frm[1], frm[3]) %>% as.formula()
+# 
+# gam_tdf <- mgcv::gam(frm_new, data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 
+# gratia::draw(gam_tdf, scales = "fixed") & ggtitle(kappa)
+# summary(gam_tdf)
 
 # routine #### 
 {
   log_open(file_name = glue::glue("{pltnt}_domine.log"))
-
+  
   map(dominio$id, \(id) {
     # log_print(
     #   sprintf("s8: %s, s6: %s, cold_area: %s, hot_area: %s, scrapyard: %s, imp: %s,  bh: %s, pop: %s, mlstrade: %s, ferr: %s",
@@ -235,7 +245,7 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
     #           getFerroMinDist(200, id),
     #   hide_notes = TRUE))
     # log_print(sprintf("id %s, imp: %s", id, getBufferImperv(dist, id), hide_notes = TRUE))
-    # log_print(id, hide_notes = TRUE)
+    log_print(id, hide_notes = TRUE)
     data.frame("variable" = c(getBufferUA(dist, lista_ua[["s8_sup_200"]], id),
                               getBufferUA(dist, lista_ua[["s6_sup_200"]], id),
                               getAcciaMinDist(dist, id, "cold_area"),

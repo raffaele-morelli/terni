@@ -12,9 +12,9 @@
   library(logr)
 
   dir <- "gaussian"
-
-  kappas <- readRDS("~/R/terni/rds_out/kappas.RDS")
 } 
+
+df <- "df_finale_raw_lod.csv" # dataframe
 
 getSign <- function(mod) {
   summary(mod)$s.table %>% 
@@ -23,7 +23,6 @@ getSign <- function(mod) {
     rownames() -> v_sign
   return(v_sign)
 }
-
 
 getModel <- function(vars, df) {
   source("~/R/terni/funzioni/f_makeSpline.R")
@@ -45,14 +44,11 @@ map(pltnts, \(pltnt) {
   inquinante <- tools::file_path_sans_ext(basename(pltnt))
 
   log_print(inquinante, hide_notes = TRUE)
-  # df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
-  # df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
-  df <- read_csv(glue::glue("~/R/terni/data/dataframes/df_finale.csv"), show_col_types = FALSE) # raw -> standardizzato
-  
+  df <- read_csv(glue("~/R/terni/data/dataframes/{df}"), show_col_types = FALSE)
+
   index <- grep(inquinante, names(df))
   names(df)[index] <- "value"
-  # source("f_test.R")
-  
+
   rds <- readRDS(pltnt)
   mod <- getModel(names(rds), df)
 
@@ -63,24 +59,17 @@ saveRDS(models, file = glue("~/R/terni/rds_out/modelli_{dir}.RDS"))
 
 map(names(models), \(m) {
   v_sign <- getSign(models[[m]])
-  
-  # df <- read_csv(glue::glue("data/dataframes/df_finale_lod_clean.csv"), show_col_types = FALSE)
-  # df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
-  df <- read_csv(glue::glue("data/dataframes/df_finale.csv"), show_col_types = FALSE) # raw -> standardizzato
-  
-  df %>% mutate(
-    TOT_CR = Biomass_Burning_CR + Soil_Dust_CR + Steel_Plant_CR + Road_Dust_CR + Brake_Dust_CR,
-    TOT_NCR = Biomass_Burning_NCR + Soil_Dust_NCR + Steel_Plant_NCR + Road_Dust_NCR + Brake_Dust_NCR
-  ) -> df
+  if(length(v_sign) == 0) {
+    log_print( sprintf("Nessuna variabile significativa per: %s", m ), hide_notes = TRUE )
+    return()
+  }
+  df <- read_csv(glue("~/R/terni/data/dataframes/{df}"), show_col_types = FALSE)
   
   index <- grep(m, names(df))
   names(df)[index] <- "value"
   
-  # source("f_test.R")
-  
   log_print(m, hide_notes = TRUE)
 
-  
   lapply(v_sign, \(v) gsub("s\\(|\\)", '', v)) %>% unlist() -> v_sign
   
   # log_print( sprintf("After: %s", paste0(v_sign, collapse = " - " )), hide_notes = TRUE )

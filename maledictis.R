@@ -10,11 +10,14 @@ library(glue)
 library(utils)
 library(mgcv)
 
+# SET tracciante ####
+pltnt <- "Cs_i"
+
 df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw_lod.csv", show_col_types = FALSE)
 
-select(df, month_y, Cs_i, rh_max, tp_IQR, imp_200, cold_area) %>% 
+select(df, month_y, Cs_i, rh_max, tp_IQR, imp_200, cold_area, pwspeed_mean) %>% 
   group_by(month_y) %>% 
-  summarise_at(c( "rh_max", "tp_IQR"), unique) 
+  summarise_at(c( "rh_max", "tp_IQR", "pwspeed_mean"), unique) 
 
 modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
 
@@ -22,41 +25,44 @@ index <- grep(pltnt, names(df), value = FALSE)
 names(df)[index] <- "value"
 
 
-
-# SET tracciante ####
-pltnt <- "Cs_i"
-
 dist <- 100
 res <- 100
 
-modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
-
 gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 
-select(df, data, value, rh_max, tp_IQR, imp_200, cold_area) 
 
-rh_max <- 10
-tp_IQR <- 7.30
-vars <- c("rh_max", "tp_IQR", "imp_200", "cold_area")
+select(df, data, value, rh_max, tp_IQR, imp_200, cold_area, pwspeed_mean) 
 
-sink("appoggio.txt")
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 0, 2000) %>% setNames(vars), type = "terms")
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 50, 2000) %>% setNames(vars), type = "terms")
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 100, 2000) %>% setNames(vars), type = "terms")
+rh_max <- 75.2
+tp_IQR <- 0.2
+pwspeed_mean <- 1.15
+cold_area <- 1500
+imp_200 <- 50
 
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 0, 2000) %>% setNames(vars), type = "response") 
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 50, 2000) %>% setNames(vars), type = "response")
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 100, 2000) %>% setNames(vars), type = "response")
+vars <- c("rh_max", "tp_IQR", "imp_200", "cold_area", "pwspeed_mean")
 
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 0, 2000) %>% setNames(vars), type = "lpmatrix")
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 50, 2000) %>% setNames(vars), type = "lpmatrix")
-predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 100, 2000) %>% setNames(vars), type = "lpmatrix")
+# sink(glue("~/R/terni/appoggio_{pltnt}.txt"))
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 0, cold_area, pwspeed_mean) %>% setNames(vars), type = "terms") %>% print()
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 50, cold_area, pwspeed_mean) %>% setNames(vars), type = "terms") %>% print()
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 100, cold_area, pwspeed_mean) %>% setNames(vars), type = "terms") %>% print()
 
-sink()
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 0, cold_area, pwspeed_mean) %>% setNames(vars), type = "response") %>% print()
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 50, cold_area, pwspeed_mean) %>% setNames(vars), type = "response")%>% print()
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 100,cold_area, pwspeed_mean) %>% setNames(vars), type = "response")%>% print()
 
-rbind(c(rh_max, tp_IQR, 0, 2000),
-      c(rh_max, tp_IQR, 50, 2000),
-      c(rh_max, tp_IQR, 100, 2000)
-) %>% as.data.frame() %>%  setNames(vars) -> df_p
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 0, cold_area, pwspeed_mean) %>% setNames(vars), type = "lpmatrix")%>% print()
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 50, cold_area, pwspeed_mean) %>% setNames(vars), type = "lpmatrix")%>% print()
+predict.gam(gam_tdf, data.frame(rh_max, tp_IQR, 100, cold_area, pwspeed_mean) %>% setNames(vars), type = "lpmatrix")%>% print()
 
-predict.gam(gam_tdf, df_p, type = "response")
+
+rbind(c(50, tp_IQR, imp_200, cold_area, pwspeed_mean),
+      c(75, tp_IQR, imp_200, cold_area, pwspeed_mean),
+      c(100, tp_IQR, imp_200, cold_area, pwspeed_mean)
+) %>% as.data.frame() %>% setNames(vars) -> df_p
+
+df_p %>%  print()
+
+predict.gam(gam_tdf, df_p, type = "response") %>% print()
+
+# sink()
+

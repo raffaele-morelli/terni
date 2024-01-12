@@ -1,11 +1,11 @@
 makeSpline <- function(v) {
-  kappas <- get("kappas", envir = .GlobalEnv)
+  # kappas <- get("kappas", envir = .GlobalEnv)
   
   return(
     lapply(v, function(x) {
       unlist(x) %>% unique() -> i
       
-      k <- filter(kappas, var == i) %>% select(kappas) %>% as.numeric()
+      # k <- filter(kappas, var == i) %>% select(kappas) %>% as.numeric()
       # log_print(sprintf("var %s kappa %s", i, k))
       
       # case_when(
