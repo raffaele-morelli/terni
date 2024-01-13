@@ -278,5 +278,5 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
   log_close()
 }
 
-saveRDS(trcnt, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m_{res}res_{kappa}k.RDS"))
+saveRDS(trcnt, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m_{res}res.RDS"))
 
