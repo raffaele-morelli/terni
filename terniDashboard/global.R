@@ -23,7 +23,11 @@ st_bbox(dominio) -> bbox
 r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
 rm(dominio)
 
-pltnts <-  readRDS("/home/rmorelli/R/terni/rds_out/traccianti.RDS")
+pltnts <- readRDS("/home/rmorelli/R/terni/rds_out/traccianti.RDS")
+blacklist_inquinanti <- readr::read_csv("data/blacklist_inquinanti.csv", show_col_types = FALSE)
+
+pltnts <- pltnts[!(pltnts %in% blacklist_inquinanti$pltnt)]
+
 
 remove_outliers <- function(x, na.rm = TRUE, ...) {
   qnt <- quantile(x, probs = c(.25, .75), na.rm = na.rm, ...)
