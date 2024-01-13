@@ -5,16 +5,13 @@
   
   # SET tracciante ####
   if(purrr::is_empty(args)) {
-    pltnt <- "Cs_i"
+    pltnt <- "Al_s"
     dist <- 200
     res <- 200
-    kappa <- 1
   }else{
-    
     pltnt <- args[1]
     dist <- args[2]
-    res <- args[3]
-    kappa <- args[4]
+    res <- args[2]
   }
   
   library(sf)
@@ -26,9 +23,16 @@
   library(logr)
   library(lubridate)
   library(glue)
+  
 
   outdir <- "~/R/terni/data/dataframes"
-
+  
+  blacklist_inquinanti <- readr::read_csv("data/blacklist_inquinanti.csv")
+  
+  if( (pltnt %in% blacklist_inquinanti$pltnt) == TRUE) {
+    stop("blacklist ")
+  }
+    
   terni_sez <- st_read("~/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
   terni_indicatori_sez <- readr::read_csv("~/R/terni/data/R10_indicatori_2021_sezioni_terni.csv", show_col_types = FALSE)
   
@@ -218,20 +222,14 @@ names(df)[index] <- "value"
 # source("f_test.R")
 
 
-# frm <- formula(modelli[[pltnt]]) %>% as.character()
-# frm[3] <- gsub("k = 5", glue("k = {kappa}"), frm[3])
-# frm_new <- paste(frm[2], frm[1], frm[3]) %>% as.formula()
-# 
-# gam_tdf <- mgcv::gam(frm_new, data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
-# gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = cbind(df[,1:91], scale(df[,92:247])), gamma = 1.4, family = family(modelli[[pltnt]]))
 
+# gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 
-# gratia::draw(gam_tdf, scales = "fixed") & ggtitle(kappa)
+# gratia::draw(gam_tdf, scales = "fixed") 
 # summary(gam_tdf)
 
 # plot(ggeffects::ggpredict(gam_tdf), facets = TRUE)
 
-# visibly::plot_gam(gam_tdf)
 
 # routine #### 
 {
@@ -284,18 +282,18 @@ names(df)[index] <- "value"
 
 saveRDS(trcnt, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m_{res}res_{kappa}k.RDS"))
 
-if(res == 100) { 
-  n_col <- 109
-}else{
-  n_col <- 54
-}
-
-trcnt_df <- do.call(rbind.data.frame, trcnt)
-
-r <- matrix(trcnt_df[,mese], ncol = n_col,  byrow = FALSE) %>% raster::raster()
-
-mese <- str_pad(mese, 2, pad = "0")
-raster::extent(r) <- r_extent
-crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
-
-terra::writeRaster(r, glue::glue('~/R/terni/tiff_out/{mese}/{fout}_{mese}.tif'), overwrite = TRUE)
+# if(res == 100) { 
+#   n_col <- 109
+# }else{
+#   n_col <- 54
+# }
+# 
+# trcnt_df <- do.call(rbind.data.frame, trcnt)
+# 
+# r <- matrix(trcnt_df[,mese], ncol = n_col,  byrow = FALSE) %>% raster::raster()
+# 
+# mese <- str_pad(mese, 2, pad = "0")
+# raster::extent(r) <- r_extent
+# crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
+# 
+# terra::writeRaster(r, glue::glue('~/R/terni/tiff_out/{mese}/{fout}_{mese}.tif'), overwrite = TRUE)
