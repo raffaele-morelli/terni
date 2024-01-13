@@ -219,15 +219,11 @@ df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALS
 modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
 index <- grep(pltnt, names(df), value = FALSE)
 names(df)[index] <- "value"
-# source("f_test.R")
-
-
 
 gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 
 # gratia::draw(gam_tdf, scales = "fixed") 
 # summary(gam_tdf)
-
 # plot(ggeffects::ggpredict(gam_tdf), facets = TRUE)
 
 
