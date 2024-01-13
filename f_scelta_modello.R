@@ -32,7 +32,7 @@
   
   cat("############# ", pltnt, "\n")
   
-  df <- read_csv(glue::glue("data/dataframes/df_finale_raw_lod_std.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
 
   index <- grep(pltnt, names(df))
   

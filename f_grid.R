@@ -2,14 +2,15 @@
 {
   args <- commandArgs(trailingOnly = TRUE)
   cat(args, sep = "\n")
-
+  
   # SET tracciante ####
   if(purrr::is_empty(args)) {
     pltnt <- "Cs_i"
     dist <- 200
     res <- 200
-    kappa <- 5
-  }else{  
+    kappa <- 1
+  }else{
+    
     pltnt <- args[1]
     dist <- args[2]
     res <- args[3]
@@ -78,6 +79,7 @@
     arrange(data)
 
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
+  rm(terni_ua_all, terni_sez, strade_utm32)
 }
 
 
@@ -215,20 +217,25 @@ index <- grep(pltnt, names(df), value = FALSE)
 names(df)[index] <- "value"
 # source("f_test.R")
 
-# kappa <- 2
+
 # frm <- formula(modelli[[pltnt]]) %>% as.character()
 # frm[3] <- gsub("k = 5", glue("k = {kappa}"), frm[3])
 # frm_new <- paste(frm[2], frm[1], frm[3]) %>% as.formula()
 # 
 # gam_tdf <- mgcv::gam(frm_new, data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
-gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
+# gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = cbind(df[,1:91], scale(df[,92:247])), gamma = 1.4, family = family(modelli[[pltnt]]))
+
 
 # gratia::draw(gam_tdf, scales = "fixed") & ggtitle(kappa)
 # summary(gam_tdf)
 
+# plot(ggeffects::ggpredict(gam_tdf), facets = TRUE)
+
+# visibly::plot_gam(gam_tdf)
+
 # routine #### 
 {
-  log_open(file_name = glue::glue("{pltnt}_domine.log"))
+  log_open(file_name = glue::glue("{pltnt}_dominio_{kappa}.log"))
   
   map(dominio$id, \(id) {
     # log_print(
@@ -270,9 +277,25 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
       mgcv::predict.gam(gam_tdf, newdata = pdf, type = "response") -> mod
       # log_print(mod, hide_notes = TRUE)
     })
-  }) -> ppipp
+  }) -> trcnt
   
   log_close()
 }
 
-saveRDS(ppipp, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m_{res}res.RDS"))
+saveRDS(trcnt, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m_{res}res_{kappa}k.RDS"))
+
+if(res == 100) { 
+  n_col <- 109
+}else{
+  n_col <- 54
+}
+
+trcnt_df <- do.call(rbind.data.frame, trcnt)
+
+r <- matrix(trcnt_df[,mese], ncol = n_col,  byrow = FALSE) %>% raster::raster()
+
+mese <- str_pad(mese, 2, pad = "0")
+raster::extent(r) <- r_extent
+crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
+
+terra::writeRaster(r, glue::glue('~/R/terni/tiff_out/{mese}/{fout}_{mese}.tif'), overwrite = TRUE)

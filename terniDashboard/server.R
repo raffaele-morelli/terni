@@ -95,7 +95,7 @@ server <- function(input, output) {
     
     print(input$kappa)
     if(input$kappa < 5) {
-      f <- glue::glue('/home/rmorelli/R/terni/rds_out_traccianti/{input$traccianti}_{input$res}m_{input$res}res_k{input$kappa}.RDS')
+      f <- glue::glue('/home/rmorelli/R/terni/rds_out_traccianti/{input$traccianti}_{input$res}m_{input$res}res_{input$kappa}k.RDS')
     }else{
       f <- glue::glue('/home/rmorelli/R/terni/rds_out_traccianti/{input$traccianti}_{input$res}m_{input$res}res.RDS')
     }
