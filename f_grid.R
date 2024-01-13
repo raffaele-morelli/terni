@@ -5,7 +5,7 @@
   
   # SET tracciante ####
   if(purrr::is_empty(args)) {
-    pltnt <- "Al_s"
+    pltnt <- "Cr_is"
     dist <- 200
     res <- 200
   }else{
@@ -223,7 +223,7 @@ names(df)[index] <- "value"
 
 
 
-# gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
+gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 
 # gratia::draw(gam_tdf, scales = "fixed") 
 # summary(gam_tdf)
