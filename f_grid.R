@@ -83,7 +83,7 @@
     arrange(data)
 
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
-  rm(terni_ua_all, terni_sez, strade_utm32)
+  # rm(terni_ua_all, terni_sez, strade_utm32)
 }
 
 
@@ -214,7 +214,7 @@ getBufferRastKNDVI <- function(dist, rst, mese, pt_id) {
 }
 
 
-df <- readr::read_csv("data/dataframes/df_finale_raw_lod.csv", show_col_types = FALSE)
+df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
 
 modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
 index <- grep(pltnt, names(df), value = FALSE)

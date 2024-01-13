@@ -14,7 +14,7 @@
   dir <- "gaussian"
 } 
 
-df <- "df_finale_raw_lod.csv" # dataframe
+df <- "df_finale_raw.csv" # dataframe
 
 getSign <- function(mod) {
   summary(mod)$s.table %>% 
