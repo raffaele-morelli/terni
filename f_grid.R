@@ -233,7 +233,7 @@ names(df)[index] <- "value"
 
 # routine #### 
 {
-  log_open(file_name = glue::glue("{pltnt}_dominio_{kappa}.log"))
+  log_open(file_name = glue::glue("{pltnt}_dominio.log"))
   
   map(dominio$id, \(id) {
     # log_print(
