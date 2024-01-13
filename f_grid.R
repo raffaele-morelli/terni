@@ -5,15 +5,16 @@
   
   # SET tracciante ####
   if(purrr::is_empty(args)) {
-    pltnt <- "Cr_is"
+    pltnt <- "Cr_i"
     dist <- 200
     res <- 200
   }else{
     pltnt <- args[1]
-    dist <- args[2]
-    res <- args[2]
+    dist <- as.numeric( args[2] )
+    res <- as.numeric( args[2] )
   }
   
+  # cat(pltnt, dist, res, "\n")
   library(sf)
   library(dplyr)
   library(ggplot2)
@@ -27,7 +28,7 @@
 
   outdir <- "~/R/terni/data/dataframes"
   
-  blacklist_inquinanti <- readr::read_csv("data/blacklist_inquinanti.csv")
+  blacklist_inquinanti <- readr::read_csv("data/blacklist_inquinanti.csv", show_col_types = FALSE)
   
   if( (pltnt %in% blacklist_inquinanti$pltnt) == TRUE) {
     stop("blacklist ")
@@ -83,7 +84,7 @@
     arrange(data)
 
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
-  # rm(terni_ua_all, terni_sez, strade_utm32)
+  rm(terni_ua_all, terni_sez)
 }
 
 
@@ -262,6 +263,7 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
     colnames(df_spat) <- c('s8_sup_200', 's6_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
 
     map(df_meteo$data, \(d) {
+      # print(as.Date(df_meteo$data) )
       cbind(
         filter(df_meteo, data == d),
         df_spat
@@ -278,18 +280,3 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
 
 saveRDS(trcnt, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m_{res}res_{kappa}k.RDS"))
 
-# if(res == 100) { 
-#   n_col <- 109
-# }else{
-#   n_col <- 54
-# }
-# 
-# trcnt_df <- do.call(rbind.data.frame, trcnt)
-# 
-# r <- matrix(trcnt_df[,mese], ncol = n_col,  byrow = FALSE) %>% raster::raster()
-# 
-# mese <- str_pad(mese, 2, pad = "0")
-# raster::extent(r) <- r_extent
-# crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
-# 
-# terra::writeRaster(r, glue::glue('~/R/terni/tiff_out/{mese}/{fout}_{mese}.tif'), overwrite = TRUE)
