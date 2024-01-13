@@ -24,15 +24,17 @@
   if(!purrr::is_empty(args)) {
     pltnt <- args[1] #### SET inquinante ####
     dir <- args[2] ### SET directory ####
+    df <- "raw"
   }else{
     pltnt <- "PM10"
     dir <- "gaussian"
+    df <- "raw"
   }
 
   
   cat("############# ", pltnt, "\n")
   
-  df <- read_csv(glue::glue("data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("data/dataframes/df_finale_{df}.csv"), show_col_types = FALSE)
 
   index <- grep(pltnt, names(df))
   
@@ -54,6 +56,7 @@ assign("pltnt", pltnt, envir = .GlobalEnv)
 assign("kappas", readRDS("~/R/terni/rds_out/kappas.RDS"))
 assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 assign("suffix", '', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
+assign("tipo_df", df, envir = .GlobalEnv)
 
 # assign("family", 'Gamma(link=identity)')
 # assign("family", 'poisson(link=log)')
