@@ -225,7 +225,7 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
 
 # gratia::draw(gam_tdf, scales = "fixed") 
 # summary(gam_tdf)
-# plot(ggeffects::ggpredict(gam_tdf), facets = TRUE)
+# plot(ggeffects::ggpredict(gam_tdf), facets = TRUE) # per questo devi standardizzare il df
 
 
 # routine #### 

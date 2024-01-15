@@ -58,7 +58,23 @@ server <- function(input, output) {
       return("Seleziona un tracciante")
     }
     gratia::draw(models[[input$traccianti]], scales = "fixed", residuals = FALSE)
-    # mgcv::plot.gam(models[[input$traccianti]], pages = 1)
+  })
+
+  # effects ####
+  output$effects <- renderPlot({
+    if(input$traccianti == "All") {
+      return("Seleziona un tracciante")
+    }
+    df_temp <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+    
+    modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
+    index <- grep(as.character(input$traccianti), names(df_temp), value = FALSE)
+    names(df_temp)[index] <- "value"
+    
+    
+    gam_tdf <- mgcv::gam(formula(modelli[[input$traccianti]]), data = cbind(df_temp[,1:92], scale(df_temp[,92:247])), gamma = 1.4, family = family(modelli[[input$traccianti]]))
+    
+    plot(ggeffects::ggpredict(gam_tdf), facets = TRUE)
   })
   
   # check ####
