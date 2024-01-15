@@ -5,7 +5,7 @@
   
   # SET tracciante ####
   if(purrr::is_empty(args)) {
-    pltnt <- "Cr_i"
+    pltnt <- "Cs_i"
     dist <- 200
     res <- 200
   }else{
@@ -101,128 +101,136 @@
 # 12230: Railways and associated land
 
 cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
-
-getBufferUA <- function(dist, code, pt_id) {
-  pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
-
-  var <- filter(terni_ua_utm32, code_2018 == code)
-
-  st_intersection(var, pt_buffer) %>%
-    mutate(area = st_area(geom)) %>%
-    st_drop_geometry %>%
-    summarise(area = sum(area)) %>% select(area) %>% as.numeric()
-}
-# getBufferUA(200, 12220, 2200) # test
-
-
-getBufferImperv <- function(dist, pt_id) {
-  b <- buffer(vect(filter(dominio, id == pt_id)), dist, quadsegs = 17)
+# definizione funzioni ####
+{
+  getBufferUA <- function(dist, code, pt_id) {
+    pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
+    
+    var <- filter(terni_ua_utm32, code_2018 == code)
+    
+    st_intersection(var, pt_buffer) %>%
+      mutate(area = st_area(geom)) %>%
+      st_drop_geometry %>%
+      summarise(area = sum(area)) %>% select(area) %>% as.numeric()
+  }
+  # getBufferUA(200, 12220, 2200) # test
   
-  extract(imperm, b, xy = TRUE) %>%
-    group_by(ID) %>%
-    summarise(m = mean(rst_impermeabilizzazione_utm32, na.omit = TRUE)) %>% 
-    select(m) %>% as.numeric() -> val
   
-  if(!is.na(val)) { return(val)}else{ return(0)}
-  # return(val)
-}
-# getBufferImperv(100, 30) # test
-
-# b <- buffer(vect(filter(dominio, id == 7311)), 100, quadsegs = 17)
-# bb <- buffer(vect(dominio[7311, "id"] ), 100, quadsegs = 17)
-# extract(imperm, b, xy = TRUE) %>%
-#   group_by(ID) %>%
-#   summarise(m = mean(rst_impermeabilizzazione_utm32)) %>% 
-#   select(m) %>% as.numeric()
-
-# ggplot(terni_sez_crop) + geom_sf() +
-#   geom_sf(data = filter(dominio, id == 7311), color = "red") +
-#   geom_sf(data = st_as_sf(b), color = "green", fill = "transparent")+
-#   geom_sf(data = st_as_sf(bb), fill = "black") 
-
-
-# # calcola l'altezza media per gli edifici che sono nel buffer
-getBufferBH <- function(dist, pt_id) {
-  b <- buffer(vect(filter(dominio, id == pt_id)), dist, quadsegs = 17)
+  getBufferImperv <- function(dist, pt_id) {
+    b <- buffer(vect(filter(dominio, id == pt_id)), dist, quadsegs = 17)
+    
+    extract(imperm, b, xy = TRUE) %>%
+      group_by(ID) %>%
+      summarise(m = mean(rst_impermeabilizzazione_utm32, na.omit = TRUE)) %>% 
+      select(m) %>% as.numeric() -> val
+    
+    if(!is.na(val)) { return(val)}else{ return(0)}
+    # return(val)
+  }
+  # getBufferImperv(100, 30) # test
   
-  extract(bh, b, xy = TRUE) %>%
-    group_by(ID) %>%
-    summarise(m = mean(IT515_TERNI_UA2012_DHM_V010, na.rm = TRUE), .groups = 'drop') %>% 
-    select(m) %>% as.numeric() %>% round() -> val
+  # b <- buffer(vect(filter(dominio, id == 7311)), 100, quadsegs = 17)
+  # bb <- buffer(vect(dominio[7311, "id"] ), 100, quadsegs = 17)
+  # extract(imperm, b, xy = TRUE) %>%
+  #   group_by(ID) %>%
+  #   summarise(m = mean(rst_impermeabilizzazione_utm32)) %>% 
+  #   select(m) %>% as.numeric()
   
-  if(!is.na(val)) { return(val)}else{ return(0)}
-}
-# d <- st_transform(dominio[1920, "id"], 3035)
-# getBufferBH(200, 1920) # se non lo trasformiamo noi lo fa in automatico
-
-getBufferIntSEZ <- function(dist, pt_id) {
-  pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
+  # ggplot(terni_sez_crop) + geom_sf() +
+  #   geom_sf(data = filter(dominio, id == 7311), color = "red") +
+  #   geom_sf(data = st_as_sf(b), color = "green", fill = "transparent")+
+  #   geom_sf(data = st_as_sf(bb), fill = "black") 
   
-  st_intersection(terni_sez_pop, pt_buffer) %>%
-    mutate(area_int = as.numeric( st_area(geometry)) ) %>%
-    mutate(PP1 = as.integer( (area_int / SHAPE_Area) * P1)) %>%
-    select(SHAPE_Area, area_int, P1, PP1) %>%
-    st_drop_geometry() %>%
-    summarise(m = sum(PP1)) %>% select(m) %>% as.numeric() %>% round()
-}
-# getBufferIntSEZ(200, 1920)
-
-getBufferIntStrade <- function(dist, pt_id) {
-  pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
-
-  inter <- st_intersection(strade_utm32, pt_buffer) 
-  if(nrow(inter) > 0 ) {
-    inter %>% 
-      summarise(m = sum(st_length(geometry))) %>% 
-      st_drop_geometry() %>% 
-      select(m) %>% as.numeric() %>% round()
-  }else{
-    return(0)
+  
+  # # calcola l'altezza media per gli edifici che sono nel buffer
+  getBufferBH <- function(dist, pt_id) {
+    b <- buffer(vect(filter(dominio, id == pt_id)), dist, quadsegs = 17)
+    
+    extract(bh, b, xy = TRUE) %>%
+      group_by(ID) %>%
+      summarise(m = mean(IT515_TERNI_UA2012_DHM_V010, na.rm = TRUE), .groups = 'drop') %>% 
+      select(m) %>% as.numeric() %>% round() -> val
+    
+    if(!is.na(val)) { return(val)}else{ return(0)}
+  }
+  # d <- st_transform(dominio[1920, "id"], 3035)
+  # getBufferBH(200, 1920) # se non lo trasformiamo noi lo fa in automatico
+  
+  getBufferIntSEZ <- function(dist, pt_id) {
+    pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
+    
+    st_intersection(terni_sez_pop, pt_buffer) %>%
+      mutate(area_int = as.numeric( st_area(geometry)) ) %>%
+      mutate(PP1 = as.integer( (area_int / SHAPE_Area) * P1)) %>%
+      select(SHAPE_Area, area_int, P1, PP1) %>%
+      st_drop_geometry() %>%
+      summarise(m = sum(PP1)) %>% select(m) %>% as.numeric() %>% round()
+  }
+  # getBufferIntSEZ(200, 1920)
+  
+  getBufferIntStrade <- function(dist, pt_id) {
+    pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
+    
+    inter <- st_intersection(strade_utm32, pt_buffer) 
+    if(nrow(inter) > 0 ) {
+      inter %>% 
+        summarise(m = sum(st_length(geometry))) %>% 
+        st_drop_geometry() %>% 
+        select(m) %>% as.numeric() %>% round()
+    }else{
+      return(0)
+    }
+  }
+  # getBufferIntStrade(200, 1925)
+  
+  
+  getStradeMinDist <- function(dist, pt_id) {
+    return(
+      as.numeric(min(st_distance(filter(dominio, id == pt_id), strade_utm32_filtered)) %>% round())
+    )
+  }
+  # st_distance(dominio[1925, "id"], strade_utm32_filtered) -> df
+  # getStradeMinDist(200,1925)
+  
+  getFerroMinDist <- function(dist, pt_id) {
+    return(
+      as.numeric(min(st_distance(filter(dominio, id == pt_id), ferrovia)) %>% round())
+    )
+  }
+  
+  getAcciaMinDist <- function(dist, pt_id, var) {
+    return(
+      as.numeric(min(st_distance(filter(dominio, id == pt_id), filter(acciaieria, field_1 == var) ) ) ) %>% round()
+    )
+  }
+  
+  
+  getBufferRastKNDVI <- function(dist, rst, mese, pt_id) {
+    b <- buffer(vect(filter(dominio, id == pt_id)), dist, quadsegs = 17)
+    
+    extract(rst, b, xy = TRUE) %>%
+      group_by(ID) %>%
+      mutate(ifelse(get(mese) < 0, 0, get(mese) )) %>%
+      summarise(m = mean(get(mese), na.rm = TRUE), .groups = 'drop') %>%
+      setNames(c("ID", "media", "site")) %>% select(media) %>% as.numeric() 
   }
 }
-# getBufferIntStrade(200, 1925)
- 
 
-getStradeMinDist <- function(dist, pt_id) {
-  return(
-    as.numeric(min(st_distance(filter(dominio, id == pt_id), strade_utm32_filtered)) %>% round())
-  )
-}
-# st_distance(dominio[1925, "id"], strade_utm32_filtered) -> df
-# getStradeMinDist(200,1925)
-
-getFerroMinDist <- function(dist, pt_id) {
-  return(
-    as.numeric(min(st_distance(filter(dominio, id == pt_id), ferrovia)) %>% round())
-  )
-}
-
-getAcciaMinDist <- function(dist, pt_id, var) {
-  return(
-    as.numeric(min(st_distance(filter(dominio, id == pt_id), filter(acciaieria, field_1 == var) ) ) ) %>% round()
-  )
-}
-
-
-getBufferRastKNDVI <- function(dist, rst, mese, pt_id) {
-  b <- buffer(vect(filter(dominio, id == pt_id)), dist, quadsegs = 17)
+# data frame e modello ####
+{
+  df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   
-  extract(rst, b, xy = TRUE) %>%
-    group_by(ID) %>%
-    mutate(ifelse(get(mese) < 0, 0, get(mese) )) %>%
-    summarise(m = mean(get(mese), na.rm = TRUE), .groups = 'drop') %>%
-    setNames(c("ID", "media", "site")) %>% select(media) %>% as.numeric() 
+  modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
+  index <- grep(pltnt, names(df), value = FALSE)
+  names(df)[index] <- "value"
+  
+  gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 }
 
-
-df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
-
-modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
-index <- grep(pltnt, names(df), value = FALSE)
-names(df)[index] <- "value"
-
-gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
-
+plot( ggeffects::ggpredict(gam_tdf, 
+                           terms = c("rh_max", "imp_200")),
+      facets = TRUE
+      )
 # gratia::draw(gam_tdf, scales = "fixed") 
 # summary(gam_tdf)
 # plot(ggeffects::ggpredict(gam_tdf), facets = TRUE) # per questo devi standardizzare il df
@@ -233,20 +241,7 @@ gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family =
   log_open(file_name = glue::glue("{pltnt}_dominio.log"))
   
   map(dominio$id, \(id) {
-    # log_print(
-    #   sprintf("s8: %s, s6: %s, cold_area: %s, hot_area: %s, scrapyard: %s, imp: %s,  bh: %s, pop: %s, mlstrade: %s, ferr: %s",
-    #           getBufferUA(200, lista_ua[["s8_sup_200"]], id),
-    #           getBufferUA(200, lista_ua[["s6_sup_200"]], id),
-    #           getAcciaMinDist(200, id, "cold_area"),
-    #           getAcciaMinDist(200, id, "hot_area"),
-    #           getAcciaMinDist(200, id, "scrapyard"),
-    #           getBufferImperv(200, id),
-    #           getBufferBH(200, id),
-    #           getBufferIntSEZ(200, id),
-    #           getBufferIntStrade(200, id),
-    #           getFerroMinDist(200, id),
-    #   hide_notes = TRUE))
-    # log_print(sprintf("id %s, imp: %s", id, getBufferImperv(dist, id), hide_notes = TRUE))
+
     log_print(id, hide_notes = TRUE)
     data.frame("variable" = c(getBufferUA(dist, lista_ua[["s8_sup_200"]], id),
                               getBufferUA(dist, lista_ua[["s6_sup_200"]], id),

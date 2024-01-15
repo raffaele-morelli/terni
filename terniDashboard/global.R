@@ -10,8 +10,9 @@
 }
 
 
-df <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE) 
-models <- readRDS("/home/rmorelli/R/terni/rds_out/modelli_gaussian_clean.RDS")
+df <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+
+models <- readRDS("/home/rmorelli/R/terni/rds_gaussian/modelli_gaussian_clean.RDS")
 # crssvld <- readRDS("/home/rmorelli/R/terni/rds_out/cross_validation_gaussian.RDS")
 
 terni_sez <- st_read("/home/rmorelli/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
