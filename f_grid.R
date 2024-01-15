@@ -220,17 +220,17 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 {
   df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   
-  modelli <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
+  modelli <- readRDS("~/R/terni/rds_gaussian/modelli_gaussian_clean.RDS")
   index <- grep(pltnt, names(df), value = FALSE)
   names(df)[index] <- "value"
   
   gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 }
 
-plot( ggeffects::ggpredict(gam_tdf, 
-                           terms = c("rh_max", "imp_200")),
-      facets = TRUE
-      )
+# plot( ggeffects::ggpredict(gam_tdf, 
+#                            terms = c("rh_max", "imp_200")),
+#       facets = TRUE
+#       )
 # gratia::draw(gam_tdf, scales = "fixed") 
 # summary(gam_tdf)
 # plot(ggeffects::ggpredict(gam_tdf), facets = TRUE) # per questo devi standardizzare il df
