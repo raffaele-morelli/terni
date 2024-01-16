@@ -15,6 +15,7 @@
 } 
 
 df <- "df_finale_raw.csv" # dataframe
+blacklist_inquinanti <- read_csv("/home/rmorelli/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
 
 getSign <- function(mod) {
   summary(mod)$s.table %>% 
@@ -42,6 +43,9 @@ lf <- log_open(fn)
 
 map(pltnts, \(pltnt) {
   inquinante <- tools::file_path_sans_ext(basename(pltnt))
+  # if(inquinante %in% blacklist_inquinanti$pltnt) {
+  #   return()
+  # }
 
   log_print(inquinante, hide_notes = TRUE)
   df <- read_csv(glue("~/R/terni/data/dataframes/{df}"), show_col_types = FALSE)
