@@ -8,6 +8,7 @@
     pltnt <- "Cs_i"
     dist <- 200
     res <- 200
+    dir <- "traccianti"
   }else{
     pltnt <- args[1]
     dist <- as.numeric( args[2] )
@@ -273,5 +274,5 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   log_close()
 }
 
-saveRDS(trcnt, file = glue::glue("~/R/terni/rds_out_traccianti/{pltnt}_{dist}m_{res}res.RDS"))
+saveRDS(trcnt, file = glue::glue("~/R/terni/rds_out_{dir}/{pltnt}_{dist}m_{res}res.RDS"))
 
