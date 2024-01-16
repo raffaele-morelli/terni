@@ -13,7 +13,7 @@
     pltnt <- args[1]
     dist <- as.numeric( args[2] )
     res <- as.numeric( args[2] )
-    outdir <- as.numeric( args[3] )
+    outdir <- args[3]
   }
   
   # cat(pltnt, dist, res, "\n")

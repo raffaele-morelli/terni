@@ -9,11 +9,12 @@
   library(terra)
 }
 
-
+rds_out_traccianti <- "rds_out_traccianti_test2"
+run <- "rds_gaussian_test2"
+  
 df <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
 
-models <- readRDS("/home/rmorelli/R/terni/rds_gaussian/modelli_gaussian_clean.RDS")
-# crssvld <- readRDS("/home/rmorelli/R/terni/rds_out/cross_validation_gaussian.RDS")
+models <- readRDS(glue("/home/rmorelli/R/terni/{run}/modelli_gaussian_clean.RDS"))
 
 terni_sez <- st_read("/home/rmorelli/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
 pt_misura_utm32 <- st_read("/home/rmorelli/R/terni/data/shp/punti_misura.shp")

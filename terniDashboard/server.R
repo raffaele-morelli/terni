@@ -113,7 +113,7 @@ server <- function(input, output) {
     # if(input$kappa < 5) {
       # f <- glue::glue('/home/rmorelli/R/terni/rds_out_traccianti/{input$traccianti}_{input$res}m_{input$res}res_{input$kappa}k.RDS')
     # }else{
-      f <- glue::glue('/home/rmorelli/R/terni/rds_out_traccianti/{input$traccianti}_{input$res}m_{input$res}res.RDS')
+      f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_{input$res}m_{input$res}res.RDS')
     # }
     
     trcnt <- readRDS(f)

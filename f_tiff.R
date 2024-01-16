@@ -5,13 +5,11 @@ library(terra)
 library(ggplot2)
 library(dplyr)
 
-pltnt <- "Cs_i"
-for (i in seq(1:12)) {
-  mese <- str_pad(i, 2, pad = "0")
-  dir.create(glue::glue("~/R/terni/tiff_out/{mese}"), recursive = TRUE, showWarnings = FALSE)
-}
+rds_out_traccianti <- "rds_out_traccianti_test3"
 
-mese <- 1
+dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
+
+mese <- 6
 res <- 100
 grd <- 100
 
@@ -36,7 +34,7 @@ pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp")
 st_bbox(dominio) -> bbox
 r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
 
-fls <- list.files("~/R/terni/rds_out_traccianti", pattern = glue("{grd}m_{res}res"), full.names = TRUE)
+fls <- list.files(glue("~/R/terni/{rds_out_traccianti}"), pattern = glue("{grd}m_{res}res"), full.names = TRUE)
 
 
 purrr::walk(fls, \(f) {
@@ -52,9 +50,11 @@ purrr::walk(fls, \(f) {
   raster::extent(r) <- r_extent
   crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
   
-  terra::writeRaster(r, glue::glue('~/R/terni/tiff_out/{mese}/{fout}_{mese}.tif'), overwrite = TRUE)
+  terra::writeRaster(r, glue::glue('~/R/terni/tiff_out/{rds_out_traccianti}/{fout}_{mese}.tif'), overwrite = TRUE)
   r_df <- as.data.frame(r, xy = TRUE) %>% na.omit() %>% setNames(c("x", "y", "value"))
   
+  readr::write_csv(r_df, file = glue::glue('~/R/terni/tiff_out/{rds_out_traccianti}/{fout}_{mese}.csv'))
+  # hist(r_df$value)
   # ggplot(data = r_df) +
   #   geom_raster(aes(x = x, y = y, fill = value)) +
   #   geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey90", fill = "transparent", size = 0.5) +
