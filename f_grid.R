@@ -8,11 +8,12 @@
     pltnt <- "Cs_i"
     dist <- 200
     res <- 200
-    dir <- "traccianti"
+    outdir <- "rds_out_traccianti"
   }else{
     pltnt <- args[1]
     dist <- as.numeric( args[2] )
     res <- as.numeric( args[2] )
+    outdir <- as.numeric( args[3] )
   }
   
   # cat(pltnt, dist, res, "\n")
@@ -27,9 +28,7 @@
   library(glue)
   
 
-  outdir <- "~/R/terni/data/dataframes"
-  
-  blacklist_inquinanti <- readr::read_csv("data/blacklist_inquinanti.csv", show_col_types = FALSE)
+  blacklist_inquinanti <- readr::read_csv("~/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
   
   if( (pltnt %in% blacklist_inquinanti$pltnt) == TRUE) {
     stop("blacklist ")
@@ -274,5 +273,5 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   log_close()
 }
 
-saveRDS(trcnt, file = glue::glue("~/R/terni/rds_out_{dir}/{pltnt}_{dist}m_{res}res.RDS"))
+saveRDS(trcnt, file = glue::glue("~/R/terni/{outdir}/{pltnt}_{dist}m_{res}res.RDS"))
 
