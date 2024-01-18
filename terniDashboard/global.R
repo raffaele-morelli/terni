@@ -9,12 +9,17 @@
   library(terra)
 }
 
-rds_out_traccianti <- "rds_out_traccianti_test2"
-run <- "rds_gaussian_test2"
+# importante ####
+{
+  met <- "test3"
+  rds_out_traccianti <- glue("rds_out_traccianti_{met}")
+  
+  run <- glue("rds_gaussian_{met}")
+}
   
 df <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
 
-models <- readRDS(glue("/home/rmorelli/R/terni/{run}/modelli_gaussian_clean.RDS"))
+models <- readRDS(glue("/home/rmorelli/R/terni/{run}/modelli_{met}_clean.RDS"))
 
 terni_sez <- st_read("/home/rmorelli/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
 pt_misura_utm32 <- st_read("/home/rmorelli/R/terni/data/shp/punti_misura.shp")
@@ -29,7 +34,6 @@ pltnts <- readRDS("/home/rmorelli/R/terni/rds_out/traccianti.RDS")
 blacklist_inquinanti <- readr::read_csv("/home/rmorelli/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
 
 pltnts <- pltnts[!(pltnts %in% blacklist_inquinanti$pltnt)]
-
 
 remove_outliers <- function(x, na.rm = TRUE, ...) {
   qnt <- quantile(x, probs = c(.25, .75), na.rm = na.rm, ...)

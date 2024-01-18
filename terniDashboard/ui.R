@@ -20,7 +20,8 @@ ui <- fluidPage(
                  fluidRow(
                    column(width = 4, plotOutput("check", width = 600, height = 600) ),
                    column(width = 6, offset = 2, verbatimTextOutput("summary") )
-                 )
+                 ),
+                 fluidRow(width = 3, verbatimTextOutput("vcomp"))
         ), 
         tabPanel("Splines", plotOutput("splines", width = 800, height = 800)),
         tabPanel("Effects", plotOutput("effects", width = 800, height = 600)),

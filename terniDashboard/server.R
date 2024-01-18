@@ -90,31 +90,20 @@ server <- function(input, output) {
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
     }
-    summary( (models[[input$traccianti]]))
+    summary(models[[input$traccianti]])
   })
   
-  # predict pre render ####
-  # output$predict <- renderImage({
-  #   if (is.null(input$traccianti))
-  #     return(NULL)
-  #   
-  #   return(list(
-  #     src = glue("/home/rmorelli/R/terni/png_out/{input$traccianti}_{input$res}m_{input$res}res_01.png")
-  #   ))
-  #   
-  # }, deleteFile = FALSE)
-  
+  # smoothness estimates as variance components ####
+  output$vcomp <- renderPrint(({
+    mgcv::gam.vcomp(models[[input$traccianti]])
+  }))
+
   # predict "ar volo" ####
   output$predictImage <- renderPlot({
     if (is.null(input$traccianti))
       return(NULL)
     
-    # print(input$kappa)
-    # if(input$kappa < 5) {
-      # f <- glue::glue('/home/rmorelli/R/terni/rds_out_traccianti/{input$traccianti}_{input$res}m_{input$res}res_{input$kappa}k.RDS')
-    # }else{
-      f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_{input$res}m_{input$res}res.RDS')
-    # }
+    f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_{input$res}m_{input$res}res.RDS')
     
     trcnt <- readRDS(f)
     trcnt_df <- do.call(rbind.data.frame, trcnt)
