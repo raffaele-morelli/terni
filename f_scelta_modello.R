@@ -23,11 +23,11 @@
 
   if(!purrr::is_empty(args)) {
     pltnt <- args[1] #### SET inquinante ####
-    dir <- args[2] ### SET directory ####
+    rds_dir <- args[2] ### SET directory ####
     df <- "raw"
   }else{
     pltnt <- "PM10"
-    dir <- "gaussian"
+    rds_dir <- "rds_gaussian_test4"
     df <- "raw"
   }
 
@@ -66,7 +66,7 @@ assign("v_dead", c(), envir = .GlobalEnv)
 assign("N", 0, envir = .GlobalEnv)
 assign("pltnt", pltnt, envir = .GlobalEnv)
 assign("kappas", readRDS("~/R/terni/rds_out/kappas.RDS"))
-assign("outdir", dir, envir = .GlobalEnv) # !!! directory di output !!! ####
+assign("rds_dir", rds_dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 assign("suffix", '', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
 assign("v_spaziali", v_spaziali, envir = .GlobalEnv)
 
@@ -74,7 +74,7 @@ assign("v_spaziali", v_spaziali, envir = .GlobalEnv)
 # assign("family", 'poisson(link=log)')
 assign("family", 'gaussian(link=log)')
 
-fn <- file.path(glue("log/{outdir}/{dir}_{pltnt}.log"))
+fn <- file.path(glue("log/{rds_dir}_{pltnt}.log"))
 lf <- log_open(fn)
 
 # ricorsione ####
