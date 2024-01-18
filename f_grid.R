@@ -5,15 +5,15 @@
   
   # SET tracciante ####
   if(purrr::is_empty(args)) {
-    pltnt <- "Cs_i"
-    dist <- 200
-    res <- 200
+    pltnt <- "Cr_i"
+    res <- dist <- 200
     outdir <- "rds_out_traccianti"
+    met <- "test4"
   }else{
     pltnt <- args[1]
-    dist <- as.numeric( args[2] )
-    res <- as.numeric( args[2] )
+    res <- dist <- as.numeric( args[2] )
     outdir <- args[3]
+    met <- args[4]
   }
   
   # cat(pltnt, dist, res, "\n")
@@ -218,9 +218,9 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 
 # data frame e modello ####
 {
-  df <- readr::read_csv("data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+  df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   
-  modelli <- readRDS("~/R/terni/rds_gaussian/modelli_gaussian_clean.RDS")
+  modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
   index <- grep(pltnt, names(df), value = FALSE)
   names(df)[index] <- "value"
   
