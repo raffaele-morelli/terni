@@ -6,9 +6,9 @@
   # SET tracciante ####
   if(purrr::is_empty(args)) {
     pltnt <- "Cr_i"
-    res <- dist <- 100
+    res <- dist <- 200
     outdir <- "rds_out_traccianti"
-    met <- "test4"
+    met <- "test3"
   }else{
     pltnt <- args[1]
     res <- dist <- as.numeric( args[2] )
@@ -70,7 +70,7 @@
   cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   
   lista_ua <- as.list(codes_2018)
-  names(lista_ua) <- paste0(cod_str, "_sup_200")
+  names(lista_ua) <- paste0(cod_str, "_sup_100")
   
   terni_ua_fltr <- filter(terni_ua_all, code_2018 %in% codes_2018)
   terni_ua_utm32 <- st_transform(terni_ua_fltr, 32632) # WGS84/UTM 32
@@ -108,9 +108,14 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
     
     var <- filter(terni_ua_utm32, code_2018 == code)
     
-    st_area(st_union( st_intersection(pt_buffer, var)  )) %>% as.numeric()
+    val <- as.numeric( st_area(st_union( st_intersection(pt_buffer, var)  )) )
+    if(!length(val) == 0) { 
+      return(val)
+    }else{ 
+      return(0)
+    }
   }
-  # getBufferUA(100, 12100, 6597) # test
+  # getBufferUA(100, 12100, 30) # test
   
   # pt_buffer <- st_buffer(filter(dominio, id == 6597), dist, singleSide = FALSE, nQuadSegs = 17)
   # 
@@ -253,27 +258,23 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   log_open(file_name = glue::glue("{pltnt}_dominio.log"))
   
   map(dominio$id, \(id) {
-      if( id != 6597) {
-      return(NA)
-    }
-    
+
     log_print(id, hide_notes = TRUE)
-    data.frame("variable" = c(getBufferUA(dist, lista_ua[["s8_sup_200"]], id),
-                              getBufferUA(dist, lista_ua[["s6_sup_200"]], id),
+    data.frame("variable" = c(getBufferUA(dist, lista_ua[["s8_sup_100"]], id),
+                              getBufferUA(dist, lista_ua[["s6_sup_100"]], id),
                               getAcciaMinDist(dist, id, "cold_area"),
                               getAcciaMinDist(dist, id, "hot_area"),
                               getAcciaMinDist(dist, id, "scrapyard"),
                               getBufferImperv(dist, id),
-                              getBufferBH(dist, id), 
+                              getBufferBH(dist, id),
                               getBufferIntSEZ(dist, id),
                               getBufferIntStrade(dist, id),
                               getFerroMinDist(dist, id))) %>% t() -> df_spat
     rownames(df_spat) <- NULL
-    colnames(df_spat) <- c('s8_sup_200', 's6_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
-    log_print(df_spat, hide_notes = TRUE)
-    
+    colnames(df_spat) <- c('s8_sup_100', 's6_sup_100', 'cold_area', 'hot_area', 'scrapyard', 'imp_100', 'bh_100', 'pop_100', 'ml_100', 'm_dis_ferr')
+    # log_print(df_spat, hide_notes = TRUE)
+
     map(df_meteo$data, \(d) {
-      # print(as.Date(df_meteo$data) )
       cbind(
         filter(df_meteo, data == d),
         df_spat
@@ -281,7 +282,7 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
       # log_print(pdf, hide_notes = FALSE)
 
       mod <- mgcv::predict.gam(gam_tdf, newdata = pdf, type = "response")
-      log_print(mod, hide_notes = TRUE)
+      # log_print(mod, hide_notes = TRUE)
     })
   }) -> trcnt
   
@@ -289,5 +290,5 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 }
 
 
-# saveRDS(trcnt, file = glue::glue("~/R/terni/{outdir}/{pltnt}_{dist}m_{res}res.RDS"))
+saveRDS(trcnt, file = glue::glue("~/R/terni/{outdir}/{pltnt}_{dist}m_{res}res.RDS"))
 
