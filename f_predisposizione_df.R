@@ -192,30 +192,30 @@ write_csv(df_finale, file = glue::glue("{outdir}/df_finale_raw.csv") )
 df_finale_raw <- read_csv(glue::glue("{outdir}/df_finale_raw.csv"), show_col_types = FALSE)
 limiti <- read_excel("~/R/terni/data/limiti.xlsx")
 
-tmp <- df_finale
+# tmp <- df_finale
 
-for (l in names(limiti)) {
-  tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), 
-                     NA, 
-                     tmp[[l]]
-  )
-}
+# for (l in names(limiti)) {
+#   tmp[[l]] <- ifelse(tmp[[l]] < as.numeric(limiti[l]), 
+#                      NA, 
+#                      tmp[[l]]
+#   )
+# }
 
-write_csv(tmp, file = glue::glue("{outdir}/df_finale_raw_lod.csv") )
+# write_csv(tmp, file = glue::glue("{outdir}/df_finale_raw_lod.csv") )
 
 
 # standardizzazione ####
-df_std <- tmp[, 92:249] %>% scale() %>% as.data.frame()
-df <- cbind(tmp[, 1:91], df_std)
+# df_std <- tmp[, 92:249] %>% scale() %>% as.data.frame()
+# df <- cbind(tmp[, 1:91], df_std)
 
 # df[is.na(df)] <- 0
 # names(df)[11] <- "value"
 
-write_csv(df, file = glue::glue("{outdir}/df_finale_raw_lod_std.csv"))
+# write_csv(df, file = glue::glue("{outdir}/df_finale_raw_lod_std.csv"))
 
-non_zero <- function(x) {
-  return( ifelse(x == 0, 1/1000000000000, x))
-}
+# non_zero <- function(x) {
+#   return( ifelse(x == 0, 1/1000000000000, x))
+# }
 
 # tmp %>%
 #   mutate(across(all_of(names(tmp[11:20])), non_zero )) %>% 

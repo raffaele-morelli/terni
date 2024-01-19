@@ -11,7 +11,7 @@
   library(mgcv)
   library(logr)
 
-  rds_dir <- "test4"
+  rds_dir <- "test3"
 } 
 
 df <- "df_finale_raw.csv" # dataframe
@@ -30,7 +30,7 @@ getModel <- function(vars, df) {
 
   ms <- makeSpline(vars) %>% paste(collapse = " + ")
   
-  ms <- paste("gam(value ~ ", ms, ", method = 'REML', gamma=1.4, family=gaussian(link=log), data = df)")
+  ms <- paste("gam(value ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   
   mod <- eval(parse(text = ms))
   return(mod)

@@ -133,7 +133,7 @@ sceltaVar <- function() {
       # return("the end")
     }
   }else{
-    log_print("Fine per scelta MODELLO iniziale", hide_notes = TRUE)
+    # log_print("Fine per scelta MODELLO iniziale", hide_notes = TRUE)
     # qui devo togliere l'ultima variabile
     # assign("v_dead", c(v_dead, c(names(AICS[N])) ), envir = .GlobalEnv)
     AICS[[last(names(AICS))]] <- NULL

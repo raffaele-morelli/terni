@@ -5,11 +5,11 @@ library(terra)
 library(ggplot2)
 library(dplyr)
 
-rds_out_traccianti <- "rds_out_traccianti_test2"
+rds_out_traccianti <- "rds_out_traccianti_test3"
 
 dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
 
-mese <- 6
+mese <- 1
 res <- 100
 grd <- 100
 

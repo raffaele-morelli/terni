@@ -81,23 +81,22 @@ getBufferUA <- function(dist, code) {
   # nQuadSegs: con il tuning di questo par si può far corrispondere il buff con quello di arcGIS
   
   var <- filter(terni_utm32, code_2018 == code)
-
-  st_intersection(var, pt_buffer) %>% 
-    mutate(area = st_area(geom)) %>% 
-    st_drop_geometry %>%
-    # select(Site, area) 
-    group_by(Site) %>%   # TODO: verificare necessità
-    summarise(area = sum(area)) %>%
+  
+  map(pt_buffer$Site, \(s) {
+    area <- st_area(st_union( st_intersection(filter(pt_buffer, Site == s), var) )) %>% as.numeric()
+    # print(area)
+    c(s, ifelse(length(area) != 0, area, NA) )
+  }) -> ztmp
+  
+  do.call(rbind.data.frame, ztmp) %>% 
+    setNames(c("Site", "area")) %>% mutate(area = as.numeric(area)) %>% 
     write_csv(file = glue("out/urban_atlas/area_{name}_{code}.csv"))
-
-  g <- ggplot() + 
-    geom_sf(data = terni_sez_crop, fill = "transparent") +
-    geom_sf(data = st_as_sf(st_intersection(var, pt_buffer)), color = "red", fill = "yellow")
-  ggsave(g, filename = glue("out/urban_atlas/{name}_{code}.jpg"))
+  
 }
+ # getBufferUA(100, 12210)
 
 # i buffer per tutte le variabili
-walk(codes_2018,  ~ walk(c(200), ~ getBufferUA(.x, .y) , .y = .x))
+walk(codes_2018,  ~ walk(c(100, 200), ~ getBufferUA(.x, .y) , .y = .x))
 
 # unisco i dataframe
 map(codes_2018, function(c) {

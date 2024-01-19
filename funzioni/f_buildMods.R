@@ -62,7 +62,7 @@ buildMods <- function(backward = FALSE) {
   # w conterrà le stringhe dei modelli
   w <- lapply(z[,  ncol(z)], function(x) {
     # paste0("gam(value ~  ", x, ", gamma=1.4, family={family}, data = df)")
-    glue("gam(value ~  {x}, method = 'REML', gamma=1.4, family={family}, data = df)")
+    glue("gam(value ~  {x}, gamma=1.4, family={family}, data = df)")
   })
   
   # log_print(w %>% unlist())

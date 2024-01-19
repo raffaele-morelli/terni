@@ -23,6 +23,7 @@ models <- readRDS(glue("/home/rmorelli/R/terni/{run}/modelli_{met}_clean.RDS"))
 
 terni_sez <- st_read("/home/rmorelli/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
 pt_misura_utm32 <- st_read("/home/rmorelli/R/terni/data/shp/punti_misura.shp")
+acciaieria <- st_read("/home/rmorelli/R/terni/data/shp/acciaieria.shp")
 
 dominio <- st_read(glue("/home/rmorelli/R/terni/data/dominio/dominio_100m.shp")) # 54 col
 st_bbox(dominio) -> bbox

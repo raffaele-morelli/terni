@@ -93,7 +93,7 @@ server <- function(input, output) {
     summary(models[[input$traccianti]])
   })
   
-  # smoothness estimates as variance components ####
+  # estimates as variance components ####
   output$vcomp <- renderPrint(({
     mgcv::gam.vcomp(models[[input$traccianti]])
   }))
@@ -122,8 +122,9 @@ server <- function(input, output) {
 
     ggplot(data = r_df) +
       geom_raster(aes(x = x, y = y, fill = value)) +
-      geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey90", fill = "transparent", size = 0.5) +
-      geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 3) +
+      geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey95", fill = "transparent") +
+      geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 4) +
+      geom_sf(data = acciaieria, shape = 24, fill = "grey70", color = "gray15", size = 4) +
       scale_fill_viridis_c(option = "B", direction = -1) +
       theme_void() +
       theme(legend.position = "bottom", 
@@ -133,12 +134,13 @@ server <- function(input, output) {
             legend.key.height = unit(15, "points"),
             legend.key.width = unit(100, "points")
       ) + 
-      ggtitle(glue("{input$traccianti} - {input$mese}")) +
+      ggtitle(glue("{input$traccianti} (mese {input$mese})")) +
       coord_sf(datum = sf::st_crs(32632)) -> g1
     
     ggplot(data = r_df) + 
       geom_histogram(aes(x = value), bins = 80, color = "dodgerblue4", fill = "lightgray") +
-      theme_light() + theme(axis.title.x = element_blank(), axis.title.y = element_blank()) -> g2
+      theme_light() + theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
+      ggtitle("Distribuzione predicted") -> g2
     
     gridExtra::grid.arrange(g1, g2, layout_matrix = rbind(c(1, 1, 2),
                                                           c(1, 1, NA)))
