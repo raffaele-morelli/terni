@@ -11,7 +11,7 @@
   library(mgcv)
   library(logr)
 
-  rds_dir <- "test3"
+  rds_dir <- "safe"
 } 
 
 df <- "df_finale_raw.csv" # dataframe
