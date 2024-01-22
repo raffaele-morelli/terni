@@ -34,7 +34,7 @@ rm(dominio)
 pltnts <- readRDS("/home/rmorelli/R/terni/rds_out/traccianti.RDS")
 blacklist_inquinanti <- readr::read_csv("/home/rmorelli/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
 
-pltnts <- pltnts[!(pltnts %in% blacklist_inquinanti$pltnt)]
+pltnts <- pltnts[!(pltnts %in% blacklist_inquinanti$pltnt)] %>% sort()
 
 remove_outliers <- function(x, na.rm = TRUE, ...) {
   qnt <- quantile(x, probs = c(.25, .75), na.rm = na.rm, ...)

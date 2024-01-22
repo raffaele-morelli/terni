@@ -9,7 +9,7 @@ rds_out_traccianti <- "rds_out_traccianti_test3"
 
 dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
 
-mese <- 1
+mese <- 7
 res <- 100
 grd <- 100
 
