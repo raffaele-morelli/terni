@@ -27,7 +27,7 @@
     df <- "raw"
   }else{
     pltnt <- "PM10"
-    rds_dir <- "rds_gaussian_test3"
+    rds_dir <- "rds_gaussian_safe"
     df <- "raw"
   }
 
@@ -52,7 +52,7 @@
   
   # grep("200", v_spaziali) -> idx_spat
   # v_spaziali <- c(v_spaziali[idx_spat], "m_dis_ferr", v_acciaieria)
-  v_spaziali <- c('s8_sup_100', 's6_sup_100', 'cold_area', 'hot_area', 'scrapyard', 'imp_100', 'bh_100', 'pop_100', 'ml_100', 'm_dis_ferr')
+  v_spaziali <- c('s8_sup_200', 's6_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
 
   v_variabili <- c(v_spaziali, v_meteo_mean)
   
