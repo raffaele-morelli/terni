@@ -52,7 +52,7 @@ for (s in siti) {
 # indici di vegetazione e area fogliare ####
 do.call(cbind, appoggio) -> df_indici
 
-indx <- grepl("200", names(df_indici)) # prendiamo solo i buffer a 200m
+indx <- grepl("200|100", names(df_indici)) # prendiamo solo i buffer a 200m
 df_indici <- df_indici[, c(indx)]
 
 new_ass <- seq(as.Date("2016-11-01"), by = "month", length.out = 15) %>% 
