@@ -103,6 +103,33 @@
 cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 # definizione funzioni ####
 {
+  
+  # getDensIndex <- function(dist, s) {
+  #   pt_buffer <- st_buffer(filter(pt_misura_utm32, Site == s), 100, singleSide = FALSE, nQuadSegs = 17)
+  #   
+  #   cod_int <- c(11100, 11210, 11220, 11230, 11240)
+  #   perc <- c(0.90, 0.65, 0.40, 0.20, 0.05)
+  #   
+  #   inte <- st_intersection(pt_buffer, filter(terni_ua_utm32, code_2018 %in% cod_int))
+  #   
+  #   df_area <- cbind(inte, st_area(inte)) %>% 
+  #     st_drop_geometry() %>% 
+  #     select(code_2018, st_area.inte.) %>% 
+  #     set_names(c("code_2018", "area")) 
+  #   
+  #   df_area %>% group_by(code_2018) %>% summarise(area_tot = sum(area)) -> df_area
+  #   
+  #   df_area$code_2018 <- as.numeric(df_area$code_2018)
+  #   
+  #   data.frame(cod_int, perc) %>% set_names(c("code_2018", "perc")) %>% 
+  #     inner_join(df_area) %>% 
+  #     mutate(index = sum(perc*area_tot)/sum(area_tot) ) %>% dplyr::select(index) -> index
+  #   
+  #   return(unique(index) %>% as.numeric())
+  #   
+  # }
+  
+  
   getBufferUA <- function(dist, code, pt_id) {
     pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
     
@@ -163,15 +190,18 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   getBufferBH <- function(dist, pt_id) {
     b <- buffer(vect(filter(dominio, id == pt_id)), dist, quadsegs = 17)
     
-    extract(bh, b, xy = TRUE) %>%
+   extract(bh, b, xy = TRUE) %>%
       group_by(ID) %>%
       summarise(m = mean(IT515_TERNI_UA2012_DHM_V010, na.rm = TRUE), .groups = 'drop') %>% 
       select(m) %>% as.numeric() %>% round() -> val
     
-    if(!is.na(val)) { return(val)}else{ return(0)}
+    if(!is.na(val)) {
+      return(val)
+    }else{ 
+      return(0)
+    }
   }
-  # d <- st_transform(dominio[1920, "id"], 3035)
-  # getBufferBH(200, 1920) # se non lo trasformiamo noi lo fa in automatico
+  getBufferBH(200, 1920) # se non lo trasformiamo noi lo fa in automatico
   
   getBufferIntSEZ <- function(dist, pt_id) {
     pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)

@@ -47,15 +47,17 @@
   
   # trick ####
   v_meteo_mean <- readRDS("~/R/terni/rds_out/v_meteo_mean.RDS")
-  # v_spaziali <- readRDS("~/R/terni/rds_out/v_spaziali.RDS")
+
   v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
   
   # grep("200", v_spaziali) -> idx_spat
   # v_spaziali <- c(v_spaziali[idx_spat], "m_dis_ferr", v_acciaieria)
-  v_spaziali <- c('s8_sup_200', 's6_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
-
-  v_variabili <- c(v_spaziali, v_meteo_mean)
+  v_spaziali_200 <- c('s8_sup_200', 's6_sup_200', 'imp_200', 'bh_200', 'pop_200', 'ml_200')
+  v_spaziali_100 <- c('s8_sup_100', 's6_sup_100', 'imp_100', 'bh_100', 'pop_100', 'ml_100')
   
+  v_variabili <- c(v_spaziali_100, v_spaziali_200, v_meteo_mean, v_acciaieria, "m_dis_ferr")
+  
+  v_variabili <- v_variabili[!(v_variabili %in% c("wdir_mean", "ptp_mean", "pwspeed_mean"))]
 }
 
 
@@ -68,7 +70,7 @@ assign("pltnt", pltnt, envir = .GlobalEnv)
 assign("kappas", readRDS("~/R/terni/rds_out/kappas.RDS"))
 assign("rds_dir", rds_dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 assign("suffix", '', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
-assign("v_spaziali", v_spaziali, envir = .GlobalEnv)
+assign("v_spaziali", c(v_spaziali_100, v_spaziali_200), envir = .GlobalEnv)
 
 # assign("family", 'Gamma(link=identity)')
 # assign("family", 'poisson(link=log)')

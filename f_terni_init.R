@@ -175,23 +175,57 @@ do.call(cbind, dfs_imp) %>%
 
 # building heights ####
 bh <- rast("~/R/terni/data/bh/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
-# crs(bh, proj = TRUE)
 
 pt_misura3035 <-  st_transform(pt_misura, 3035) # meglio trasformare il vettore piuttosto che il raster
 v3035 <- vect(pt_misura3035)
 
 
 # calcola l'altezza media per gli edifici che sono nel buffer
+getIndici <- function(dist) {
+  pt_buffer <- st_buffer(pt_misura, dist, singleSide = FALSE, nQuadSegs = 17)
+  
+  cod_int <- c(11100, 11210, 11220, 11230, 11240)
+  perc <- c(0.90, 0.65, 0.40, 0.20, 0.05)
+  
+  inte <- st_intersection(pt_buffer, filter(terni_utm32))
+  inte %>% filter(code_2018 %in% cod_int) -> inte
+  
+  df_area <- cbind(inte, st_area(inte)) %>% 
+    st_drop_geometry() %>% 
+    dplyr::select(Site, code_2018, st_area.inte.) %>% 
+    set_names(c("Site", "code_2018", "area")) 
+  
+  df_area %>% group_by(Site, code_2018) %>% 
+    summarise(area_tot = sum(area)) -> df_area
+  
+  df_area$code_2018 <- as.numeric(df_area$code_2018)
+  
+  data.frame(cod_int, perc) %>% 
+    set_names(c("code_2018", "perc")) %>% 
+    inner_join(df_area, by = join_by(code_2018)) %>% 
+    dplyr::select(-code_2018) %>% 
+    mutate(index = perc*area_tot) %>% 
+    group_by(Site) %>% 
+    mutate( sum(area_tot), indice = sum(index) / sum(area_tot)) %>% 
+    dplyr::select(Site, indice) %>% arrange(Site) %>% unique()
+}
+
+
 getBufferRastBH <- function(dist) {
   name <- str_pad(dist, 3, pad = "0") # importante per avere un ordine coerente
   print( paste(dist, name, sep = "--"))
   
   v1 <- buffer(v3035, dist, quadsegs = 17)
-  
+  indici <- getIndici(dist)
   extract(bh, v1, xy = TRUE) %>%
     group_by(ID) %>%
     summarise(m = mean(IT515_TERNI_UA2012_DHM_V010, na.rm = TRUE), .groups = 'drop') %>%
     cbind(v1$Site) %>% 
+    set_names(c("ID", "m", "Site")) %>% 
+    inner_join(indici, by = join_by(Site)) %>% right_join(pt_misura, by = join_by(Site)) %>% 
+    mutate(ibh = m*indice) %>% 
+    arrange(Site) %>% 
+    dplyr::select(ibh) %>% 
     write_csv(file = glue("out/building_heights/rast_{name}.csv"))
 }
 
@@ -200,11 +234,11 @@ walk(dists, ~ getBufferRastBH(.x))
 
 fls <- list.files(path = "~/R/terni/out/building_heights", pattern = glue("^rast.*"), full.names = TRUE, recursive = TRUE)
 lapply(fls, function(x) {
-  read_csv(x, col_types = cols(ID = col_skip(), `v1$Site` = col_skip()))
+  read_csv(x, show_col_types = FALSE)
 }) -> dfs_bh
 
 do.call(cbind, dfs_bh) %>%
-  cbind(pt_misura$Site) %>%
+  cbind(sort(pt_misura$Site)) %>% 
   setNames(c(dists, "site")) %>% 
   write_csv(file = glue("{outdir}/df_building_heights.csv"))
 
