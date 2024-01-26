@@ -17,6 +17,8 @@ Rscript f_grid.R Mg_s.rds $1 $2 $3 $4 &
 Rscript f_grid.R Mn_i.rds $1 $2 $3 $4 & 
 Rscript f_grid.R Mn_s.rds $1 $2 $3 $4 & 
 Rscript f_grid.R Mo_i.rds $1 $2 $3 $4 & 
+wait
+
 Rscript f_grid.R Mo_s.rds $1 $2 $3 $4 & 
 Rscript f_grid.R Na_i.rds $1 $2 $3 $4 & 
 Rscript f_grid.R Na_s.rds $1 $2 $3 $4 & 
