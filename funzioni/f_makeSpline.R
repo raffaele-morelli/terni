@@ -8,7 +8,7 @@ makeSpline <- function(v) {
       
       # k <- filter(kappas, var == i) %>% select(kappas) %>% as.numeric()
       # log_print(sprintf("var %s kappa %s", i, k))
-      v_spaziali <- c('s8_sup_200', 's6_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
+      # v_spaziali <- c('s8_sup_200', 's6_sup_200', 'cold_area', 'hot_area', 'scrapyard', 'imp_200', 'bh_200', 'pop_200', 'ml_200', 'm_dis_ferr')
       # v_spat <- readRDS("~/R/terni/rds_out/v_spaziali.RDS")
       
       # if(i %in%  v_spaziali) {
@@ -22,8 +22,8 @@ makeSpline <- function(v) {
       #   k <= 10 & k > 5  ~  paste0("s(", x, ", k=", k-2, ")"),
       #   .default = paste0("s(", x, ", k=1)")
       # )
-      paste0("s(", x, ", k=4)")
-        # paste0("s(", x, ")")
+      # paste0("s(", x, ", k=4)")
+      paste0("s(", x, ")")
     })
   )
 }

@@ -11,7 +11,7 @@
   library(mgcv)
   library(logr)
 
-  rds_dir <- "test4"
+  rds_dir <- "free"
 } 
 
 df <- "df_finale_raw.csv" # dataframe
@@ -38,12 +38,14 @@ getModel <- function(vars, df) {
 
 pltnts <- list.files(glue("~/R/terni/rds_gaussian_{rds_dir}"), pattern = "*.rds", full.names = TRUE) 
 
+
+pltnts[ pltnts %in% blacklist_inquinanti$pltnt]
+
 fn <- file.path(glue("log/clean_v_nsign.log"))
 lf <- log_open(fn)
 
 map(pltnts, \(pltnt) {
   inquinante <- tools::file_path_sans_ext(basename(pltnt))
-
 
   log_print(inquinante, hide_notes = TRUE)
   df <- read_csv(glue("~/R/terni/data/dataframes/{df}"), show_col_types = FALSE)

@@ -31,6 +31,11 @@
     df <- "raw"
   }
 
+  blacklist_inquinanti <- read_csv("/home/rmorelli/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
+  
+  if(pltnt %in% blacklist_inquinanti$pltnt) {
+    stop("Sei nella blacklist!!!")
+  }
   
   cat("############# ", pltnt, "\n")
   
