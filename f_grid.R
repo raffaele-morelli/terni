@@ -5,10 +5,10 @@
   
   # SET tracciante ####
   if(purrr::is_empty(args)) {
-    pltnt <- "Cr_i"
+    pltnt <- "Cu_i"
     res <- 100
     dist <- 200
-    outdir <- "rds_out_traccianti"
+    outdir <- "rds_out_traccianti_test5"
     met <- "free"
   }else{
     pltnt <- args[1]
