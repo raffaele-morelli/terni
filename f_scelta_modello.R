@@ -60,7 +60,7 @@
   v_spaziali_200 <- c('s8_sup_200', 's6_sup_200', 'imp_200', 'bh_200', 'pop_200', 'ml_200')
   v_spaziali_100 <- c('s8_sup_100', 's6_sup_100', 'imp_100', 'bh_100', 'pop_100', 'ml_100')
   
-  v_variabili <- c(v_spaziali_100, v_spaziali_200, v_meteo_mean, v_acciaieria, "m_dis_ferr")
+  v_variabili <- c(v_spaziali_200, v_meteo_mean, v_acciaieria, "m_dis_ferr")
   
   v_variabili <- v_variabili[!(v_variabili %in% c("wdir_mean", "ptp_mean", "pwspeed_mean"))]
 }

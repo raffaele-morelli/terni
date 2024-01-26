@@ -6,9 +6,9 @@
   # SET tracciante ####
   if(purrr::is_empty(args)) {
     pltnt <- "Cr_i"
-    res <- dist <- 200
+    res <- dist <- 100
     outdir <- "rds_out_traccianti"
-    met <- "test3"
+    met <- "test4"
   }else{
     pltnt <- args[1]
     res <- dist <- as.numeric( args[2] )
@@ -70,7 +70,7 @@
   cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   
   lista_ua <- as.list(codes_2018)
-  names(lista_ua) <- paste0(cod_str, "_sup_100")
+  names(lista_ua) <- paste0(cod_str)
   
   terni_ua_fltr <- filter(terni_ua_all, code_2018 %in% codes_2018)
   terni_ua_utm32 <- st_transform(terni_ua_fltr, 32632) # WGS84/UTM 32
@@ -104,30 +104,6 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 # definizione funzioni ####
 {
   
-  # getDensIndex <- function(dist, s) {
-  #   pt_buffer <- st_buffer(filter(pt_misura_utm32, Site == s), 100, singleSide = FALSE, nQuadSegs = 17)
-  #   
-  #   cod_int <- c(11100, 11210, 11220, 11230, 11240)
-  #   perc <- c(0.90, 0.65, 0.40, 0.20, 0.05)
-  #   
-  #   inte <- st_intersection(pt_buffer, filter(terni_ua_utm32, code_2018 %in% cod_int))
-  #   
-  #   df_area <- cbind(inte, st_area(inte)) %>% 
-  #     st_drop_geometry() %>% 
-  #     select(code_2018, st_area.inte.) %>% 
-  #     set_names(c("code_2018", "area")) 
-  #   
-  #   df_area %>% group_by(code_2018) %>% summarise(area_tot = sum(area)) -> df_area
-  #   
-  #   df_area$code_2018 <- as.numeric(df_area$code_2018)
-  #   
-  #   data.frame(cod_int, perc) %>% set_names(c("code_2018", "perc")) %>% 
-  #     inner_join(df_area) %>% 
-  #     mutate(index = sum(perc*area_tot)/sum(area_tot) ) %>% dplyr::select(index) -> index
-  #   
-  #   return(unique(index) %>% as.numeric())
-  #   
-  # }
   
   
   getBufferUA <- function(dist, code, pt_id) {
@@ -201,7 +177,37 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
       return(0)
     }
   }
-  getBufferBH(200, 1920) # se non lo trasformiamo noi lo fa in automatico
+  # getBufferBH(200, 1920) # se non lo trasformiamo noi lo fa in automatico
+  
+  getDensBHIndex <- function(dist, pt_id) {
+    pt_buffer <- st_buffer(filter(dominio, id == pt_id), 100, singleSide = FALSE, nQuadSegs = 17)
+    
+    cod_int <- c(11100, 11210, 11220, 11230, 11240)
+    perc <- c(0.90, 0.65, 0.40, 0.20, 0.05)
+    
+    inte <- st_intersection(pt_buffer, filter(terni_ua_utm32, code_2018 %in% cod_int))
+    
+    df_area <- cbind(inte, st_area(inte)) %>%
+      st_drop_geometry() %>%
+      select(code_2018, st_area.inte.) %>%
+      set_names(c("code_2018", "area"))
+    
+    df_area %>% group_by(code_2018) %>% summarise(area_tot = sum(area)) -> df_area
+    
+    df_area$code_2018 <- as.numeric(df_area$code_2018)
+    
+    data.frame(cod_int, perc) %>% set_names(c("code_2018", "perc")) %>%
+      inner_join(df_area, by = join_by(code_2018)) %>%
+      mutate(index = sum(perc*area_tot)/sum(area_tot) ) %>% dplyr::select(index) -> index
+    
+    unique(index) %>% as.numeric() -> val
+    if(!is.na(val)) {
+      return(val)
+    }else{ 
+      return(0)
+    }
+  }
+  # getDensBHIndex(100, 2900)
   
   getBufferIntSEZ <- function(dist, pt_id) {
     pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
@@ -274,15 +280,6 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 }
 
-# plot( ggeffects::ggpredict(gam_tdf, 
-#                            terms = c("rh_max", "imp_200")),
-#       facets = TRUE
-#       )
-# gratia::draw(gam_tdf, scales = "fixed") 
-# summary(gam_tdf)
-# plot(ggeffects::ggpredict(gam_tdf), facets = TRUE) # per questo devi standardizzare il df
-
-
 # routine #### 
 {
   log_open(file_name = glue::glue("{pltnt}_dominio.log"))
@@ -290,18 +287,29 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   map(dominio$id, \(id) {
 
     log_print(id, hide_notes = TRUE)
-    data.frame("variable" = c(getBufferUA(dist, lista_ua[["s8_sup_100"]], id),
-                              getBufferUA(dist, lista_ua[["s6_sup_100"]], id),
-                              getAcciaMinDist(dist, id, "cold_area"),
-                              getAcciaMinDist(dist, id, "hot_area"),
-                              getAcciaMinDist(dist, id, "scrapyard"),
-                              getBufferImperv(dist, id),
-                              getBufferBH(dist, id),
-                              getBufferIntSEZ(dist, id),
-                              getBufferIntStrade(dist, id),
-                              getFerroMinDist(dist, id))) %>% t() -> df_spat
+    data.frame("variable" = c(
+      getBufferUA(200, lista_ua[["s8"]], id),
+      getBufferUA(200, lista_ua[["s6"]], id),
+      getAcciaMinDist(200, id, "cold_area"),
+      getAcciaMinDist(200, id, "hot_area"),
+      getAcciaMinDist(200, id, "scrapyard"),
+      getBufferImperv(200, id),
+      getDensBHIndex(200, id),
+      getBufferIntSEZ(200, id),
+      getBufferIntStrade(200, id),
+      getFerroMinDist(200, id)
+      )
+      ) %>% t() -> df_spat
+    
     rownames(df_spat) <- NULL
-    colnames(df_spat) <- c('s8_sup_100', 's6_sup_100', 'cold_area', 'hot_area', 'scrapyard', 'imp_100', 'bh_100', 'pop_100', 'ml_100', 'm_dis_ferr')
+    colnames(df_spat) <- c(
+      's8_sup_200', 's6_sup_200', 
+      'cold_area', 'hot_area', 'scrapyard', 
+      'imp_200', 
+      'bh_200', 
+      'pop_200', 
+      'ml_200', 
+      'm_dis_ferr')
     # log_print(df_spat, hide_notes = TRUE)
 
     map(df_meteo$data, \(d) {
