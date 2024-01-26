@@ -103,7 +103,8 @@ server <- function(input, output) {
     if (is.null(input$traccianti))
       return(NULL)
     
-    f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_{input$res}m_{input$res}res.RDS')
+    # f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_{input$res}m_{input$res}res.RDS')
+    f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_200m_100res.RDS')
     
     trcnt <- readRDS(f)
     trcnt_df <- do.call(rbind.data.frame, trcnt)

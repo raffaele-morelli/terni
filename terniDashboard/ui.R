@@ -6,7 +6,7 @@ ui <- fluidPage(
     
     sidebarPanel(
       selectInput("traccianti", "Tracciante", choices = c(pltnts)),
-      selectInput("res", "Risoluzione", choices = c("100", "200")),
+      # selectInput("res", "Risoluzione", choices = c("100", "200")),
       selectInput("mese", "Mese", choices = c(seq(1:12))),
       # selectInput("kappa", "k", choices = c(5, 1, 2, 3, 4)),
       plotOutput("distPlot"), 
