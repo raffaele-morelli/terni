@@ -6,12 +6,14 @@
   # SET tracciante ####
   if(purrr::is_empty(args)) {
     pltnt <- "Cr_i"
-    res <- dist <- 100
+    res <- 100
+    dist <- 200
     outdir <- "rds_out_traccianti"
     met <- "free"
   }else{
     pltnt <- args[1]
-    res <- dist <- as.numeric( args[2] )
+    res <- 100 # as.numeric( args[2] )
+    dist <- 200
     outdir <- args[3]
     met <- args[4]
   }
