@@ -8,7 +8,7 @@
     pltnt <- "Cr_i"
     res <- dist <- 100
     outdir <- "rds_out_traccianti"
-    met <- "test4"
+    met <- "free"
   }else{
     pltnt <- args[1]
     res <- dist <- as.numeric( args[2] )
