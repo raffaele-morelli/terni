@@ -109,11 +109,11 @@ server <- function(input, output) {
     trcnt <- readRDS(f)
     trcnt_df <- do.call(rbind.data.frame, trcnt)
     
-    if(input$res == 100) {
+    # if(input$res == 100) {
       n_col <- 109
-    }else{
-      n_col <- 54
-    }
+    # }else{
+    #   n_col <- 54
+    # }
     
     # print(as.numeric( input$mese) )
     r <- matrix(trcnt_df[, as.numeric( input$mese)], ncol = n_col,  byrow = FALSE) %>% raster::raster()
