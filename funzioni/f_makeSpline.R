@@ -22,8 +22,8 @@ makeSpline <- function(v) {
       #   k <= 10 & k > 5  ~  paste0("s(", x, ", k=", k-2, ")"),
       #   .default = paste0("s(", x, ", k=1)")
       # )
-      # paste0("s(", x, ", k=5)")
-        paste0("s(", x, ")")
+      paste0("s(", x, ", k=4)")
+        # paste0("s(", x, ")")
     })
   )
 }

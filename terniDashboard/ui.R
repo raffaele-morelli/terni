@@ -1,6 +1,6 @@
 ui <- fluidPage(
   
-  titlePanel("Esercizio Terni"),
+  titlePanel(paste("Terni::", met)),
   
   sidebarLayout(
     
