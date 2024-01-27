@@ -299,7 +299,8 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
       getDensBHIndex(200, id),
       getBufferIntSEZ(200, id),
       getBufferIntStrade(200, id),
-      getFerroMinDist(200, id)
+      getFerroMinDist(200, id),
+      getStradeMinDist(200, id)
       )
       ) %>% t() -> df_spat
     
@@ -311,7 +312,8 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
       'bh_200', 
       'pop_200', 
       'ml_200', 
-      'm_dis_ferr')
+      'm_dis_ferr',
+      'min_d')
     # log_print(df_spat, hide_notes = TRUE)
 
     map(df_meteo$data, \(d) {
