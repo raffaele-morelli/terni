@@ -1,4 +1,7 @@
 # init ####
+args <- commandArgs(trailingOnly = TRUE)
+cat(args, sep = "\n")
+
 {
   library(dplyr)
   library(chron)
@@ -11,7 +14,12 @@
   library(mgcv)
   library(logr)
 
-  rds_dir <- "test6"
+  if(!purrr::is_empty(args)) {
+    rds_dir <- args[1] ### SET directory ####
+  }else{
+    rds_dir <- "test8"
+  }
+  
 } 
 
 df <- "df_finale_raw.csv" # dataframe

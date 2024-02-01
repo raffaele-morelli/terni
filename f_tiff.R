@@ -5,7 +5,7 @@ library(terra)
 library(ggplot2)
 library(dplyr)
 
-rds_out_traccianti <- "rds_out_traccianti_test3"
+rds_out_traccianti <- "rds_out_traccianti_test7"
 
 dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
 
@@ -34,7 +34,7 @@ pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp")
 st_bbox(dominio) -> bbox
 r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
 
-fls <- list.files(glue("~/R/terni/{rds_out_traccianti}"), pattern = glue("{grd}m_{res}res"), full.names = TRUE)
+fls <- list.files(glue("~/R/terni/{rds_out_traccianti}"), full.names = TRUE)
 
 
 purrr::walk(fls, \(f) {

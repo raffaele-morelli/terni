@@ -53,7 +53,7 @@
   # trick ####
   v_meteo_mean <- readRDS("~/R/terni/rds_out/v_meteo_mean.RDS")
 
-  v_acciaieria <- c("cold_area", "hot_area", "scrapyard")
+  v_acciaieria <- c("cold_area", "hot_area")
   
   # grep("200", v_spaziali) -> idx_spat
   # v_spaziali <- c(v_spaziali[idx_spat], "m_dis_ferr", v_acciaieria)
