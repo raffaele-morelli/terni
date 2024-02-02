@@ -21,14 +21,19 @@ cat(args, sep = "\n")
   
   setwd("~/R/terni")
   
-  modelli <- readRDS(glue("~/R/terni/rds_out/modelli_gaussian_clean.RDS"))
+  met <- "test8"
+  modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
   traccianti <- readRDS("~/R/terni/rds_out/traccianti.RDS")
+  
+  blacklist_inquinanti <- read_csv("data/blacklist_inquinanti.csv", show_col_types = FALSE)
+  
+  traccianti <- traccianti[!(traccianti %in% blacklist_inquinanti$pltnt)]
 }
 
 big_list <- list()
 
 for (pltnt in traccianti) {
-  df <- read_csv(glue::glue("data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("~/R/terni/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
   
   index <- grep(pltnt, names(df))
   names(df)[index] <- "value"
@@ -96,5 +101,5 @@ for (pltnt in traccianti) {
   
 }
 
-saveRDS(big_list, file = "~/R/terni/rds_out/incertezza.RDS")
+saveRDS(big_list, file = glue("~/R/terni/rds_gaussian_{met}/incertezza.RDS"))
 

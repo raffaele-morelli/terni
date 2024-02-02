@@ -19,19 +19,19 @@
   
   setwd("~/R/terni")
   
-  dir <- "gaussian"
-  modelli <- readRDS(glue("~/R/terni/rds_out/modelli_{dir}_clean.RDS"))
+  met <- "test8"
+  modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
 }
 
 my_list <- list()
 
 for (pltnt in names(modelli)) {
   
-  fn <- file.path(glue("~/R/terni/log/cv/{dir}/cross_valid_{pltnt}.log"))
+  fn <- file.path(glue("~/R/terni/log/cv/{met}/cross_valid_{pltnt}.log"))
   lf <- log_open(fn)
   
   # va riletto ogni volta altrimenti "value" viene trovato più volte
-  df <- read_csv(glue::glue("data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
+  df <- read_csv(glue::glue("~/R/terni/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
   
   # sites <- unique(df$site)
   index <- grep(pltnt, names(df))
@@ -115,5 +115,5 @@ for (pltnt in names(modelli)) {
 my_mat <- do.call(rbind, my_list)
 my_df <- data.frame(my_mat)
 
-saveRDS(my_list, file = glue("~/R/terni/rds_out/cross_validation_{dir}.RDS"))
+saveRDS(my_list, file = glue("~/R/terni/rds_gaussian_{met}/cross_validation.RDS"))
 
