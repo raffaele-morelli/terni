@@ -32,6 +32,8 @@ cat(args, sep = "\n")
 
 big_list <- list()
 
+set.seed(1974)
+
 for (pltnt in traccianti) {
   df <- read_csv(glue::glue("~/R/terni/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
   
@@ -42,8 +44,11 @@ for (pltnt in traccianti) {
     cat("pltnt: ", pltnt, " : ", r, "\n")
     my_list <- list()
     
+    df <- df %>% group_by(associazione_ispra)
+    # is_grouped_df(df)
+    
     # blocco calcolo indici ####
-    tdf <- slice_sample(df, prop = 0.8) # training
+    tdf <- slice_sample(df, prop = 0.75) # training
     pdf <- anti_join(df, tdf, by = c("site", "data", "data_inizio", "data_fine")) # predict
     
     # addestriamo il modello sul DF di training
