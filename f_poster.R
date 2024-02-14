@@ -42,15 +42,15 @@ bxplt <- function(pltnt) {
     ggplot() +
     geom_boxplot(aes(y = value, x = variable, fill = variable)) +
     facet_wrap(~variable, scales = "free", ncol = 5) +
-    theme_fivethirtyeight() +
-    theme(
-      axis.title = element_blank(), 
-      axis.text.x = element_blank(),
-      legend.position = "none"
+    theme_fivethirtyeight() %+replace%
+    theme(text = element_text(family = "Arial", size = 10),
+          axis.title = element_blank(), 
+          axis.text.x = element_blank(),
+          legend.position = "none"
     ) +
     scale_fill_brewer(palette = "BuPu")
     ggsave(filename = glue::glue("immagini_poster/bxplt_{pltnt}.jpg"),
-           width = 9, height = 9)
+           width = 9, height = 12, units = c("cm"), dpi = 300)
 }
 
 bxplt("PM10") 
@@ -60,8 +60,8 @@ bxplt("Sn_i")
 bxplt_cv <- function(pltnt) {
   do.call(rbind, cross_validation[[pltnt]]) %>% 
     as.data.frame() %>% 
-    setNames(c("rmse20", "rmse80", "rsq20", "rsq80", "FAC2", "FB", "NMSE"))  %>% 
-    select(c("rsq80", "rmse80", "FB", "NMSE", "FAC2")) %>% 
+    setNames(c("rmse20", "RMSE", "rsq20", "RSQ", "FAC2", "FB", "NMSE"))  %>% 
+    select(c("RSQ", "RMSE", "FB", "NMSE", "FAC2")) %>% 
     mutate(
       across(all_of(names(.)), as.numeric)
     ) -> df
@@ -70,15 +70,18 @@ bxplt_cv <- function(pltnt) {
     ggplot() +
     geom_boxplot(aes(y = value, x = variable, fill = variable)) +
     facet_wrap(~variable, scales = "free", ncol = 5) +
-    theme_fivethirtyeight() +
-    theme(
-      axis.title = element_blank(), 
-      axis.text.x = element_blank(),
-      legend.position = "none"
+    theme_fivethirtyeight() %+replace%
+    theme(text = element_text(family = "Arial", size = 9),
+          axis.title = element_blank(), 
+          axis.text.x = element_blank(),
+          legend.position = "none",
+          panel.background = element_blank(),
+          plot.background = element_blank(),
+          strip.background = element_blank()
     ) +
     scale_fill_brewer(palette = "BuPu")
   ggsave(filename = glue::glue("immagini_poster/bxplt_cv_{pltnt}.jpg"),
-         width = 9, height = 9)
+         width = 9, height = 12, units = c("cm"), dpi = 300)
 }
 bxplt_cv("PM10")
 bxplt_cv("Mo_s")
