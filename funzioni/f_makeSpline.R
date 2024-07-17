@@ -15,7 +15,8 @@ makeSpline <- function(v) {
       # v_spat <- readRDS("~/R/terni/rds_out/v_spaziali.RDS")
       
       if(i %in%  v_lineari) {
-        paste0("s(", x, ", k=1)")
+        # paste0("s(", x, ", k=1)")
+        paste0(" ", x, " ")
       }else{
         paste0("s(", x, ")")
       }

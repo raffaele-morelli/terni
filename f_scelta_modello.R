@@ -27,7 +27,7 @@
     df <- "raw"
   }else{
     pltnt <- "PM10"
-    rds_dir <- "rds_gaussian_free"
+    rds_dir <- "rds_gaussian_test9"
     df <- "raw"
   }
 
