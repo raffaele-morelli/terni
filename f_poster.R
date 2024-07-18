@@ -24,10 +24,14 @@ incertezza <- readRDS("~/R/terni/rds_gaussian_test8/incertezza.RDS")
 }
 
 gspline <- function(pltnt) {
-  g <- gratia::draw( modelli_test8_clean[[pltnt]], scales = "fixed", residuals = FALSE) & theme_fivethirtyeight(base_size = 9) 
-  ggsave(g, filename =  glue::glue("immagini_articolo/{pltnt}.jpg"), width = 6, height = 6)  
-}
+  titolo <- ggtitle(glue::glue("pltnt"))
+  
+  g <- gratia::draw( modelli_test8_clean[[pltnt]], scales = "fixed", residuals = FALSE) & 
+    theme_fivethirtyeight(base_size = 6)  
 
+  ggsave(g, filename =  glue::glue("immagini_articolo/{pltnt}.jpg"), width = 12, height = 12, units = c("cm"), dpi = 200)  
+}
+# gspline("PM10")
 
 bxplt <- function(pltnt) {
   incertezza[[pltnt]] %>% 
@@ -48,9 +52,9 @@ bxplt <- function(pltnt) {
           axis.text.x = element_blank(),
           legend.position = "none"
     ) +
-    scale_fill_brewer(palette = "BuPu") 
+    scale_fill_brewer(palette = "BuPu") + ggtitle(glue::glue("{pltnt}"))
     ggsave(filename = glue::glue("immagini_articolo/bxplt_{pltnt}.jpg"),
-           width = 9, height = 10, units = c("cm"), dpi = 150)
+           width = 9, height = 10, units = c("cm"), dpi = 200)
 }
 
 bxplt_cv <- function(pltnt) {
@@ -75,9 +79,10 @@ bxplt_cv <- function(pltnt) {
           plot.background = element_blank(),
           strip.background = element_blank()
     ) +
-    scale_fill_brewer(palette = "BuPu")
+    scale_fill_brewer(palette = "BuPu") #+ ggtitle(glue::glue("{pltnt}"))
+  
   ggsave(filename = glue::glue("immagini_articolo/bxplt_cv_{pltnt}.jpg"),
-         width = 9, height = 10, units = c("cm"), dpi = 150)
+         width = 9, height = 10, units = c("cm"), dpi = 200)
 }
 
 purrr::map(selezione_terni$X1, \(p) {
