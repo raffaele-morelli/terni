@@ -29,7 +29,8 @@ gspline <- function(pltnt) {
   g <- gratia::draw( modelli_test8_clean[[pltnt]], scales = "fixed", residuals = FALSE) & 
     theme_fivethirtyeight(base_size = 6)  
 
-  ggsave(g, filename =  glue::glue("immagini_articolo/{pltnt}.jpg"), width = 12, height = 12, units = c("cm"), dpi = 200)  
+  ggsave(g, filename =  glue::glue("immagini_articolo/splines/{pltnt}.jpg"), 
+         width = 12, height = 12, units = c("cm"), dpi = 200)  
 }
 # gspline("PM10")
 
@@ -53,7 +54,7 @@ bxplt <- function(pltnt) {
           legend.position = "none"
     ) +
     scale_fill_brewer(palette = "BuPu") + ggtitle(glue::glue("{pltnt}"))
-    ggsave(filename = glue::glue("immagini_articolo/bxplt_{pltnt}.jpg"),
+    ggsave(filename = glue::glue("immagini_articolo/bxplt/bxplt_{pltnt}.jpg"),
            width = 9, height = 10, units = c("cm"), dpi = 200)
 }
 
@@ -81,7 +82,7 @@ bxplt_cv <- function(pltnt) {
     ) +
     scale_fill_brewer(palette = "BuPu") #+ ggtitle(glue::glue("{pltnt}"))
   
-  ggsave(filename = glue::glue("immagini_articolo/bxplt_cv_{pltnt}.jpg"),
+  ggsave(filename = glue::glue("immagini_articolo/bxplt_cv/bxplt_cv_{pltnt}.jpg"),
          width = 9, height = 10, units = c("cm"), dpi = 200)
 }
 
