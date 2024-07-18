@@ -3,6 +3,10 @@ library(gratia)
 library(ggthemes)
 library(dplyr)
 library(mgcViz)
+library(readr)
+
+
+selezione_terni <- read_csv("selezione_terni.csv", col_names = FALSE, show_col_types = FALSE)
 
 # spline di Mo_s, PM10, Sn_i 
 # box plot della cross validation  eliminando però rsq20 e rmse 20 lasciando solo rsq80 e rsme80 con la dicitura generica rsq e rmse
@@ -19,14 +23,10 @@ incertezza <- readRDS("~/R/terni/rds_gaussian_test8/incertezza.RDS")
   # gratia::draw( modelli_test8_clean[["PM10"]], select = 4) & theme_fivethirtyeight()
 }
 
-gratia::draw( modelli_test8_clean[["PM10"]], scales = "fixed", residuals = FALSE) & theme_fivethirtyeight() -> g_PM10
-ggsave(g_PM10, filename = "immagini_poster/PM10.jpg", width = 12, height = 12)
-
-gratia::draw( modelli_test8_clean[["Mo_s"]], scales = "fixed", residuals = FALSE) & theme_fivethirtyeight() -> g_Mo_s
-ggsave(g_Mo_s, filename = "immagini_poster/Mo_s.jpg", width = 12, height = 12)
-
-gratia::draw( modelli_test8_clean[["Sn_i"]], scales = "fixed", residuals = FALSE) & theme_fivethirtyeight() -> g_Sn_i
-ggsave(g_Sn_i, filename = "immagini_poster/Sn_i.jpg", width = 12, height = 12)
+gspline <- function(pltnt) {
+  g <- gratia::draw( modelli_test8_clean[[pltnt]], scales = "fixed", residuals = FALSE) & theme_fivethirtyeight(base_size = 9) 
+  ggsave(g, filename =  glue::glue("immagini_articolo/{pltnt}.jpg"), width = 6, height = 6)  
+}
 
 
 bxplt <- function(pltnt) {
@@ -42,20 +42,16 @@ bxplt <- function(pltnt) {
     ggplot() +
     geom_boxplot(aes(y = value, x = variable, fill = variable)) +
     facet_wrap(~variable, scales = "free", ncol = 5) +
-    theme_fivethirtyeight() %+replace%
+    theme_fivethirtyeight(base_size = 10) %+replace%
     theme(text = element_text(family = "Arial", size = 10),
           axis.title = element_blank(), 
           axis.text.x = element_blank(),
           legend.position = "none"
     ) +
-    scale_fill_brewer(palette = "BuPu")
-    ggsave(filename = glue::glue("immagini_poster/bxplt_{pltnt}.jpg"),
-           width = 9, height = 12, units = c("cm"), dpi = 300)
+    scale_fill_brewer(palette = "BuPu") 
+    ggsave(filename = glue::glue("immagini_articolo/bxplt_{pltnt}.jpg"),
+           width = 9, height = 10, units = c("cm"), dpi = 150)
 }
-
-bxplt("PM10") 
-bxplt("Mo_s")
-bxplt("Sn_i")
 
 bxplt_cv <- function(pltnt) {
   do.call(rbind, cross_validation[[pltnt]]) %>% 
@@ -70,7 +66,7 @@ bxplt_cv <- function(pltnt) {
     ggplot() +
     geom_boxplot(aes(y = value, x = variable, fill = variable)) +
     facet_wrap(~variable, scales = "free", ncol = 5) +
-    theme_fivethirtyeight() %+replace%
+    theme_fivethirtyeight(base_size = 10) %+replace%
     theme(text = element_text(family = "Arial", size = 9),
           axis.title = element_blank(), 
           axis.text.x = element_blank(),
@@ -80,10 +76,14 @@ bxplt_cv <- function(pltnt) {
           strip.background = element_blank()
     ) +
     scale_fill_brewer(palette = "BuPu")
-  ggsave(filename = glue::glue("immagini_poster/bxplt_cv_{pltnt}.jpg"),
-         width = 9, height = 12, units = c("cm"), dpi = 300)
+  ggsave(filename = glue::glue("immagini_articolo/bxplt_cv_{pltnt}.jpg"),
+         width = 9, height = 10, units = c("cm"), dpi = 150)
 }
-bxplt_cv("PM10")
-bxplt_cv("Mo_s")
-bxplt_cv("Sn_i")
+
+purrr::map(selezione_terni$X1, \(p) {
+  gspline(p)
+  bxplt(p)
+  bxplt_cv(p)
+})
+
 
