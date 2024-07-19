@@ -5,6 +5,24 @@ library(dplyr)
 library(mgcViz)
 library(readr)
 
+source("~/R/incendi/theme_fires.R")
+theme_terni <- function (base_size = 12, base_family = "sans") 
+{
+  colors <- deframe(ggthemes::ggthemes_data[["fivethirtyeight"]])
+  (theme_foundation(base_size = base_size, base_family = base_family) + 
+      theme(line = element_line(colour = "black"), 
+            rect = element_rect(fill = colors["Light Gray"], linetype = 0, colour = NA), 
+            text = element_text(colour = colors["Dark Gray"]), 
+            axis.title = element_blank(), axis.text = element_text(), 
+            axis.ticks = element_blank(), axis.line = element_blank(), 
+            legend.background = element_rect(), legend.position = "bottom", 
+            legend.direction = "horizontal", legend.box = "vertical", 
+            panel.grid = element_line(colour = NULL), panel.grid.major = element_line(colour = colors["Medium Gray"]), 
+            panel.grid.minor = element_blank(), 
+            plot.title = element_text(hjust = 0, size = rel(1.5), face = "bold"), 
+            plot.margin = unit(c(1, 1, 1, 1), "lines"), 
+            strip.background = element_rect()))
+}
 
 selezione_terni <- read_csv("selezione_terni.csv", col_names = FALSE, show_col_types = FALSE)
 
@@ -27,10 +45,17 @@ gspline <- function(pltnt) {
   titolo <- ggtitle(glue::glue("pltnt"))
   
   g <- gratia::draw( modelli_test8_clean[[pltnt]], scales = "fixed", residuals = FALSE) & 
-    theme_fivethirtyeight(base_size = 6) & theme_bw()
+    theme_fivethirtyeight(base_size = 8) %+replace%
+    theme(axis.title = element_blank(), 
+          axis.text.x = element_blank(),
+          legend.position = "none",
+          panel.background = element_blank(),
+          plot.background = element_blank(),
+          strip.background = element_blank()
+    )
 
   ggsave(g, filename =  glue::glue("immagini_articolo/splines/{pltnt}.jpg"), 
-         width = 12, height = 12, units = c("cm"), dpi = 200)  
+         width = 14, height = 14, units = c("cm"), dpi = 200)  
   return(g)
 }
 gspline("PM10")
@@ -49,10 +74,13 @@ bxplt <- function(pltnt) {
     geom_boxplot(aes(y = value, x = variable, fill = variable)) +
     facet_wrap(~variable, scales = "free", ncol = 5) +
     theme_fivethirtyeight(base_size = 10) %+replace%
-    theme(text = element_text(family = "Arial", size = 10),
+    theme(text = element_text(family = "Arial", size = 9),
           axis.title = element_blank(), 
           axis.text.x = element_blank(),
-          legend.position = "none"
+          legend.position = "none",
+          panel.background = element_blank(),
+          plot.background = element_blank(),
+          strip.background = element_blank()
     ) +
     scale_fill_brewer(palette = "BuPu") + ggtitle(glue::glue("{pltnt}"))
     ggsave(filename = glue::glue("immagini_articolo/bxplt/bxplt_{pltnt}.jpg"),
@@ -89,8 +117,8 @@ bxplt_cv <- function(pltnt) {
 
 purrr::map(selezione_terni$X1, \(p) {
   gspline(p)
-  bxplt(p)
-  bxplt_cv(p)
+  # bxplt(p)
+  # bxplt_cv(p)
 })
 
 
