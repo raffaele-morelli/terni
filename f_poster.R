@@ -27,12 +27,13 @@ gspline <- function(pltnt) {
   titolo <- ggtitle(glue::glue("pltnt"))
   
   g <- gratia::draw( modelli_test8_clean[[pltnt]], scales = "fixed", residuals = FALSE) & 
-    theme_fivethirtyeight(base_size = 6)  
+    theme_fivethirtyeight(base_size = 6) & theme_bw()
 
   ggsave(g, filename =  glue::glue("immagini_articolo/splines/{pltnt}.jpg"), 
          width = 12, height = 12, units = c("cm"), dpi = 200)  
+  return(g)
 }
-# gspline("PM10")
+gspline("PM10")
 
 bxplt <- function(pltnt) {
   incertezza[[pltnt]] %>% 
@@ -80,7 +81,7 @@ bxplt_cv <- function(pltnt) {
           plot.background = element_blank(),
           strip.background = element_blank()
     ) +
-    scale_fill_brewer(palette = "BuPu") #+ ggtitle(glue::glue("{pltnt}"))
+    scale_fill_brewer(palette = "BuPu")  + ggtitle(glue::glue("{pltnt}"))
   
   ggsave(filename = glue::glue("immagini_articolo/bxplt_cv/bxplt_cv_{pltnt}.jpg"),
          width = 9, height = 10, units = c("cm"), dpi = 200)
