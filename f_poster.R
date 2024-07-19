@@ -44,7 +44,7 @@ incertezza <- readRDS("~/R/terni/rds_gaussian_test8/incertezza.RDS")
 gspline <- function(pltnt) {
   titolo <- ggtitle(glue::glue("pltnt"))
   
-  g <- gratia::draw( modelli_test8_clean[[pltnt]], scales = "fixed", residuals = FALSE) & 
+  g <- gratia::draw( modelli_test8_clean[[pltnt]], scales = "fixed", residuals = FALSE, title = "s(Air Pressure)") & 
     theme_fivethirtyeight(base_size = 8) %+replace%
     theme(axis.title = element_blank(), 
           axis.text.x = element_blank(),
@@ -52,7 +52,7 @@ gspline <- function(pltnt) {
           panel.background = element_blank(),
           plot.background = element_blank(),
           strip.background = element_blank()
-    )
+    ) 
 
   ggsave(g, filename =  glue::glue("immagini_articolo/splines/{pltnt}.jpg"), 
          width = 14, height = 14, units = c("cm"), dpi = 200)  
@@ -84,7 +84,7 @@ bxplt <- function(pltnt) {
     ) +
     scale_fill_brewer(palette = "BuPu") + ggtitle(glue::glue("{pltnt}"))
     ggsave(filename = glue::glue("immagini_articolo/bxplt/bxplt_{pltnt}.jpg"),
-           width = 9, height = 10, units = c("cm"), dpi = 200)
+           width = 10, height = 10, units = c("cm"), dpi = 200)
 }
 
 bxplt_cv <- function(pltnt) {
@@ -112,13 +112,13 @@ bxplt_cv <- function(pltnt) {
     scale_fill_brewer(palette = "BuPu")  + ggtitle(glue::glue("{pltnt}"))
   
   ggsave(filename = glue::glue("immagini_articolo/bxplt_cv/bxplt_cv_{pltnt}.jpg"),
-         width = 9, height = 10, units = c("cm"), dpi = 200)
+         width = 10, height = 10, units = c("cm"), dpi = 200)
 }
 
 purrr::map(selezione_terni$X1, \(p) {
-  gspline(p)
-  # bxplt(p)
-  # bxplt_cv(p)
+  # gspline(p)
+  bxplt(p)
+  bxplt_cv(p)
 })
 
 
