@@ -55,7 +55,7 @@ gspline <- function(pltnt) {
     ) 
 
   ggsave(g, filename =  glue::glue("immagini_articolo/splines/{pltnt}.jpg"), 
-         width = 14, height = 14, units = c("cm"), dpi = 200)  
+         width = 14, height = 14, units = c("cm"), dpi = 300)  
   return(g)
 }
 gspline("PM10")
@@ -84,7 +84,7 @@ bxplt <- function(pltnt) {
     ) +
     scale_fill_brewer(palette = "BuPu") + ggtitle(glue::glue("{pltnt}"))
     ggsave(filename = glue::glue("immagini_articolo/bxplt/bxplt_{pltnt}.jpg"),
-           width = 10, height = 10, units = c("cm"), dpi = 200)
+           width = 10, height = 10, units = c("cm"), dpi = 300)
 }
 
 bxplt_cv <- function(pltnt) {
@@ -112,7 +112,7 @@ bxplt_cv <- function(pltnt) {
     scale_fill_brewer(palette = "BuPu")  + ggtitle(glue::glue("{pltnt}"))
   
   ggsave(filename = glue::glue("immagini_articolo/bxplt_cv/bxplt_cv_{pltnt}.jpg"),
-         width = 10, height = 10, units = c("cm"), dpi = 200)
+         width = 10, height = 10, units = c("cm"), dpi = 300)
 }
 
 purrr::map(selezione_terni$X1, \(p) {
