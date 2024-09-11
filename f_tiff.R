@@ -8,7 +8,7 @@ library(sf)
 library(stringr)
 library(terra)
 
-rds_out_traccianti <- "rds_out_traccianti_test5"
+rds_out_traccianti <- "rds_out_traccianti_test8"
 
 dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
 
@@ -17,11 +17,7 @@ res <- 100
 grd <- 100
 
 {
-  # dominio <- st_read(glue("~/R/terni/data/dominio/dominio_200m.shp")) # 54 col
-  # dominio <- st_read("~/R/terni/data/dominio/dominio_200m_redux.shp") # 39 col
-  
   dominio <- st_read("~/R/terni/data/dominio/dominio_100m.shp") # 109 col
-  # dominio <- st_read("~/R/terni/data/dominio/dominio_100m_redux.shp") # 76 col
 }
 
 if(res == 100) { 
