@@ -8,6 +8,8 @@ library(sf)
 library(stringr)
 library(terra)
 
+library(greekLetters)
+
 rds_out_traccianti <- "rds_out_traccianti_test8"
 
 dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
@@ -34,18 +36,22 @@ st_bbox(dominio) -> bbox
 r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
 
 fls <- list.files(glue("~/R/terni/{rds_out_traccianti}"), full.names = TRUE)
-fls <- fls[25]
 
 selezione_terni <- read_csv("selezione_terni.csv", col_names = FALSE)
 
 map(pull(selezione_terni), \(t) {
   glue("~/R/terni/{rds_out_traccianti}/{t}_200m_100res.RDS") 
 }) %>% unlist() -> fls
+fls <- fls[1]
 
 
 purrr::walk(fls, \(f) {
   tools::file_path_sans_ext(f) %>% basename() -> fout
   print(fout)
+  elemento <- str_split(fout, pattern = "_")[[1]][1]
+  
+  titolo <- case_when(elemento == "PM10" ~ paste(elemento, greeks("mu"), "/m³"),
+                      .default = paste(elemento, "ng/m³"))
 
   trcnt <- readRDS(f)
   trcnt_df <- do.call(rbind.data.frame, trcnt)
@@ -67,7 +73,7 @@ purrr::walk(fls, \(f) {
     geom_sf(data = pt_misura_utm32, shape = 21, fill = "blue", color = "black", size = 3) +
     geom_sf_text(data = pt_misura_utm32, aes(label = Site), color = "blue", nudge_x = 125, nudge_y = 125 ) +
     # scale_fill_viridis_c(direction = -1, option = "magma") +
-    scale_fill_distiller(palette = "Spectral", direction = -1) +
+    scale_fill_distiller(palette = "Spectral", direction = -1, name = titolo) +
     coord_sf(datum = sf::st_crs(32632)) +
     annotation_scale(location = "br", width_hint = 0.25, pad_y = unit(0.75, "in"), pad_x = unit(1, "in")) +
     annotation_north_arrow(location = "br", which_north = "true", 
@@ -76,7 +82,7 @@ purrr::walk(fls, \(f) {
     theme_void() +
     theme(
       legend.position = "right", 
-      legend.title = element_blank(),
+      # legend.title = element_blank(),
       plot.margin = unit(c(1,1,1,1), "cm")
       ) -> g
 
