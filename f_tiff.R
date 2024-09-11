@@ -50,7 +50,7 @@ purrr::walk(fls, \(f) {
   print(fout)
   elemento <- str_split(fout, pattern = "_")[[1]][1]
   
-  titolo <- case_when(elemento == "PM10" ~ paste(elemento, greeks("mu"), "/m³"),
+  titolo <- case_when(elemento == "PM10" ~ paste(elemento, "mg/m³"),
                       .default = paste(elemento, "ng/m³"))
 
   trcnt <- readRDS(f)
@@ -87,7 +87,7 @@ purrr::walk(fls, \(f) {
       ) -> g
 
   ggsave(filename = glue::glue('~/R/terni/png_out/{fout}_{mese}.png'), plot = g, bg = "white",
-         width = 14, height = 9, units = "in", dpi = 72)
+         width = 14, height = 9, units = "in", dpi = 150)
 })
 
 
