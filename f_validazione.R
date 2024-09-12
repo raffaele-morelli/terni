@@ -44,7 +44,7 @@ for (pltnt in names(modelli)) {
   pdf <- anti_join(df, tdf) # predict
   
   # addestriamo il modello sul DF di training
-  gam_tdf <- gam(formula(modelli[[pltnt]]), data = tdf, family = family(modelli[[pltnt]]))
+  gam_tdf <- gam(formula(modelli[[pltnt]]), gamma=1.4, data = tdf, family = family(modelli[[pltnt]]))
   
   # applichiamo al DF di predict
   gam_pdf <- predict.gam(gam_tdf, newdata = pdf)
