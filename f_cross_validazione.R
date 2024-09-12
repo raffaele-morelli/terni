@@ -13,8 +13,8 @@
   library(stringr)
   library(correlation)
   library(readxl)
+  library(DTWBI)
   library(glue)
-  library(FSMUMI)
   library(modelr)
   
   setwd("~/R/terni")
@@ -24,8 +24,10 @@
 }
 
 my_list <- list()
+inquinanti <- names(modelli)
+# inquinanti <- inquinanti[24]
 
-for (pltnt in names(modelli)) {
+for (pltnt in inquinanti) {
   
   fn <- file.path(glue("~/R/terni/log/cv/{met}/cross_valid_{pltnt}.log"))
   lf <- log_open(fn)
@@ -47,7 +49,7 @@ for (pltnt in names(modelli)) {
     an.error.occured <- FALSE
     tryCatch( { 
       # addestriamo il modello sul DF di training
-      gam_tdf <- gam(formula(modelli[[pltnt]]), data = tdf, family = family(modelli[[pltnt]])); 
+      gam_tdf <- gam(formula(modelli[[pltnt]]), gamma = 1.4, data = tdf, family = family(modelli[[pltnt]])); 
       log_print(summary(gam_tdf), hide_notes = TRUE )
       
       # applichiamo al DF di predict
@@ -63,6 +65,8 @@ for (pltnt in names(modelli)) {
                                  NA, # 80%
                                  NA, # 20%
                                  NA, # 80%
+                                 NA, # adjusted r-squared for the model
+                                 NA, # rsq su DF
                                  NA, # FAC2
                                  NA, # Fractional BIAS
                                  NA # Normalized Mean Square Error
@@ -98,11 +102,17 @@ for (pltnt in names(modelli)) {
       rsq(gam_tdf$y, gam_tdf$fitted.values)
     }
     
+    # check rsw vs R²
+    {
+      mod_orig <- gam(formula(modelli[[pltnt]]), gamma = 1.4, data = df, family = family(modelli[[pltnt]]))
+    }
     
     my_list[[pltnt]][[s]] <- c(compute.rmse(pdf$value, exp(as.numeric(gam_pdf))),  # 20%
                              compute.rmse(gam_tdf$y, gam_tdf$fitted.values), # 80%
                              rsq(pdf$value, exp(as.numeric(gam_pdf))), # 20%
                              rsq(gam_tdf$y, gam_tdf$fitted.values), # 80%
+                             summary.gam(mod_orig)[["r.sq"]], #adjusted r-squared for the model
+                             rsq(mod_orig$y, mod_orig$fitted.values ), # rsq su modello originale
                              nvalidate/n, # FAC2
                              fb, # Fractional BIAS
                              nmse # Normalized Mean Square Error
