@@ -6,6 +6,7 @@
   cat(args, sep = "\n")
   
   library(readr)
+  library(forcats)
   library(dplyr)
   library(logr)
   library(purrr)
@@ -20,13 +21,15 @@
   source('funzioni/f_buildMods.R')
   source('funzioni/f_bestMod.R')
   source('funzioni/f_sceltaVar.R')
+  source("ns_stagioni.R")
+  
 
   if(!purrr::is_empty(args)) {
     pltnt <- args[1] #### SET inquinante ####
-    rds_dir <- args[2] ### SET directory ####
+    rds_dir <- glue("rds_gaussian_{args[2]}")  ### SET directory ####
     df <- "raw"
   }else{
-    pltnt <- "PM10"
+    pltnt <- "Cr_i"
     rds_dir <- "rds_gaussian_test9"
     df <- "raw"
   }
@@ -39,8 +42,14 @@
   
   cat("############# ", pltnt, "\n")
   
-  df <- read_csv(glue::glue("data/dataframes/df_finale_{df}.csv"), show_col_types = FALSE)
-
+  df <- read_csv(glue::glue("data/dataframes/df_finale_{df}.csv"), 
+                 show_col_types = FALSE,
+                 col_types = cols(Season = col_factor(levels = c("Winter", "Summer"))))
+  
+  df <- f_stagioni(df)
+  
+  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i")
+  
   index <- grep(pltnt, names(df))
   
   ## Variabili #####  

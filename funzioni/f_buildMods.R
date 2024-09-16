@@ -8,6 +8,7 @@ buildMods <- function(backward = FALSE) {
   v_dead <- get("v_dead", envir = .GlobalEnv)
   kappas <- get("kappas", envir = .GlobalEnv)
   family <- get("family", envir = .GlobalEnv)
+  pltnt <- get("pltnt", envir = .GlobalEnv)
   
   
   # costruisce le "spline testuali"
@@ -61,8 +62,13 @@ buildMods <- function(backward = FALSE) {
   
   # w conterrà le stringhe dei modelli
   w <- lapply(z[,  ncol(z)], function(x) {
-    # paste0("gam(value ~  ", x, ", gamma=1.4, family={family}, data = df)")
-    glue("gam(value ~  {x}, gamma=1.4, family={family}, data = df)")
+
+    if(pltnt %in% biomasse) {
+      log_print("Biomassa")
+      glue("gam(value ~ stagione + {x}, gamma=1.4, family={family}, data = df)")
+    }else{
+      glue("gam(value ~ {x}, gamma=1.4, family={family}, data = df)")
+    }
   })
   
   # log_print(w %>% unlist())

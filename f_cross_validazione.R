@@ -16,10 +16,14 @@
   library(DTWBI)
   library(glue)
   library(modelr)
+  library(forcats)
+  
+  rm(list = ls())
   
   setwd("~/R/terni")
+  source("ns_stagioni.R")
   
-  met <- "test8"
+  met <- "test9"
   modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
 }
 
@@ -34,6 +38,11 @@ for (pltnt in inquinanti) {
   
   # va riletto ogni volta altrimenti "value" viene trovato più volte
   df <- read_csv(glue::glue("~/R/terni/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
+  df <- f_stagioni(df)
+  
+  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i")
+  
+  pltnt <- stringr::str_remove(pltnt, pattern = "_bio")
   
   # sites <- unique(df$site)
   index <- grep(pltnt, names(df))

@@ -15,19 +15,11 @@ makeSpline <- function(v) {
       # v_spat <- readRDS("~/R/terni/rds_out/v_spaziali.RDS")
       
       if(i %in%  v_lineari) {
-        # paste0("s(", x, ", k=1)")
-        paste0(" ", x, " ")
+        paste0("s(", x, ", k=1)")
       }else{
         paste0("s(", x, ")")
       }
-      
-      # case_when(
-      #   k > 9 ~  paste0("s(", x, ", k=5)"),
-      #   k <= 10 & k > 5  ~  paste0("s(", x, ", k=", k-2, ")"),
-      #   .default = paste0("s(", x, ", k=1)")
-      # )
-      # paste0("s(", x, ", k=4)")
-      # paste0("s(", x, ")")
+
     })
   )
 }

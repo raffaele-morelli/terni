@@ -27,7 +27,7 @@ sceltaVar <- function() {
   
   # una lista di appoggio da concatenare in AICS
   tmp <- list()
-  tmp[[last(aicVar[[2]])]] <- c(tmp, aicVar[[1]])
+  tmp[[last(aicVar[[2]])]] <- c(aicVar[[1]])
   
   # Log delle risultanze
   log_print(sprintf("Variabile scelta: %s - AIC %s ", last(aicVar[[2]]), round( as.numeric(aicVar[1]), 2)), hide_notes = TRUE )
@@ -104,10 +104,8 @@ sceltaVar <- function() {
     log_print(sprintf("Modell N: %s", paste(names(AICS), collapse = " - " ) ), hide_notes = TRUE)
     
     # sono qui perché il modello backward non migliora quindi controllo la correlazione del modello N
-    q <- cor(df %>% dplyr::select(names(AICS)), use = "pairwise.complete.obs") %>% data.frame()
-    
-    ## INFO metodo alternativo per la correlazione ####
-    # df %>% dplyr::select( names(AICS) ) %>% correlation(redundant = FALSE) 
+    q <- cor(df %>% dplyr::select(names(AICS)), use = "pairwise.complete.obs") %>% round(3) %>% data.frame()
+
     
     if( all(abs(q[last(names(AICS)), 1:(ncol(q)-1)]) < 0.7) ) {
       log_print("Scelgo il modello N", hide_notes = TRUE)
@@ -115,22 +113,24 @@ sceltaVar <- function() {
       # tolgo dalla lista delle variabili quelle del modello scelto visto che non sono correlate
       assign("v_variabili", v_variabili[!v_variabili %in% c(names(AICS), v_dead)], envir = .GlobalEnv)
       sceltaVar()
-      # return("the end")
-      
+      # return(NULL)
     }else{
       # devo eliminare la variabile perché troppo correlata
       log_print("Variabile correlata > 0.7", hide_notes = TRUE)
       log_print(q[last(names(q)), 1:(ncol(q)-1)], hide_notes = TRUE)
       
-      assign("v_dead", c(v_dead, c(last(names(AICS))) ), envir = .GlobalEnv )
+      # metto la variabile correlata nel dimenticatoio
+      assign("v_dead", c(v_dead, c(last(names(AICS))) ), envir = .GlobalEnv ) 
+      
       assign("v_variabili", v_variabili[!v_variabili %in% c(last(names(AICS)), v_dead) ], envir = .GlobalEnv)
       
-      AICS[[last(names(AICS))]] <- NULL
+      # tolgo la variabile correlata dalle scelte
+      AICS[[last(names(AICS))]] <- NULL 
       assign("AICS", AICS, envir = .GlobalEnv)
       
       log_print("Scelgo il modello N-1", hide_notes = TRUE)
       sceltaVar()
-      # return("the end")
+      # return(NULL)
     }
   }else{
     # log_print("Fine per scelta MODELLO iniziale", hide_notes = TRUE)
@@ -151,6 +151,11 @@ sceltaVar <- function() {
   log_print("Fine per scelta MODELLO", hide_notes = TRUE)
   log_print(paste(names(AICS), collapse = " + "), hide_notes = TRUE)
   
-  saveRDS(AICS, file = glue("~/R/terni/{rds_dir}/{pltnt}.rds"))
+  if(pltnt %in% biomasse) {
+    saveRDS(AICS, file = glue("~/R/terni/{rds_dir}/{pltnt}_bio.rds"))
+  }else{
+    saveRDS(AICS, file = glue("~/R/terni/{rds_dir}/{pltnt}.rds"))
+  }
+  
   stop("==== Fine per scelta MODELLO")
 }

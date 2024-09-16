@@ -47,6 +47,7 @@ Rscript f_scelta_modello.R Mn_i $1 &
 Rscript f_scelta_modello.R Mn_s $1 &
 Rscript f_scelta_modello.R Mo_i $1 &
 
+
 Rscript f_scelta_modello.R Mo_s $1 &
 Rscript f_scelta_modello.R Na_i $1 &
 Rscript f_scelta_modello.R Na_s $1 &
@@ -65,6 +66,7 @@ Rscript f_scelta_modello.R Sb_i $1 &
 Rscript f_scelta_modello.R Sb_s $1 &
 Rscript f_scelta_modello.R Sn_i $1 &
 Rscript f_scelta_modello.R Sn_s $1 &
+
 
 Rscript f_scelta_modello.R Sr_i $1 &
 Rscript f_scelta_modello.R Sr_s $1 &
