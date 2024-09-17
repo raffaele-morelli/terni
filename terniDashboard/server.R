@@ -65,7 +65,13 @@ server <- function(input, output) {
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
     }
-    df_temp <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+    df_temp <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE) %>% 
+      mutate(stagione = case_when(
+        month_y %in% c("December_16", "January_17", "February_17", "December_17", "February_18") ~ "I",
+        month_y %in% c("March_17", "April_17", "May_17") ~ "P",
+        month_y %in% c("July_17", "August_17") ~ "E",
+        month_y %in% c("September_17", "November_17") ~ "A"
+      ))
     
     # models <- readRDS("~/R/terni/rds_out/modelli_gaussian_clean.RDS")
     index <- grep(as.character(input$traccianti), names(df_temp), value = FALSE)
