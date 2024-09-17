@@ -1,24 +1,6 @@
 # init e dati ####
 {
-  args <- commandArgs(trailingOnly = TRUE)
-  cat(args, sep = "\n")
-  
-  # SET tracciante ####
-  if(purrr::is_empty(args)) {
-    pltnt <- "Cu_i"
-    res <- 100
-    dist <- 200
-    outdir <- "rds_out_traccianti_test5"
-    met <- "free"
-  }else{
-    pltnt <- args[1]
-    res <- 100 # as.numeric( args[2] )
-    dist <- 200
-    outdir <- args[3]
-    met <- args[4]
-  }
-  
-  # cat(pltnt, dist, res, "\n")
+  rm(list = ls())
   library(sf)
   library(dplyr)
   library(ggplot2)
@@ -28,7 +10,30 @@
   library(logr)
   library(lubridate)
   library(glue)
+  library(forcats)
   
+  args <- commandArgs(trailingOnly = TRUE)
+  cat(args, sep = "\n")
+  
+  
+  # SET tracciante ####
+  if(length(args) == 0) {
+    pltnt <- "PM10"
+    res <- 100
+    dist <- 200
+    outdir <- "rds_out_traccianti_test10"
+    met <- "test10"
+  }else{
+    pltnt <- args[1]
+    res <- 100 # as.numeric( args[2] )
+    dist <- 200
+    met <- args[2]
+    outdir <- glue("rds_out_traccianti_{args[2]}") 
+  }
+  
+  # cat(pltnt, dist, res, "\n")
+
+  source("~/R/terni/ns_stagioni.R")
 
   blacklist_inquinanti <- readr::read_csv("~/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
   
@@ -83,7 +88,14 @@
   bh <- rast("~/R/terni/data/bh/Dataset/IT515_TERNI_UA2012_DHM_V010.tif")
 
   df_meteo <- readr::read_csv("~/R/terni/data/dataframes/df_terni_meteo_mensili_periodo.csv", show_col_types = FALSE) %>% 
-    arrange(data)
+    arrange(data) %>% 
+    mutate(stagione = case_when(
+      month_y %in% c("December_16", "January_17", "February_17", "December_17", "February_18") ~ "I",
+      month_y %in% c("March_17", "April_17", "May_17") ~ "P",
+      month_y %in% c("July_17", "August_17") ~ "E",
+      month_y %in% c("September_17", "November_17") ~ "A"
+    ))
+  
 
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   rm(terni_ua_all, terni_sez)
@@ -105,9 +117,6 @@
 cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 # definizione funzioni ####
 {
-  
-  
-  
   getBufferUA <- function(dist, code, pt_id) {
     pt_buffer <- st_buffer(filter(dominio, id == pt_id), dist, singleSide = FALSE, nQuadSegs = 17)
     
@@ -274,6 +283,7 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 # data frame e modello ####
 {
   df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+  df <- f_stagioni(df)
   
   modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
   index <- grep(pltnt, names(df), value = FALSE)
