@@ -13,11 +13,12 @@ cat(args, sep = "\n")
   library(stringr)
   library(mgcv)
   library(logr)
+  library(forcats)
 
   if(!purrr::is_empty(args)) {
     rds_dir <- args[1] ### SET directory ####
   }else{
-    rds_dir <- "test9"
+    rds_dir <- "test10"
   }
   
   source("ns_stagioni.R")
@@ -40,7 +41,8 @@ getSign <- function(mod) {
     filter(`Pr(>|t|)` <= 0.05) %>% 
     rownames() -> v_sign_p
   
-  return(c(v_sign_s, v_sign_p))
+  # return(c(v_sign_s, v_sign_p))
+  return(c(v_sign_s))
 }
 
 getModel <- function(vars, df, pltnt) {
@@ -49,9 +51,9 @@ getModel <- function(vars, df, pltnt) {
   ms <- makeSpline(vars) %>% paste(collapse = " + ")
   
   if(pltnt %in% biomasse) {
-    ms <- paste("gam(value ~ stagione +", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
+    ms <- paste("gam(value ~ stagione + ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   }else{
-    ms <- paste("gam(value ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
+    ms <- paste("gam(value ~ stagione + ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   }
   
   mod <- eval(parse(text = ms))

@@ -23,13 +23,13 @@
   setwd("~/R/terni")
   source("ns_stagioni.R")
   
-  met <- "test9"
+  met <- "test8"
   modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
 }
 
 my_list <- list()
 inquinanti <- names(modelli)
-# inquinanti <- inquinanti[24]
+# inquinanti <- inquinanti[10]
 
 for (pltnt in inquinanti) {
   
@@ -42,10 +42,10 @@ for (pltnt in inquinanti) {
   
   biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i")
   
-  pltnt <- stringr::str_remove(pltnt, pattern = "_bio")
+  pltnt_clean <- stringr::str_remove(pltnt, pattern = "_bio")
   
   # sites <- unique(df$site)
-  index <- grep(pltnt, names(df))
+  index <- grep(pltnt_clean, names(df))
   names(df)[index] <- "value"
 
   for (s in unique(df$site)) {

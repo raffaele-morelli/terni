@@ -30,7 +30,7 @@
     df <- "raw"
   }else{
     pltnt <- "Cr_i"
-    rds_dir <- "rds_gaussian_test9"
+    rds_dir <- "rds_gaussian_test10"
     df <- "raw"
   }
 
