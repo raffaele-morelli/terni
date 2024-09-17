@@ -80,7 +80,7 @@ map(pltnts, \(pltnt) {
 
 }) -> models
 
-names(models) <- tools::file_path_sans_ext(basename(pltnts))
+names(models) <- tools::file_path_sans_ext(basename(pltnts)) %>% str_remove(pattern = "_bio")
 saveRDS(models, file = glue("~/R/terni/rds_gaussian_{rds_dir}/modelli_{rds_dir}.RDS"))
 
 map(names(models), \(m) {
@@ -107,7 +107,7 @@ map(names(models), \(m) {
   mod <- getModel(v_sign, df, pltnt)    
 }) -> models_clean
 
-names(models_clean) <- tools::file_path_sans_ext(basename(pltnts))
+names(models_clean) <- tools::file_path_sans_ext(basename(pltnts)) %>% str_remove(pattern = "_bio")
 
 saveRDS(models_clean, file = glue("~/R/terni/rds_gaussian_{rds_dir}/modelli_{rds_dir}_clean.RDS"))
 

@@ -11,7 +11,7 @@
 
 # importante ####
 {
-  met <- "test5"
+  met <- "test10"
   rds_out_traccianti <- glue("rds_out_traccianti_{met}")
   
   run <- glue("rds_gaussian_{met}")
