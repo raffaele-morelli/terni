@@ -29,8 +29,8 @@
     rds_dir <- glue("rds_gaussian_{args[2]}")  ### SET directory ####
     df <- "raw"
   }else{
-    pltnt <- "Cr_i"
-    rds_dir <- "rds_gaussian_test10"
+    pltnt <- "Rb_s"
+    rds_dir <- "rds_gaussian_test8"
     df <- "raw"
   }
 
@@ -73,7 +73,6 @@
   v_variabili <- v_variabili[!(v_variabili %in% c("wdir_mean", "ptp_mean", "pwspeed_mean"))]
 }
 
-
 # Variabili "ambiente" ####
 assign("v_variabili", v_variabili, envir = .GlobalEnv)
 assign("AICS", list(), envir = .GlobalEnv)
@@ -84,9 +83,7 @@ assign("kappas", readRDS("~/R/terni/rds_out/kappas.RDS"))
 assign("rds_dir", rds_dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 assign("suffix", '', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
 assign("v_spaziali", c(v_spaziali_200), envir = .GlobalEnv)
-
-# assign("family", 'Gamma(link=identity)')
-# assign("family", 'poisson(link=log)')
+assign("biomasse", biomasse, envir = .GlobalEnv)
 assign("family", 'gaussian(link=log)')
 
 fn <- file.path(glue("log/{rds_dir}_{pltnt}.log"))

@@ -1,4 +1,5 @@
 #!/bin/sh
+cd funzioni
 
 # traccianti ####
 Rscript f_scelta_modello.R Al_i $1 &
@@ -9,6 +10,7 @@ Rscript f_scelta_modello.R B_i $1 &
 Rscript f_scelta_modello.R B_s $1 &
 Rscript f_scelta_modello.R Ba_i $1 &
 Rscript f_scelta_modello.R Ba_s $1 &
+wait
 
 Rscript f_scelta_modello.R Bi_i $1 &
 Rscript f_scelta_modello.R Bi_s $1 &
@@ -27,6 +29,7 @@ Rscript f_scelta_modello.R Cr_s $1 &
 Rscript f_scelta_modello.R Cs_i $1 &
 Rscript f_scelta_modello.R Cs_s $1 &
 Rscript f_scelta_modello.R Cu_i $1 &
+wait
 
 Rscript f_scelta_modello.R Cu_s $1 &
 Rscript f_scelta_modello.R Fe_i $1 &
@@ -46,7 +49,7 @@ Rscript f_scelta_modello.R Mg_s $1 &
 Rscript f_scelta_modello.R Mn_i $1 &
 Rscript f_scelta_modello.R Mn_s $1 &
 Rscript f_scelta_modello.R Mo_i $1 &
-
+wait
 
 Rscript f_scelta_modello.R Mo_s $1 &
 Rscript f_scelta_modello.R Na_i $1 &
@@ -66,7 +69,7 @@ Rscript f_scelta_modello.R Sb_i $1 &
 Rscript f_scelta_modello.R Sb_s $1 &
 Rscript f_scelta_modello.R Sn_i $1 &
 Rscript f_scelta_modello.R Sn_s $1 &
-
+wait
 
 Rscript f_scelta_modello.R Sr_i $1 &
 Rscript f_scelta_modello.R Sr_s $1 &

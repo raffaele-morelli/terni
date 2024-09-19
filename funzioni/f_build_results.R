@@ -18,7 +18,7 @@ cat(args, sep = "\n")
   if(!purrr::is_empty(args)) {
     rds_dir <- args[1] ### SET directory ####
   }else{
-    rds_dir <- "test10"
+    rds_dir <- "test9"
   }
   
   source("ns_stagioni.R")
@@ -53,10 +53,13 @@ getModel <- function(vars, df, pltnt) {
   if(pltnt %in% biomasse) {
     ms <- paste("gam(value ~ stagione + ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   }else{
-    ms <- paste("gam(value ~ stagione + ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
+    ms <- paste("gam(value ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   }
   
-  mod <- eval(parse(text = ms))
+  suppressWarnings(
+    mod <- eval(parse(text = ms))
+  )
+  
   return(mod)
 }
 

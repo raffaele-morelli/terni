@@ -57,7 +57,18 @@ server <- function(input, output) {
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
     }
+    
     gratia::draw(models[[input$traccianti]], scales = "fixed", residuals = FALSE)
+    
+    # b <- mgcViz::getViz(models[[input$traccianti]])
+    # g2 <- plot(b, allTerms = TRUE, select = "stagione") + geom_hline(yintercept = 0)
+    # cowplot::as_grob(g2) -> g3
+    # gratia::draw(models[[input$traccianti]], select = "stagione", 
+    #                    partial_match = TRUE,
+    #                    scales = "fixed", residuals = FALSE)
+    
+    # gridExtra::grid.arrange(g1, g2)
+    
   })
 
   # effects ####
@@ -65,7 +76,8 @@ server <- function(input, output) {
     if(input$traccianti == "All") {
       return("Seleziona un tracciante")
     }
-    df_temp <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE) %>% 
+    df_temp <- readr::read_csv("/home/rmorelli/R/terni/data/dataframes/df_finale_raw.csv", 
+                               show_col_types = FALSE) %>% 
       mutate(stagione = case_when(
         month_y %in% c("December_16", "January_17", "February_17", "December_17", "February_18") ~ "I",
         month_y %in% c("March_17", "April_17", "May_17") ~ "P",
@@ -77,8 +89,11 @@ server <- function(input, output) {
     index <- grep(as.character(input$traccianti), names(df_temp), value = FALSE)
     names(df_temp)[index] <- "value"
     
-    
-    gam_tdf <- mgcv::gam(formula(models[[input$traccianti]]), data = cbind(df_temp[,1:92], scale(df_temp[,92:247])), gamma = 1.4, family = family(models[[input$traccianti]]))
+    # print(names(df_temp))
+    gam_tdf <- mgcv::gam(formula(models[[input$traccianti]]), 
+                         data = cbind(df_temp[,c(1:92,250)], scale(df_temp[,92:247])), 
+                         gamma = 1.4, 
+                         family = family(models[[input$traccianti]]))
     
     plot(ggeffects::ggpredict(gam_tdf), facets = TRUE)
   })
