@@ -58,7 +58,7 @@ for (pltnt in inquinanti) {
     an.error.occured <- FALSE
     tryCatch( { 
       # addestriamo il modello sul DF di training
-      gam_tdf <- gam(formula(modelli[[pltnt]]), gamma = 1.4, data = tdf, family = family(modelli[[pltnt]])); 
+      gam_tdf <- gam(formula(modelli[[pltnt]]), gamma = 1.4, data = tdf, family = family(modelli[[pltnt]]));
       log_print(summary(gam_tdf), hide_notes = TRUE )
       
       # applichiamo al DF di predict
@@ -67,10 +67,10 @@ for (pltnt in inquinanti) {
     }, 
     error = function(e) {
       an.error.occured <<- TRUE
-      log_print(sprintf("Errors can't stop me on training: %s on %s", pltnt, s), hide_notes = TRUE )
+      log_print(sprintf("Errors can't stop me on training: %s on %s", pltnt, s), hide_notes = TRUE)
     })
     if(an.error.occured) {
-      my_list[[pltnt]][[s]] <- c(NA,  # 20%
+      my_list[[pltnt]][[s]] <- c(NA, # 20%
                                  NA, # 80%
                                  NA, # 20%
                                  NA, # 80%
@@ -78,7 +78,7 @@ for (pltnt in inquinanti) {
                                  NA, # rsq su DF
                                  NA, # FAC2
                                  NA, # Fractional BIAS
-                                 NA # Normalized Mean Square Error
+                                 NA  # Normalized Mean Square Error
       )      
       next 
     }
