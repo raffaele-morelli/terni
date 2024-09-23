@@ -113,23 +113,31 @@ purrr::walk(fls, \(f) {
   
 })
 
-fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = "K_s", full.names = T)
-rs <- raster::stack(fs)
-# plot(rs)
 
-library(rasterVis)
-gplot(rs) + 
-  geom_tile(aes(fill = value)) +
-  facet_wrap(~ variable) +
-  # scale_fill_gradientn(colours = rev(terrain.colors(250))) +
-  # scale_fill_viridis(direction = -1) +
-  scale_fill_gradientn(colours = rev(magma(30))) +
-  coord_equal() +
-  theme_void()
 
 walk(pull(selezione_terni), \(t) {
   fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
-  # cat(fs, sep = "--")
   raster::stack(fs) %>% writeRaster(glue("~/R/terni/tiff_out/{t}.tif"))
-  # cat("\n\n")
 }) 
+
+map(pull(selezione_terni), \(t) {
+  fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
+  rs <- raster::stack(fs) 
+  raster::cellStats(rs, stat = "mean") %>% as.vector()
+}) -> listone
+
+do.call(cbind, listone) %>% 
+  as_tibble() %>% 
+  setNames(pull(selezione_terni)) %>% 
+  write_csv("~/R/terni/monthly_stats.csv")
+
+
+# library(rasterVis)
+# gplot(rs) + 
+#   geom_tile(aes(fill = value)) +
+#   facet_wrap(~ variable) +
+#   # scale_fill_gradientn(colours = rev(terrain.colors(250))) +
+#   # scale_fill_viridis(direction = -1) +
+#   scale_fill_gradientn(colours = rev(magma(30))) +
+#   coord_equal() +
+#   theme_void()
