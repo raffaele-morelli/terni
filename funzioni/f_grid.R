@@ -1,6 +1,7 @@
 # init e dati ####
 {
   rm(list = ls())
+  
   library(sf)
   library(dplyr)
   library(ggplot2)
@@ -13,7 +14,6 @@
   library(forcats)
   
   args <- commandArgs(trailingOnly = TRUE)
-  cat(args, sep = "\n")
   
   
   # SET tracciante ####
@@ -21,9 +21,11 @@
     pltnt <- "PM10"
     res <- 100
     dist <- 200
-    outdir <- "rds_out_traccianti_test10"
-    met <- "test10"
+    outdir <- "rds_out_traccianti_test9"
+    met <- "test9"
   }else{
+    cat(args, sep = "\n")
+    
     pltnt <- args[1]
     res <- 100 # as.numeric( args[2] )
     dist <- 200
@@ -96,7 +98,6 @@
       month_y %in% c("September_17", "November_17") ~ "A"
     ))
   
-
   dists <- c(25, 50, 75, 100, 200) # i buffer da considerare
   rm(terni_ua_all, terni_sez)
 }

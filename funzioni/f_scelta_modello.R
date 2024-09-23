@@ -3,7 +3,6 @@
 ## init ####
 {
   args <- commandArgs(trailingOnly = TRUE)
-  cat(args, sep = "\n")
   
   library(readr)
   library(forcats)
@@ -25,6 +24,8 @@
   
 
   if(!purrr::is_empty(args)) {
+    cat(args, sep = "\n")
+    
     pltnt <- args[1] #### SET inquinante ####
     rds_dir <- glue("rds_gaussian_{args[2]}")  ### SET directory ####
     df <- "raw"
