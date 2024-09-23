@@ -10,7 +10,7 @@ library(terra)
 
 library(greekLetters)
 
-rds_out_traccianti <- "rds_out_traccianti_test8"
+rds_out_traccianti <- "rds_out_traccianti_test9"
 
 dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
 
@@ -42,7 +42,7 @@ selezione_terni <- read_csv("selezione_terni.csv", col_names = FALSE)
 map(pull(selezione_terni), \(t) {
   glue("~/R/terni/{rds_out_traccianti}/{t}_200m_100res.RDS") 
 }) %>% unlist() -> fls
-fls <- fls[1]
+# fls <- fls[1]
 
 
 purrr::walk(fls, \(f) {
@@ -88,6 +88,7 @@ purrr::walk(fls, \(f) {
 
   ggsave(filename = glue::glue('~/R/terni/png_out/{fout}_{mese}.png'), plot = g, bg = "white",
          width = 14, height = 9, units = "in", dpi = 150)
+  
 })
 
 
