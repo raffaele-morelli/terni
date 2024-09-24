@@ -1,5 +1,7 @@
 args <- commandArgs(trailingOnly = TRUE)
 
+rm(list = ls())
+
 # if(!purrr::is_empty(args)) {
 #   cat("argomenti => ", args, sep = "\n")
 #   mese <- as.numeric(args[1])
@@ -132,7 +134,6 @@ walk(pull(selezione_terni), \(t) {
     geom_sf_text(data = pt_misura_utm32, aes(label = Site),
                  color = "black", nudge_x = -80, nudge_y = -125,
                  size = 3) +
-
     # scale_fill_viridis_c(direction = -1, option = "magma") +
     scale_fill_distiller(palette = "Spectral", direction = -1, name = titolo) +
     coord_sf(datum = sf::st_crs(32632)) +
@@ -147,7 +148,7 @@ walk(pull(selezione_terni), \(t) {
     ) -> g
 
   ggsave(filename = glue::glue('~/R/terni/png_out/{t}_mean.png'), plot = g, bg = "white",
-         width = 14, height = 9, units = "in", dpi = 150)
+         width = 14, height = 9, units = "in", dpi = 72)
   
 })
 
@@ -178,15 +179,14 @@ walk(biomasse, \(b) {
     rs <- raster::stack(fs)
     r <- raster::calc(rs, fun = mean)
     
-    stagione <- case_when(s == "01|02|03|11|12" ~ "I", 
-                          s == "04|05|06" ~ "P", 
-                          s == "07|08" ~"E", 
-                          s == "09|10" ~ "A")
+    stagione <- case_when(s == "01|02|03|11|12" ~ "Winter", 
+                          s == "04|05|06" ~ "Spring", 
+                          s == "07|08" ~"Summer", 
+                          s == "09|10" ~ "Autumn")
     
     raster::calc(rs, fun = mean) %>% 
-      writeRaster(glue("~/R/terni/tiff_out/biomassa/{b}_{stagione}_mean.tif"), overwrite = TRUE)
+      writeRaster(glue("~/R/terni/tiff_out/biomassa/{b}_{stagione}.tif"), overwrite = TRUE)
   })
-  
 })
 
 
@@ -195,27 +195,35 @@ walk(biomasse, \(b) {
   fs <- list.files("~/R/terni/tiff_out/biomassa",
                    pattern = glue("^{b}"), 
                    full.names = T)
+  
   rs <- raster::stack(fs) 
   r_df <- as.data.frame(rs, xy = TRUE)
   
+  colnames(r_df) <- str_remove(colnames(r_df), pattern = glue("{b}_"))
+  
+  titolo <- case_when(b == "PM10" ~ paste(b, "mg/m³"),
+                      .default = paste(b, "ng/m³"))
+  
   pivot_longer(r_df, cols = !c(x, y), names_to = "variable", values_to = "value") %>% 
+    mutate(variable = factor(variable, levels = c("Spring", "Summer", "Autumn", "Winter"))) %>% 
     ggplot() +
     geom_raster(aes(x, y, fill = value)) +
     geom_sf(data = st_crop(strade_utm32, st_bbox(dominio_redux)), 
             color=alpha("grey",0.7), fill = "transparent", size = 0.01) +
     geom_sf(data = pt_misura_utm32, shape = 21, 
             fill = "dodgerblue", color = "black", size = 1) +
-    scale_fill_distiller(palette = "Spectral", direction = -1, name = "titolo") +
-    # scale_fill_gradientn(colours = rev(terrain.colors(250))) +
-    # scale_fill_viridis(direction = -1) +
+    scale_fill_distiller(palette = "Spectral", direction = -1, name = titolo) +
     facet_wrap(~variable) +
-    theme_minimal()+
+    theme_void() +
+    theme(
+      legend.position = "right",
+      plot.margin = unit(c(1,1,1,1), "cm")
+    ) +
     coord_sf() -> g
   
-  ggsave(filename = glue::glue('~/R/terni/png_out/{b}_mean_season.png'), plot = g, bg = "white",
-         width = 14, height = 9, units = "in", dpi = 150)
+  ggsave(filename = glue::glue('~/R/terni/png_out/{b}_season.png'), plot = g, bg = "white",
+         width = 14, height = 9, units = "in", dpi = 72)
 })
-
 
 # plot(rs)
   # na.omit() %>%
