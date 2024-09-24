@@ -7,35 +7,37 @@ args <- commandArgs(trailingOnly = TRUE)
 #   mese <- 2
 # }
 
-
-library(dplyr)
-library(ggplot2)
-library(ggspatial)
-library(ggthemes)
-library(glue)
-library(purrr)
-library(readr)
-library(sf)
-library(stringr)
-library(terra)
-library(viridis)
-
-library(greekLetters)
-
-rds_out_traccianti <- "rds_out_traccianti_test9"
-
-dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
-
-res <- 100
-grd <- 100
-
+# init ####
 {
+  library(dplyr)
+  library(ggplot2)
+  library(ggspatial)
+  library(ggthemes)
+  library(glue)
+  library(purrr)
+  library(readr)
+  library(sf)
+  library(stringr)
+  library(terra)
+  library(viridis)
+  library(greekLetters)
+  
+  rds_out_traccianti <- "rds_out_traccianti_test9"
+  
+  dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
+  
+  res <- 100
+  grd <- 100
+  
+  
   dominio <- st_read("~/R/terni/data/dominio/dominio_100m.shp") # 109 col
   if(res == 100) { 
     n_col <- 109
   }else{
     n_col <- 54
   }
+  
+  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i")
   
   terni_sez <- st_read("~/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
   
@@ -50,11 +52,11 @@ grd <- 100
   fls <- list.files(glue("~/R/terni/{rds_out_traccianti}"), full.names = TRUE)
   
   selezione_terni <- read_csv("~/R/terni/selezione_terni.csv", col_names = FALSE, show_col_types = FALSE)
-
+  
   strade_utm32 <- st_read("~/R/terni/data/osm/strade_interesse.shp") # strade di interesse
   strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
   
-    
+  
 }
 
 
@@ -64,6 +66,7 @@ map(pull(selezione_terni), \(t) {
 # fls <- fls[2]
 # f <- fls
 
+# tiff per mese ####
 purrr::walk(fls, \(f) {
   tools::file_path_sans_ext(f) %>% basename() -> fout
   writeLines(fout)
@@ -91,64 +94,141 @@ purrr::walk(fls, \(f) {
     
     terra::writeRaster(r_crop, glue::glue('~/R/terni/tiff_out/{rds_out_traccianti}/{fout}_{mese}.tif'), overwrite = TRUE)
     
-    
-    r_df <- as.data.frame(r_crop, xy = TRUE) %>%
-      na.omit() %>%
-      setNames(c("x", "y", "value"))
-    
-    # readr::write_csv(r_df, file = glue::glue('~/R/terni/tiff_out/{rds_out_traccianti}/{fout}_{mese}.csv'))
-    # hist(r_df$value)
-    
-    ggplot(data = r_df) +
-      geom_raster(aes(x = x, y = y, fill = value)) +
-      geom_sf(data = st_crop(strade_utm32, st_bbox(r_crop)), color = "grey80", fill = "transparent", size = 0.5) +
-      # geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey80", fill = "transparent", size = 0.5) +
-      geom_sf(data = pt_misura_utm32, shape = 21, fill = "dodgerblue", color = "black", size = 2) +
-      geom_sf(data = filter(acciaieria, field_1 != "scrapyard"), shape = 8, fill = "dodgerblue4", color = "black", size = 2) +
-      geom_sf_text(data = pt_misura_utm32, aes(label = Site), 
-                   color = "black", nudge_x = -80, nudge_y = -125,
-                   size = 3) +
-      
-      # scale_fill_viridis_c(direction = -1, option = "magma") +
-      scale_fill_distiller(palette = "Spectral", direction = -1, name = titolo) +
-      coord_sf(datum = sf::st_crs(32632)) +
-      annotation_scale(location = "br", width_hint = 0.25, pad_y = unit(0.75, "in"), pad_x = unit(1, "in")) +
-      annotation_north_arrow(location = "br", which_north = "true",
-                             pad_x = unit(1.25, "in"), pad_y = unit(1, "in"),
-                             style = north_arrow_fancy_orienteering) +
-      theme_void() +
-      theme(
-        legend.position = "right",
-        # legend.title = element_blank(),
-        plot.margin = unit(c(1,1,1,1), "cm")
-      ) -> g
-    
-    ggsave(filename = glue::glue('~/R/terni/png_out/{fout}_{mese}.png'), plot = g, bg = "white",
-           width = 14, height = 9, units = "in", dpi = 300)
   })
+  
 })
 
 
-
+# tiff media annuale ####
 walk(pull(selezione_terni), \(t) {
   fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
-  raster::calc(rs, fun = mean) %>% writeRaster(glue("~/R/terni/tiff_out/{t}_mean.tif"), overwrite = TRUE)
+  rs <- raster::stack(fs)
+
+  raster::calc(rs, fun = mean) %>% 
+    writeRaster(glue("~/R/terni/tiff_out/{t}_mean.tif"), overwrite = TRUE)
+  
 })
 
 
+# immagini articolo media annuale ####
+walk(pull(selezione_terni), \(t) {
+  fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
+  rs <- raster::stack(fs)
+  r <- raster::calc(rs, fun = mean)
+  
+  titolo <- case_when(t == "PM10" ~ paste(t, "mg/m³"),
+                      .default = paste(t, "ng/m³"))
+  
+  r_df <- as.data.frame(r, xy = TRUE) %>%
+    na.omit() %>%
+    setNames(c("x", "y", "value"))
 
-# do.call(cbind, listone) %>% 
-#   as_tibble() %>% 
-#   setNames(pull(selezione_terni)) %>% 
-#   write_csv("~/R/terni/data/predict_monthly_stats.csv")
-# 
-# 
+  ggplot(data = r_df) +
+    geom_raster(aes(x = x, y = y, fill = value)) +
+    geom_sf(data = st_crop(strade_utm32, st_bbox(dominio_redux)), color = "grey80", fill = "transparent", size = 0.5) +
+    # geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey80", fill = "transparent", size = 0.5) +
+    geom_sf(data = pt_misura_utm32, shape = 21, fill = "dodgerblue", color = "black", size = 2) +
+    geom_sf(data = filter(acciaieria, field_1 != "scrapyard"), shape = 8, fill = "dodgerblue4", color = "black", size = 2) +
+    geom_sf_text(data = pt_misura_utm32, aes(label = Site),
+                 color = "black", nudge_x = -80, nudge_y = -125,
+                 size = 3) +
+
+    # scale_fill_viridis_c(direction = -1, option = "magma") +
+    scale_fill_distiller(palette = "Spectral", direction = -1, name = titolo) +
+    coord_sf(datum = sf::st_crs(32632)) +
+    annotation_scale(location = "br", width_hint = 0.25, pad_y = unit(0.75, "in"), pad_x = unit(1, "in")) +
+    annotation_north_arrow(location = "br", which_north = "true",
+                           pad_x = unit(1.25, "in"), pad_y = unit(1, "in"),
+                           style = north_arrow_fancy_orienteering) +
+    theme_void() +
+    theme(
+      legend.position = "right",
+      plot.margin = unit(c(1,1,1,1), "cm")
+    ) -> g
+
+  ggsave(filename = glue::glue('~/R/terni/png_out/{t}_mean.png'), plot = g, bg = "white",
+         width = 14, height = 9, units = "in", dpi = 150)
+  
+})
+
+
+# immagini traccianti biomasse ####
+# questi sono gli indici per raggruppare le stagioni
+# 1 2016-11-01 I
+# 2 2016-12-01 I       
+# 3 2017-02-01 I       
+# 4 2017-03-01 P       
+# 5 2017-04-01 P       
+# 6 2017-05-01 P       
+# 7 2017-06-01 E       
+# 8 2017-08-01 E       
+# 9 2017-09-01 A       
+# 10 2017-11-01 A       
+# 11 2017-12-01 I       
+# 12 2018-01-01 I
+stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
+
+walk(biomasse, \(b) {
+  
+  walk(stagioni, \(s) {
+    fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", 
+                     pattern = glue("^{b}_(.*)_({s})"), 
+                     full.names = T)
+    # cat("", fs, sep = "\n")
+    rs <- raster::stack(fs)
+    r <- raster::calc(rs, fun = mean)
+    
+    stagione <- case_when(s == "01|02|03|11|12" ~ "I", 
+                          s == "04|05|06" ~ "P", 
+                          s == "07|08" ~"E", 
+                          s == "09|10" ~ "A")
+    
+    raster::calc(rs, fun = mean) %>% 
+      writeRaster(glue("~/R/terni/tiff_out/biomassa/{b}_{stagione}_mean.tif"), overwrite = TRUE)
+  })
+  
+})
+
+
+# immagini per stagione ####
+walk(biomasse, \(b) {
+  fs <- list.files("~/R/terni/tiff_out/biomassa",
+                   pattern = glue("^{b}"), 
+                   full.names = T)
+  rs <- raster::stack(fs) 
+  r_df <- as.data.frame(rs, xy = TRUE)
+  
+  pivot_longer(r_df, cols = !c(x, y), names_to = "variable", values_to = "value") %>% 
+    ggplot() +
+    geom_raster(aes(x, y, fill = value)) +
+    geom_sf(data = st_crop(strade_utm32, st_bbox(dominio_redux)), 
+            color=alpha("grey",0.7), fill = "transparent", size = 0.01) +
+    geom_sf(data = pt_misura_utm32, shape = 21, 
+            fill = "dodgerblue", color = "black", size = 1) +
+    scale_fill_distiller(palette = "Spectral", direction = -1, name = "titolo") +
+    # scale_fill_gradientn(colours = rev(terrain.colors(250))) +
+    # scale_fill_viridis(direction = -1) +
+    facet_wrap(~variable) +
+    theme_minimal()+
+    coord_sf() -> g
+  
+  ggsave(filename = glue::glue('~/R/terni/png_out/{b}_mean_season.png'), plot = g, bg = "white",
+         width = 14, height = 9, units = "in", dpi = 150)
+})
+
+
+# plot(rs)
+  # na.omit() %>%
+  # setNames(c("x", "y", "value"))
+ 
 # library(rasterVis)
+# library(tidyterra)
+# 
 # gplot(rs) +
 #   geom_tile(aes(fill = value)) +
 #   facet_wrap(~ variable) +
-#   # scale_fill_gradientn(colours = rev(terrain.colors(250))) +
+#   scale_fill_gradientn(colours = rev(terrain.colors(250))) +
 #   # scale_fill_viridis(direction = -1) +
 #   scale_fill_gradientn(colours = rev(magma(30))) +
-#   coord_equal() +
-#   theme_void()
+#   coord_equal() 
+
