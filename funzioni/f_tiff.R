@@ -222,7 +222,8 @@ walk(biomasse, \(b) {
     ) +
     coord_sf() -> g
   
-  ggsave(filename = glue::glue('~/R/terni/png_out/{b}_season.png'), plot = g, bg = "white",
+  ggsave(filename = glue::glue('~/R/terni/png_out/{b}_season.png'), 
+         plot = g, bg = "white",
          width = 14, height = 9, units = "in", dpi = 72)
 })
 

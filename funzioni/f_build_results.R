@@ -114,6 +114,5 @@ names(models_clean) <- tools::file_path_sans_ext(basename(pltnts)) %>% str_remov
 
 saveRDS(models_clean, file = glue("~/R/terni/rds_gaussian_{rds_dir}/modelli_{rds_dir}_clean.RDS"))
 
-
 log_close()
 
