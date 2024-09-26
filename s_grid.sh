@@ -43,3 +43,4 @@ Rscript f_grid.R V_s $1 &
 Rscript f_grid.R W_s $1 &
 Rscript f_grid.R Zn_s $1 &
 Rscript f_grid.R Zr_i $1 &
+
