@@ -23,7 +23,7 @@ cat(args, sep = "\n")
   
   source("ns_stagioni.R")
 } 
-biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i")
+biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i", "Tl_s")
 
 df <- "df_finale_raw.csv" # dataframe
 

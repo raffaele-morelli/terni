@@ -49,7 +49,7 @@
   
   df <- f_stagioni(df)
   
-  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i")
+  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i", "Tl_s")
   
   index <- grep(pltnt, names(df))
   

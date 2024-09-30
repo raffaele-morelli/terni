@@ -40,7 +40,7 @@ for (pltnt in inquinanti) {
   df <- read_csv(glue::glue("~/R/terni/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
   df <- f_stagioni(df)
   
-  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i")
+  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i", "Tl_s")
   
   pltnt_clean <- stringr::str_remove(pltnt, pattern = "_bio")
   

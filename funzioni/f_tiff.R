@@ -66,7 +66,7 @@ rm(list = ls())
 map(pull(selezione_terni), \(t) {
   glue("~/R/terni/{rds_out_traccianti}/{t}_200m_100res.RDS") 
 }) %>% unlist() -> fls
-# fls <- fls[2]
+# fls <- fls[16]
 # f <- fls
 
 # tiff per mese ####
@@ -106,8 +106,11 @@ purrr::walk(fls, \(f) {
 walk(pull(selezione_terni), \(t) {
   fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
   rs <- raster::stack(fs)
+  
+  pesi <- c(0.060,0.068,0.078,0.078,0.078,0.078,0.096,0.096,0.078,0.078,0.133,0.078)
+  rsw <- weighted.mean(rs, w = pesi)
 
-  raster::calc(rs, fun = mean) %>% 
+  raster::calc(rsw, fun = mean) %>% 
     writeRaster(glue("~/R/terni/tiff_out/{t}_mean.tif"), overwrite = TRUE)
   
 })
@@ -117,7 +120,8 @@ walk(pull(selezione_terni), \(t) {
 walk(pull(selezione_terni), \(t) {
   fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
   rs <- raster::stack(fs)
-  r <- raster::calc(rs, fun = mean)
+  
+  r <- raster::calc(rs, fun = mean) 
   
   titolo <- case_when(t == "PM10" ~ paste(t, "mg/m³"),
                       .default = paste(t, "ng/m³"))
@@ -178,14 +182,18 @@ walk(biomasse, \(b) {
                      full.names = T)
     # cat("", fs, sep = "\n")
     rs <- raster::stack(fs)
-    r <- raster::calc(rs, fun = mean)
+    
+    pesi <- c(0.060,0.068,0.078,0.078,0.078,0.078,0.096,0.096,0.078,0.078,0.133,0.078)
+    rsw <- weighted.mean(rs, w = pesi)
+    
+    r <- raster::calc(rsw, fun = mean)
     
     stagione <- case_when(s == "01|02|03|11|12" ~ "Winter", 
                           s == "04|05|06" ~ "Spring", 
                           s == "07|08" ~"Summer", 
                           s == "09|10" ~ "Autumn")
     
-    raster::calc(rs, fun = mean) %>% 
+    raster::calc(r, fun = mean) %>% 
       writeRaster(glue("~/R/terni/tiff_out/biomassa/{b}_{stagione}.tif"), overwrite = TRUE)
   })
 })
@@ -197,7 +205,7 @@ walk(biomasse, \(b) {
                    pattern = glue("^{b}"), 
                    full.names = T)
   
-  rs <- raster::stack(fs) 
+  rs <- raster::stack(fs)
   r_df <- as.data.frame(rs, xy = TRUE)
   
   colnames(r_df) <- str_remove(colnames(r_df), pattern = glue("{b}_"))
@@ -226,19 +234,4 @@ walk(biomasse, \(b) {
          plot = g, bg = "white",
          width = 14, height = 9, units = "in", dpi = 72)
 })
-
-# plot(rs)
-  # na.omit() %>%
-  # setNames(c("x", "y", "value"))
- 
-# library(rasterVis)
-# library(tidyterra)
-# 
-# gplot(rs) +
-#   geom_tile(aes(fill = value)) +
-#   facet_wrap(~ variable) +
-#   scale_fill_gradientn(colours = rev(terrain.colors(250))) +
-#   # scale_fill_viridis(direction = -1) +
-#   scale_fill_gradientn(colours = rev(magma(30))) +
-#   coord_equal() 
 
