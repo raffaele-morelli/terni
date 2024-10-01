@@ -153,7 +153,7 @@ walk(pull(selezione_terni), \(t) {
     ) -> g
 
   ggsave(filename = glue::glue('~/R/terni/png_out/{t}_mean.png'), plot = g, bg = "white",
-         width = 14, height = 9, units = "in", dpi = 72)
+         width = 14, height = 9, units = "in", dpi = 600)
   
 })
 
@@ -232,6 +232,6 @@ walk(biomasse, \(b) {
   
   ggsave(filename = glue::glue('~/R/terni/png_out/{b}_season.png'), 
          plot = g, bg = "white",
-         width = 14, height = 9, units = "in", dpi = 72)
+         width = 14, height = 9, units = "in", dpi = 600)
 })
 

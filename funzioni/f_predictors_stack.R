@@ -264,7 +264,7 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 {
 
   map(dominio$id, \(id) {
-    # print(id)
+    print(id)
     data.frame("variable" = c(
       getBufferUA(200, lista_ua[["s8"]], id),
       getBufferUA(200, lista_ua[["s6"]], id),
