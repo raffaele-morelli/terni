@@ -147,7 +147,8 @@ server <- function(input, output) {
       geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey95", fill = "transparent") +
       geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 4) +
       geom_sf(data = acciaieria, shape = 24, fill = "grey70", color = "gray15", size = 4) +
-      scale_fill_viridis_c(option = "B", direction = -1) +
+      # scale_fill_viridis_c(option = "B", direction = -1) +
+      scale_fill_distiller(palette = "Spectral", direction = -1) +
       theme_void() +
       theme(legend.position = "bottom", 
             legend.title = element_blank(),
