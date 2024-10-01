@@ -262,7 +262,6 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 
 # routine #### 
 {
-
   map(dominio$id, \(id) {
     print(id)
     data.frame("variable" = c(
@@ -277,8 +276,8 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
       getBufferIntStrade(200, id),
       getFerroMinDist(200, id),
       getStradeMinDist(200, id)
-      )
-      ) %>% t() -> df_spat
+    )
+    ) %>% t() -> df_spat
     
     rownames(df_spat) <- NULL
     colnames(df_spat) <- c(
@@ -290,19 +289,21 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
       'ml_200', 
       'm_dis_ferr',
       'min_d')
-    # log_print(df_spat, hide_notes = TRUE)
 
+    cod <- as.numeric(id)
+    
     map(df_meteo$data, \(d) {
       cbind(
         filter(df_meteo, data == d),
-        df_spat
-        # dominio %>% filter(id == id) %>% st_coordinates()
+        df_spat,
+        dominio %>% filter(id == cod) %>% st_coordinates()
       ) -> pdf
-
+      
     })
+    
   }) -> mdf
   
 }
 
-saveRDS(mdf, file = "~/R/terni/data/predittori_raster_stack.rds")
+# saveRDS(mdf, file = "~/R/terni/data/predittori_raster_stack.rds")
 
