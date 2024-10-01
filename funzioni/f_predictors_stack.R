@@ -2,53 +2,25 @@
 {
   rm(list = ls())
   
-  library(sf)
   library(dplyr)
-  library(ggplot2)
-  library(terra)
-  library(purrr)
-  library(stringr)
-  library(logr)
-  library(lubridate)
-  library(glue)
   library(forcats)
+  # library(ggplot2)
+  library(glue)
+  # library(logr)
+  # library(lubridate)
+  library(purrr)
+  library(sf)
+  library(stringr)
+  library(terra)
   
   args <- commandArgs(trailingOnly = TRUE)
   
   
-  # SET tracciante ####
-  if(length(args) == 0) {
-    pltnt <- "PM10"
-    res <- 100
-    dist <- 200
-    outdir <- "rds_out_traccianti_test9"
-    met <- "test9"
-  }else{
-    cat(args, sep = "\n")
-    
-    pltnt <- args[1]
-    res <- 100 # as.numeric( args[2] )
-    dist <- 200
-    met <- args[2]
-    outdir <- glue("rds_out_traccianti_{args[2]}") 
-  }
-  
-  # cat(pltnt, dist, res, "\n")
-
   source("~/R/terni/ns_stagioni.R")
 
-  blacklist_inquinanti <- readr::read_csv("~/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
-  biomasse <- read_csv("/home/rmorelli/R/terni/data/biomasse.csv", show_col_types = FALSE, col_names = F) %>% pull()
-  
-  if( (pltnt %in% blacklist_inquinanti$pltnt) == TRUE) {
-    stop("blacklist ")
-  }
-    
-  terni_sez <- st_read("~/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
-  terni_indicatori_sez <- readr::read_csv("~/R/terni/data/R10_indicatori_2021_sezioni_terni.csv", show_col_types = FALSE)
-  
-  terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), by = join_by(SEZ2021 == SEZ2011))
-  
+  df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+  df <- f_stagioni(df) # applico la definizione delle stagioni
+
   ferrovia <- st_read("~/R/terni/data/osm/ferrovie.shp")
   
   strade_utm32 <- st_read("~/R/terni/data/osm/strade_interesse.shp") # strade di interesse
@@ -58,10 +30,15 @@
   acciaieria$field_1 <- c("cold_area", "hot_area", "scrapyard")
   
   # dominio ####
-  dominio <- st_read(glue("~/R/terni/data/dominio/dominio_{res}m.shp"))
-  # dominio <- st_read("~/R/terni/data/dominio/dominio_200m_redux.shp")
-
+  dominio <- st_read(glue("~/R/terni/data/dominio/dominio_100m.shp"))
+  dominio_redux <- st_read("~/R/terni/data/shp/dominio_redux_articolo.shp")
+  
+  terni_sez <- st_read("~/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
   terni_sez_crop <- st_crop(terni_sez, dominio) 
+  
+  terni_indicatori_sez <- readr::read_csv("~/R/terni/data/R10_indicatori_2021_sezioni_terni.csv", show_col_types = FALSE)
+  terni_sez_pop <- inner_join(terni_sez, select(terni_indicatori_sez, SEZ2011, P1), by = join_by(SEZ2021 == SEZ2011))
+  
   
   # punti di misura
   pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp") 
@@ -282,25 +259,12 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
   }
 }
 
-# data frame e modello ####
-{
-  df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
-  df <- f_stagioni(df)
-  
-  modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
-  index <- grep(pltnt, names(df), value = FALSE)
-  names(df)[index] <- "value"
-  
-  gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
-}
 
 # routine #### 
 {
-  log_open(file_name = glue::glue("{pltnt}_dominio.log"))
-  
-  map(dominio$id, \(id) {
 
-    log_print(id, hide_notes = TRUE)
+  map(dominio$id, \(id) {
+    # print(id)
     data.frame("variable" = c(
       getBufferUA(200, lista_ua[["s8"]], id),
       getBufferUA(200, lista_ua[["s6"]], id),
@@ -332,17 +296,13 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
       cbind(
         filter(df_meteo, data == d),
         df_spat
+        # dominio %>% filter(id == id) %>% st_coordinates()
       ) -> pdf
-      # log_print(pdf, hide_notes = FALSE)
 
-      mod <- mgcv::predict.gam(gam_tdf, newdata = pdf, type = "response")
-      # log_print(mod, hide_notes = TRUE)
     })
-  }) -> trcnt
+  }) -> mdf
   
-  log_close()
 }
 
-
-saveRDS(trcnt, file = glue::glue("~/R/terni/{outdir}/{pltnt}_{dist}m_{res}res.RDS"))
+saveRDS(mdf, file = "~/R/terni/data/predittori_raster_stack.rds")
 

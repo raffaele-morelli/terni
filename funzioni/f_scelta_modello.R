@@ -36,6 +36,8 @@
   }
 
   blacklist_inquinanti <- read_csv("/home/rmorelli/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
+  biomasse <- read_csv("/home/rmorelli/R/terni/data/biomasse.csv", show_col_types = FALSE, col_names = F) %>% pull()
+  
   
   if(pltnt %in% blacklist_inquinanti$pltnt) {
     stop("Sei nella blacklist!!!")
@@ -49,7 +51,6 @@
   
   df <- f_stagioni(df)
   
-  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i", "Tl_s")
   
   index <- grep(pltnt, names(df))
   

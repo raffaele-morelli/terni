@@ -23,7 +23,8 @@ cat(args, sep = "\n")
   
   source("ns_stagioni.R")
 } 
-biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i", "Tl_s")
+
+biomasse <- read_csv("/home/rmorelli/R/terni/data/biomasse.csv", show_col_types = FALSE, col_names = F) %>% pull()
 
 df <- "df_finale_raw.csv" # dataframe
 

@@ -40,7 +40,7 @@ rm(list = ls())
     n_col <- 54
   }
   
-  biomasse <- c("Cs_s", "K_s", "Rb_s", "Cd_s", "Pb_i")
+  biomasse <- read_csv("/home/rmorelli/R/terni/data/biomasse.csv", show_col_types = FALSE, col_names = F) %>% pull()
   
   terni_sez <- st_read("~/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
   
@@ -85,7 +85,7 @@ purrr::walk(fls, \(f) {
   walk(seq(1,12), \(mese) {
     trcnt_df1 <- trcnt_df[, mese]
     
-    m <- matrix(trcnt_df1, ncol = n_col,  byrow = FALSE)  
+    m <- matrix(trcnt_df1, ncol = n_col,  byrow = FALSE)
     r <- raster::raster(m)
     
     mese <- str_pad(mese, 2, pad = "0")
