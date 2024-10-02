@@ -59,6 +59,20 @@ rm(list = ls())
   strade_utm32 <- st_read("~/R/terni/data/osm/strade_interesse.shp") # strade di interesse
   strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
   
+  # questi sono gli indici per raggruppare le stagioni
+  # 1 2016-11-01 I
+  # 2 2016-12-01 I       
+  # 3 2017-02-01 I       
+  # 4 2017-03-01 P       
+  # 5 2017-04-01 P       
+  # 6 2017-05-01 P       
+  # 7 2017-06-01 E       
+  # 8 2017-08-01 E       
+  # 9 2017-09-01 A       
+  # 10 2017-11-01 A       
+  # 11 2017-12-01 I       
+  # 12 2018-01-01 I
+  stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
   
 }
 
@@ -70,7 +84,7 @@ map(pull(selezione_terni), \(t) {
 # f <- fls
 
 # tiff per mese ####
-purrr::walk(fls, \(f) {
+walk(fls, \(f) {
   tools::file_path_sans_ext(f) %>% basename() -> fout
   writeLines(fout)
   
@@ -86,42 +100,43 @@ purrr::walk(fls, \(f) {
     trcnt_df1 <- trcnt_df[, mese]
     
     m <- matrix(trcnt_df1, ncol = n_col,  byrow = FALSE)
-    r <- raster::raster(m)
+    r <- terra::rast(m)
     
     mese <- str_pad(mese, 2, pad = "0")
     
-    raster::extent(r) <- r_extent
+    terra::ext(r) <- r_extent
     crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
     
-    r_crop <- raster::crop(r, dominio_redux)
+    r_crop <- terra::crop(r, dominio_redux)
     
     terra::writeRaster(r_crop, glue::glue('~/R/terni/tiff_out/{rds_out_traccianti}/{fout}_{mese}.tif'), overwrite = TRUE)
-    
   })
-  
 })
 
 
 # tiff media annuale ####
 walk(pull(selezione_terni), \(t) {
+  writeLines(t)
   fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
-  rs <- raster::stack(fs)
+  rs <- terra::rast(fs)
   
   pesi <- c(0.060,0.068,0.078,0.078,0.078,0.078,0.096,0.096,0.078,0.078,0.133,0.078)
-  rsw <- weighted.mean(rs, w = pesi)
+  rsw <- terra::weighted.mean(rs, w = pesi)
 
-  raster::calc(rsw, fun = mean) %>% 
-    writeRaster(glue("~/R/terni/tiff_out/{t}_mean.tif"), overwrite = TRUE)
-  
+  # raster::calc(rsw, fun = mean) %>% writeRaster(glue("~/R/terni/tiff_out/{t}_mean.tif"), overwrite = TRUE)
+  writeRaster(rsw, glue("~/R/terni/tiff_out/{t}_mean.tif"), overwrite = TRUE)
 })
 
 
 # immagini articolo media annuale ####
 walk(pull(selezione_terni), \(t) {
-  fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
-  rs <- raster::stack(fs)
+  writeLines(t)
   
-  r <- raster::calc(rs, fun = mean) 
+  fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", pattern = t, full.names = T)
+  rs <- terra::rast(fs)
+  
+  # r <- raster::calc(rs, fun = mean) 
+  r <- terra::mean(rs) 
   
   titolo <- case_when(t == "PM10" ~ paste(t, "mg/m³"),
                       .default = paste(t, "ng/m³"))
@@ -153,59 +168,46 @@ walk(pull(selezione_terni), \(t) {
     ) -> g
 
   ggsave(filename = glue::glue('~/R/terni/png_out/{t}_mean.png'), plot = g, bg = "white",
-         width = 14, height = 9, units = "in", dpi = 600)
+         width = 14, height = 9, units = "in", dpi = 72)
   
 })
 
 
 # immagini traccianti biomasse ####
-# questi sono gli indici per raggruppare le stagioni
-# 1 2016-11-01 I
-# 2 2016-12-01 I       
-# 3 2017-02-01 I       
-# 4 2017-03-01 P       
-# 5 2017-04-01 P       
-# 6 2017-05-01 P       
-# 7 2017-06-01 E       
-# 8 2017-08-01 E       
-# 9 2017-09-01 A       
-# 10 2017-11-01 A       
-# 11 2017-12-01 I       
-# 12 2018-01-01 I
-stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
 
 walk(biomasse, \(b) {
+  writeLines(b)
   
   walk(stagioni, \(s) {
     fs <- list.files("~/R/terni/tiff_out/rds_out_traccianti_test9", 
                      pattern = glue("^{b}_(.*)_({s})"), 
                      full.names = T)
     # cat("", fs, sep = "\n")
-    rs <- raster::stack(fs)
+    rs <- terra::rast(fs)
     
     pesi <- c(0.060,0.068,0.078,0.078,0.078,0.078,0.096,0.096,0.078,0.078,0.133,0.078)
-    rsw <- weighted.mean(rs, w = pesi)
+    rsw <- terra::weighted.mean(rs, w = pesi)
     
-    r <- raster::calc(rsw, fun = mean)
+    r <- terra::mean(rsw)
     
     stagione <- case_when(s == "01|02|03|11|12" ~ "Winter", 
                           s == "04|05|06" ~ "Spring", 
                           s == "07|08" ~"Summer", 
                           s == "09|10" ~ "Autumn")
     
-    raster::calc(r, fun = mean) %>% 
-      writeRaster(glue("~/R/terni/tiff_out/biomassa/{b}_{stagione}.tif"), overwrite = TRUE)
+    terra::writeRaster(r, glue("~/R/terni/tiff_out/biomassa/{b}_{stagione}.tif"), overwrite = TRUE)
   })
 })
-
+# rast("~/R/terni/tiff_out/biomassa/Tl_s_Winter.tif") %>% plot()
 
 # immagini per stagione ####
 walk(biomasse, \(b) {
+  writeLines(b)
   fs <- list.files("~/R/terni/tiff_out/biomassa",
                    pattern = glue("^{b}"), 
                    full.names = T)
   
-  rs <- raster::stack(fs)
+  rs <- terra::rast(fs)
   r_df <- as.data.frame(rs, xy = TRUE)
   
   colnames(r_df) <- str_remove(colnames(r_df), pattern = glue("{b}_"))
@@ -232,6 +234,6 @@ walk(biomasse, \(b) {
   
   ggsave(filename = glue::glue('~/R/terni/png_out/{b}_season.png'), 
          plot = g, bg = "white",
-         width = 14, height = 9, units = "in", dpi = 600)
+         width = 14, height = 9, units = "in", dpi = 72)
 })
 
