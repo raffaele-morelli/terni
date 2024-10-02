@@ -8,6 +8,7 @@
   library(mgcv)
   library(purrr)
   # library(raster)
+  library(terra)
   library(readr)
   library(sf)
   library(stringr)

@@ -194,11 +194,11 @@ walk(biomasse, \(b) {
                           s == "04|05|06" ~ "Spring", 
                           s == "07|08" ~"Summer", 
                           s == "09|10" ~ "Autumn")
-    
+    names(r) <- stagione
     terra::writeRaster(r, glue("~/R/terni/tiff_out/biomassa/{b}_{stagione}.tif"), overwrite = TRUE)
   })
 })
-# rast("~/R/terni/tiff_out/biomassa/Tl_s_Winter.tif") %>% plot()
+# r <- rast("~/R/terni/tiff_out/biomassa/Tl_s_Winter.tif") 
 
 # immagini per stagione ####
 walk(biomasse, \(b) {
@@ -236,4 +236,3 @@ walk(biomasse, \(b) {
          plot = g, bg = "white",
          width = 14, height = 9, units = "in", dpi = 72)
 })
-
