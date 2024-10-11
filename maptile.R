@@ -78,6 +78,7 @@ rm(list = ls())
 pt_misura_utm32.mercator <- st_transform(pt_misura_utm32, 3857)
 dominio.mercator <- st_transform(dominio_redux, 3857)
 strade_utm32_filtered.mercator <- st_transform(strade_utm32_filtered, 3857)
+terni_sez.mercator <-st_transform(terni_sez, 3857)
   
 tile <- get_tiles(dominio.mercator, 
                   # "Stadia.Stamen.Terrain",
@@ -90,6 +91,8 @@ tile <- get_tiles(dominio.mercator,
 # Crop exactly to extent
 tile_crop <- terra::crop(tile, dominio.mercator)
 strade_utm32_filtered.mercator <- st_crop(strade_utm32_filtered.mercator, dominio.mercator)
+terni_sez.mercator <- st_crop(terni_sez.mercator, dominio.mercator)
+
 
 pt_misura_utm32.mercator %>% 
   mutate(em_srcs = case_when(
@@ -104,18 +107,24 @@ pt_misura_utm32.mercator %>%
 
 ggplot() +
   geom_spatraster_rgb(data = tile_crop, alpha = 0.5) +
-  geom_sf(data = strade_utm32_filtered.mercator, alpha = 0.3) +
+  geom_sf(data = terni_sez.mercator, 
+          alpha = 0.1, fill = "white", color = "grey80") +
+  geom_sf(data = strade_utm32_filtered.mercator,
+          alpha = 0.3, linetype = "solid", linewidth = 1) +
   geom_sf_text(data = pt_misura_utm32.mercator, aes(label = Site), 
-               color = "black", fontface = "bold", nudge_x = -80, nudge_y = -155, size = 5) +
-  geom_sf(data = pt_misura_utm32.mercator, aes(color = em_srcs), size = 3) +
-  annotation_scale(location = "br", width_hint = 0.25, pad_y = unit(10, "mm"), pad_x = unit(20, "mm")) +
-  annotation_north_arrow(location = "br", which_north = "true", pad_x = unit(20, "mm"), pad_y = unit(14, "mm"), 
+               color = "black", fontface = "bold", nudge_x = 90, nudge_y = 185, size = 6) +
+  geom_sf(data = pt_misura_utm32.mercator, aes(color = em_srcs), size = 4) +
+  annotation_scale(location = "br", width_hint = 0.25, 
+                   pad_y = unit(10, "mm"), pad_x = unit(20, "mm")) +
+  annotation_north_arrow(location = "br", which_north = "true", 
+                         pad_x = unit(20, "mm"), pad_y = unit(15, "mm"), 
                          style = north_arrow_fancy_orienteering) +
   # scale_color_viridis_d()+
   coord_sf(datum = sf::st_crs(3857)) +
   theme_void() +
-  theme(legend.position = "right") -> g
-  ggsave(filename = glue("~/R/terni/tmp/mappabase.jpg"), g,
+  theme(legend.position = "right", legend.title = element_blank()) -> g
+
+ggsave(filename = glue("~/R/terni/tmp/mappabase.jpg"), g,
          width = 14, height = 9,
          dpi = 150)
 
