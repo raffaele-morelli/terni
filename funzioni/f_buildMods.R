@@ -66,9 +66,11 @@ buildMods <- function(backward = FALSE) {
     # glue("gam(value ~ {x}, gamma=1.4, family={family}, data = df)")
     # glue("gam(value ~ stagione + {x}, gamma=1.4, family={family}, data = df)")
     if(pltnt %in% biomasse) {
+      # glue("gam(value ~ stagione + s(X, Y, k = 1, bs = \"tp\") + {x}, gamma=1.4, family={family}, data = df)")
       glue("gam(value ~ stagione + {x}, gamma=1.4, family={family}, data = df)")
     }else{
-      glue("gam(value ~ {x}, gamma=1.4, family={family}, data = df)")
+      # glue("gam(value ~  s(X, Y, k = 1, bs = \"tp\") + {x}, gamma=1.4, family={family}, data = df)")
+      glue("gam(value ~  {x}, gamma=1.4, family={family}, data = df)")
     }
   })
   

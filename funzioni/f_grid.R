@@ -286,11 +286,11 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
 {
   df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   df <- f_stagioni(df)
-  
+
   modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
   index <- grep(pltnt, names(df), value = FALSE)
   names(df)[index] <- "value"
-  
+
   gam_tdf <- mgcv::gam(formula(modelli[[pltnt]]), data = df, gamma = 1.4, family = family(modelli[[pltnt]]))
 }
 
@@ -335,7 +335,7 @@ cod_str <- c("s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8")
       ) -> pdf
       # log_print(pdf, hide_notes = FALSE)
 
-      mod <- mgcv::predict.gam(gam_tdf, newdata = pdf, type = "response")
+      mod <- predict(gam_tdf, newdata = pdf, type = "response")
       # log_print(mod, hide_notes = TRUE)
     })
   }) -> trcnt

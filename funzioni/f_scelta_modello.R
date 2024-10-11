@@ -2,6 +2,7 @@
 
 ## init ####
 {
+  rm(list = ls())
   args <- commandArgs(trailingOnly = TRUE)
   
   library(readr)
@@ -14,6 +15,7 @@
   library(correlation)
   library(readxl)
   library(glue)
+  library(sf)
   
   setwd("~/R/terni")
 
@@ -30,8 +32,8 @@
     rds_dir <- glue("rds_gaussian_{args[2]}")  ### SET directory ####
     df <- "raw"
   }else{
-    pltnt <- "Rb_s"
-    rds_dir <- "rds_gaussian_test8"
+    pltnt <- "Mo_s"
+    rds_dir <- "rds_gaussian_test11"
     df <- "raw"
   }
 
@@ -51,6 +53,16 @@
   
   df <- f_stagioni(df)
   
+  # geo ####
+  {
+    # pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp") 
+    # pt_misura_utm32 %>% 
+    #   mutate(X = st_coordinates(geometry)[1],
+    #          Y = st_coordinates(geometry)[2]) %>% 
+    #   inner_join(df, join_by(Site == site)) -> df_geo
+    # 
+  }
+
   
   index <- grep(pltnt, names(df))
   
@@ -88,7 +100,7 @@ assign("v_spaziali", c(v_spaziali_200), envir = .GlobalEnv)
 assign("biomasse", biomasse, envir = .GlobalEnv)
 assign("family", 'gaussian(link=log)')
 
-fn <- file.path(glue("log/{rds_dir}_{pltnt}.log"))
+fn <- file.path(glue("{rds_dir}_{pltnt}.log"))
 lf <- log_open(fn)
 
 # ricorsione ####

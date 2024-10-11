@@ -55,7 +55,7 @@ for (pltnt in traccianti) {
     gam_tdf <- gam(formula(modelli[[pltnt]]), data = tdf, family = family(modelli[[pltnt]]))
     
     # applichiamo al DF di predict
-    gam_pdf <- predict.gam(gam_tdf, newdata = pdf)
+    gam_pdf <- predict(gam_tdf, newdata = pdf)
     
     # Factor of 2 ####
     {  

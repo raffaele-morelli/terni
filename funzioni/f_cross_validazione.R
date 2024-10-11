@@ -62,7 +62,7 @@ for (pltnt in inquinanti) {
       log_print(summary(gam_tdf), hide_notes = TRUE )
       
       # applichiamo al DF di predict
-      gam_pdf <- predict.gam(gam_tdf, newdata = pdf)
+      gam_pdf <- predict(gam_tdf, newdata = pdf)
       log_print(summary(gam_pdf), hide_notes = TRUE )
     }, 
     error = function(e) {

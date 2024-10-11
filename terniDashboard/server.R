@@ -58,7 +58,7 @@ server <- function(input, output) {
       return("Seleziona un tracciante")
     }
     
-    gratia::draw(models[[input$traccianti]], scales = "fixed", residuals = FALSE)
+    gratia::draw(models[[input$traccianti]])
     
     # b <- mgcViz::getViz(models[[input$traccianti]])
     # g2 <- plot(b, allTerms = TRUE, select = "stagione") + geom_hline(yintercept = 0)

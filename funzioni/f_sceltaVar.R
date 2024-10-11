@@ -144,11 +144,7 @@ sceltaVar <- function() {
   log_print("Fine per scelta MODELLO", hide_notes = TRUE)
   log_print(paste(names(AICS), collapse = " + "), hide_notes = TRUE)
   
-  # if(pltnt %in% biomasse) {
-  #   saveRDS(AICS, file = glue("~/R/terni/{rds_dir}/{pltnt}_bio.rds"))
-  # }else{
-  #   saveRDS(AICS, file = glue("~/R/terni/{rds_dir}/{pltnt}.rds"))
-  # }
+
   saveRDS(AICS, file = glue("~/R/terni/{rds_dir}/{pltnt}.rds"))
   
   stop("==== Fine per scelta MODELLO")
