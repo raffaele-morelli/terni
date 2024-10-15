@@ -78,10 +78,10 @@ walk(pull(traccianti), \(pltnt) {
       
       r_crop <- terra::crop(r, dominio_redux)
       
-      dir.create(glue::glue('~/R/terni/{tiff_dir}/{pltnt}'), showWarnings = F)
+      dir.create(glue::glue('~/R/terni/{tiff_dir}/traccianti/{pltnt}'), showWarnings = F)
       
       writeRaster(r_crop,
-                  glue::glue('~/R/terni/{tiff_dir}/{pltnt}/{pltnt}_{periodo}.tif'),
+                  glue::glue('~/R/terni/{tiff_dir}/traccianti/{pltnt}/{pltnt}_{periodo}.tif'),
                   overwrite = TRUE)
     }
   })
@@ -106,11 +106,11 @@ walk(pull(traccianti), \(t) {
 # tiff stagione ####
 stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
 
-walk(pull(traccianti), \(t) {
+walk((traccianti), \(t) {
   writeLines(t)
   
   walk(stagioni, \(s) {
-    path <- glue("~/R/terni/{tiff_dir}/{t}/")
+    path <- glue("~/R/terni/{tiff_dir}/traccianti/{t}/")
     pattern <- glue("^{t}_({s})")
 
     fs <- list.files(path = path, 
@@ -134,7 +134,8 @@ walk(pull(traccianti), \(t) {
                           s == "09|10" ~ "Autumn")
     names(r) <- stagione
     
-    dir.create(glue("~/R/terni/{tiff_dir}/{t}/season/"), showWarnings = FALSE)
-    writeRaster(r, glue("~/R/terni/{tiff_dir}/{t}/season/{t}_{stagione}.tif"), overwrite = TRUE)
+    dir.create(glue("~/R/terni/{tiff_dir}/season/{t}"), recursive = T, showWarnings = FALSE)
+    
+    writeRaster(r, glue("~/R/terni/{tiff_dir}/season/{t}/{t}_{stagione}.tif"), overwrite = TRUE)
   })
 })
