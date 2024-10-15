@@ -125,10 +125,10 @@ server <- function(input, output) {
       return(NULL)
     
     # f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_{input$res}m_{input$res}res.RDS')
-    f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_200m_100res.RDS')
+    # f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_200m_100res.RDS')
     
-    trcnt <- readRDS(f)
-    trcnt_df <- do.call(rbind.data.frame, trcnt)
+    # trcnt <- readRDS(f)
+    # trcnt_df <- do.call(rbind.data.frame, trcnt)
     
     # if(input$res == 100) {
       n_col <- 109
@@ -137,9 +137,13 @@ server <- function(input, output) {
     # }
     
     # print(as.numeric( input$mese) )
-    r <- matrix(trcnt_df[, as.numeric( input$mese)], ncol = n_col,  byrow = FALSE) %>% raster::raster()
-    raster::extent(r) <- r_extent
-    crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
+    # r <- matrix(trcnt_df[, as.numeric( input$mese)], ncol = n_col,  byrow = FALSE) %>% raster::raster()
+    # raster::extent(r) <- r_extent
+    # crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
+    periodo <- stringr::str_pad(input$mese, width = 2, side = c("left"), pad = "0")
+    
+    r <- rast(glue('/home/rmorelli/R/terni/tiff_out_improved/traccianti/{input$traccianti}/{input$traccianti}_{periodo}.tif'))
+    
     r_df <- as.data.frame(r, xy = TRUE) %>% na.omit() %>% setNames(c("x", "y", "value"))
 
     ggplot(data = r_df) +

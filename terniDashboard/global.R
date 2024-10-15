@@ -34,7 +34,9 @@ rm(dominio)
 pltnts <- readRDS("/home/rmorelli/R/terni/rds_out/traccianti.RDS")
 blacklist_inquinanti <- readr::read_csv("/home/rmorelli/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
 
-pltnts <- pltnts[!(pltnts %in% blacklist_inquinanti$pltnt)] %>% sort()
+# pltnts <- pltnts[!(pltnts %in% blacklist_inquinanti$pltnt)] %>% sort()
+
+pltnts <- readr::read_csv("~/R/terni/data/selezione_terni.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() # traccianti acciaeria
 
 remove_outliers <- function(x, na.rm = TRUE, ...) {
   qnt <- quantile(x, probs = c(.25, .75), na.rm = na.rm, ...)
