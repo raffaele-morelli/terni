@@ -124,34 +124,21 @@ server <- function(input, output) {
     if (is.null(input$traccianti))
       return(NULL)
     
-    # f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_{input$res}m_{input$res}res.RDS')
-    # f <- glue::glue('/home/rmorelli/R/terni/{rds_out_traccianti}/{input$traccianti}_200m_100res.RDS')
-    
-    # trcnt <- readRDS(f)
-    # trcnt_df <- do.call(rbind.data.frame, trcnt)
-    
-    # if(input$res == 100) {
-      n_col <- 109
-    # }else{
-    #   n_col <- 54
-    # }
-    
-    # print(as.numeric( input$mese) )
-    # r <- matrix(trcnt_df[, as.numeric( input$mese)], ncol = n_col,  byrow = FALSE) %>% raster::raster()
-    # raster::extent(r) <- r_extent
-    # crs(r) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
+    n_col <- 109
+
     periodo <- stringr::str_pad(input$mese, width = 2, side = c("left"), pad = "0")
     
-    r <- rast(glue('/home/rmorelli/R/terni/tiff_out_improved/traccianti/{input$traccianti}/{input$traccianti}_{periodo}.tif'))
+    r <- rast(glue('/home/rmorelli/R/terni/tiff_out_improved_{met}/traccianti/{input$traccianti}/{input$traccianti}_{periodo}.tif'))
     
-    r_df <- as.data.frame(r, xy = TRUE) %>% na.omit() %>% setNames(c("x", "y", "value"))
+    r_df <- as.data.frame(r, xy = TRUE) %>% 
+      na.omit() %>% 
+      setNames(c("x", "y", "value"))
 
     ggplot(data = r_df) +
       geom_raster(aes(x = x, y = y, fill = value)) +
       geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey95", fill = "transparent") +
       geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 4) +
       geom_sf(data = acciaieria, shape = 24, fill = "grey70", color = "gray15", size = 4) +
-      # scale_fill_viridis_c(option = "B", direction = -1) +
       scale_fill_distiller(palette = "Spectral", direction = -1) +
       theme_void() +
       theme(legend.position = "bottom", 
