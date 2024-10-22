@@ -10,7 +10,7 @@
   
   # importante ####
   
-  root <- "/home/rmorelli/R/terni"
+  root <- "../"
   
   met <- "test9"
   rds_out_traccianti <- glue("rds_out_traccianti_{met}")
