@@ -28,7 +28,7 @@ rm(list = ls())
   library(tidyterra)
   library(viridis)
 
-  rds_out_traccianti <- "rds_out_traccianti_test9"
+  rds_out_traccianti <- "rds_out_traccianti_test11"
   
   # dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
   
@@ -52,7 +52,7 @@ rm(list = ls())
   
   fls <- list.files(glue("~/R/terni/{rds_out_traccianti}"), full.names = TRUE)
   
-  selezione_terni <- read_csv("~/R/terni/selezione_terni.csv", col_names = FALSE, show_col_types = FALSE)
+  selezione_terni <- read_csv("~/R/terni/data/selezione_terni.csv", col_names = FALSE, show_col_types = FALSE)
   
   strade_utm32 <- st_read("~/R/terni/data/osm/strade_interesse.shp") # strade di interesse
   strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))

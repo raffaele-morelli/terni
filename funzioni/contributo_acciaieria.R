@@ -20,7 +20,8 @@ rm(list = ls())
   dominio_redux <- st_read("~/R/terni/data/shp/dominio_redux_articolo.shp")
   dominio <- st_read("~/R/terni/data/dominio/dominio_100m.shp") # 109 col
 
-  traccianti_acciaieria <- read_csv("data/traccianti_acciaieria.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() # traccianti acciaeria
+  # traccianti_acciaieria <- read_csv("data/traccianti_acciaieria.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() # traccianti acciaeria
+  traccianti_acciaieria <-  c("Cr_i", "Mo_s", "Ni_i", "W_s")
   
   mdf <- readRDS(file = "~/R/terni/data/predittori_raster_stack.rds")
   
@@ -29,7 +30,8 @@ rm(list = ls())
   df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   df <- f_stagioni(df)
   
-  tiff_dir <- 'tiff_out_improved'
+  met <- "test11"
+  tiff_dir <- glue("tiff_out_improved_{met}")
   hua <- FALSE
 }
 
@@ -114,23 +116,3 @@ walk(traccianti_acciaieria, \(pltnt) {
     }
   })
 })
-
-# non occorre nessuna media annuale, il contributo dell'acciaieria alla concentrazione è costante ####
-
-
-
-# differenza  ####
-# walk(traccianti_acciaieria, \(t) {
-#   writeLines(t)
-# 
-#   fs <- c(glue("~/R/terni/{tiff_dir}/acciaieria/year/non-HUA/{t}_mean.tif"), 
-#           glue("~/R/terni/{tiff_dir}/year/{t}_mean.tif"))
-#   
-#   rs <- rast(fs)
-#   
-#   rd <- terra::diff(rs) # plot(rd, main = t)
-#   rd_c <- clamp(rd, 0, values = FALSE) # plot(rd_c, main = t)
-#   
-#   writeRaster(rd_c, glue("~/R/terni/{tiff_dir}/acciaieria/differenze/non-HUA/{t}_diff.tif"), overwrite = TRUE)
-# })
-

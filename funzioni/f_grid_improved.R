@@ -25,24 +25,20 @@ rm(list = ls())
   st_bbox(dominio) -> bbox
   r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
   
-  traccianti <- read_csv("~/R/terni/data/selezione_terni.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() # traccianti acciaeria
-  
   mdf <- readRDS(file = "~/R/terni/data/predittori_raster_stack.rds")
   
   modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
+  
+  traccianti <- names(modelli)
   
   df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   df <- f_stagioni(df)
   
   tiff_dir <- glue("tiff_out_improved_{met}")
   
-  directory <- glue("~/R/terni/{tiff_dir}")
-  dir.create(directory)
+  dir.create(glue("~/R/terni/{tiff_dir}"))
 }
 
-# mdf %>% length() # i predittori su tutti i punti
-# mdf[[1]] %>% length() # predittori sul punto id=1 per i 12 periodi di campionamento
-# mdf[[1]][[1]] %>% length() # i predittori per il periodo 1
 
 # traccianti <- c("Cr_i", "Mo_s", "Ni_i", "W_s")
 
@@ -75,8 +71,7 @@ walk(traccianti, \(pltnt) {
     # predict ############
     {
       mod <- predict(mod, df_sf, type = "response")
-      # mod <- predict(mod, df_raster, type = "response")
-      
+
       m <- matrix(mod, ncol = 109,  byrow = FALSE)
       r <- rast(m)
       
@@ -97,7 +92,6 @@ walk(traccianti, \(pltnt) {
   })
 })
 
-t <- traccianti[1]
 # tiff media annuale ####
 dir.create(glue("~/R/terni/{tiff_dir}/year"), showWarnings = F)
 
@@ -120,7 +114,7 @@ walk(traccianti, \(t) {
 # tiff stagione ####
 stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
 
-walk((traccianti), \(t) {
+walk(traccianti, \(t) {
   writeLines(t)
   
   walk(stagioni, \(s) {

@@ -24,7 +24,8 @@
   # 12 2018-01-01 I
   stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
   
-  traccianti_acciaieria <- read_csv("data/traccianti_acciaieria.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() # traccianti acciaeria
+  # traccianti_acciaieria <- read_csv("data/traccianti_acciaieria.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() # traccianti acciaeria
+  traccianti_acciaieria <-  c("Cr_i", "Mo_s", "Ni_i", "W_s")
   
   dominio_redux <- st_read("~/R/terni/data/shp/dominio_redux_articolo.shp")
   dominio <- st_read("~/R/terni/data/dominio/dominio_100m.shp") # 109 col
@@ -36,6 +37,11 @@
   pesi <- c(0.060,0.068,0.078,0.078,0.078,0.078,0.096,0.096,0.078,0.078,0.133,0.078)
   
   dpi <- 96
+  met <- "test11"
+  png_outdir <- glue("~/R/terni/png_out/{met}")
+  
+  dir.create( glue("{png_outdir}/acciaieria/"), showWarnings = FALSE)
+  dir.create( glue("~/R/terni/tiff_out_improved_{met}/acciaieria/mean"), showWarnings = FALSE )
 }
 
 saveImage <- function(r, pltnt) {
@@ -59,16 +65,17 @@ saveImage <- function(r, pltnt) {
     # annotation_north_arrow(location = "br", which_north = "true", pad_x = unit(1.25, "in"), pad_y = unit(1, "in"), style = north_arrow_fancy_orienteering) +
     theme_void() +
     theme(legend.position = "right", plot.margin = unit(c(1,1,1,1), "cm")) -> g
-  ggsave(filename = glue("~/R/terni/png_out/acciaieria/{pltnt}_mean.png"), g, 
+  
+  ggsave(filename = glue("{png_outdir}/acciaieria/{pltnt}_mean.png"), g, 
          width = 14, height = 9,
          dpi = dpi)
 }
 
-
+# t <- "Cr_i"
 walk(traccianti_acciaieria, \(t) {
   
   pattern <- glue("^{t}_(.*)")
-  fs <- list.files("~/R/terni/tiff_out/acciaieria", pattern = pattern, full.names = T)
+  fs <- list.files(glue("~/R/terni/tiff_out_improved_{met}/acciaieria"), pattern = pattern, full.names = T, recursive = T)
   
   # cat("", pattern, fs, sep = "\n")
   rs <- rast(fs)
@@ -77,7 +84,7 @@ walk(traccianti_acciaieria, \(t) {
   
   r <- mean(rsw)
   
-  writeRaster(r, glue("~/R/terni/tiff_out/acciaieria/mean/{t}_mean.tif"), overwrite = TRUE)
+  writeRaster(r, glue("~/R/terni/tiff_out_improved_{met}/acciaieria/mean/{t}_mean.tif"), overwrite = TRUE)
   
   saveImage(r, t)
   
