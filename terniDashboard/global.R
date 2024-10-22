@@ -7,6 +7,7 @@
   library(sf)
   library(glue)
   library(terra)
+  library(readr)
   
   # importante ####
   
