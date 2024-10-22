@@ -1,5 +1,7 @@
 # There are three kinds of lies: lies, damned lies, and statistics.
 
+rm(list = ls())
+
 ## init ####
 {
   rm(list = ls())
@@ -32,7 +34,7 @@
     rds_dir <- glue("rds_gaussian_{args[2]}")  ### SET directory ####
     df <- "raw"
   }else{
-    pltnt <- "Mo_s"
+    pltnt <- "W_s"
     rds_dir <- "rds_gaussian_test11"
     df <- "raw"
   }
@@ -51,18 +53,7 @@
                  show_col_types = FALSE,
                  col_types = cols(Season = col_factor(levels = c("Winter", "Summer"))))
   
-  df <- f_stagioni(df)
-  
-  # geo ####
-  {
-    # pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp") 
-    # pt_misura_utm32 %>% 
-    #   mutate(X = st_coordinates(geometry)[1],
-    #          Y = st_coordinates(geometry)[2]) %>% 
-    #   inner_join(df, join_by(Site == site)) -> df_geo
-    # 
-  }
-
+  df <- f_stagioni(df) # aggiungiamo le stagioni (i periodi di campionamento raggruppati) come factor
   
   index <- grep(pltnt, names(df))
   
@@ -73,19 +64,23 @@
   
   # v_variabili <- readRDS("~/R/terni/rds_out/v_variabili.RDS")
   
-  # trick ####
   v_meteo_mean <- readRDS("~/R/terni/rds_out/v_meteo_mean.RDS")
-
-  v_acciaieria <- c("cold_area", "hot_area")
   
-  # grep("200", v_spaziali) -> idx_spat
-  # v_spaziali <- c(v_spaziali[idx_spat], "m_dis_ferr", v_acciaieria)
+  v_acciaieria <- c("cold_area", "hot_area")
   v_spaziali_200 <- c('s8_sup_200', 's6_sup_200', 'imp_200', 'bh_200', 'pop_200', 'ml_200')
-
-  v_variabili <- c(v_spaziali_200, v_meteo_mean, v_acciaieria, "m_dis_ferr", "min_d")
+  v_dist <- c("m_dis_ferr", "min_d")
+  
+  v_variabili <- c(v_spaziali_200, v_meteo_mean, v_acciaieria, v_dist)
   
   v_variabili <- v_variabili[!(v_variabili %in% c("wdir_mean", "ptp_mean", "pwspeed_mean"))]
 }
+
+# trick ####
+if(pltnt %in% c("Cr_i", "Mo_s", "Ni_i", "W_s")) {
+  # source("~/R/terni/funzioni/f_trick.R")
+  v_variabili <- v_variabili[!v_variabili %in% c(v_spaziali_200, v_dist)]
+}
+
 
 # Variabili "ambiente" ####
 assign("v_variabili", v_variabili, envir = .GlobalEnv)
@@ -97,7 +92,9 @@ assign("kappas", readRDS("~/R/terni/rds_out/kappas.RDS"))
 assign("rds_dir", rds_dir, envir = .GlobalEnv) # !!! directory di output !!! ####
 assign("suffix", '', envir = .GlobalEnv) # !!! suffisso per i test !!! ####
 assign("v_spaziali", c(v_spaziali_200), envir = .GlobalEnv)
+assign("v_dist", c(v_dist), envir = .GlobalEnv)
 assign("biomasse", biomasse, envir = .GlobalEnv)
+
 assign("family", 'gaussian(link=log)')
 
 fn <- file.path(glue("{rds_dir}_{pltnt}.log"))

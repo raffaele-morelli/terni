@@ -1,4 +1,6 @@
 # init ####
+
+rm(list = ls())
 args <- commandArgs(trailingOnly = TRUE)
 cat(args, sep = "\n")
 
@@ -18,15 +20,14 @@ cat(args, sep = "\n")
   if(!purrr::is_empty(args)) {
     rds_dir <- args[1] ### SET directory ####
   }else{
-    rds_dir <- "test9"
+    rds_dir <- "test11"
   }
   
   source("ns_stagioni.R")
-} 
+  # source("~/R/terni/funzioni/f_trick.R")
+}
 
 biomasse <- read_csv("/home/rmorelli/R/terni/data/biomasse.csv", show_col_types = FALSE, col_names = F) %>% pull()
-
-df <- "df_finale_raw.csv" # dataframe
 
 blacklist_inquinanti <- read_csv("/home/rmorelli/R/terni/data/blacklist_inquinanti.csv", show_col_types = FALSE)
 
@@ -57,6 +58,7 @@ getModel <- function(vars, df, pltnt) {
     ms <- paste("gam(value ~ ", ms, ", gamma=1.4, family=gaussian(link=log), data = df)")
   }
   
+  writeLines(ms)
   suppressWarnings(
     mod <- eval(parse(text = ms))
   )
@@ -66,54 +68,56 @@ getModel <- function(vars, df, pltnt) {
 
 pltnts <- list.files(glue("~/R/terni/rds_gaussian_{rds_dir}"), pattern = "*.rds", full.names = TRUE) 
 
-fn <- file.path(glue("log/clean_v_nsign.log"))
-lf <- log_open(fn)
+# fn <- file.path(glue("log/clean_v_nsign.log"))
+# lf <- log_open(fn)
 
-map(pltnts, \(pltnt) {
-  inquinante <- tools::file_path_sans_ext(basename(pltnt)) %>% str_remove(pattern = "_bio")
-
-  log_print(inquinante, hide_notes = TRUE)
-  df <- read_csv(glue("~/R/terni/data/dataframes/{df}"), show_col_types = FALSE)
-  df <- f_stagioni(df)
+map(pltnts, \(f) {
+  writeLines(f)
+  pltnt <- tools::file_path_sans_ext(basename(f)) %>% str_remove(pattern = "_bio")
   
-  index <- grep(inquinante, names(df))
+  # log_print(t, hide_notes = TRUE)
+  df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+  df <- f_stagioni(df)
+
+  index <- grep(pltnt, names(df))
   names(df)[index] <- "value"
 
-  rds <- readRDS(pltnt)
+  rds <- readRDS(f)
   mod <- getModel(names(rds), df, pltnt)
 
 }) -> models
 
-names(models) <- tools::file_path_sans_ext(basename(pltnts)) %>% str_remove(pattern = "_bio")
+names(models) <- tools::file_path_sans_ext(basename(pltnts)) 
 saveRDS(models, file = glue("~/R/terni/rds_gaussian_{rds_dir}/modelli_{rds_dir}.RDS"))
 
 map(names(models), \(m) {
+  writeLines(m)
   v_sign <- getSign(models[[m]])
   
+  writeLines(v_sign)
+  
   if(length(v_sign) == 0) {
-    log_print( sprintf("Nessuna variabile significativa per: %s", m ), hide_notes = TRUE )
+    # log_print( sprintf("Nessuna variabile significativa per: %s", m ), hide_notes = TRUE )
     return()
   }
-  df <- read_csv(glue("~/R/terni/data/dataframes/{df}"), show_col_types = FALSE)
   
+  df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   df <- f_stagioni(df)
   
-  
-  pltnt <- str_remove(m, pattern = "_bio")
-  index <- grep(pltnt, names(df))
+  index <- grep(m, names(df))
   names(df)[index] <- "value"
   
-  log_print(pltnt, hide_notes = TRUE)
+  # log_print(pltnt, hide_notes = TRUE)
 
-  lapply(v_sign, \(v) gsub("s\\(|\\)", '', v)) %>% unlist() -> v_sign
+  v_sign <- lapply(v_sign, \(v) gsub("s\\(|\\)", '', v)) %>% unlist()
   
   # log_print( sprintf("After: %s", paste0(v_sign, collapse = " - " )), hide_notes = TRUE )
-  mod <- getModel(v_sign, df, pltnt)    
+  getModel(v_sign, df, m)
 }) -> models_clean
 
-names(models_clean) <- tools::file_path_sans_ext(basename(pltnts)) %>% str_remove(pattern = "_bio")
+names(models_clean) <- tools::file_path_sans_ext(basename(pltnts)) 
 
 saveRDS(models_clean, file = glue("~/R/terni/rds_gaussian_{rds_dir}/modelli_{rds_dir}_clean.RDS"))
 
-log_close()
+# log_close()
 

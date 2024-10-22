@@ -27,12 +27,9 @@ rm(list = ls())
   library(greekLetters)
   
   rds_out_traccianti <- "rds_out_traccianti_test9"
-  
-  dir.create(glue::glue("~/R/terni/tiff_out/{rds_out_traccianti}"), recursive = TRUE, showWarnings = FALSE)
-  
+
   res <- 100
   grd <- 100
-  
   
   dominio <- st_read("~/R/terni/data/dominio/dominio_100m.shp") # 109 col
   if(res == 100) { 
@@ -42,8 +39,6 @@ rm(list = ls())
   }
   
   biomasse <- read_csv("/home/rmorelli/R/terni/data/biomasse.csv", show_col_types = FALSE, col_names = F) %>% pull()
-  
-  # terni_sez <- st_read("~/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
   
   pt_misura_utm32 <- st_read("~/R/terni/data/shp/punti_misura.shp")
   acciaieria <- st_read("~/R/terni/data/acciaieria/acciaieria.shp")   # acciaieria
@@ -55,7 +50,7 @@ rm(list = ls())
   
   fls <- list.files(glue("~/R/terni/{rds_out_traccianti}"), full.names = TRUE)
   
-  traccianti <- read_csv("~/R/terni/data/selezione_terni.csv", col_names = FALSE, show_col_types = FALSE)
+  traccianti <- read_csv("~/R/terni/data/selezione_terni.csv", col_names = FALSE, show_col_types = FALSE) %>% pull()
   
   strade_utm32 <- st_read("~/R/terni/data/osm/strade_interesse.shp") # strade di interesse
   strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
@@ -74,12 +69,16 @@ rm(list = ls())
   # 11 2017-12-01 I       
   # 12 2018-01-01 I
   stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
-  tiff_dir <- "tiff_out_improved"
+  
+  met <- "test9"
+  tiff_dir <- glue("tiff_out_improved_{met}")
 }
+
+# traccianti <- c("Cr_i", "Mo_s", "Ni_i", "W_s")
 
 
 # immagini articolo media annuale ####
-walk(pull(traccianti), \(t) {
+walk(traccianti, \(t) {
   writeLines(t)
 
   r <- rast(glue("~/R/terni/{tiff_dir}/year/{t}_mean.tif"))
@@ -117,9 +116,9 @@ walk(pull(traccianti), \(t) {
       plot.margin = unit(c(0, 0.5, 0, 0), "cm")
     ) -> g
 
-  dir.create(glue::glue('~/R/terni/png_out/{t}'), showWarnings = F)
+  dir.create(glue('~/R/terni/png_out/{met}/{t}'), recursive = T, showWarnings = F)
   
-  ggsave(filename = glue::glue('~/R/terni/png_out/{t}/{t}_mean.png'), 
+  ggsave(filename = glue('~/R/terni/png_out/{met}/{t}/{t}_mean.png'), 
          plot = g, 
          bg = "white",
          width = 14, height = 9, 
@@ -129,10 +128,10 @@ walk(pull(traccianti), \(t) {
 })
 
 # immagini per stagione ####
-walk(pull(traccianti), \(t) {
+walk(traccianti, \(t) {
   writeLines(t)
   
-  fs <- list.files(glue("~/R/terni/{tiff_dir}/{t}/season"),
+  fs <- list.files(glue("~/R/terni/{tiff_dir}/season/{t}"),
                    full.names = T)
   
   rs <- terra::rast(fs)
@@ -160,7 +159,7 @@ walk(pull(traccianti), \(t) {
     ) +
     coord_sf() -> g
   
-  ggsave(filename = glue::glue('~/R/terni/png_out/{t}/{t}_season.png'), 
+  ggsave(filename = glue('~/R/terni/png_out/{met}/{t}/{t}_season.png'), 
          plot = g, bg = "white",
          width = 14, height = 9, units = "in", dpi = 72)
 })
