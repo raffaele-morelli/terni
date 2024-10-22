@@ -10,7 +10,7 @@
   
   # importante ####
   
-  root <- "/home/rmorelli"
+  root <- "/home/rmorelli/R/terni"
   
   met <- "test9"
   rds_out_traccianti <- glue("rds_out_traccianti_{met}")
@@ -18,15 +18,15 @@
   run <- glue("rds_gaussian_{met}")
 }
   
-df <- readr::read_csv(glue("{root}/R/terni/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
+df <- readr::read_csv(glue("{root}/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
 
-models <- readRDS(glue("{root}/R/terni/{run}/modelli_{met}_clean.RDS"))
+models <- readRDS(glue("{root}/{run}/modelli_{met}_clean.RDS"))
 
-terni_sez <- st_read("{root}/R/terni/data/shp/Terni_sez.shp") # sezioni di censimento
-pt_misura_utm32 <- st_read("{root}/R/terni/data/shp/punti_misura.shp")
-acciaieria <- st_read("{root}/R/terni/data/shp/acciaieria.shp")
+terni_sez <- st_read(glue("{root}/data/shp/Terni_sez.shp")) # sezioni di censimento
+pt_misura_utm32 <- st_read(glue("{root}/data/shp/punti_misura.shp"))
+acciaieria <- st_read(glue("{root}/data/shp/acciaieria.shp"))
 
-dominio <- st_read(glue("{root}/R/terni/data/dominio/dominio_100m.shp")) # 54 col
+dominio <- st_read(glue("{root}/data/dominio/dominio_100m.shp")) # 54 col
 st_bbox(dominio) -> bbox
 
 r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
