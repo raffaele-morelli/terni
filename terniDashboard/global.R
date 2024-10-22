@@ -10,7 +10,7 @@
   
   # importante ####
   
-  root <- "../"
+  root <- read_csv("init.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() 
   
   met <- "test9"
   rds_out_traccianti <- glue("rds_out_traccianti_{met}")
