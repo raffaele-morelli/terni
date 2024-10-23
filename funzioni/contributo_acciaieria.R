@@ -31,6 +31,7 @@ rm(list = ls())
   df <- f_stagioni(df)
   
   met <- "test11"
+  
   tiff_dir <- glue("tiff_out_improved_{met}")
   hua <- FALSE
 }

@@ -150,14 +150,29 @@ server <- function(input, output) {
       ) + 
       ggtitle(glue("{input$traccianti} (mese {input$mese})")) +
       coord_sf(datum = sf::st_crs(32632)) -> g1
-    
-    ggplot(data = r_df) + 
+
+    ggplot(data = r_df) +
       geom_histogram(aes(x = value), bins = 80, color = "dodgerblue4", fill = "lightgray") +
       theme_light() + theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
       ggtitle("Distribuzione predicted") -> g2
+
+    {
+      df <- data.frame((df[[input$traccianti]])) %>% setNames(c("value"))
+      
+      bind_rows(
+        tibble(value = r_df$value, variable = "Pred"),
+        tibble(value = df$value, variable = "Obs")
+      ) %>% 
+        ggplot(aes(x = value, 
+                   fill = variable,
+                   colour = variable, after_stat(count)) ) + 
+        geom_density(position = "stack", alpha = 0.1) + xlab("") + ylab("") +
+        theme(legend.position = "bottom", legend.title = element_blank()) -> g3
+    }    
     
-    gridExtra::grid.arrange(g1, g2, layout_matrix = rbind(c(1, 1, 2),
-                                                          c(1, 1, NA)))
-    
+    gridExtra::grid.arrange(g1, g3, g2, layout_matrix = rbind(c(1, 1, 2), 
+                                                          c(1, 1, 2),
+                                                          c(1, 1, 3)))
+
   }, width = 1200, height = 600)
 }
