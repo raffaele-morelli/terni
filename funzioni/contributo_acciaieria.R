@@ -25,12 +25,12 @@ rm(list = ls())
   
   mdf <- readRDS(file = "~/R/terni/data/predittori_raster_stack.rds")
   
-  modelli <- readRDS(glue::glue("~/R/terni/rds_gaussian_test9/modelli_test9_clean.RDS"))
   
   df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   df <- f_stagioni(df)
   
   met <- "test11"
+  modelli <- readRDS(glue::glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
   
   tiff_dir <- glue("tiff_out_improved_{met}")
   hua <- FALSE
