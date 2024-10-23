@@ -10,16 +10,17 @@
   library(readr)
   
   # importante ####
+  init <- read_csv("init.csv", col_names = FALSE, show_col_types = FALSE)
   
-  root <- read_csv("init.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() 
+  root <- pull(init, 1)
+  met <- pull(init, 2)
   
-  met <- "test9"
   rds_out_traccianti <- glue("rds_out_traccianti_{met}")
   
   run <- glue("rds_gaussian_{met}")
 }
   
-df <- readr::read_csv(glue("{root}/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
+df <- read_csv(glue("{root}/data/dataframes/df_finale_raw.csv"), show_col_types = FALSE)
 
 models <- readRDS(glue("{root}/{run}/modelli_{met}_clean.RDS"))
 
