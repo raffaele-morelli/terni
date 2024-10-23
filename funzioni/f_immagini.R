@@ -26,8 +26,6 @@ rm(list = ls())
   library(viridis)
   library(greekLetters)
   
-  rds_out_traccianti <- "rds_out_traccianti_test9"
-
   res <- 100
   grd <- 100
   
@@ -47,11 +45,7 @@ rm(list = ls())
   
   st_bbox(dominio) -> bbox
   r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
-  
-  fls <- list.files(glue("~/R/terni/{rds_out_traccianti}"), full.names = TRUE)
-  
-  traccianti <- read_csv("~/R/terni/data/selezione_terni.csv", col_names = FALSE, show_col_types = FALSE) %>% pull()
-  
+
   strade_utm32 <- st_read("~/R/terni/data/osm/strade_interesse.shp") # strade di interesse
   strade_utm32_filtered <- filter(strade_utm32, highway %in% c("trunk_link", "primary",  "tertiary",  "secondary", "secondary_link", "tertiary_link",  "trunk",  "primary_link"))
   
@@ -70,8 +64,11 @@ rm(list = ls())
   # 12 2018-01-01 I
   stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
   
-  met <- "test9"
+  met <- "test11"
   tiff_dir <- glue("tiff_out_improved_{met}")
+  
+  modelli <- readRDS(glue::glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
+  traccianti <- names(modelli)
 }
 
 # traccianti <- c("Cr_i", "Mo_s", "Ni_i", "W_s")

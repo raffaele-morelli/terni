@@ -21,16 +21,17 @@ rm(list = ls())
   dominio <- st_read("~/R/terni/data/dominio/dominio_100m.shp") # 109 col
 
   # traccianti_acciaieria <- read_csv("data/traccianti_acciaieria.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() # traccianti acciaeria
-  traccianti_acciaieria <-  c("Cr_i", "Mo_s", "Ni_i", "W_s")
+  # traccianti_acciaieria <-  c("Cr_i", "Mo_s", "Ni_i", "W_s")
   
   mdf <- readRDS(file = "~/R/terni/data/predittori_raster_stack.rds")
   
   
-  df <- readr::read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
+  df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   df <- f_stagioni(df)
   
   met <- "test11"
   modelli <- readRDS(glue::glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
+  traccianti_acciaieria <- names(modelli)
   
   tiff_dir <- glue("tiff_out_improved_{met}")
   hua <- FALSE

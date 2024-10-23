@@ -40,8 +40,6 @@ rm(list = ls())
 }
 
 
-# traccianti <- c("Cr_i", "Mo_s", "Ni_i", "W_s")
-
 # siamo interessati a produrre dei raster. Non ci occorre salvare il risultato in un oggetto
 walk(traccianti, \(pltnt) {
   writeLines(pltnt)
