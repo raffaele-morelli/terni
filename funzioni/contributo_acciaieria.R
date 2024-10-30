@@ -1,11 +1,10 @@
 # predict raster 
 
-rm(list = ls())
-
 # init ####
 {
+  rm(list = ls())
+  
   library(dplyr)
-  # library(ggplot2)
   library(glue)
   library(ggspatial)
   library(mgcv)
@@ -14,6 +13,7 @@ rm(list = ls())
   library(readr)
   library(sf)
   library(stringr)
+  library(tibble)
   
   source("~/R/terni/ns_stagioni.R")
   
@@ -21,7 +21,7 @@ rm(list = ls())
   dominio <- st_read("~/R/terni/data/dominio/dominio_100m.shp") # 109 col
 
   # traccianti_acciaieria <- read_csv("data/traccianti_acciaieria.csv", col_names = FALSE, show_col_types = FALSE) %>% pull() # traccianti acciaeria
-  # traccianti_acciaieria <-  c("Cr_i", "Mo_s", "Ni_i", "W_s")
+  traccianti_acciaieria <-  c("Cr_i", "Mo_s", "Ni_i", "W_s")
   
   mdf <- readRDS(file = "~/R/terni/data/predittori_raster_stack.rds")
   
@@ -29,12 +29,14 @@ rm(list = ls())
   df <- read_csv("~/R/terni/data/dataframes/df_finale_raw.csv", show_col_types = FALSE)
   df <- f_stagioni(df)
   
-  met <- "test11"
+  met <- "test12"
+  
   modelli <- readRDS(glue::glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
-  traccianti_acciaieria <- names(modelli)
+  # traccianti_acciaieria <- names(modelli)
   
   tiff_dir <- glue("tiff_out_improved_{met}")
-  hua <- FALSE
+  
+  dir.create(glue('~/R/terni/{tiff_dir}/acciaieria'), showWarnings = FALSE)
 }
 
 # mdf %>% length() # i predittori su tutti i punti
@@ -55,7 +57,13 @@ walk(traccianti_acciaieria, \(pltnt) {
     gamma = 1.4,
     family = family(modelli[[pltnt]])
   )
-  intercetta <- as.numeric(mod$coefficients[1])
+
+  v.exclude <- summary(mod)$s.table %>% 
+    as.data.frame() %>%
+    rownames_to_column(var = "spline") %>%
+    filter(!(spline %in% c("s(cold_area)", "s(hot_area)"))) %>% 
+    pull(., spline) %>%
+    str_c(., collapse = ", ")
   
 
   walk(1:1, \(periodo) {
@@ -68,53 +76,38 @@ walk(traccianti_acciaieria, \(pltnt) {
     
     # calcolo contributo ############
     {
-      Xp <- predict(mod, df_sf, type = "lpmatrix")
-      # Then, given that matrix you can do a matrix multiplication with it and the vector of model coefficients (extracted by
+      # Xp <- predict(mod, df_sf, type = "lpmatrix") 
+      # beta <- coef(mod)
+      # acc <- Xp[,grep("cold_area|hot_area", colnames(Xp), invert = FALSE)] %*% beta[grep("cold_area|hot_area", colnames(Xp), invert = FALSE)]
+      # contr_acc <- exp(acc) # non HUA
+      # df_contr <- tibble(assoluto = contr_acc)
       
-      beta <- coef(mod)
+      pred <- predict(mod, df_sf, exclude = v.exclude, type = "response") 
 
-      # to yield predicted values at the covariate values of x that you requested:
-      acc <- Xp[,grep("cold_area|hot_area", colnames(Xp), invert = FALSE)] %*% beta[grep("cold_area|hot_area", colnames(Xp), invert = FALSE)]
-      
-      # and back-transform if using a non-identity link via the inverse link function #
-      
-      if(hua == TRUE) {
-        contr_acc <- (exp(acc)- 1)*exp(intercetta) # HUA
-      }else{
-        contr_acc <- exp(acc) # non HUA
-      }
-      
-      df_contr <- tibble(assoluto = contr_acc)
+      m_ass <- matrix(pred, ncol = 109,  byrow = FALSE)
 
-      m_ass <- matrix(df_contr$assoluto, ncol = 109,  byrow = FALSE)
-      
       r_ass <- rast(m_ass)
 
       bbox <- st_bbox(dominio)
       r_extent <- c(as.numeric(bbox["xmin"]), as.numeric(bbox["xmax"]), as.numeric(bbox["ymin"]), as.numeric(bbox["ymax"]))
-      
+
       ext(r_ass) <- r_extent
       crs(r_ass) <- "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
-      
+
       r_crop <- crop(r_ass, dominio_redux)
-      
+
       periodo <- str_pad(periodo, 2, pad = "0")
-      
-      if(hua == TRUE) {
-        path <- glue('~/R/terni/{tiff_dir}/acciaieria/HUA')
-        filename <- glue('{path}/{pltnt}_steel_plan_HUA.tif')
-      }else{
-        path <- glue('~/R/terni/{tiff_dir}/acciaieria/non-HUA')
-        filename <- glue('{path}/{pltnt}_steel_plan_non-HUA.tif')
-      }
-      
-      # writeLines(filename)
-      
+
+
+      path <- glue('~/R/terni/{tiff_dir}/acciaieria')
+      filename <- glue('{path}/{pltnt}_steel_plan.tif')
+
       dir.create(path = path, recursive = TRUE, showWarnings = F)
-      
+
       terra::writeRaster(r_crop,
-                         filename = filename, 
+                         filename = filename,
                          overwrite = TRUE)
     }
   })
 })
+

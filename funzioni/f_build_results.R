@@ -20,7 +20,7 @@ cat(args, sep = "\n")
   if(!purrr::is_empty(args)) {
     rds_dir <- args[1] ### SET directory ####
   }else{
-    rds_dir <- "test11"
+    rds_dir <- "test12"
   }
   
   source("ns_stagioni.R")

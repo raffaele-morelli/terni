@@ -35,7 +35,7 @@ rm(list = ls())
     df <- "raw"
   }else{
     pltnt <- "W_s"
-    rds_dir <- "rds_gaussian_test11"
+    rds_dir <- "rds_gaussian_test12"
     df <- "raw"
   }
 

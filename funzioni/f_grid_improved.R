@@ -17,7 +17,7 @@ rm(list = ls())
   source("~/R/terni/ns_stagioni.R")
   source("~/R/terni/funzioni/f_trick.R")
   
-  met <- "test9"
+  met <- "test12"
   
   dominio_redux <- st_read("~/R/terni/data/shp/dominio_redux_articolo.shp")
   dominio <- st_read("~/R/terni/data/dominio/dominio_100m.shp") # 109 col

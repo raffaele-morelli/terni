@@ -64,7 +64,7 @@ rm(list = ls())
   # 12 2018-01-01 I
   stagioni <- c("01|02|03|11|12", "04|05|06", "07|08", "09|10")
   
-  met <- "test11"
+  met <- "test12"
   tiff_dir <- glue("tiff_out_improved_{met}")
   
   modelli <- readRDS(glue::glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
