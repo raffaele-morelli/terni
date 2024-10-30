@@ -128,51 +128,72 @@ server <- function(input, output) {
 
     periodo <- stringr::str_pad(input$mese, width = 2, side = c("left"), pad = "0")
     
-    r <- rast(glue('/home/rmorelli/R/terni/tiff_out_improved_{met}/traccianti/{input$traccianti}/{input$traccianti}_{periodo}.tif'))
+    r <- rast(glue('/home/rmorelli/R/terni/tiff_out_improved_{met}/year/{input$traccianti}_mean.tif'))
     
     r_df <- as.data.frame(r, xy = TRUE) %>% 
       na.omit() %>% 
       setNames(c("x", "y", "value"))
 
-    ggplot(data = r_df) +
-      geom_raster(aes(x = x, y = y, fill = value)) +
-      geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey95", fill = "transparent") +
-      geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 4) +
-      geom_sf(data = acciaieria, shape = 24, fill = "grey70", color = "gray15", size = 4) +
-      scale_fill_distiller(palette = "Spectral", direction = -1) +
-      theme_void() +
+    my_theme <- theme_void() +
       theme(legend.position = "bottom", 
             legend.title = element_blank(),
             legend.text = element_text(size = 12),
             legend.key.size = unit(80, "points"),
             legend.key.height = unit(15, "points"),
             legend.key.width = unit(100, "points")
-      ) + 
-      ggtitle(glue("{input$traccianti} (mese {input$mese})")) +
-      coord_sf(datum = sf::st_crs(32632)) -> g1
+      ) 
+  
+    ggplot(data = r_df) +
+      geom_raster(aes(x = x, y = y, fill = value)) +
+      geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey95", fill = "transparent") +
+      geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 4) +
+      geom_sf(data = acciaieria, shape = 24, fill = "grey70", color = "gray15", size = 4) +
+      scale_fill_distiller(palette = "Spectral", direction = -1) +
+      my_theme +
+      coord_sf(datum = sf::st_crs(32632)) +
+      ggtitle(glue("{input$traccianti} (mese {input$mese})")) -> g1
 
     ggplot(data = r_df) +
       geom_histogram(aes(x = value), bins = 80, color = "dodgerblue4", fill = "lightgray") +
       theme_light() + theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
-      ggtitle("Distribuzione predicted") -> g2
-
-    {
-      df <- data.frame((df[[input$traccianti]])) %>% setNames(c("value"))
-      
-      bind_rows(
-        tibble(value = r_df$value, variable = "Pred"),
-        tibble(value = df$value, variable = "Obs")
-      ) %>% 
-        ggplot(aes(x = value, 
-                   fill = variable,
-                   colour = variable, after_stat(count)) ) + 
-        geom_density(position = "stack", alpha = 0.1) + xlab("") + ylab("") +
-        theme(legend.position = "bottom", legend.title = element_blank()) -> g3
-    }    
+      ggtitle("Distribuzione predicted") -> g3
     
-    gridExtra::grid.arrange(g1, g3, g2, layout_matrix = rbind(c(1, 1, 2), 
-                                                          c(1, 1, 2),
-                                                          c(1, 1, 3)))
+    if(file.exists(glue('/home/rmorelli/R/terni/tiff_out_improved_{met}/acciaieria/{input$traccianti}_steel_plan.tif'))) {
+      r_contr <- rast(glue('/home/rmorelli/R/terni/tiff_out_improved_{met}/acciaieria/{input$traccianti}_steel_plan.tif'))
+      
+      r_contr_df <- as.data.frame(r_contr, xy = TRUE) %>% 
+        na.omit() %>% 
+        setNames(c("x", "y", "value"))
+      
+      g2 <- ggplot(data = r_contr_df) + geom_raster(aes(x = x, y = y, fill = value)) +
+        geom_sf(data = st_crop(terni_sez, st_bbox(r)), color = "grey95", fill = "transparent") +
+        geom_sf(data = pt_misura_utm32, shape = 21, fill = "lightgray", color = "black", size = 4) +
+        geom_sf(data = acciaieria, shape = 24, fill = "grey70", color = "gray15", size = 4) +        
+        scale_fill_distiller(palette = "Spectral", direction = -1) +
+        my_theme+ 
+        coord_sf(datum = sf::st_crs(32632)) 
+      
+      ggplot(data = r_contr_df) +
+        geom_histogram(aes(x = value), bins = 80, color = "dodgerblue4", fill = "lightgray") +
+        theme_light() + theme(axis.title.x = element_blank(), axis.title.y = element_blank()) +
+        ggtitle("Distribuzione contributo") -> g4
+      
+      l_matrix <- rbind(c(1, 1, 2, 2), 
+                        c(1, 1, 2, 2),
+                        c(3, 3, 4, 4))
+      
+      gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = l_matrix)
+      
+    }else{
+      g2 <- NULL
+      g4 <- NULL
+      l_matrix <- rbind(c(1, 1, 1, 3, 3), 
+                        c(1, 1, 1, 3, 3))
+      
+      gridExtra::grid.arrange(g1, g3, layout_matrix = l_matrix)
+    }
+    
 
+    
   }, width = 1200, height = 600)
 }

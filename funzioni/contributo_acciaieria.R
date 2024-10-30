@@ -62,9 +62,7 @@ walk(traccianti_acciaieria, \(pltnt) {
     as.data.frame() %>%
     rownames_to_column(var = "spline") %>%
     filter(!(spline %in% c("s(cold_area)", "s(hot_area)"))) %>% 
-    pull(., spline) %>%
-    str_c(., collapse = ", ")
-  
+    pull(., spline) 
 
   walk(1:1, \(periodo) {
     
@@ -81,6 +79,8 @@ walk(traccianti_acciaieria, \(pltnt) {
       # acc <- Xp[,grep("cold_area|hot_area", colnames(Xp), invert = FALSE)] %*% beta[grep("cold_area|hot_area", colnames(Xp), invert = FALSE)]
       # contr_acc <- exp(acc) # non HUA
       # df_contr <- tibble(assoluto = contr_acc)
+      
+      writeLines(paste("escluse, ", v.exclude))
       
       pred <- predict(mod, df_sf, exclude = v.exclude, type = "response") 
 
