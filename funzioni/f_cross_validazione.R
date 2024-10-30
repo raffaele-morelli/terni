@@ -23,7 +23,7 @@
   setwd("~/R/terni")
   source("ns_stagioni.R")
   
-  met <- "test9"
+  met <- "test12"
   modelli <- readRDS(glue("~/R/terni/rds_gaussian_{met}/modelli_{met}_clean.RDS"))
 }
 
